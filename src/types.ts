@@ -7,6 +7,9 @@ export interface StudentProfile {
   preferredContinents?: string[];
   preferredSpecializations?: string[];
   otherPreferences?: string;
+  category?: string;
+  domicileState?: string;
+  destinationType?: 'India' | 'Global';
 }
 
 export interface University {
@@ -28,6 +31,7 @@ export interface University {
   bestFor: string; // e.g. "Budget Friendly", "High Reputation", "Premium Choice"
   specializations: string[]; // e.g. ["Cardiology", "Neurology", "Surgery"]
   reputationScore: string;
+  quota?: string; // e.g. "State Quota (85%)", "All India Quota (15%)", "Government", "Management"
   description: string;
 }
 

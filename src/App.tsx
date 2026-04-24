@@ -154,7 +154,7 @@ export default function App() {
               >
                 <Globe className="w-12 h-12 text-indigo-200 mx-auto mb-4" />
                 <h3 className="text-slate-400 font-bold uppercase tracking-widest text-sm">Waiting for Data Input</h3>
-                <p className="text-slate-400 text-xs mt-2">Fill in your NEET details on the left to begin the global search.</p>
+                <p className="text-slate-400 text-xs mt-2">Fill in your NEET details on the left to begin the optimized college search.</p>
               </motion.div>
             )}
 
@@ -191,15 +191,15 @@ export default function App() {
       </div>
 
       {/* Footer Status */}
-      <footer className="max-w-7xl mx-auto mt-6 flex justify-between items-center text-[10px] font-medium text-slate-400 uppercase tracking-widest w-full">
-        <div>Database last updated: April 2026 // NMC Criteria v2.8 (Latest)</div>
+      <footer className="max-w-7xl mx-auto mt-6 flex justify-between items-center text-[10px] font-medium text-slate-400 uppercase tracking-widest w-full px-4">
+        <div>Database last updated: April 2026 // NExT/NMC Guidelines v3.0</div>
         <div className="flex gap-4 items-center">
           <span className="flex items-center gap-1">
-            <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(99,102,241,0.5)]"></span> 
-            2026-27 Intake Intel Active
+            <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span> 
+            Gemini 3.1 Pro Engine Active
           </span>
           <span className="text-slate-300">|</span>
-          <span>Global Rankings Engine: Verified Live</span>
+          <span className="text-slate-500">Grounded Research Mode: Verified 2026-27</span>
         </div>
       </footer>
     </div>

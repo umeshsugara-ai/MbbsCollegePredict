@@ -41,9 +41,48 @@ export async function predictUniversities(profile: StudentProfile): Promise<Pred
   `;
 
   try {
+    // Phase 1: Grounded Research
+    const researchResponse = await ai.models.generateContent({
+      model: "gemini-3-flash-preview",
+      contents: `Research the TOP 10 BEST Universities for an Indian student for the 2026 intake.
+      STRICT DESTINATION: ${profile.destinationType === 'India' ? 'ONLY search for universities INSIDE INDIA.' : 'ONLY search for universities OUTSIDE India (Global).'}
+      
+      Student Profile:
+      - AIR Rank: ${profile.neetRank}
+      - NEET Score: ${profile.neetScore}
+      - Category: ${profile.category || 'General'}
+      - Domicile State: ${profile.domicileState || 'Any'}
+      - Total Budget: ${profile.budgetInUSD}
+      
+      ${profile.destinationType === 'India' ? 
+        'Look for Govt, Private, and Deemed colleges matching the Cutoff trends for the student\'s Rank, Category, and Domicile State.' : 
+        `Look for universities in ${profile.preferredCountries?.join(', ') || 'Global regions'} including tuition, FMGE pass rates, and English medium stability.`}
+      
+      Verify Indian food/mess facilities if mentioned: ${profile.otherPreferences}.`,
+      config: {
+        tools: [{ googleSearch: {} }]
+      }
+    });
+
+    const researchData = researchResponse.text;
+
+    // Phase 2: Structured Formatting
     const response = await ai.models.generateContent({
       model: "gemini-3-flash-preview",
-      contents: prompt,
+      contents: `Based on this research data: \n\n ${researchData} \n\n Format into TOP 10 BEST Universities recommendation JSON:
+      - Destination: ${profile.destinationType}
+      - Rank/Score: ${profile.neetRank} / ${profile.neetScore}
+      - Category/State: ${profile.category} / ${profile.domicileState}
+      - Budget: ${profile.budgetInUSD}
+
+      STRICT RULES:
+      1. If Destination is India, ONLY include Indian universities. 
+      2. QUOTA LOGIC (INDIA): For each college, specify if it's "All India Quota (AIQ)", "State Quota (SQ)", or "Management/Deemed". SQ is 85% seats for students with Domicile State: ${profile.domicileState}. AIQ is 15% seats for any state.
+      3. CATEGORY IMPACT: Factor in the ${profile.category} category for cutoff research. SC/ST/OBC usually have significantly lower cutoffs than General.
+      4. FEE REALISM (INDIA): Govt fees are ₹50k-4L total. Private fees are ₹8L-25L PER YEAR. Deemed are ₹15L-30L PER YEAR. Use ACTUAL INR values.
+      5. FEE REALISM (ABROAD): Typically $3,000-$7,000 USD per year. 
+      6. Total Cost must include all years (usually 5.5 years for India/Abroad mixed).
+      7. Ensure clinicalExposure and safetyAndSupport are realistic based on verified hospital data.`,
       config: {
         responseMimeType: "application/json",
         responseSchema: {
@@ -59,8 +98,18 @@ export async function predictUniversities(profile: StudentProfile): Promise<Pred
                   name: { type: Type.STRING },
                   country: { type: Type.STRING },
                   continent: { type: Type.STRING },
-                  annualTuitionFee: { type: Type.STRING, description: "The annual tuition fee including currency symbol, e.g., '$5,000 USD' or '₹4,50,000 INR'" },
-                  totalProgramCost: { type: Type.STRING, description: "Total cost for the entire program" },
+                  annualTuitionFee: { 
+                    type: Type.STRING, 
+                    description: "The annual tuition fee. For India, use INR (e.g. '₹12,00,000 INR'). For Abroad, use USD (e.g. '$5,000 USD')." 
+                  },
+                  totalProgramCost: { 
+                    type: Type.STRING, 
+                    description: "Total cost for the entire program in original currency." 
+                  },
+                  quota: { 
+                    type: Type.STRING, 
+                    description: "For India: 'State Quota (85%)', 'All India Quota (15%)', 'Management' or 'Deemed'. For Global: 'International Seat'." 
+                  },
                   totalDurationYears: { type: Type.STRING },
                   mediumOfInstruction: { type: Type.STRING },
                   neetRequirement: { type: Type.STRING },
@@ -81,7 +130,7 @@ export async function predictUniversities(profile: StudentProfile): Promise<Pred
                 }
               }
             },
-            analysis: { type: Type.STRING, description: "A brief professional analysis of why these colleges were chosen for this specific student." }
+            analysis: { type: Type.STRING, description: "A detailed strategic analysis of the student's chances based on their Rank, Category, and Domicile. Mention specific quota advantages if applicable." }
           }
         }
       }

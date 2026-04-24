@@ -18,6 +18,16 @@ export default function UniversityTable({ universities, currency = 'USD', onCurr
   const [minTuition, setMinTuition] = useState<number>(0);
   const [maxTuition, setMaxTuition] = useState<number>(100000);
   
+  // Reset filters when the university list changes completely
+  React.useEffect(() => {
+    setFilter('');
+    setCountryFilter('');
+    setContinentFilter('');
+    setSpecFilter('');
+    setMinTuition(0);
+    setMaxTuition(10000000); // 1 Crore to accommodate INR values
+  }, [universities]);
+  
   const [sortField, setSortField] = useState<keyof University | null>(null);
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   const [selectedUniversity, setSelectedUniversity] = useState<University | null>(null);
@@ -26,18 +36,24 @@ export default function UniversityTable({ universities, currency = 'USD', onCurr
   const [leadFormData, setLeadFormData] = useState({ name: '', email: '', phone: '' });
   const [hasCapturedLead, setHasCapturedLead] = useState(false);
 
-  const USD_TO_INR = 83.5;
+  const USD_TO_INR = 93.5;
 
   const formatCurrencyValue = (val: string) => {
     const rawNum = getNumericValue(val);
     if (rawNum === Infinity || rawNum === 0) return val;
 
+    const isINRSource = val.toUpperCase().includes('INR') || val.includes('₹');
+    
     if (currency === 'INR') {
+      if (isINRSource) return `₹${rawNum.toLocaleString('en-IN')}`;
       const inrValue = rawNum * USD_TO_INR;
       return `₹${inrValue.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
+    } else {
+      // User wants USD
+      if (!isINRSource) return `$${rawNum.toLocaleString('en-US')} USD`;
+      const usdValue = rawNum / USD_TO_INR;
+      return `$${usdValue.toLocaleString('en-US', { maximumFractionDigits: 0 })} USD`;
     }
-    
-    return `$${rawNum.toLocaleString('en-US')} USD`;
   };
 
   const handleSort = (field: keyof University) => {
@@ -200,7 +216,14 @@ export default function UniversityTable({ universities, currency = 'USD', onCurr
           return (
             <div key={u.name} className={`bg-white border-l-4 ${accents[i]} rounded-xl p-4 shadow-sm h-full flex flex-col justify-between`}>
               <div>
-                <div className="text-[10px] font-bold uppercase mb-1">Match #{i + 1}</div>
+                <div className="flex justify-between items-start mb-1">
+                  <div className="text-[10px] font-bold uppercase">Match #{i + 1}</div>
+                  {u.quota && (
+                    <span className="text-[8px] font-black uppercase text-indigo-400 border border-indigo-100 px-1 rounded bg-indigo-50/30 tracking-tight">
+                      {u.quota}
+                    </span>
+                  )}
+                </div>
                 <h3 className="font-bold text-slate-800 text-sm leading-tight">{u.name}</h3>
                 <p className="text-xs text-slate-500 mt-1">{u.country}</p>
               </div>
@@ -265,7 +288,7 @@ export default function UniversityTable({ universities, currency = 'USD', onCurr
             <span className="opacity-60">•</span>
             <span>Last Indexed: {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
             <span className="opacity-60">•</span>
-            <span className="italic text-indigo-500 font-bold">Verified for 2024-25 intake accuracy.</span>
+            <span className="italic text-indigo-500 font-bold">Verified for 2026 intake accuracy.</span>
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">
@@ -337,20 +360,41 @@ export default function UniversityTable({ universities, currency = 'USD', onCurr
               <tr className="bg-slate-100 border-b border-slate-200">
                 {[
                   { label: 'University Name', field: 'name' },
-                  { label: 'Annual Fee', field: 'annualTuitionFee' },
-                  { label: 'Total Cost', field: 'totalProgramCost' },
+                  { 
+                    label: 'Annual Fee', 
+                    field: 'annualTuitionFee',
+                    info: 'Base Tuition Fee: The cost of academic instruction for one year, excluding hostel and mess.'
+                  },
+                  { 
+                    label: 'Total Cost', 
+                    field: 'totalProgramCost',
+                    info: 'Estimated Total Budget: Includes tuition, hostel, mandatory insurance, and recurring admin fees for the entire course duration.'
+                  },
                   { label: 'NMC Status', field: 'nmcRecognitionStatus' },
+                  { 
+                    label: 'Quota', 
+                    field: 'quota',
+                    info: 'Admission Entry Point: All India Quota (AIQ) is open for all states. State Quota (SQ) is restricted to your domicile. Management is self-financed.'
+                  },
                   { label: 'Rank', field: 'globalRank' },
                   { label: 'Duration', field: 'totalDurationYears' },
                   { label: 'Medium', field: 'mediumOfInstruction' },
-                  { label: 'Clinical Quality', field: 'clinicalExposure' },
+                  { 
+                    label: 'Clinical Quality', 
+                    field: 'clinicalExposure',
+                    info: 'Clinical Exposure: Based on hospital bed capacity, daily OPD count, and availability of hands-on practice for international students.'
+                  },
                   { label: 'Safety & Support', field: 'safetyAndSupport' },
                   { 
                     label: 'ROI', 
                     field: 'roiScore', 
                     info: 'Future ROI Score: Calculated based on FMGE pass rates, clinical placement volume, and median global salary post-graduation.' 
                   },
-                  { label: 'Best For', field: 'bestFor' },
+                  { 
+                    label: 'Best For', 
+                    field: 'bestFor',
+                    info: 'Best Fit Category: Highlights the primary strength of the university, such as low budget, high ranking, or Indian community support.'
+                  },
                 ].map((col) => {
                   const isActive = sortField === col.field;
                   return (
@@ -364,10 +408,12 @@ export default function UniversityTable({ universities, currency = 'USD', onCurr
                       <div className="flex items-center gap-1">
                         {col.label}
                         {'info' in col && (
-                          <div className="group relative">
-                            <Info className="w-2.5 h-2.5 text-slate-400" />
-                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block w-48 p-2 bg-slate-900 text-white text-[9px] rounded-lg shadow-xl z-50 normal-case font-medium leading-tight">
+                          <div className="group relative inline-flex items-center">
+                            <Info className="w-2.5 h-2.5 text-slate-400 cursor-help ml-0.5" />
+                            <div className="absolute bottom-full left-0 mb-2 hidden group-hover:block w-56 p-3 bg-slate-900 text-white text-[10px] rounded-xl shadow-2xl z-[100] normal-case font-medium leading-relaxed border border-white/10 backdrop-blur-md">
+                              <div className="text-indigo-400 font-bold mb-1 uppercase tracking-wider text-[8px]">Metric Detail</div>
                               {col.info}
+                              <div className="absolute top-full left-4 w-2 h-2 bg-slate-900 rotate-45 -translate-y-1"></div>
                             </div>
                           </div>
                         )}
@@ -411,6 +457,15 @@ export default function UniversityTable({ universities, currency = 'USD', onCurr
                   <td className="p-3">
                     <span className="bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase border border-emerald-100">
                       {u.nmcRecognitionStatus}
+                    </span>
+                  </td>
+                  <td className="p-3">
+                    <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold uppercase border ${
+                      u.quota?.includes('AIQ') ? 'bg-purple-50 text-purple-700 border-purple-100' : 
+                      u.quota?.includes('SQ') || u.quota?.includes('State') ? 'bg-indigo-50 text-indigo-700 border-indigo-100' :
+                      'bg-slate-50 text-slate-700 border-slate-100'
+                    }`}>
+                      {u.quota || 'Standard'}
                     </span>
                   </td>
                   <td className="p-3">

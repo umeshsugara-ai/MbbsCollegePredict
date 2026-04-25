@@ -410,10 +410,10 @@ export default function UniversityTable({ universities, currency = 'USD', onCurr
                         {'info' in col && (
                           <div className="group relative inline-flex items-center">
                             <Info className="w-2.5 h-2.5 text-slate-400 cursor-help ml-0.5" />
-                            <div className="absolute bottom-full left-0 mb-2 hidden group-hover:block w-56 p-3 bg-slate-900 text-white text-[10px] rounded-xl shadow-2xl z-[100] normal-case font-medium leading-relaxed border border-white/10 backdrop-blur-md">
-                              <div className="text-indigo-400 font-bold mb-1 uppercase tracking-wider text-[8px]">Metric Detail</div>
+                            <div className="absolute bottom-full left-0 mb-3 hidden group-hover:block w-64 p-4 bg-slate-900 text-white text-[10px] rounded-2xl shadow-2xl z-[100] normal-case font-medium leading-relaxed border border-white/10 backdrop-blur-xl animate-in fade-in zoom-in duration-200">
+                              <div className="text-indigo-400 font-bold mb-1.5 uppercase tracking-widest text-[8px]">Metric Detail</div>
                               {col.info}
-                              <div className="absolute top-full left-4 w-2 h-2 bg-slate-900 rotate-45 -translate-y-1"></div>
+                              <div className="absolute top-full left-3 w-2.5 h-2.5 bg-slate-900 rotate-45 -translate-y-1.5"></div>
                             </div>
                           </div>
                         )}
@@ -435,8 +435,10 @@ export default function UniversityTable({ universities, currency = 'USD', onCurr
                     <div className="font-semibold text-slate-800">{u.name}</div>
                     <div className="text-[9px] text-slate-400 capitalize flex items-center gap-1.5">
                       {u.country} • {u.continent}
-                      {(u.description.toLowerCase().includes('indian mess') || u.description.toLowerCase().includes('indian food')) && (
-                        <span className="bg-amber-100 text-amber-700 px-1 rounded-[4px] font-black uppercase text-[7px] border border-amber-200">Indian Food ✅</span>
+                      {otherPreferences && otherPreferences.trim().length > 0 && 
+                       (otherPreferences.toLowerCase().includes('indian') || otherPreferences.toLowerCase().includes('food') || otherPreferences.toLowerCase().includes('mess')) && 
+                       (u.description.toLowerCase().includes('indian mess') || u.description.toLowerCase().includes('indian food')) && (
+                        <span className="bg-amber-100 text-amber-700 px-1 rounded-[4px] font-black uppercase text-[7px] border border-amber-200">Preference Match ✅</span>
                       )}
                     </div>
                   </td>
@@ -648,8 +650,9 @@ export default function UniversityTable({ universities, currency = 'USD', onCurr
                             <div className="text-3xl font-black">{selectedUniversity.roiScore}<span className="text-sm opacity-40 ml-1">/ 10</span></div>
                             <div className="text-[8px] opacity-40 leading-tight">Calculated based on FMGE pass rates and clinical placement depth.</div>
                             
-                            <div className="absolute top-10 left-0 w-full hidden group-hover:block bg-slate-900 text-white p-3 rounded-xl text-[9px] shadow-2xl z-20 border border-white/10">
+                            <div className="absolute bottom-full left-0 mb-3 w-full hidden group-hover:block bg-slate-900 text-white p-4 rounded-2xl text-[9px] shadow-2xl z-20 border border-white/10 animate-in fade-in zoom-in duration-200">
                               Our ROI metric combines historic USMLE/FMGE success, median starting salaries for international graduates, and clinical rotation quality to estimate career acceleration.
+                              <div className="absolute top-full left-4 w-2 h-2 bg-slate-900 rotate-45 -translate-y-1 text-slate-900"></div>
                             </div>
                         </div>
                         <div className="bg-slate-100 p-5 rounded-2xl space-y-1 border border-slate-200 group relative">
@@ -660,8 +663,9 @@ export default function UniversityTable({ universities, currency = 'USD', onCurr
                             <div className="text-3xl font-black text-slate-800">{selectedUniversity.reputationScore}</div>
                             <div className="text-[8px] text-slate-400 leading-tight">Peer-reviewed institutional standing and global alumni success.</div>
 
-                            <div className="absolute top-10 left-0 w-full hidden group-hover:block bg-slate-900 text-white p-3 rounded-xl text-[9px] shadow-2xl z-20">
+                            <div className="absolute bottom-full left-0 mb-3 w-full hidden group-hover:block bg-slate-900 text-white p-4 rounded-2xl text-[9px] shadow-2xl z-20 border border-white/10 animate-in fade-in zoom-in duration-200">
                               The Trust Score measures institutional age, government accreditation strength, hospital bed capacity, and alumni network density in the healthcare sector.
+                              <div className="absolute top-full left-4 w-2 h-2 bg-slate-900 rotate-45 -translate-y-1 text-slate-900"></div>
                             </div>
                         </div>
                     </div>

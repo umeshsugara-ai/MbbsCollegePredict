@@ -1,0 +1,3007 @@
+SNo,Rank,Allotted Quota,Allotted Institute,Course,Allotted Category,Candidate Category,Remarks
+1,247,JNO,JIPMER PUDUCHERRY,MBBS,GN,GNNO,Allotted
+2,254,JNO,JIPMER PUDUCHERRY,MBBS,GN,GNNO,Allotted
+3,309,JNO,JIPMER PUDUCHERRY,MBBS,GN,GNNO,Allotted
+4,691,AMS,"AIIMS, Bhubaneswar",MBBS,GN,GNNO,Allotted
+5,747,AMS,"AIIMS, Bhubaneswar",MBBS,GN,GNNO,Allotted
+6,817,AMS,"AIIMS, Bhubaneswar",MBBS,GN,GNNO,Allotted
+7,852,AMS,"AIIMS, Jodhpur",MBBS,GN,GNNO,Allotted
+8,1016,AMS,"AIIMS, Raipur",MBBS,GN,GNNO,Allotted
+9,1240,JNO,JIPMER KARAIKAL,MBBS,GN,GNNO,Allotted
+10,1581,AMS,"AIIMS, Bhubaneswar",MBBS,OBC,OBC,Allotted
+11,1674,AMS,"AIIMS, Bhubaneswar",MBBS,OBC,OBC,Allotted
+12,1754,AMS,AIIMS Bathinda,MBBS,GN,GNNO,Allotted
+13,1990,AMS,"AIIMS-Bhopal,",MBBS,OBC,OBC,Allotted
+14,2157,AMS,"AIIMS, Patna",MBBS,GN,GNNO,Allotted
+15,2343,AMS,"AIIMS, Nagpur",MBBS,GN,GNNO,Allotted
+16,2388,AMS,"AIIMS-Bhopal,",MBBS,OBC,OBC,Allotted
+17,2421,AMS,AIIMS Bathinda,MBBS,GN,GNNO,Allotted
+18,2593,AMS,"AIIMS, Rishikesh",MBBS,EW NO,EW NO,Allotted
+19,2711,BON,"INST.OF MED.SCIENCES,
+BHU,VARANASI",MBBS,EW NO,EW NO,Allotted
+20,2760,AMS,"AIIMS, Gorakhpur",MBBS,GN,GNNO,Allotted
+21,2822,AMS,"AIIMS, Rishikesh",MBBS,OBC,OBC,Allotted
+22,2860,AMS,"AIIMS-Bhopal,",MBBS,OBC,OBC,Allotted
+23,2902,AMS,"AIIMS, Nagpur",MBBS,GN,GNNO,Allotted
+24,2907,JNO,JIPMER KARAIKAL,MBBS,GN,GNNO,Allotted
+25,2908,AMS,"AIIMS, Raipur",MBBS,OBC,OBC,Allotted
+26,2964,AMS,"AIIMS, Kalyani",MBBS,GN,GNNO,Allotted
+27,2981,AMS,"AIIMS, Rishikesh",MBBS,OBC,OBC,Allotted
+28,3047,JNO,JIPMER KARAIKAL,MBBS,GN,GNNO,Allotted
+29,3123,JNO,JIPMER KARAIKAL,MBBS,GN,GNNO,Allotted
+30,3318,JNO,JIPMER KARAIKAL,MBBS,GN,GNNO,Allotted
+31,3331,AMS,"AIIMS, Raipur",MBBS,OBC,OBC,Allotted
+32,3488,AMS,"AIIMS, Rishikesh",MBBS,OBC,OBC,Allotted
+33,3569,AMS,"AIIMS Telangana Bibi Nagar Village
+Rangapur Mandal Name Bibinagar",MBBS,GN,GNNO,Allotted
+34,3601,AMS,"AIIMS, Rishikesh",MBBS,OBC,OBC,Allotted
+35,3687,JNO,JIPMER KARAIKAL,MBBS,GN,GNNO,Allotted
+36,3704,AMS,"AIIMS, Patna",MBBS,OBC,OBC,Allotted
+37,3836,AMS,"AIIMS, Patna",MBBS,OBC,OBC,Allotted
+38,3961,AMS,"AIIMS Telangana Bibi Nagar Village
+Rangapur Mandal Name Bibinagar",MBBS,GN,GNNO,Allotted
+39,3968,JNO,JIPMER KARAIKAL,MBBS,GN,GNNO,Allotted
+40,3985,AMS,"AIIMS, Patna",MBBS,OBC,OBC,Allotted
+41,4000,AMS,"AIIMS, Nagpur",MBBS,OBC,OBC,Allotted
+42,4067,AMS,"AIIMS, Nagpur",MBBS,OBC,OBC,Allotted
+43,4077,AMS,"AIIMS, Nagpur",MBBS,OBC,OBC,Allotted
+44,4164,JNO,JIPMER KARAIKAL,MBBS,GN,OBC,Allotted
+45,4249,AMS,AIIMS Bathinda,MBBS,GN,EW NO,Allotted
+46,4341,AMS,AIIMS Bathinda,MBBS,OBC,OBC,Allotted
+47,4442,DU,"University College of Medical Sciences,
+New Delhi",MBBS,GN,GNNO,Allotted
+48,4563,JNO,JIPMER KARAIKAL,MBBS,GN,GNNO,Allotted
+49,4672,AMS,"AIIMS Bilaspur Changar Palasiyan,
+Himachal Pradesh",MBBS,GN,GNNO,Allotted
+50,4685,JNO,JIPMER KARAIKAL,MBBS,OBC,OBC,Allotted
+51,4705,AON,"JWAHAR LAL NEHRU M.C. AMU,
+ALIGARH",MBBS,GN,OBC,Allotted
+52,4748,AMS,AIIMS Rajkot,MBBS,GN,OBC,Allotted
+53,4816,AON,"JWAHAR LAL NEHRU M.C. AMU,
+ALIGARH",MBBS,GN,GNNO,Allotted
+54,4833,JNO,JIPMER KARAIKAL,MBBS,OBC,OBC,Allotted
+55,4872,AON,"JWAHAR LAL NEHRU M.C. AMU,
+ALIGARH",MBBS,GN,OBC,Allotted
+56,4873,AMS,"AIIMS, Kalyani",MBBS,GN,GNNO,Allotted
+57,4901,AMS,"AIIMS, Gorakhpur",MBBS,GN,GNNO,Allotted
+58,4943,AMS,"AIIMS, Gorakhpur",MBBS,GN,GNNO,Allotted
+59,4970,AMS,"AIIMS Telangana Bibi Nagar Village
+Rangapur Mandal Name Bibinagar",MBBS,OBC,OBC,Allotted
+60,4976,AMS,AIIMS Rajkot,MBBS,GN,GNNO,Allotted
+61,5031,AMS,"AIIMS, Gorakhpur",MBBS,GN,OBC,Allotted
+62,5075,AON,"JWAHAR LAL NEHRU M.C. AMU,
+ALIGARH",MBBS,GN,EW NO,Allotted
+63,5111,AMS,AIIMS Mangalagiri,MBBS,OBC,OBC,Allotted
+64,5130,IP,"Vardhman Mahavir Medical College and
+Safdarjung Hospital New Delhi, VMMC",MBBS,EW NO,EW NO,Allotted
+65,5316,AMS,"AIIMS, Gorakhpur",MBBS,GN,OBC,Allotted
+66,5331,AMS,"AIIMS, Rai Bareli",MBBS,GN,GNNO,Allotted
+67,5415,AMS,"AIIMS, Gorakhpur",MBBS,GN,GNNO,Allotted
+68,5421,AMS,"AIIMS, Rai Bareli",MBBS,GN,GNNO,Allotted
+69,5451,JNO,JIPMER KARAIKAL,MBBS,OBC,OBC,Allotted
+70,5478,AMS,AIIMS Bathinda,MBBS,OBC,OBC,Allotted
+71,5480,JNO,JIPMER KARAIKAL,MBBS,OBC,OBC,Allotted
+72,5509,AMS,"AIIMS Bilaspur Changar Palasiyan,
+Himachal Pradesh",MBBS,GN,GNNO,Allotted
+73,5522,AMS,AIIMS Rajkot,MBBS,GN,GNNO,Allotted
+74,5535,JNO,JIPMER KARAIKAL,MBBS,OBC,OBC,Allotted
+75,5549,AMS,AIIMS Mangalagiri,MBBS,OBC,OBC,Allotted
+76,5597,JNO,JIPMER KARAIKAL,MBBS,OBC,OBC,Allotted
+77,5610,AMS,"AIIMS, Kalyani",MBBS,GN,GNNO,Allotted
+78,5634,AMS,"AIIMS Telangana Bibi Nagar Village
+Rangapur Mandal Name Bibinagar",MBBS,EW NO,EW NO,Allotted
+79,5698,JNO,JIPMER KARAIKAL,MBBS,OBC,OBC,Allotted
+80,5760,AMS,"AIIMS, Rai Bareli",MBBS,GN,GNNO,Allotted
+81,5825,AMS,"AIIMS, Rai Bareli",MBBS,GN,GNNO,Allotted
+82,5930,AMS,AIIMS Rajkot,MBBS,GN,OBC,Allotted
+83,6077,AMS,"AIIMS, Rai Bareli",MBBS,GN,OBC,Allotted
+84,6086,AMS,"AIIMS Telangana Bibi Nagar Village
+Rangapur Mandal Name Bibinagar",MBBS,OBC,OBC,Allotted
+85,6264,AMS,"AIIMS Bilaspur Changar Palasiyan,
+Himachal Pradesh",MBBS,GN,GNNO,Allotted
+86,6268,AMS,"AIIMS, Rai Bareli",MBBS,GN,GNNO,Allotted
+87,6271,AMS,"AIIMS, Rai Bareli",MBBS,GN,GNNO,Allotted
+88,6305,AMS,"AIIMS, Rai Bareli",MBBS,GN,GNNO,Allotted
+89,6338,AMS,AIIMS Bathinda,MBBS,OBC,OBC,Allotted
+90,6348,AMS,"AIIMS, Rai Bareli",MBBS,GN,GNNO,Allotted
+91,6394,AMS,"AIIMS, Rai Bareli",MBBS,GN,GNNO,Allotted
+92,6397,AMS,"AIIMS, Gorakhpur",MBBS,OBC,OBC,Allotted
+93,6402,JNO,JIPMER KARAIKAL,MBBS,EW NO,EW NO,Allotted
+94,6424,AMS,"AIIMS Bilaspur Changar Palasiyan,
+Himachal Pradesh",MBBS,GN,GNNO,Allotted
+95,6471,DU,"Lady Hardinge Medical College, New
+Delhi",MBBS,GN,GNNO,Allotted
+96,6472,AMS,"AIIMS, Rai Bareli",MBBS,GN,GNNO,Allotted
+97,6493,AMS,"AIIMS, Kalyani",MBBS,GN,GNNO,Allotted
+98,6508,AMS,"AIIMS, Gorakhpur",MBBS,OBC,OBC,Allotted
+99,6512,AMS,"AIIMS, Rai Bareli",MBBS,OBC,OBC,Allotted
+100,6623,AMS,"AIIMS, Deogarh",MBBS,GN,GNNO,Allotted
+101,6669,AMS,AIIMS Rajkot,MBBS,GN,GNNO,Allotted
+102,6713,AMS,AIIMS Mangalagiri,MBBS,EW NO,EW NO,Allotted
+103,6715,AMS,AIIMS Rajkot,MBBS,GN,GNNO,Allotted
+104,6725,AMS,"AIIMS, Kalyani",MBBS,GN,GNNO,Allotted
+105,6752,AMS,AIIMS Mangalagiri,MBBS,OBC,OBC,Allotted
+106,6758,AMS,"AIIMS, Kalyani",MBBS,GN,GNNO,Allotted
+107,6819,AMS,AIIMS Mangalagiri,MBBS,OBC,OBC,Allotted
+108,6988,AMS,"AIIMS, Kalyani",MBBS,GN,GNNO,Allotted
+109,7054,AMS,"AIIMS, Kalyani",MBBS,GN,GNNO,Allotted
+110,7058,AMS,"AIIMS, Gorakhpur",MBBS,OBC,OBC,Allotted
+111,7062,AMS,AIIMS Rajkot,MBBS,EW NO,EW NO,Allotted
+112,7067,AMS,"AIIMS, Gorakhpur",MBBS,OBC,OBC,Allotted
+113,7080,AMS,"AIIMS, Deogarh",MBBS,GN,GNNO,Allotted
+114,7127,AMS,"AIIMS, Rai Bareli",MBBS,OBC,OBC,Allotted
+115,7146,JNO,JIPMER KARAIKAL,MBBS,EW NO,EW NO,Allotted
+116,7176,AMS,AIIMS Mangalagiri,MBBS,OBC,OBC,Allotted
+117,7236,AMS,AIIMS Rajkot,MBBS,OBC,OBC,Allotted
+118,7267,AMS,"AIIMS, Deogarh",MBBS,GN,GNNO,Allotted
+119,7275,AMS,"AIIMS, Rai Bareli",MBBS,OBC,OBC,Allotted
+120,7299,AMS,AIIMS Jammu,MBBS,GN,GNNO,Allotted
+121,7350,AMS,"AIIMS, Deogarh",MBBS,GN,GNNO,Allotted
+122,7379,AMS,"AIIMS, Deogarh",MBBS,GN,EW NO,Allotted
+123,7401,AMS,"AIIMS, Deogarh",MBBS,GN,EW NO,Allotted
+124,7517,AMS,AIIMS Guahawti,MBBS,GN,GNNO,Allotted
+125,7522,AMS,"AIIMS, Rai Bareli",MBBS,OBC,OBC,Allotted
+126,7579,AMS,"AIIMS Telangana Bibi Nagar Village
+Rangapur Mandal Name Bibinagar",MBBS,OBC,OBC,Allotted
+127,7732,AMS,AIIMS Guahawti,MBBS,GN,EW NO,Allotted
+128,7812,AMS,"AIIMS, Rai Bareli",MBBS,OBC,OBC,Allotted
+129,7818,AMS,"AIIMS, Deogarh",MBBS,GN,GNNO,Allotted
+130,7954,AMS,"AIIMS, Kalyani",MBBS,OBC,OBC,Allotted
+131,7961,AMS,"AIIMS, Rai Bareli",MBBS,OBC,OBC,Allotted
+132,8041,AMS,"AIIMS Bilaspur Changar Palasiyan,
+Himachal Pradesh",MBBS,OBC,OBC,Allotted
+133,8070,AMS,"AIIMS, Kalyani",MBBS,OBC,OBC,Allotted
+134,8131,AMS,"AIIMS, Rai Bareli",MBBS,OBC,OBC,Allotted
+135,8132,AMS,AIIMS Guahawti,MBBS,GN,GNNO,Allotted
+136,8137,AMS,"AIIMS, Kalyani",MBBS,OBC,OBC,Allotted
+137,8200,AMS,"AIIMS, Rai Bareli",MBBS,OBC,OBC,Allotted
+138,8201,AMS,AIIMS Rajkot,MBBS,OBC,OBC,Allotted
+139,8255,AMS,AIIMS Guahawti,MBBS,GN,GNNO,Allotted
+140,8261,AMS,AIIMS Guahawti,MBBS,GN,GNNO,Allotted
+141,8264,AMS,"AIIMS, Rai Bareli",MBBS,OBC,OBC,Allotted
+142,8266,AMS,"AIIMS, Deogarh",MBBS,EW NO,EW NO,Allotted
+143,8296,AMS,AIIMS Jammu,MBBS,GN,GNNO,Allotted
+144,8350,AMS,AIIMS Guahawti,MBBS,GN,GNNO,Allotted
+145,8387,AMS,AIIMS Rajkot,MBBS,OBC,OBC,Allotted
+146,8435,AMS,AIIMS Rajkot,MBBS,OBC,OBC,Allotted
+147,8464,AMS,AIIMS Guahawti,MBBS,GN,GNNO,Allotted
+148,8471,AMS,AIIMS Jammu,MBBS,GN,GNNO,Allotted
+149,8496,AMS,"AIIMS, Kalyani",MBBS,OBC,OBC,Allotted
+150,8517,AMS,"AIIMS, Deogarh",MBBS,EW NO,EW NO,Allotted
+151,8531,AMS,"AIIMS, Kalyani",MBBS,OBC,OBC,Allotted
+152,8559,AMS,AIIMS Rajkot,MBBS,OBC,OBC,Allotted
+153,8641,AMS,AIIMS Rajkot,MBBS,OBC,OBC,Allotted
+154,8678,AMS,"AIIMS, Deogarh",MBBS,OBC,OBC,Allotted
+155,8698,AMS,"AIIMS, Deogarh",MBBS,OBC,OBC,Allotted
+156,8745,AMS,AIIMS Rajkot,MBBS,OBC,OBC,Allotted
+157,8755,AMS,"AIIMS, Deogarh",MBBS,OBC,OBC,Allotted
+158,8772,AMS,AIIMS Jammu,MBBS,GN,GNNO,Allotted
+159,8854,AMS,"AIIMS, Deogarh",MBBS,OBC,OBC,Allotted
+160,8956,AMS,AIIMS Jammu,MBBS,GN,GNNO,Allotted
+161,8986,AMS,"AIIMS, Deogarh",MBBS,OBC,OBC,Allotted
+162,8993,AMS,AIIMS Guahawti,MBBS,EW NO,EW NO,Allotted
+163,9072,AMS,AIIMS Jammu,MBBS,GN,GNNO,Allotted
+164,9079,AMS,AIIMS Guahawti,MBBS,OBC,OBC,Allotted
+165,9116,AMS,AIIMS Jammu,MBBS,GN,GNNO,Allotted
+166,9124,AMS,AIIMS Jammu,MBBS,GN,GNNO,Allotted
+167,9177,AMS,"AIIMS, Deogarh",MBBS,OBC,OBC,Allotted
+168,9205,AMS,"AIIMS, Deogarh",MBBS,OBC,OBC,Allotted
+169,9231,AMS,"AIIMS, Deogarh",MBBS,OBC,OBC,Allotted
+170,9238,AMS,"AIIMS, Deogarh",MBBS,OBC,OBC,Allotted
+171,9364,AMS,AIIMS Guahawti,MBBS,OBC,OBC,Allotted
+172,9404,AMS,AIIMS Guahawti,MBBS,OBC,OBC,Allotted
+173,9415,AMS,AIIMS Guahawti,MBBS,OBC,OBC,Allotted
+174,9429,AMS,AIIMS Guahawti,MBBS,OBC,OBC,Allotted
+175,9442,AMS,AIIMS Guahawti,MBBS,EW NO,EW NO,Allotted
+176,9548,IP,"Vardhman Mahavir Medical College and
+Safdarjung Hospital New Delhi, VMMC",MBBS,OBC,OBC,Allotted
+177,9577,AMS,AIIMS Guahawti,MBBS,OBC,OBC,Allotted
+178,9609,AMS,AIIMS Guahawti,MBBS,EW NO,EW NO,Allotted
+179,9613,AMS,AIIMS Guahawti,MBBS,OBC,OBC,Allotted
+180,9635,AMS,AIIMS Jammu,MBBS,OBC,OBC,Allotted
+181,9690,AMS,AIIMS Guahawti,MBBS,OBC,OBC,Allotted
+182,9718,AMS,AIIMS Guahawti,MBBS,OBC,OBC,Allotted
+183,9793,AMS,AIIMS Jammu,MBBS,OBC,OBC,Allotted
+184,9799,AMS,AIIMS Jammu,MBBS,EW NO,EW NO,Allotted
+185,9837,AMS,AIIMS Jammu,MBBS,OBC,OBC,Allotted
+186,9848,IP,"Atal Bihari Vajpayee Institute of Medical
+Sciences, New Delhi",MBBS,EW NO,EW NO,Allotted
+187,9869,AMS,AIIMS Jammu,MBBS,OBC,OBC,Allotted
+188,10050,AMS,AIIMS Jammu,MBBS,OBC,OBC,Allotted
+189,10211,AMS,AIIMS Jammu,MBBS,OBC,OBC,Allotted
+190,10243,AMS,AIIMS Jammu,MBBS,OBC,OBC,Allotted
+191,10885,MNG,"Kasturba Medical College, Manipal Univ.,
+Manipal",MBBS,GN,GNNO,Allotted
+192,11938,MNG,"Kasturba Medical College, Manipal Univ.,
+Manipal",MBBS,GN,GNNO,Allotted
+193,12037,JNO,JIPMER PUDUCHERRY,MBBS,SC,SC,Allotted
+194,12685,BON,"IMS BHU Dental, Varanasi",BDS,GN,EW NO,Allotted
+195,12887,DU,"University College of Medical Sciences,
+New Delhi",MBBS,OBC,OBC,Allotted
+196,13293,IP,"Vardhman Mahavir Medical College and
+Safdarjung Hospital New Delhi, VMMC",MBBS,OBC,OBC,Allotted
+197,13367,DU,"University College of Medical Sciences,
+New Delhi",MBBS,OBC,OBC,Allotted
+198,13559,DU,"University College of Medical Sciences,
+New Delhi",MBBS,OBC,OBC,Allotted
+199,13721,MNG,"SDU Medical College, Kolar",MBBS,GN,GNNO,Allotted
+200,13889,MNG,"Kasturba Medical College, Manipal Univ.,
+Manipal",MBBS,GN,GNNO,Allotted
+201,13918,DU,"Lady Hardinge Medical College, New
+Delhi",MBBS,EW NO,EW NO,Allotted
+202,13937,IP,"Atal Bihari Vajpayee Institute of Medical
+Sciences, New Delhi",MBBS,OBC,OBC,Allotted
+203,14166,AON,"DR.Z.A.D.C.,FAC.OF
+MEDICINE,ALIGARH",BDS,GN,OBC,Allotted
+204,14643,DU,"Maulana Azad Institute of Dental
+Sciences, New Delhi",BDS,GN,GNNO,Allotted
+205,15085,AMS,"AIIMS-Bhopal,",MBBS,SC,SC,Allotted
+206,15158,BON,"IMS BHU Dental, Varanasi",BDS,GN,GNNO,Allotted
+207,15290,JON,"Faculty of Dentistry, Jamia Millia Islamia,
+New Delhi",BDS,GN,EW NO,Allotted
+208,15607,AON,"DR.Z.A.D.C.,FAC.OF
+MEDICINE,ALIGARH",BDS,GN,GNNO,Allotted
+209,15653,DU,"Maulana Azad Institute of Dental
+Sciences, New Delhi",BDS,GN,GNNO,Allotted
+210,15694,DU,"Maulana Azad Institute of Dental
+Sciences, New Delhi",BDS,GN,GNNO,Allotted
+211,16167,AON,"DR.Z.A.D.C.,FAC.OF
+MEDICINE,ALIGARH",BDS,GN,GNNO,Allotted
+212,16216,BON,"IMS BHU Dental, Varanasi",BDS,GN,GNNO,Allotted
+213,16285,BON,"IMS BHU Dental, Varanasi",BDS,GN,OBC,Allotted
+214,16299,AON,"DR.Z.A.D.C.,FAC.OF
+MEDICINE,ALIGARH",BDS,GN,GNNO,Allotted
+215,16328,MNG,"Kasturba Medical College, Manipal Univ.,
+Manipal",MBBS,GN,GNNO,Allotted
+216,16434,MNG,"SYMBIOSIS MEDICAL COLLEGE FOR
+WOMEN PUNE",MBBS,GN,GNNO,Allotted
+217,16804,AON,"DR.Z.A.D.C.,FAC.OF
+MEDICINE,ALIGARH",BDS,GN,OBC,Allotted
+218,16894,MNG,"Manipal Tata Medical College,",MBBS,GN,GNNO,Allotted
+219,16980,BON,"IMS BHU Dental, Varanasi",BDS,GN,OBC,Allotted
+220,17005,DU,"Maulana Azad Institute of Dental
+Sciences, New Delhi",BDS,GN,GNNO,Allotted
+221,17172,BON,"IMS BHU Dental, Varanasi",BDS,GN,GNNO,Allotted
+222,17232,BON,"IMS BHU Dental, Varanasi",BDS,GN,GNNO,Allotted
+223,17272,BON,"IMS BHU Dental, Varanasi",BDS,GN,GNNO,Allotted
+224,17298,BON,"IMS BHU Dental, Varanasi",BDS,GN,GNNO,Allotted
+225,17367,AON,"DR.Z.A.D.C.,FAC.OF
+MEDICINE,ALIGARH",BDS,GN,GNNO,Allotted
+226,17554,MNG,"SYMBIOSIS MEDICAL COLLEGE FOR
+WOMEN PUNE",MBBS,GN,GNNO,Allotted
+227,17917,BON,"IMS BHU Dental, Varanasi",BDS,GN,GNNO,Allotted
+228,17945,AON,"DR.Z.A.D.C.,FAC.OF
+MEDICINE,ALIGARH",BDS,GN,OBC,Allotted
+229,17964,DU,"Maulana Azad Institute of Dental
+Sciences, New Delhi",BDS,GN,GNNO,Allotted
+230,18008,AON,"DR.Z.A.D.C.,FAC.OF
+MEDICINE,ALIGARH",BDS,GN,OBC,Allotted
+231,18019,BON,"IMS BHU Dental, Varanasi",BDS,GN,OBC,Allotted
+232,18025,BON,"IMS BHU Dental, Varanasi",BDS,GN,GNNO,Allotted
+233,18036,AON,"DR.Z.A.D.C.,FAC.OF
+MEDICINE,ALIGARH",BDS,GN,OBC,Allotted
+234,18051,BON,"IMS BHU Dental, Varanasi",BDS,GN,OBC,Allotted
+235,18407,DU,"Maulana Azad Institute of Dental
+Sciences, New Delhi",BDS,GN,EW NO,Allotted
+236,18419,BON,"IMS BHU Dental, Varanasi",BDS,GN,OBC,Allotted
+237,18475,JNO,JIPMER PUDUCHERRY,MBBS,ST,ST,Allotted
+238,18515,BON,"IMS BHU Dental, Varanasi",BDS,GN,GNNO,Allotted
+239,18527,DU,"Lady Hardinge Medical College, New
+Delhi",MBBS,OBC,OBC,Allotted
+240,18713,DU,"Maulana Azad Institute of Dental
+Sciences, New Delhi",BDS,GN,GNNO,Allotted
+241,18721,IP,ESIC Dental College and Hospital,BDS,GN,GNNO,Allotted
+242,18730,BON,"IMS BHU Dental, Varanasi",BDS,GN,GNNO,Allotted
+243,18767,MNG,"Kasturba Medical College, Manipal Univ.,
+Mangalore",MBBS,GN,OBC,Allotted
+244,18798,JON,"Faculty of Dentistry, Jamia Millia Islamia,
+New Delhi",BDS,GN,GNNO,Allotted
+245,18852,BON,"IMS BHU Dental, Varanasi",BDS,GN,GNNO,Allotted
+246,18915,BON,"IMS BHU Dental, Varanasi",BDS,GN,OBC,Allotted
+247,18921,JON,"Faculty of Dentistry, Jamia Millia Islamia,
+New Delhi",BDS,GN,GNNO,Allotted
+248,19099,DU,"Maulana Azad Institute of Dental
+Sciences, New Delhi",BDS,EW NO,EW NO,Allotted
+249,19116,BON,"IMS BHU Dental, Varanasi",BDS,GN,OBC,Allotted
+250,19153,DU,"Maulana Azad Institute of Dental
+Sciences, New Delhi",BDS,EW NO,EW NO,Allotted
+251,19346,BON,"IMS BHU Dental, Varanasi",BDS,OBC,OBC,Allotted
+252,19444,JON,"Faculty of Dentistry, Jamia Millia Islamia,
+New Delhi",BDS,GN,GNNO,Allotted
+253,19486,JON,"Faculty of Dentistry, Jamia Millia Islamia,
+New Delhi",BDS,GN,GNNO,Allotted
+254,19536,BON,"IMS BHU Dental, Varanasi",BDS,OBC,OBC,Allotted
+255,19552,BON,"IMS BHU Dental, Varanasi",BDS,EW NO,EW NO,Allotted
+256,19594,JON,"Faculty of Dentistry, Jamia Millia Islamia,
+New Delhi",BDS,GN,OBC,Allotted
+257,19752,AMS,"AIIMS, Raipur",MBBS,ST,ST,Allotted
+258,19769,DU,"Lady Hardinge Medical College, New
+Delhi",MBBS,OBC,OBC,Allotted
+259,19817,JON,"Faculty of Dentistry, Jamia Millia Islamia,
+New Delhi",BDS,GN,OBC,Allotted
+260,19824,DU,"Lady Hardinge Medical College, New
+Delhi",MBBS,OBC,OBC,Allotted
+261,19885,JON,"Faculty of Dentistry, Jamia Millia Islamia,
+New Delhi",BDS,GN,OBC,Allotted
+262,19963,AMU,"DR.Z.A.D.C.,FAC.OF
+MEDICINE,ALIGARH",BDS,GN,GNNO,Allotted
+263,19993,BON,"IMS BHU Dental, Varanasi",BDS,OBC,OBC,Allotted
+264,20031,DU,"Lady Hardinge Medical College, New
+Delhi",MBBS,OBC,OBC,Allotted
+265,20065,BON,"IMS BHU Dental, Varanasi",BDS,OBC,OBC,Allotted
+266,20089,BON,"IMS BHU Dental, Varanasi",BDS,EW NO,EW NO,Allotted
+267,20241,BON,"IMS BHU Dental, Varanasi",BDS,EW NO,EW NO,Allotted
+268,20416,IP,ESIC Dental College and Hospital,BDS,GN,GNNO,Allotted
+269,20440,BON,"IMS BHU Dental, Varanasi",BDS,OBC,OBC,Allotted
+270,20469,MNG,"Kasturba Medical College, Manipal Univ.,
+Mangalore",MBBS,GN,GNNO,Allotted
+271,20472,IP,ESIC Dental College and Hospital,BDS,GN,GNNO,Allotted
+272,20492,BON,"IMS BHU Dental, Varanasi",BDS,OBC,OBC,Allotted
+273,20607,BON,"IMS BHU Dental, Varanasi",BDS,OBC,OBC,Allotted
+274,20610,JNR,JIPMER KARAIKAL,MBBS,GN,GNNO,Allotted
+275,20640,BON,"IMS BHU Dental, Varanasi",BDS,EW NO,EW NO,Allotted
+276,20648,JON,"Faculty of Dentistry, Jamia Millia Islamia,
+New Delhi",BDS,GN,GNNO,Allotted
+277,20704,JON,"Faculty of Dentistry, Jamia Millia Islamia,
+New Delhi",BDS,GN,GNNO,Allotted
+278,20718,JON,"Faculty of Dentistry, Jamia Millia Islamia,
+New Delhi",BDS,GN,EW NO,Allotted
+279,20753,BON,"IMS BHU Dental, Varanasi",BDS,OBC,OBC,Allotted
+280,20772,JON,"Faculty of Dentistry, Jamia Millia Islamia,
+New Delhi",BDS,GN,GNNO,Allotted
+281,20774,IP,ESIC Dental College and Hospital,BDS,GN,GNNO,Allotted
+282,20836,IP,ESIC Dental College and Hospital,BDS,GN,GNNO,Allotted
+283,20912,JON,"Faculty of Dentistry, Jamia Millia Islamia,
+New Delhi",BDS,GN,GNNO,Allotted
+284,21050,JON,"Faculty of Dentistry, Jamia Millia Islamia,
+New Delhi",BDS,GN,EW NO,Allotted
+285,21067,MNG,"Kalinga Institute of Medical Sciences,
+Bhubaneswar",MBBS,GN,GNNO,Allotted
+286,21118,IP,ESIC Dental College and Hospital,BDS,GN,GNNO,Allotted
+287,21188,JON,"Faculty of Dentistry, Jamia Millia Islamia,
+New Delhi",BDS,GN,EW NO,Allotted
+288,21279,BON,"IMS BHU Dental, Varanasi",BDS,OBC,OBC,Allotted
+289,21405,MNG,"Kasturba Medical College, Manipal Univ.,
+Manipal",MBBS,GN,GNNO,Allotted
+290,21455,DU,"Maulana Azad Institute of Dental
+Sciences, New Delhi",BDS,OBC,OBC,Allotted
+291,21569,JON,"Faculty of Dentistry, Jamia Millia Islamia,
+New Delhi",BDS,GN,GNNO,Allotted
+292,21605,BON,"IMS BHU Dental, Varanasi",BDS,OBC,OBC,Allotted
+293,21637,JON,"Faculty of Dentistry, Jamia Millia Islamia,
+New Delhi",BDS,GN,GNNO,Allotted
+294,21686,JON,"Faculty of Dentistry, Jamia Millia Islamia,
+New Delhi",BDS,GN,OBC,Allotted
+295,22090,BON,"IMS BHU Dental, Varanasi",BDS,OBC,OBC,Allotted
+296,22227,IP,ESIC Dental College and Hospital,BDS,GN,EW NO,Allotted
+297,22327,MNG,"JSS Medical College, Jagadguru",MBBS,GN,GNNO,Allotted
+298,22430,IP,ESIC Dental College and Hospital,BDS,GN,GNNO,Allotted
+299,22708,IP,ESIC Dental College and Hospital,BDS,GN,EW NO,Allotted
+300,23244,MNG,"Manipal Tata Medical College,",MBBS,GN,OBC,Allotted
+301,23247,MNG,"SYMBIOSIS MEDICAL COLLEGE FOR
+WOMEN PUNE",MBBS,GN,GNNO,Allotted
+302,23444,MNG,"Kasturba Medical College, Manipal Univ.,
+Manipal",MBBS,GN,GNNO,Allotted
+303,23860,JNO,JIPMER KARAIKAL,MBBS,SC,SC,Allotted
+304,23959,IP,ESIC Dental College and Hospital,BDS,GN,GNNO,Allotted
+305,23978,MNG,"SDU Medical College, Kolar",MBBS,GN,GNNO,Allotted
+306,24058,AMU,"DR.Z.A.D.C.,FAC.OF
+MEDICINE,ALIGARH",BDS,GN,OBC,Allotted
+307,24435,JMQ,"Faculty of Dentistry, Jamia Millia Islamia,
+New Delhi",BDS,GN,OBC,Allotted
+308,24489,MNG,"Kasturba Medical College, Manipal Univ.,
+Manipal",MBBS,GN,GNNO,Allotted
+309,24494,DU,"Maulana Azad Institute of Dental
+Sciences, New Delhi",BDS,OBC,OBC,Allotted
+310,24775,IP,ESIC Dental College and Hospital,BDS,GN,GNNO,Allotted
+311,25279,DU,"Maulana Azad Institute of Dental
+Sciences, New Delhi",BDS,OBC,OBC,Allotted
+312,25286,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,EW NO,Allotted
+313,25357,IP,ESIC Dental College and Hospital,BDS,GN,GNNO,Allotted
+314,25565,AMS,"AIIMS, Nagpur",MBBS,SC,SC,Allotted
+315,26017,MNG,"Kasturba Medical College, Manipal Univ.,
+Manipal",MBBS,GN,GNNO,Allotted
+316,26101,MNG,"Kasturba Medical College, Manipal Univ.,
+Manipal",MBBS,GN,GNNO,Allotted
+317,26431,AMU,"DR.Z.A.D.C.,FAC.OF
+MEDICINE,ALIGARH",BDS,GN,GNNO,Allotted
+318,26611,MNG,"Kasturba Medical College, Manipal Univ.,
+Manipal",MBBS,GN,GNNO,Allotted
+319,26744,MNG,"Kasturba Medical College, Manipal Univ.,
+Manipal",MBBS,GN,GNNO,Allotted
+320,26841,DU,"Maulana Azad Institute of Dental
+Sciences, New Delhi",BDS,OBC,OBC,Allotted
+321,26956,IP,ESIC Dental College and Hospital,BDS,GN,GNNO,Allotted
+322,27076,MNG,"SYMBIOSIS MEDICAL COLLEGE FOR
+WOMEN PUNE",MBBS,GN,EW NO,Allotted
+323,27085,MNG,"SYMBIOSIS MEDICAL COLLEGE FOR
+WOMEN PUNE",MBBS,GN,GNNO,Allotted
+324,27572,IP,ESIC Dental College and Hospital,BDS,GN,GNNO,Allotted
+325,27754,MNG,"Kasturba Medical College, Manipal Univ.,
+Manipal",MBBS,GN,GNNO,Allotted
+326,27850,JMQ,"Faculty of Dentistry, Jamia Millia Islamia,
+New Delhi",BDS,GN,EW NO,Allotted
+327,27860,MNG,"Kasturba Medical College, Manipal Univ.,
+Manipal",MBBS,GN,GNNO,Allotted
+328,28007,AMS,"AIIMS, Rishikesh",MBBS,SC,SC,Allotted
+329,28429,MNG,"Kasturba Medical College, Manipal Univ.,
+Manipal",MBBS,GN,GNNO,Allotted
+330,28594,MNG,"Kasturba Medical College, Manipal Univ.,
+Manipal",MBBS,GN,GNNO,Allotted
+331,28633,IP,ESIC Dental College and Hospital,BDS,GN,GNNO,Allotted
+332,28687,IP,ESIC Dental College and Hospital,BDS,GN,GNNO,Allotted
+333,28696,MNG,"Kasturba Medical College, Manipal Univ.,
+Manipal",MBBS,GN,OBC,Allotted
+334,28960,MNG,"Kasturba Medical College, Manipal Univ.,
+Mangalore",MBBS,GN,GNNO,Allotted
+335,29115,IP,ESIC Dental College and Hospital,BDS,GN,GNNO,Allotted
+336,29196,IP,ESIC Dental College and Hospital,BDS,GN,GNNO,Allotted
+337,29677,MNG,"Kasturba Medical College, Manipal Univ.,
+Mangalore",MBBS,GN,EW NO,Allotted
+338,29882,MNG,"Kasturba Medical College, Manipal Univ.,
+Mangalore",MBBS,GN,OBC,Allotted
+339,30169,AMS,"AIIMS, Jodhpur",MBBS,GN PwD,OBC PwD,Allotted
+340,30385,MNG,"Kasturba Medical College, Manipal Univ.,
+Mangalore",MBBS,GN,GNNO,Allotted
+341,30467,MNG,"Kasturba Medical College, Manipal Univ.,
+Mangalore",MBBS,GN,GNNO,Allotted
+342,30528,JNO,JIPMER KARAIKAL,MBBS,SC,SC,Allotted
+343,31041,DU,"Maulana Azad Institute of Dental
+Sciences, New Delhi",BDS,OBC,OBC,Allotted
+344,31275,JMQ,"Faculty of Dentistry, Jamia Millia Islamia,
+New Delhi",BDS,GN,EW NO,Allotted
+345,31295,AMS,"AIIMS, Rishikesh",MBBS,SC,SC,Allotted
+346,31498,DU,"Maulana Azad Institute of Dental
+Sciences, New Delhi",BDS,OBC,OBC,Allotted
+347,31960,IP,ESIC Dental College and Hospital,BDS,EW NO,EW NO,Allotted
+348,32046,AMS,"AIIMS, Patna",MBBS,ST,ST,Allotted
+349,32067,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,GNNO,Allotted
+350,32551,MNG,"MM Inst. Med. and Research, Mullana",MBBS,GN,OBC,Allotted
+351,32624,DU,"Maulana Azad Institute of Dental
+Sciences, New Delhi",BDS,OBC,OBC,Allotted
+352,32913,MNG,"Manipal Tata Medical College,",MBBS,GN,OBC,Allotted
+353,33028,JMQ,"Faculty of Dentistry, Jamia Millia Islamia,
+New Delhi",BDS,GN,OBC,Allotted
+354,33036,MNG,"MM College of Dental Scie. and Res.,
+Mullana",BDS,GN,GNNO,Allotted
+355,33302,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,OBC,Allotted
+356,33607,DU,"Maulana Azad Institute of Dental
+Sciences, New Delhi",BDS,OBC,OBC,Allotted
+357,33620,MNG,"JSS Medical College, Jagadguru",MBBS,GN,GNNO,Allotted
+358,33715,AMS,"AIIMS, Patna",MBBS,SC,SC,Allotted
+359,33796,MNG,"Sri Ramachandra Med. College and Res.
+Inst., Chennai",MBBS,GN,GNNO,Allotted
+360,33803,JMQ,"Faculty of Dentistry, Jamia Millia Islamia,
+New Delhi",BDS,GN,GNNO,Allotted
+361,33854,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,OBC,Allotted
+362,34148,MNG,"JSS Medical College, Jagadguru",MBBS,GN,GNNO,Allotted
+363,34453,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,OBC,Allotted
+364,34610,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,GNNO,Allotted
+365,34721,MNG,"Manipal Tata Medical College,",MBBS,GN,GNNO,Allotted
+366,34970,AMS,"AIIMS, Patna",MBBS,SC,SC,Allotted
+367,35107,AMS,"AIIMS Telangana Bibi Nagar Village
+Rangapur Mandal Name Bibinagar",MBBS,SC,SC,Allotted
+368,35527,AMS,"AIIMS, Patna",MBBS,SC,SC,Allotted
+369,35949,IP,ESIC Dental College and Hospital,BDS,OBC,OBC,Allotted
+370,36173,MNG,"SDU Medical College, Kolar",MBBS,GN,EW NO,Allotted
+371,36393,IP,ESIC Dental College and Hospital,BDS,EW NO,EW NO,Allotted
+372,36490,ESI,"ESIC Medical College AND PGIMSR,
+Bangalore",MBBS,GN,GNNO,Allotted
+373,36697,IP,ESIC Dental College and Hospital,BDS,EW NO,EW NO,Allotted
+374,36826,JMQ,"Faculty of Dentistry, Jamia Millia Islamia,
+New Delhi",BDS,GN,GNNO,Allotted
+375,36866,ESI,"ESIC Medical College AND PGIMSR,
+Chennai",MBBS,GN,OBC,Allotted
+376,36898,JNO,JIPMER KARAIKAL,MBBS,SC,SC,Allotted
+377,36966,IP,ESIC Dental College and Hospital,BDS,EW NO,EW NO,Allotted
+378,37278,BON,"INST.OF MED.SCIENCES,
+BHU,VARANASI",MBBS,SC,SC,Allotted
+379,37326,MNG,"JSS Medical College, Jagadguru",MBBS,GN,GNNO,Allotted
+380,37791,AMS,"AIIMS, Patna",MBBS,ST,ST,Allotted
+381,37806,ESI,"Government Medical College, Kollam",MBBS,GN,GNNO,Allotted
+382,37879,JNO,JIPMER KARAIKAL,MBBS,SC,SC,Allotted
+383,38687,IP,ESIC Dental College and Hospital,BDS,OBC,OBC,Allotted
+384,39125,AMS,"AIIMS, Rai Bareli",MBBS,SC,SC,Allotted
+385,39404,ESI,"ESIC Medical College AND PGIMSR,
+Chennai",MBBS,OBC,OBC,Allotted
+386,39474,MNG,"Manipal Tata Medical College,",MBBS,GN,GNNO,Allotted
+387,39477,MNG,"JSS Medical College, Jagadguru",MBBS,GN,GNNO,Allotted
+388,40274,IP,ESIC Dental College and Hospital,BDS,OBC,OBC,Allotted
+389,40705,MNG,"K.S Hegde Medical Academy, Mangaluru",MBBS,GN,OBC,Allotted
+390,40829,MNG,"Manipal Tata Medical College,",MBBS,GN,GNNO,Allotted
+391,40955,IP,ESIC Dental College and Hospital,BDS,OBC,OBC,Allotted
+392,40972,IP,ESIC Dental College and Hospital,BDS,OBC,OBC,Allotted
+393,41393,IP,ESIC Dental College and Hospital,BDS,OBC,OBC,Allotted
+394,41414,IP,ESIC Dental College and Hospital,BDS,OBC,OBC,Allotted
+395,41676,MNG,"Manipal Tata Medical College,",MBBS,GN,GNNO,Allotted
+396,41799,MNG,"Manipal Tata Medical College,",MBBS,GN,GNNO,Allotted
+397,42102,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,OBC,Allotted
+398,42207,MNG,"Manipal Tata Medical College,",MBBS,GN,OBC,Allotted
+399,42546,MNG,"Manipal Tata Medical College,",MBBS,GN,OBC,Allotted
+400,43021,BON,"INST.OF MED.SCIENCES,
+BHU,VARANASI",MBBS,SC,SC,Allotted
+401,43169,MNG,"Manipal Tata Medical College,",MBBS,GN,GNNO,Allotted
+402,43368,BON,"INST.OF MED.SCIENCES,
+BHU,VARANASI",MBBS,SC,SC,Allotted
+403,43386,IP,ESIC Dental College and Hospital,BDS,OBC,OBC,Allotted
+404,43484,AMS,"AIIMS, Gorakhpur",MBBS,SC,SC,Allotted
+405,43531,IP,ESIC Dental College and Hospital,BDS,OBC,OBC,Allotted
+406,43567,IP,ESIC Dental College and Hospital,BDS,OBC,OBC,Allotted
+407,43592,IP,"Vardhman Mahavir Medical College and
+Safdarjung Hospital New Delhi, VMMC",MBBS,SC,SC,Allotted
+408,43893,MNG,"SDU Medical College, Kolar",MBBS,GN,GNNO,Allotted
+409,43939,MNG,"K.S Hegde Medical Academy, Mangaluru",MBBS,GN,GNNO,Allotted
+410,44052,IP,ESIC Dental College and Hospital,BDS,OBC,OBC,Allotted
+411,44539,MNG,"Rural Medical College and PIMS, Loni",MBBS,GN,OBC,Allotted
+412,44550,ESI,"Government Medical College, Kollam",MBBS,GN,GNNO,Allotted
+413,44562,MNG,"Manipal Tata Medical College,",MBBS,GN,OBC,Allotted
+414,44899,AMS,"AIIMS, Rai Bareli",MBBS,SC,SC,Allotted
+415,44981,ESI,"Government Medical College, Kollam",MBBS,OBC,OBC,Allotted
+416,45173,MNG,"Jawahar Lal Nehru Medical College,
+Belagavi",MBBS,GN,GNNO,Allotted
+417,45182,BON,"INST.OF MED.SCIENCES,
+BHU,VARANASI",MBBS,SC,SC,Allotted
+418,45260,AMS,AIIMS Mangalagiri,MBBS,SC,SC,Allotted
+419,45511,MNG,"K.S Hegde Medical Academy, Mangaluru",MBBS,GN,GNNO,Allotted
+420,46092,ESI,"Govt. Med. College and ESIC Hospt.,
+Coimbatore",MBBS,OBC,OBC,Allotted
+421,46105,ESI,"ESIC Medical College, Hyderbad",MBBS,GN,OBC,Allotted
+422,46158,AMS,"AIIMS, Rai Bareli",MBBS,SC,SC,Allotted
+423,46380,JI,"Faculty of Dentistry, Jamia Millia Islamia,
+New Delhi",BDS,GN,OBC,Allotted
+424,46517,AMS,AIIMS Bathinda,MBBS,SC,SC,Allotted
+425,46620,MNG,"SDU Medical College, Kolar",MBBS,GN,GNNO,Allotted
+426,46819,AMS,"AIIMS, Gorakhpur",MBBS,SC,SC,Allotted
+427,47129,AMS,AIIMS Mangalagiri,MBBS,SC,SC,Allotted
+428,47306,MNG,"K.S Hegde Medical Academy, Mangaluru",MBBS,GN,OBC,Allotted
+429,47875,AMS,AIIMS Mangalagiri,MBBS,SC,SC,Allotted
+430,48310,MNG,"Manipal Tata Medical College,",MBBS,GN,GNNO,Allotted
+431,48620,MNG,"Rural Medical College and PIMS, Loni",MBBS,GN,OBC,Allotted
+432,49093,ESI,"ESIC Medical College, Gulbarga",MBBS,GN,GNNO,Allotted
+433,49282,MNG,"Manipal Tata Medical College,",MBBS,GN,GNNO,Allotted
+434,49290,AMS,AIIMS Mangalagiri,MBBS,SC,SC,Allotted
+435,50032,ESI,"ESIC Medical College AND PGIMSR,
+Kolkata",MBBS,GN,GNNO,Allotted
+436,50066,ESI,"SLBS Govt. Medical College, Mandi",MBBS,GN,GNNO,Allotted
+437,50297,MNG,"Kalinga Institute of Medical Sciences,
+Bhubaneswar",MBBS,GN,GNNO,Allotted
+438,50540,MNG,"Manipal Tata Medical College,",MBBS,GN,GNNO,Allotted
+439,50749,AMS,AIIMS Rajkot,MBBS,SC,SC,Allotted
+440,50872,ESI,"ESIC Medical College AND PGIMSR,
+Chennai",MBBS,OBC,OBC,Allotted
+441,50978,MNG,"Rural Medical College and PIMS, Loni",MBBS,GN,GNNO,Allotted
+442,51445,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,GNNO,Allotted
+443,51510,AMS,"AIIMS, Kalyani",MBBS,SC,SC,Allotted
+444,51715,ESI,"ESIC Dental College, Gulbarga",BDS,GN,GNNO,Allotted
+445,52399,AMS,AIIMS Rajkot,MBBS,SC,SC,Allotted
+446,52694,AMS,"AIIMS Bilaspur Changar Palasiyan,
+Himachal Pradesh",MBBS,SC,SC,Allotted
+447,52789,MNG,"Manipal Tata Medical College,",MBBS,GN,GNNO,Allotted
+448,52867,MNG,"Rural Medical College and PIMS, Loni",MBBS,GN,OBC,Allotted
+449,52885,MNG,"Manipal Tata Medical College,",MBBS,GN,GNNO,Allotted
+450,53004,AMS,"AIIMS, Rai Bareli",MBBS,SC,SC,Allotted
+451,53037,AMS,AIIMS Rajkot,MBBS,SC,SC,Allotted
+452,53265,MNG,"Rural Medical College and PIMS, Loni",MBBS,GN,GNNO,Allotted
+453,53721,ESI,"ESIC Medical College, Faridabad",MBBS,EW NO,EW NO,Allotted
+454,53754,MNG,"Institute of Medical Sciences and SUM
+Host., Bhubaneswar",MBBS,GN,GNNO,Allotted
+455,54103,MNG,"Kalinga Institute of Medical Sciences,
+Bhubaneswar",MBBS,GN,GNNO,Allotted
+456,54133,ESI,"ESIC Medical College, Hyderbad",MBBS,OBC,OBC,Allotted
+457,54249,DU,"University College of Medical Sciences,
+New Delhi",MBBS,SC,SC,Allotted
+458,54546,ESI,"ESIC Medical College AND PGIMSR,
+Bangalore",MBBS,OBC,OBC,Allotted
+459,55082,MNG,"Sri Ramachandra Med. College and Res.
+Inst., Chennai",MBBS,GN,GNNO,Allotted
+460,55597,MNG,"MM Inst. Med. and Research, Mullana",MBBS,GN,GNNO,Allotted
+461,55732,AMS,"AIIMS, Deogarh",MBBS,SC,SC,Allotted
+462,55973,ESI,"Government Medical College, Kollam",MBBS,EW NO,EW NO,Allotted
+463,56089,ESI,"ESIC Medical College AND PGIMSR,
+Chennai",MBBS,EW NO,EW NO,Allotted
+464,56124,MNG,"Kalinga Institute of Medical Sciences,
+Bhubaneswar",MBBS,GN,GNNO,Allotted
+465,56185,AMS,"AIIMS, Deogarh",MBBS,SC,SC,Allotted
+466,56316,MNG,"Kalinga Institute of Medical Sciences,
+Bhubaneswar",MBBS,GN,GNNO,Allotted
+467,57188,ESI,"ESIC Medical College AND PGIMSR,
+Bangalore",MBBS,OBC,OBC,Allotted
+468,57226,AMS,"AIIMS, Deogarh",MBBS,SC,SC,Allotted
+469,57466,ESI,"ESIC Medical College, Hyderbad",MBBS,OBC,OBC,Allotted
+470,57660,ESI,"ESIC Medical College, Gulbarga",MBBS,OBC,OBC,Allotted
+471,57688,AMS,"AIIMS, Gorakhpur",MBBS,ST,ST,Allotted
+472,57717,AMS,AIIMS Guahawti,MBBS,SC,SC,Allotted
+473,57855,ESI,"SLBS Govt. Medical College, Mandi",MBBS,OBC,OBC,Allotted
+474,58010,ESI,"ESIC Medical College AND PGIMSR,
+Kolkata",MBBS,OBC,OBC,Allotted
+475,58020,MNG,"Sri Ramachandra Med. College and Res.
+Inst., Chennai",MBBS,GN,GNNO,Allotted
+476,58055,AMS,AIIMS Guahawti,MBBS,SC,SC,Allotted
+477,58457,DU,"Lady Hardinge Medical College, New
+Delhi",MBBS,SC,SC,Allotted
+478,58470,ESI,"ESIC Dental College, Gulbarga",BDS,GN,OBC,Allotted
+479,58751,AMS,AIIMS Rajkot,MBBS,ST,ST,Allotted
+480,58973,MNG,"Sri Ramachandra Med. College and Res.
+Inst., Chennai",MBBS,GN,OBC,Allotted
+481,59261,AMS,AIIMS Guahawti,MBBS,SC,SC,Allotted
+482,59364,MNG,"Amrita Institute of Medical Science,
+Kochi",MBBS,GN,GNNO,Allotted
+483,59517,MNG,"Manipal Tata Medical College,",MBBS,GN,GNNO,Allotted
+484,59628,MNG,"Institute of Medical Sciences and SUM
+Host., Bhubaneswar",MBBS,GN,GNNO,Allotted
+485,59801,MNG,"Institute of Medical Sciences and SUM
+Host., Bhubaneswar",MBBS,GN,GNNO,Allotted
+486,59965,MNG,"Manipal Tata Medical College,",MBBS,GN,OBC,Allotted
+487,61146,ESI,"ESIC Dental College, Gulbarga",BDS,GN,OBC,Allotted
+488,61155,AMS,AIIMS Jammu,MBBS,SC,SC,Allotted
+489,61184,MNG,"Sri Ramachandra Med. College and Res.
+Inst., Chennai",MBBS,GN,GNNO,Allotted
+490,61575,MNG,"Jawahar Lal Nehru Medical College,
+Belagavi",MBBS,GN,GNNO,Allotted
+491,62173,ESI,"ESIC Dental College, Gulbarga",BDS,GN,OBC,Allotted
+492,63568,ESI,"ESIC Dental College, Gulbarga",BDS,GN,GNNO,Allotted
+493,63577,ESI,"ESIC Dental College, Gulbarga",BDS,GN,OBC,Allotted
+494,64608,MNG,"MM Inst. Med. and Research, Mullana",MBBS,GN,GNNO,Allotted
+495,64657,AMS,"AIIMS, Rai Bareli",MBBS,ST,ST,Allotted
+496,65245,ESI,"ESIC Dental College, Gulbarga",BDS,GN,OBC,Allotted
+497,66292,ESI,"ESIC Dental College, Gulbarga",BDS,GN,OBC,Allotted
+498,67267,MNG,Bharati Vidyapeeth DU Medical College,MBBS,GN,GNNO,Allotted
+499,67302,AMS,AIIMS Bathinda,MBBS,ST,ST,Allotted
+500,67764,MNG,"Institute of Medical Sciences and SUM
+Host., Bhubaneswar",MBBS,GN,GNNO,Allotted
+501,68240,MNG,"BVDU Dental College and Hospital, Navi
+Mumbai",BDS,GN,GNNO,Allotted
+502,68504,AMS,AIIMS Guahawti,MBBS,ST,ST,Allotted
+503,68649,MNG,"MM Inst. Med. and Research, Mullana",MBBS,GN,GNNO,Allotted
+504,68688,MNG,"Sri Siddhartha Medical College DU,
+Tumkur",MBBS,GN,EW NO,Allotted
+505,68787,AMS,"AIIMS, Kalyani",MBBS,ST,ST,Allotted
+506,69171,MNG,"Yenepoya Medical College, Mangalore",MBBS,GN,GNNO,Allotted
+507,69818,ESI,"ESIC Dental College, Gulbarga",BDS,EW NO,EW NO,Allotted
+508,70275,AMS,AIIMS Bathinda,MBBS,ST,ST,Allotted
+509,71021,ESI,"ESIC Dental College, Gulbarga",BDS,OBC,OBC,Allotted
+510,71094,AMS,"AIIMS, Deogarh",MBBS,ST,ST,Allotted
+511,71433,MNG,"Santosh Dental College and Hospital,
+Ghaziabad",BDS,GN,GNNO,Allotted
+512,71847,AMS,AIIMS Guahawti,MBBS,ST,ST,Allotted
+513,71873,MNG,"Yenepoya Medical College, Mangalore",MBBS,GN,OBC,Allotted
+514,72626,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,OBC,Allotted
+515,72842,ESI,"ESIC Dental College, Gulbarga",BDS,OBC,OBC,Allotted
+516,72924,MNG,"Sri Ramachandra Med. College and Res.
+Inst., Chennai",MBBS,GN,OBC,Allotted
+517,73174,MNG,"Amrita Institute of Medical Science,
+Kochi",MBBS,GN,OBC,Allotted
+518,73225,AMS,AIIMS Guahawti,MBBS,ST,ST,Allotted
+519,73581,MNG,"Institute of Medical Sciences and SUM
+Host., Bhubaneswar",MBBS,GN,GNNO,Allotted
+520,73631,BON,"IMS BHU Dental, Varanasi",BDS,SC,SC,Allotted
+521,74086,AMS,"AIIMS, Deogarh",MBBS,ST,ST,Allotted
+522,74421,ESI,"ESIC Dental College, Gulbarga",BDS,OBC,OBC,Allotted
+523,74698,MNG,"MGM Medical College, Navi Mumbai",MBBS,GN,OBC,Allotted
+524,74876,MNG,"MM Inst. Med. and Research, Mullana",MBBS,GN,OBC,Allotted
+525,75019,AMS,"AIIMS, Gorakhpur",MBBS,ST,ST,Allotted
+526,75062,MNG,"Sri Ramachandra Med. College and Res.
+Inst., Chennai",MBBS,GN,GNNO,Allotted
+527,75840,MNG,"Institute of Medical Sciences and SUM
+Host., Bhubaneswar",MBBS,GN,GNNO,Allotted
+528,75862,MNG,"Jawahar Lal Nehru Medical College,
+Belagavi",MBBS,GN,GNNO,Allotted
+529,75918,MNG,Bharati Vidyapeeth DU Medical College,MBBS,GN,GNNO,Allotted
+530,76025,MNG,"Saveetha Medical College, Chennai",MBBS,GN,OBC,Allotted
+531,76112,ESI,"ESIC Dental College, Gulbarga",BDS,EW NO,EW NO,Allotted
+532,76191,MNG,"SRM Medical College and Hospital,
+Chennai",MBBS,GN,GNNO,Allotted
+533,76648,MNG,"JLN Medical College, Datta Meghe,
+Wardha",MBBS,GN,OBC,Allotted
+534,77601,MNG,"BV Deemed Uni. Med. College and Hos.,
+Sangli",MBBS,GN,GNNO,Allotted
+535,77775,MNG,"Institute of Dental Sciences,
+Bhubaneswar",BDS,GN,GNNO,Allotted
+536,77980,AMS,AIIMS Jammu,MBBS,ST,ST,Allotted
+537,78129,MNG,"Jawahar Lal Nehru Medical College,
+Belagavi",MBBS,GN,EW NO,Allotted
+538,78176,JI,"Faculty of Dentistry, Jamia Millia Islamia,
+New Delhi",BDS,GN,GNNO,Allotted
+539,78273,MNG,"B.L.D.E University, Bijapur",MBBS,GN,GNNO,Allotted
+540,78547,BON,"IMS BHU Dental, Varanasi",BDS,SC,SC,Allotted
+541,78605,MNG,"Amrita Institute of Medical Science,
+Kochi",MBBS,GN,GNNO,Allotted
+542,78898,MNG,"Saveetha Medical College, Chennai",MBBS,GN,GNNO,Allotted
+543,78913,AMS,AIIMS Jammu,MBBS,ST,ST,Allotted
+544,79508,MNG,"Amrita Institute of Medical Science,
+Kochi",MBBS,GN,GNNO,Allotted
+545,79898,BON,"IMS BHU Dental, Varanasi",BDS,SC,SC,Allotted
+546,79993,MNG,"MM Inst. Med. and Research, Mullana",MBBS,GN,GNNO,Allotted
+547,80978,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,EW NO,Allotted
+548,80980,MNG,"MM Inst. Med. and Research, Mullana",MBBS,GN,GNNO,Allotted
+549,81479,BON,"IMS BHU Dental, Varanasi",BDS,SC,SC,Allotted
+550,81956,JM,"SBKS Med. Inst. and Res. Centre,
+Sumandeep Vidyapeeth",MBBS,GN,GNNO,Allotted
+551,82128,BON,"IMS BHU Dental, Varanasi",BDS,SC,SC,Allotted
+552,83327,BON,"IMS BHU Dental, Varanasi",BDS,SC,SC,Allotted
+553,83458,DU,"Maulana Azad Institute of Dental
+Sciences, New Delhi",BDS,SC,SC,Allotted
+554,83552,MNG,"Dr. DY Patil Dental College and Hosp.
+Pune",BDS,GN,GNNO,Allotted
+555,84099,BON,"IMS BHU Dental, Varanasi",BDS,SC,SC,Allotted
+556,84787,MNG,"VMKV Medical College and Hospital,
+Salem",MBBS,GN,GNNO,Allotted
+557,85220,DU,"Maulana Azad Institute of Dental
+Sciences, New Delhi",BDS,SC,SC,Allotted
+558,85792,MNG,"Institute of Dental Sciences,
+Bhubaneswar",BDS,GN,GNNO,Allotted
+559,85838,BON,"IMS BHU Dental, Varanasi",BDS,SC,SC,Allotted
+560,86096,DU,"Maulana Azad Institute of Dental
+Sciences, New Delhi",BDS,SC,SC,Allotted
+561,86560,BON,"IMS BHU Dental, Varanasi",BDS,SC,SC,Allotted
+562,86731,MNG,"Bharati Vidyapeeth DU Dental College
+and Hospt., Pune",BDS,GN,EW NO,Allotted
+563,86773,MNG,Bharati Vidyapeeth DU Medical College,MBBS,GN,OBC,Allotted
+564,87122,MNG,"Sri Siddhartha Medical College DU,
+Tumkur",MBBS,GN,GNNO,Allotted
+565,87693,MNG,"Amrita Institute of Medical Science,
+Kochi",MBBS,GN,GNNO,Allotted
+566,89915,MNG,"Manipal College of Dental Sce., Manipal",BDS,GN,GNNO,Allotted
+567,90704,MNG,"Mahatma Gandhi Medical College and
+Sri Balaji Vidyapeeth, Pondicherry",MBBS,GN,OBC,Allotted
+568,90728,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,OBC,Allotted
+569,92948,MNG,"Sri Siddhartha Medical College DU,
+Tumkur",MBBS,GN,OBC,Allotted
+570,93507,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,OBC,Allotted
+571,93599,MNG,"SRM Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+572,93601,MNG,"Sri Siddhartha Medical College DU,
+Tumkur",MBBS,GN,OBC,Allotted
+573,94231,MNG,Bharati Vidyapeeth DU Medical College,MBBS,GN,GNNO,Allotted
+574,95321,MM,"Yenepoya Medical College, Mangalore",MBBS,GN,OBC,Allotted
+575,96120,IP,ESIC Dental College and Hospital,BDS,SC,SC,Allotted
+576,96258,MNG,"MM Inst. Med. and Research, Mullana",MBBS,GN,OBC,Allotted
+577,96930,MNG,Bharati Vidyapeeth DU Medical College,MBBS,GN,GNNO,Allotted
+578,96990,MNG,"MGM Medical College, Aurangabad",MBBS,GN,OBC,Allotted
+579,97473,MNG,"MGM Medical College, Navi Mumbai",MBBS,GN,OBC,Allotted
+580,97571,MNG,"MGM Medical College, Aurangabad",MBBS,GN,OBC,Allotted
+581,98060,BON,"IMS BHU Dental, Varanasi",BDS,ST,ST,Allotted
+582,98119,MNG,"Mahatma Gandhi Medical College and
+Sri Balaji Vidyapeeth, Pondicherry",MBBS,GN,OBC,Allotted
+583,99293,MNG,"MM Inst. Med. and Research, Mullana",MBBS,GN,GNNO,Allotted
+584,99804,IP,ESIC Dental College and Hospital,BDS,SC,SC,Allotted
+585,100421,IP,ESIC Dental College and Hospital,BDS,SC,SC,Allotted
+586,101119,MNG,"JLN Medical College, Datta Meghe,
+Wardha",MBBS,GN,GNNO,Allotted
+587,101515,MNG,"MM Inst. Med. and Research, Mullana",MBBS,GN,GNNO,Allotted
+588,101626,BON,"IMS BHU Dental, Varanasi",BDS,ST,ST,Allotted
+589,101694,MNG,"Jawahar Lal Nehru Medical College,
+Belagavi",MBBS,GN,OBC,Allotted
+590,102147,MNG,"Santosh Medical College and Hospital,
+Ghaziabad",MBBS,GN,GNNO,Allotted
+591,102417,MNG,"Jawahar Lal Nehru Medical College,
+Belagavi",MBBS,GN,GNNO,Allotted
+592,102520,AMS,"AIIMS-Bhopal,",MBBS,GN PwD,OBC PwD,Allotted
+593,102521,MNG,"Saveetha Medical College, Chennai",MBBS,GN,GNNO,Allotted
+594,103135,MNG,"MGM Medical College, Aurangabad",MBBS,GN,OBC,Allotted
+595,103808,MNG,"MGM Medical College, Navi Mumbai",MBBS,GN,OBC,Allotted
+596,104450,BON,"IMS BHU Dental, Varanasi",BDS,ST,ST,Allotted
+597,104703,MNG,"Mahatma Gandhi Medical College and
+Sri Balaji Vidyapeeth, Pondicherry",MBBS,GN,OBC,Allotted
+598,105056,BON,"IMS BHU Dental, Varanasi",BDS,ST,ST,Allotted
+599,105918,MNG,"SRM Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+600,106906,IP,ESIC Dental College and Hospital,BDS,SC,SC,Allotted
+601,107134,MNG,"Jawahar Lal Nehru Medical College,
+Belagavi",MBBS,GN,OBC,Allotted
+602,107135,MNG,"Yenepoya Medical College, Mangalore",MBBS,GN,OBC,Allotted
+603,107149,MNG,"Sri Siddhartha Medical College DU,
+Tumkur",MBBS,GN,OBC,Allotted
+604,107299,MNG,"Jawahar Lal Nehru Medical College,
+Belagavi",MBBS,GN,GNNO,Allotted
+605,107647,MNG,"Institute of Dental Sciences,
+Bhubaneswar",BDS,GN,GNNO,Allotted
+606,107885,MNG,"MM Inst. Med. and Research, Mullana",MBBS,GN,GNNO,Allotted
+607,108828,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,OBC,Allotted
+608,108945,MNG,"B.L.D.E University, Bijapur",MBBS,GN,GNNO,Allotted
+609,108951,MNG,"MGM Medical College, Navi Mumbai",MBBS,GN,OBC,Allotted
+610,109268,MNG,"MGM Medical College, Navi Mumbai",MBBS,GN,GNNO,Allotted
+611,109567,MNG,"Saveetha Medical College, Chennai",MBBS,GN,OBC,Allotted
+612,110167,MNG,"B.L.D.E University, Bijapur",MBBS,GN,GNNO,Allotted
+613,110965,MNG,"Mahatma Gandhi Medical College and
+Sri Balaji Vidyapeeth, Pondicherry",MBBS,GN,OBC,Allotted
+614,112743,MNG,"Sri Siddhartha Medical College DU,
+Tumkur",MBBS,GN,OBC,Allotted
+615,113574,MNG,"BV Deemed Uni. Med. College and Hos.,
+Sangli",MBBS,GN,OBC,Allotted
+616,115061,MNG,"Yenepoya Medical College, Mangalore",MBBS,GN,OBC,Allotted
+617,116167,MM,"Yenepoya Dental College, Yenepoya",BDS,GN,OBC,Allotted
+618,116465,MNG,"Santosh Dental College and Hospital,
+Ghaziabad",BDS,GN,GNNO,Allotted
+619,116798,MNG,"Sri Siddhartha Medical College DU,
+Tumkur",MBBS,GN,GNNO,Allotted
+620,117535,MNG,"Meenakshi Medical College Host. and
+Res. Inst., Chennai",MBBS,GN,GNNO,Allotted
+621,120477,MNG,"MANAV RACHNA DENTAL COLLEGE
+FARIDABAD",BDS,GN,OBC,Allotted
+622,120826,MNG,"Krishna Inst. of Med. Scie., Karad",MBBS,GN,OBC,Allotted
+623,121429,MNG,"SRM Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+624,122293,MNG,"Sri Siddhartha Medical College DU,
+Tumkur",MBBS,GN,OBC,Allotted
+625,122415,MNG,"BV Deemed Uni. Med. College and Hos.,
+Sangli",MBBS,GN,GNNO,Allotted
+626,123166,MNG,"Sri Siddhartha Medical College DU,
+Tumkur",MBBS,GN,GNNO,Allotted
+627,123401,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+628,124164,CW,"Maulana Azad Institute of Dental
+Sciences, New Delhi",BDS,"OBC
+(Priority: 6)",OBC,Allotted
+629,124614,MNG,"Sri Siddhartha Medical College DU,
+Tumkur",MBBS,GN,OBC,Allotted
+630,125223,MNG,"Sri Siddhartha Medical College DU,
+Tumkur",MBBS,GN,GNNO,Allotted
+631,125725,MNG,"Sri Siddhartha Medical College DU,
+Tumkur",MBBS,GN,GNNO,Allotted
+632,125743,MNG,"BV Deemed Uni. Med. College and Hos.,
+Sangli",MBBS,GN,OBC,Allotted
+633,126066,MNG,"Manipal College of Dental Sce., Manipal",BDS,GN,GNNO,Allotted
+634,126252,MNG,"MM Inst. Med. and Research, Mullana",MBBS,GN,OBC,Allotted
+635,126257,MNG,"Manipal College of Dental Science,
+Mangalore",BDS,GN,GNNO,Allotted
+636,126380,MNG,"Santosh Dental College and Hospital,
+Ghaziabad",BDS,GN,GNNO,Allotted
+637,126425,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,GNNO,Allotted
+638,126443,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,GNNO,Allotted
+639,126494,MNG,"MGM Medical College, Aurangabad",MBBS,GN,OBC,Allotted
+640,127600,MNG,"MM Inst. Med. and Research, Mullana",MBBS,GN,GNNO,Allotted
+641,127631,MNG,"MM Inst. Med. and Research, Mullana",MBBS,GN,OBC,Allotted
+642,127723,MNG,"MGM Medical College, Aurangabad",MBBS,GN,GNNO,Allotted
+643,127732,MNG,"MM Inst. Med. and Research, Mullana",MBBS,GN,GNNO,Allotted
+644,128586,MNG,"Saveetha Dental College, Chennai",BDS,GN,OBC,Allotted
+645,129485,MNG,"Manipal College of Dental Sce., Manipal",BDS,GN,OBC,Allotted
+646,129505,MNG,"Vinayaka Missions Medical College and
+Hospital, Karaikal",MBBS,GN,OBC,Allotted
+647,129570,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,OBC,Allotted
+648,129753,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,GNNO,Allotted
+649,130243,MNG,"Sri Ramachandra Dental and Hospt.,
+Chennai",BDS,GN,GNNO,Allotted
+650,131097,MNG,"Mahatma Gandhi Medical College and
+Sri Balaji Vidyapeeth, Pondicherry",MBBS,GN,GNNO,Allotted
+651,131447,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,GNNO,Allotted
+652,131896,MNG,"Vinayaka Missions Medical College and
+Hospital, Karaikal",MBBS,GN,OBC,Allotted
+653,132193,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,OBC,Allotted
+654,132299,MNG,"MGM Medical College, Aurangabad",MBBS,GN,OBC,Allotted
+655,132472,MNG,"VMKV Medical College and Hospital,
+Salem",MBBS,GN,OBC,Allotted
+656,132487,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,OBC,Allotted
+657,132702,MNG,"Institute of Medical Sciences and SUM
+Host., Bhubaneswar",MBBS,GN,GNNO,Allotted
+658,132845,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+659,133322,MNG,"Sree Balaji Dental College and Hospital,
+Chennai",BDS,GN,OBC,Allotted
+660,133325,MNG,"Yenepoya Dental College, Yenepoya",BDS,GN,OBC,Allotted
+661,133379,MNG,"Saveetha Medical College, Chennai",MBBS,GN,OBC,Allotted
+662,133462,MNG,"Sri Siddhartha Medical College DU,
+Tumkur",MBBS,GN,OBC,Allotted
+663,133697,MNG,KLE VK Inst. of Dental Scie. Belagavi,BDS,GN,OBC,Allotted
+664,134070,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+665,134427,MNG,"Krishna Inst. of Med. Scie., Karad",MBBS,GN,GNNO,Allotted
+666,135207,MNG,"MM College of Dental Scie. and Res.,
+Mullana",BDS,GN,GNNO,Allotted
+667,136317,MNG,"SRM Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+668,136871,MNG,"Shri Sathya Sai Medical College and RI,
+Chennai",MBBS,GN,GNNO,Allotted
+669,138324,MNG,"Dr. DYP Edu. Soc. Deemed Uni.,
+Kolhapur",MBBS,GN,OBC,Allotted
+670,138670,MNG,"Sri Siddhartha Medical College DU,
+Tumkur",MBBS,GN,GNNO,Allotted
+671,138746,MNG,"Bharati Vidyapeeth DU Dental College
+and Hospt., Pune",BDS,GN,EW NO,Allotted
+672,139431,MNG,"MM Inst. Med. and Research, Mullana",MBBS,GN,SC,Allotted
+673,139637,MNG,"VMKV Medical College and Hospital,
+Salem",MBBS,GN,GNNO,Allotted
+674,139796,MNG,"Institute of Medical Sciences and SUM
+Host., Bhubaneswar",MBBS,GN,GNNO,Allotted
+675,140133,MNG,KLE VK Inst. of Dental Scie. Belagavi,BDS,GN,GNNO,Allotted
+676,140236,MNG,"Manipal College of Dental Science,
+Mangalore",BDS,GN,GNNO,Allotted
+677,140461,MNG,"Bharati Vidyapeeth DU Dental College
+and Hospt., Pune",BDS,GN,SC,Allotted
+678,141514,MNG,"Amrita School of Dentistry, Kochi",BDS,GN,GNNO,Allotted
+679,141530,MNG,"Saveetha Medical College, Chennai",MBBS,GN,OBC,Allotted
+680,141566,MNG,"Mahatma Gandhi Medical College and
+Sri Balaji Vidyapeeth, Pondicherry",MBBS,GN,OBC,Allotted
+681,141854,MNG,"Sri Siddhartha Medical College DU,
+Tumkur",MBBS,GN,OBC,Allotted
+682,141947,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+683,142694,MNG,"Sree Balaji Dental College and Hospital,
+Chennai",BDS,GN,OBC,Allotted
+684,142995,MNG,"Vinayaka Missions Medical College and
+Hospital, Karaikal",MBBS,GN,OBC,Allotted
+685,143086,MNG,"Sri Siddhartha Medical College DU,
+Tumkur",MBBS,GN,GNNO,Allotted
+686,144383,MNG,"BV Deemed Uni. Med. College and Hos.,
+Sangli",MBBS,GN,GNNO,Allotted
+687,144580,MNG,"Mahatma Gandhi Medical College and
+Sri Balaji Vidyapeeth, Pondicherry",MBBS,GN,OBC,Allotted
+688,145035,MNG,"MANAV RACHNA DENTAL COLLEGE
+FARIDABAD",BDS,GN,GNNO,Allotted
+689,146172,MNG,"Institute of Medical Sciences and SUM
+Host., Bhubaneswar",MBBS,GN,GNNO,Allotted
+690,146955,MNG,"VMKV Medical College and Hospital,
+Salem",MBBS,GN,OBC,Allotted
+691,147062,MNG,"Institute of Medical Sciences and SUM
+Host., Bhubaneswar",MBBS,GN,GNNO,Allotted
+692,147085,MNG,"Vinayaka Missions Medical College and
+Hospital, Karaikal",MBBS,GN,OBC,Allotted
+693,147157,MNG,"Sri Siddhartha Medical College DU,
+Tumkur",MBBS,GN,OBC,Allotted
+694,147386,MNG,"Vinayaka Missions Medical College and
+Hospital, Karaikal",MBBS,GN,GNNO,Allotted
+695,147392,MNG,"Sri Siddhartha Medical College DU,
+Tumkur",MBBS,GN,GNNO,Allotted
+696,147801,MNG,"Dr. DY Patil Medical College, Navi
+Mumbai",MBBS,GN,OBC,Allotted
+697,149374,MNG,"MM Inst. Med. and Research, Mullana",MBBS,GN,GNNO,Allotted
+698,150024,MNG,"Sri Siddhartha Medical College DU,
+Tumkur",MBBS,GN,OBC,Allotted
+699,150073,MNG,"SRM Dental College, Chennai",BDS,GN,OBC,Allotted
+700,150182,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,OBC,Allotted
+701,150391,MNG,"SRM Katt. Dental College and Hospt.
+Chennai",BDS,GN,OBC,Allotted
+702,150510,MNG,"JLN Medical College, Datta Meghe,
+Wardha",MBBS,GN,EW NO,Allotted
+703,150700,MNG,"Sri Siddhartha Medical College DU,
+Tumkur",MBBS,GN,OBC,Allotted
+704,151045,MNG,"Mahatma Gandhi Medical College and
+Sri Balaji Vidyapeeth, Pondicherry",MBBS,GN,OBC,Allotted
+705,151475,MNG,"Sri Siddhartha Medical College DU,
+Tumkur",MBBS,GN,OBC,Allotted
+706,151503,MNG,"VMS Dental College, Salem",BDS,GN,OBC,Allotted
+707,151859,MNG,"Meenakshi Medical College Host. and
+Res. Inst., Chennai",MBBS,GN,OBC,Allotted
+708,151908,MNG,"MM Inst. Med. and Research, Mullana",MBBS,GN,GNNO,Allotted
+709,151998,MNG,"Saveetha Medical College, Chennai",MBBS,GN,GNNO,Allotted
+710,153229,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,GNNO,Allotted
+711,153522,MNG,"MM Inst. Med. and Research, Mullana",MBBS,GN,GNNO,Allotted
+712,153872,MNG,"Institute of Medical Sciences and SUM
+Host., Bhubaneswar",MBBS,GN,GNNO,Allotted
+713,154386,MNG,"Institute of Medical Sciences and SUM
+Host., Bhubaneswar",MBBS,GN,GNNO,Allotted
+714,154637,NRI,"Sri Ramachandra Med. College and Res.
+Inst., Chennai",MBBS,GN,GNNO,Allotted
+715,154732,MNG,"Sri Siddhartha Medical College DU,
+Tumkur",MBBS,GN,OBC,Allotted
+716,155006,JON,"Faculty of Dentistry, Jamia Millia Islamia,
+New Delhi",BDS,GN PwD,EW PwD,Allotted
+717,155148,MNG,"MM Inst. Med. and Research, Mullana",MBBS,GN,GNNO,Allotted
+718,155386,MNG,"Sri Siddhartha Medical College DU,
+Tumkur",MBBS,GN,GNNO,Allotted
+719,156126,MNG,"BV Deemed Uni. Med. College and Hos.,
+Sangli",MBBS,GN,SC,Allotted
+720,156161,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+721,156459,MNG,"Yenepoya Dental College, Yenepoya",BDS,GN,GNNO,Allotted
+722,156487,MNG,"Sri Siddhartha Medical College DU,
+Tumkur",MBBS,GN,OBC,Allotted
+723,158130,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,EW NO,Allotted
+724,158258,MNG,"Vinayaka Missions Medical College and
+Hospital, Karaikal",MBBS,GN,OBC,Allotted
+725,159368,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+726,159485,MNG,"MM Inst. Med. and Research, Mullana",MBBS,GN,GNNO,Allotted
+727,159613,DU,"Maulana Azad Medical College, New
+Delhi",MBBS,ST,ST,Allotted
+728,160238,MNG,"Dr. DY Patil Medical College, Navi
+Mumbai",MBBS,GN,GNNO,Allotted
+729,160597,MNG,"VMKV Medical College and Hospital,
+Salem",MBBS,GN,GNNO,Allotted
+730,160822,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,GNNO,Allotted
+731,161139,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,GNNO,Allotted
+732,161672,MNG,"MM Inst. Med. and Research, Mullana",MBBS,GN,GNNO,Allotted
+733,161887,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,EW NO,Allotted
+734,162976,IP,"Vardhman Mahavir Medical College and
+Safdarjung Hospital New Delhi, VMMC",MBBS,ST,ST,Allotted
+735,163593,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,OBC,Allotted
+736,163747,MNG,"Mahatma Gandhi Medical College and
+Sri Balaji Vidyapeeth, Pondicherry",MBBS,GN,OBC,Allotted
+737,164496,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,SC,Allotted
+738,164655,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,OBC,Allotted
+739,164747,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,OBC,Allotted
+740,166069,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,GNNO,Allotted
+741,166272,MNG,"AB Shetty Memorial Inst. of Dental Sce.,
+Mangaluru",BDS,GN,GNNO,Allotted
+742,166605,MNG,"JLN Medical College, Datta Meghe,
+Wardha",MBBS,GN,GNNO,Allotted
+743,166822,MNG,"SRM Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+744,166829,MNG,"MM Inst. Med. and Research, Mullana",MBBS,GN,GNNO,Allotted
+745,166954,MNG,"JLN Medical College, Datta Meghe,
+Wardha",MBBS,GN,GNNO,Allotted
+746,167571,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,OBC,Allotted
+747,167848,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,GNNO,Allotted
+748,168298,MNG,"K M Shah Dental Collegel, SumanDeep
+Vidyapeeth Vadodara",BDS,GN,OBC,Allotted
+749,169058,MNG,"BV Deemed Uni. Med. College and Hos.,
+Sangli",MBBS,GN,OBC,Allotted
+750,169724,MNG,"GITAM Institue of Med. Sce. and Res.,
+Visakhapatnam",MBBS,GN,GNNO,Allotted
+751,169838,MNG,"Vinayaka Missions Medical College and
+Hospital, Karaikal",MBBS,GN,GNNO,Allotted
+752,170463,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,OBC,Allotted
+753,170526,MNG,"Sree Balaji Dental College and Hospital,
+Chennai",BDS,GN,OBC,Allotted
+754,170585,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,OBC,Allotted
+755,170885,IP,"Atal Bihari Vajpayee Institute of Medical
+Sciences, New Delhi",MBBS,ST,ST,Allotted
+756,171234,ESI,"ESIC Medical College AND PGIMSR,
+Bangalore",MBBS,SC,SC,Allotted
+757,171381,DU,"Lady Hardinge Medical College, New
+Delhi",MBBS,ST,ST,Allotted
+758,171752,MNG,"Mahatma Gandhi Medical College and
+Sri Balaji Vidyapeeth, Pondicherry",MBBS,GN,OBC,Allotted
+759,171903,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,GNNO,Allotted
+760,171944,MNG,"MM Inst. Med. and Research, Mullana",MBBS,GN,GNNO,Allotted
+761,172021,MNG,"VMKV Medical College and Hospital,
+Salem",MBBS,GN,OBC,Allotted
+762,175744,MNG,"MM Inst. Med. and Research, Mullana",MBBS,GN,GNNO,Allotted
+763,175846,MNG,"Dr. DY Patil Medical College, Navi
+Mumbai",MBBS,GN,GNNO,Allotted
+764,175914,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,ST,Allotted
+765,176060,MNG,"Vinayaka Missions Medical College and
+Hospital, Karaikal",MBBS,GN,GNNO,Allotted
+766,176422,MNG,"Shri Sathya Sai Medical College and RI,
+Chennai",MBBS,GN,GNNO,Allotted
+767,176446,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,OBC,Allotted
+768,177817,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+769,177833,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+770,177990,MNG,"Meenakshi Medical College Host. and
+Res. Inst., Chennai",MBBS,GN,OBC,Allotted
+771,178045,ANR,"DR.Z.A.D.C.,FAC.OF
+MEDICINE,ALIGARH",BDS,GN,GNNO,Allotted
+772,178201,MNG,"Shri Sathya Sai Medical College and RI,
+Chennai",MBBS,GN,GNNO,Allotted
+773,178998,MNG,"SRM Medical College and Hospital,
+Chennai",MBBS,GN,GNNO,Allotted
+774,179059,MNG,"Vinayaka Missions Medical College and
+Hospital, Karaikal",MBBS,GN,GNNO,Allotted
+775,179714,MNG,"SRM Katt. Dental College and Hospt.
+Chennai",BDS,GN,OBC,Allotted
+776,180023,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,GNNO,Allotted
+777,181780,MNG,"Vinayaka Missions Medical College and
+Hospital, Karaikal",MBBS,GN,GNNO,Allotted
+778,182474,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,OBC,Allotted
+779,182921,MNG,"Santosh Dental College and Hospital,
+Ghaziabad",BDS,GN,OBC,Allotted
+780,183247,MNG,"VMKV Medical College and Hospital,
+Salem",MBBS,GN,OBC,Allotted
+781,183777,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,GNNO,Allotted
+782,183930,MNG,"Vinayaka Missions Medical College and
+Hospital, Karaikal",MBBS,GN,OBC,Allotted
+783,184297,MNG,"Mahatma Gandhi Medical College and
+Sri Balaji Vidyapeeth, Pondicherry",MBBS,GN,OBC,Allotted
+784,184866,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+785,186312,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,SC,Allotted
+786,186598,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+787,187339,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,GNNO,Allotted
+788,187948,MNG,"Dr. DY Patil Medical College, Navi
+Mumbai",MBBS,GN,OBC,Allotted
+789,188883,MNG,"VMKV Medical College and Hospital,
+Salem",MBBS,GN,OBC,Allotted
+790,189098,MNG,"MM College of Dental Scie. and Res.,
+Mullana",BDS,GN,GNNO,Allotted
+791,189368,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,OBC,Allotted
+792,189720,MNG,"Mahatma Gandhi Medical College and
+Sri Balaji Vidyapeeth, Pondicherry",MBBS,GN,OBC,Allotted
+793,189963,MNG,"Chettinad Hos. and Res. Inst.,
+Kancheepuram",MBBS,GN,OBC,Allotted
+794,190116,MNG,"BV Deemed Uni. Med. College and Hos.,
+Sangli",MBBS,GN,OBC,Allotted
+795,190243,MNG,"SATHYABAMA UNIV. Dental College
+and Hospt. Chennai",BDS,GN,OBC,Allotted
+796,190736,MNG,"Saveetha Medical College, Chennai",MBBS,GN,OBC,Allotted
+797,190977,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,OBC,Allotted
+798,191058,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,GNNO,Allotted
+799,191189,AMS,"AIIMS, Gorakhpur",MBBS,GN PwD,EW PwD,Allotted
+800,191773,MNG,"Saveetha Medical College, Chennai",MBBS,GN,OBC,Allotted
+801,192724,MNG,"Krishna Inst. of Med. Scie., Karad",MBBS,GN,GNNO,Allotted
+802,193191,ESI,"ESIC Medical College AND PGIMSR,
+Chennai",MBBS,SC,SC,Allotted
+803,193453,MNG,"Shri Sathya Sai Medical College and RI,
+Chennai",MBBS,GN,OBC,Allotted
+804,193589,MNG,"SRM Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+805,193925,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,GNNO,Allotted
+806,194025,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,GNNO,Allotted
+807,194394,MNG,"Saveetha Medical College, Chennai",MBBS,GN,GNNO,Allotted
+808,195061,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+809,195564,MNG,"SRM Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+810,195861,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,OBC,Allotted
+811,195892,MNG,"Mahatma Gandhi Medical College and
+Sri Balaji Vidyapeeth, Pondicherry",MBBS,GN,GNNO,Allotted
+812,196000,MNG,"GITAM Institue of Med. Sce. and Res.,
+Visakhapatnam",MBBS,GN,ST,Allotted
+813,196691,MNG,"JLN Medical College, Datta Meghe,
+Wardha",MBBS,GN,GNNO,Allotted
+814,197596,MNG,"VMS Dental College, Salem",BDS,GN,OBC,Allotted
+815,197711,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,GNNO,Allotted
+816,198192,MNG,"Vinayaka Missions Medical College and
+Hospital, Karaikal",MBBS,GN,GNNO,Allotted
+817,198304,MNG,"Santosh Medical College and Hospital,
+Ghaziabad",MBBS,GN,OBC,Allotted
+818,198681,CW,"University College of Medical Sciences,
+New Delhi",MBBS,"SC
+(Priority: 8)",SC,Allotted
+819,199168,MNG,"Vinayaka Missions Medical College and
+Hospital, Karaikal",MBBS,GN,SC,Allotted
+820,199983,MNG,"Meenakshi Medical College Host. and
+Res. Inst., Chennai",MBBS,GN,OBC,Allotted
+821,200530,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,OBC,Allotted
+822,201035,AMS,"AIIMS, Gorakhpur",MBBS,GN PwD,OBC PwD,Allotted
+823,201399,MNG,"Vinayaka Missions Medical College and
+Hospital, Karaikal",MBBS,GN,OBC,Allotted
+824,201508,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,SC,Allotted
+825,201817,MNG,"Mahatma Gandhi Medical College and
+Sri Balaji Vidyapeeth, Pondicherry",MBBS,GN,OBC,Allotted
+826,202004,MNG,"Vinayaka Missions Medical College and
+Hospital, Karaikal",MBBS,GN,OBC,Allotted
+827,202593,MNG,"Manipal College of Dental Science,
+Mangalore",BDS,GN,GNNO,Allotted
+828,202937,MNG,"GITAM Institue of Med. Sce. and Res.,
+Visakhapatnam",MBBS,GN,SC,Allotted
+829,203036,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,OBC,Allotted
+830,203354,MNG,"JLN Medical College, Datta Meghe,
+Wardha",MBBS,GN,GNNO,Allotted
+831,204021,MNG,"Manipal College of Dental Science,
+Mangalore",BDS,GN,GNNO,Allotted
+832,205243,MNG,"Dr. DYP Edu. Soc. Deemed Uni.,
+Kolhapur",MBBS,GN,OBC,Allotted
+833,205695,DU,"Maulana Azad Institute of Dental
+Sciences, New Delhi",BDS,ST,ST,Allotted
+834,206372,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,OBC,Allotted
+835,206653,MNG,"Dr. DY Patil Medical College, Navi
+Mumbai",MBBS,GN,GNNO,Allotted
+836,207005,MNG,Sri Siddhartha Academy T Begur,MBBS,GN,GNNO,Allotted
+837,207845,MNG,"Vinayaka Missions Medical College and
+Hospital, Karaikal",MBBS,GN,OBC,Allotted
+838,208002,MNG,"Vinayaka Missions Medical College and
+Hospital, Karaikal",MBBS,GN,OBC,Allotted
+839,208284,MNG,"SRM Medical College and Hospital,
+Chennai",MBBS,GN,SC,Allotted
+840,209447,MNG,"Sree Balaji Dental College and Hospital,
+Chennai",BDS,GN,GNNO,Allotted
+841,209513,MNG,"Vinayaka Missions Medical College and
+Hospital, Karaikal",MBBS,GN,GNNO,Allotted
+842,209686,MNG,"SRM Dental College, Chennai",BDS,GN,OBC,Allotted
+843,209765,MNG,"SRM Medical College and Hospital,
+Chennai",MBBS,GN,GNNO,Allotted
+844,211515,DU,"Maulana Azad Institute of Dental
+Sciences, New Delhi",BDS,ST,ST,Allotted
+845,211845,ESI,"ESIC Medical College AND PGIMSR,
+Chennai",MBBS,SC,SC,Allotted
+846,215086,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+847,215136,MNG,"SRM Medical College and Hospital,
+Chennai",MBBS,GN,GNNO,Allotted
+848,215707,MNG,"Dr. DY Patil Dental College and Hosp.
+Pune",BDS,GN,GNNO,Allotted
+849,216148,IP,ESIC Dental College and Hospital,BDS,ST,ST,Allotted
+850,217023,MNG,"Saveetha Medical College, Chennai",MBBS,GN,OBC,Allotted
+851,218533,MNG,"Saveetha Dental College, Chennai",BDS,GN,OBC,Allotted
+852,218986,MNG,"Vinayaka Missions Medical College and
+Hospital, Karaikal",MBBS,GN,OBC,Allotted
+853,219664,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+854,219704,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,SC,Allotted
+855,220700,ESI,"Government Medical College, Kollam",MBBS,SC,SC,Allotted
+856,220852,MNG,"Chettinad Hos. and Res. Inst.,
+Kancheepuram",MBBS,GN,OBC,Allotted
+857,222763,MNG,"Vinayaka Missions Medical College and
+Hospital, Karaikal",MBBS,GN,OBC,Allotted
+858,223199,ESI,"ESIC Medical College, Faridabad",MBBS,SC,SC,Allotted
+859,223454,MNG,"Vinayaka Missions Medical College and
+Hospital, Karaikal",MBBS,GN,OBC,Allotted
+860,223965,MNG,"JSS Dental College and Hospital,
+Jagadguru",BDS,GN,OBC,Allotted
+861,224158,MNG,"SRM Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+862,224815,ESI,"Government Medical College, Kollam",MBBS,SC,SC,Allotted
+863,225417,ESI,"ESIC Medical College, Gulbarga",MBBS,SC,SC,Allotted
+864,225603,MNG,"Meenakshi Medical College Host. and
+Res. Inst., Chennai",MBBS,GN,OBC,Allotted
+865,226102,MNG,"K M Shah Dental Collegel, SumanDeep
+Vidyapeeth Vadodara",BDS,GN,GNNO,Allotted
+866,226513,ESI,"ESIC Dental College, Gulbarga",BDS,SC,SC,Allotted
+867,227291,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+868,227356,ESI,"ESIC Medical College AND PGIMSR,
+Chennai",MBBS,SC,SC,Allotted
+869,227426,MNG,"Yenepoya Dental College, Yenepoya",BDS,GN,OBC,Allotted
+870,227441,MNG,"Chettinad Hos. and Res. Inst.,
+Kancheepuram",MBBS,GN,GNNO,Allotted
+871,227485,MNG,"JSS Dental College and Hospital,
+Jagadguru",BDS,GN,OBC,Allotted
+872,227782,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,OBC,Allotted
+873,227886,ESI,"ESIC Medical College AND PGIMSR,
+Bangalore",MBBS,SC,SC,Allotted
+874,228670,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,OBC,Allotted
+875,228696,IP,ESIC Dental College and Hospital,BDS,ST,ST,Allotted
+876,229243,ESI,"ESIC Medical College, Faridabad",MBBS,SC,SC,Allotted
+877,229623,MNG,"Vinayaka Missions Medical College and
+Hospital, Karaikal",MBBS,GN,GNNO,Allotted
+878,230091,MNG,"Kalinga Institute of Dental Sciences,
+Bhubaneswar",BDS,GN,GNNO,Allotted
+879,230539,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+880,230659,MNG,"GITAM Institue of Med. Sce. and Res.,
+Visakhapatnam",MBBS,GN,OBC,Allotted
+881,231081,MNG,"Krishna Inst. of Med. Scie., Karad",MBBS,GN,OBC,Allotted
+882,231565,ESI,"ESIC Medical College AND PGIMSR,
+Bangalore",MBBS,SC,SC,Allotted
+883,232619,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+884,233609,ESI,"ESIC Medical College AND PGIMSR,
+Kolkata",MBBS,SC,SC,Allotted
+885,234662,ESI,"ESIC Medical College AND PGIMSR,
+Kolkata",MBBS,SC,SC,Allotted
+886,235174,MNG,"SRM Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+887,235543,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+888,235584,MNG,"SRM Medical College and Hospital,
+Chennai",MBBS,GN,GNNO,Allotted
+889,236232,AMS,"AIIMS-Bhopal,",MBBS,GN PwD,OBC PwD,Allotted
+890,236690,MNG,"Saveetha Medical College, Chennai",MBBS,GN,SC,Allotted
+891,236742,MNG,"Dr. DYP Edu. Soc. Deemed Uni.,
+Kolhapur",MBBS,GN,GNNO,Allotted
+892,237192,ESI,"ESIC Medical College AND PGIMSR,
+Kolkata",MBBS,SC,SC,Allotted
+893,237242,MNG,"Saveetha Medical College, Chennai",MBBS,GN,GNNO,Allotted
+894,237492,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,OBC,Allotted
+895,238180,MNG,"GITAM Institue of Med. Sce. and Res.,
+Visakhapatnam",MBBS,GN,OBC,Allotted
+896,238219,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+897,238898,ESI,"ESIC Medical College AND PGIMSR,
+Kolkata",MBBS,SC,SC,Allotted
+898,239199,MNG,"Thaimoogambigai Dental College and
+Hsopt. Chennai",BDS,GN,SC,Allotted
+899,239948,NRI,"K.S Hegde Medical Academy, Mangaluru",MBBS,GN,GNNO,Allotted
+900,240123,ESI,"Government Medical College, Kollam",MBBS,SC,SC,Allotted
+901,240581,MNG,"Chettinad Hos. and Res. Inst.,
+Kancheepuram",MBBS,GN,OBC,Allotted
+902,240995,ESI,"ESIC Medical College AND PGIMSR,
+Kolkata",MBBS,SC,SC,Allotted
+903,241396,MNG,"SRM Medical College and Hospital,
+Chennai",MBBS,GN,GNNO,Allotted
+904,241875,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+905,242016,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+906,242548,MNG,"Sri Ramachandra Dental and Hospt.,
+Chennai",BDS,GN,GNNO,Allotted
+907,242681,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,OBC,Allotted
+908,242735,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+909,243195,MNG,"AB Shetty Memorial Inst. of Dental Sce.,
+Mangaluru",BDS,GN,GNNO,Allotted
+910,243639,MNG,"Sree Balaji Dental College and Hospital,
+Chennai",BDS,GN,SC,Allotted
+911,243970,MNG,"Krishna Inst. of Med. Scie., Karad",MBBS,GN,GNNO,Allotted
+912,244437,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,OBC,Allotted
+913,244518,MNG,"Institute of Dental Sciences,
+Bhubaneswar",BDS,GN,GNNO,Allotted
+914,245018,ESI,"ESIC Medical College AND PGIMSR,
+Kolkata",MBBS,SC,SC,Allotted
+915,245281,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+916,245902,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+917,246159,MNG,"GITAM Institue of Med. Sce. and Res.,
+Visakhapatnam",MBBS,GN,GNNO,Allotted
+918,247173,MNG,"SRM Katt. Dental College and Hospt.
+Chennai",BDS,GN,OBC,Allotted
+919,247783,IP,ESIC Dental College and Hospital,BDS,ST,ST,Allotted
+920,247914,MNG,"Dr. DY Patil Medical College, Navi
+Mumbai",MBBS,GN,OBC,Allotted
+921,248498,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,OBC,Allotted
+922,248915,MNG,"AB Shetty Memorial Inst. of Dental Sce.,
+Mangaluru",BDS,GN,OBC,Allotted
+923,249524,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,OBC,Allotted
+924,250218,ESI,"ESIC Medical College, Gulbarga",MBBS,SC,SC,Allotted
+925,250403,ESI,"ESIC Medical College, Gulbarga",MBBS,SC,SC,Allotted
+926,250839,MNG,"JSS Dental College and Hospital,
+Jagadguru",BDS,GN,GNNO,Allotted
+927,251064,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,GNNO,Allotted
+928,251454,MNG,"Yenepoya Dental College, Yenepoya",BDS,GN,OBC,Allotted
+929,251561,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+930,253452,MNG,"Dr. DYP Edu. Soc. Deemed Uni.,
+Kolhapur",MBBS,GN,OBC,Allotted
+931,253765,MNG,"SRM Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+932,254296,MNG,"Manipal College of Dental Science,
+Mangalore",BDS,GN,GNNO,Allotted
+933,254341,MNG,"SRM Dental College, Chennai",BDS,GN,OBC,Allotted
+934,254507,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,OBC,Allotted
+935,254754,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+936,254880,MNG,"Saveetha Medical College, Chennai",MBBS,GN,OBC,Allotted
+937,255349,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+938,256011,ESI,"Govt. Med. College and ESIC Hospt.,
+Coimbatore",MBBS,SC,SC,Allotted
+939,256417,MNG,"Shri Sathya Sai Medical College and RI,
+Chennai",MBBS,GN,GNNO,Allotted
+940,256497,MNG,"SRM Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+941,256758,MNG,"Bharati Vidyapeeth DU Dental College
+and Hospt., Pune",BDS,GN,OBC,Allotted
+942,257263,MNG,"Kalinga Institute of Dental Sciences,
+Bhubaneswar",BDS,GN,ST,Allotted
+943,257645,MNG,"GITAM Institue of Med. Sce. and Res.,
+Visakhapatnam",MBBS,GN,GNNO,Allotted
+944,257874,MNG,"Saveetha Medical College, Chennai",MBBS,GN,GNNO,Allotted
+945,258753,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+946,259867,MNG,"Saveetha Medical College, Chennai",MBBS,GN,OBC,Allotted
+947,260149,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,SC,Allotted
+948,260282,MNG,"Shri Sathya Sai Medical College and RI,
+Chennai",MBBS,GN,GNNO,Allotted
+949,260300,NRI,"SBKS Med. Inst. and Res. Centre,
+Sumandeep Vidyapeeth",MBBS,GN,GNNO,Allotted
+950,262766,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+951,264159,MNG,"SATHYABAMA UNIV. Dental College
+and Hospt. Chennai",BDS,GN,OBC,Allotted
+952,264835,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+953,264989,ESI,"Govt. Med. College and ESIC Hospt.,
+Coimbatore",MBBS,SC,SC,Allotted
+954,265126,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,SC,Allotted
+955,265249,MNG,"Rural Dental College, Loni",BDS,GN,EW NO,Allotted
+956,265585,MNG,"Dr. DY Patil Medical College, Navi
+Mumbai",MBBS,GN,GNNO,Allotted
+957,265715,ESI,"ESIC Medical College, Gulbarga",MBBS,SC,SC,Allotted
+958,265772,MNG,KLE VK Inst. of Dental Scie. Belagavi,BDS,GN,GNNO,Allotted
+959,266507,MNG,"SRM Medical College and Hospital,
+Chennai",MBBS,GN,GNNO,Allotted
+960,267509,MNG,"Kalinga Institute of Dental Sciences,
+Bhubaneswar",BDS,GN,GNNO,Allotted
+961,267525,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,OBC,Allotted
+962,268262,MNG,"GITAM Institue of Med. Sce. and Res.,
+Visakhapatnam",MBBS,GN,GNNO,Allotted
+963,268673,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,OBC,Allotted
+964,268788,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+965,268827,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,EW NO,Allotted
+966,269004,MNG,"Dr. DY Patil Medical College, Navi
+Mumbai",MBBS,GN,GNNO,Allotted
+967,269877,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,EW NO,Allotted
+968,270035,MNG,"SRM Medical College and Hospital,
+Chennai",MBBS,GN,GNNO,Allotted
+969,271089,MNG,"Shri Sathya Sai Medical College and RI,
+Chennai",MBBS,GN,GNNO,Allotted
+970,271327,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,OBC,Allotted
+971,272010,MNG,"JLN Medical College, Datta Meghe,
+Wardha",MBBS,GN,OBC,Allotted
+972,272474,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+973,273657,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,SC,Allotted
+974,273746,MNG,"Krishna Inst. of Med. Scie., Karad",MBBS,GN,GNNO,Allotted
+975,274080,MNG,"Krishna Inst. of Med. Scie., Karad",MBBS,GN,GNNO,Allotted
+976,274345,ESI,"ESIC Dental College, Gulbarga",BDS,SC,SC,Allotted
+977,276023,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,SC,Allotted
+978,277917,ESI,"ESIC Dental College, Gulbarga",BDS,SC,SC,Allotted
+979,278607,MNG,"Krishna Inst. of Med. Scie., Karad",MBBS,GN,GNNO,Allotted
+980,278746,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+981,280710,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+982,281718,MNG,"Institute of Dental Sciences,
+Bhubaneswar",BDS,GN,OBC,Allotted
+983,282054,MNG,"JLN Medical College, Datta Meghe,
+Wardha",MBBS,GN,GNNO,Allotted
+984,282379,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+985,282784,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+986,283186,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,SC,Allotted
+987,284686,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,OBC,Allotted
+988,285085,MNG,"Manipal College of Dental Science,
+Mangalore",BDS,GN,GNNO,Allotted
+989,286290,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,SC,Allotted
+990,287648,MNG,"SATHYABAMA UNIV. Dental College
+and Hospt. Chennai",BDS,GN,SC,Allotted
+991,287673,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+992,287805,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+993,288063,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+994,288182,MNG,"Sri Ramachandra Dental and Hospt.,
+Chennai",BDS,GN,OBC,Allotted
+995,289104,MNG,"Dr. DYP Edu. Soc. Deemed Uni.,
+Kolhapur",MBBS,GN,GNNO,Allotted
+996,291452,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,SC,Allotted
+997,291457,MNG,"JLN Medical College, Datta Meghe,
+Wardha",MBBS,GN,OBC,Allotted
+998,291573,MNG,"Dr. DYP Edu. Soc. Deemed Uni.,
+Kolhapur",MBBS,GN,GNNO,Allotted
+999,292267,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,SC,Allotted
+1000,292349,MNG,"Meenakshi Medical College Host. and
+Res. Inst., Chennai",MBBS,GN,GNNO,Allotted
+1001,292676,MNG,"K M Shah Dental Collegel, SumanDeep
+Vidyapeeth Vadodara",BDS,GN,GNNO,Allotted
+1002,292896,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,OBC,Allotted
+1003,293203,MNG,"SRM Medical College and Hospital,
+Chennai",MBBS,GN,GN PwD,Allotted
+1004,293628,MNG,"Dr. DY Patil Medical College, Navi
+Mumbai",MBBS,GN,GNNO,Allotted
+1005,293761,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,SC,Allotted
+1006,294294,MNG,"Dr. DYP Edu. Soc. Deemed Uni.,
+Kolhapur",MBBS,GN,SC,Allotted
+1007,295276,MNG,"Shri Sathya Sai Medical College and RI,
+Chennai",MBBS,GN,OBC,Allotted
+1008,295470,MNG,"Sri Ramachandra Dental and Hospt.,
+Chennai",BDS,GN,OBC,Allotted
+1009,295490,MNG,"SRM Medical College and Hospital,
+Chennai",MBBS,GN,GNNO,Allotted
+1010,295794,MNG,"AB Shetty Memorial Inst. of Dental Sce.,
+Mangaluru",BDS,GN,SC,Allotted
+1011,297121,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,OBC,Allotted
+1012,297212,MNG,"Institute of Dental Sciences,
+Bhubaneswar",BDS,GN,GNNO,Allotted
+1013,297925,MNG,"JLN Medical College, Datta Meghe,
+Wardha",MBBS,GN,GNNO,Allotted
+1014,297936,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1015,298092,MNG,"Institute of Dental Sciences,
+Bhubaneswar",BDS,GN,EW NO,Allotted
+1016,298361,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,SC,Allotted
+1017,298438,MNG,"Saveetha Medical College, Chennai",MBBS,GN,OBC,Allotted
+1018,298551,NRI,"SBKS Med. Inst. and Res. Centre,
+Sumandeep Vidyapeeth",MBBS,GN,GNNO,Allotted
+1019,298573,MNG,"Dr. DY Patil Medical College, Navi
+Mumbai",MBBS,GN,GNNO,Allotted
+1020,300201,MNG,"Sharad Pawar Dental College and
+Hospital, Wardha",BDS,GN,GNNO,Allotted
+1021,300317,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,OBC,Allotted
+1022,300714,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,SC,Allotted
+1023,300991,MNG,"Meenakshi Ammal Dental College and
+Host., Chennai1",BDS,GN,GNNO,Allotted
+1024,302286,MNG,"GITAM Institue of Med. Sce. and Res.,
+Visakhapatnam",MBBS,GN,GNNO,Allotted
+1025,302458,AMS,"AIIMS, Patna",MBBS,GN PwD,OBC PwD,Allotted
+1026,303528,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1027,303540,MNG,"SRM Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1028,304145,MNG,KLE VK Inst. of Dental Scie. Belagavi,BDS,GN,GNNO,Allotted
+1029,304174,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+1030,304824,MNG,"Dr. DYP Edu. Soc. Deemed Uni.,
+Kolhapur",MBBS,GN,GNNO,Allotted
+1031,306151,MNG,"Saveetha Dental College, Chennai",BDS,GN,OBC,Allotted
+1032,307102,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,SC,Allotted
+1033,307751,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1034,308206,MNG,"Dr. DY Patil Dental College and Hosp.
+Pune",BDS,GN,OBC,Allotted
+1035,308675,MNG,"K M Shah Dental Collegel, SumanDeep
+Vidyapeeth Vadodara",BDS,GN,GNNO,Allotted
+1036,309014,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,OBC,Allotted
+1037,309238,MNG,"GITAM Institue of Med. Sce. and Res.,
+Visakhapatnam",MBBS,GN,EW NO,Allotted
+1038,309421,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+1039,309443,MNG,"SRM Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1040,309865,MNG,"Shri Sathya Sai Medical College and RI,
+Chennai",MBBS,GN,SC,Allotted
+1041,310674,MNG,"GITAM Institue of Med. Sce. and Res.,
+Visakhapatnam",MBBS,GN,OBC,Allotted
+1042,310869,MNG,"Santosh Medical College and Hospital,
+Ghaziabad",MBBS,GN,OBC,Allotted
+1043,311094,AMS,"AIIMS Bilaspur Changar Palasiyan,
+Himachal Pradesh",MBBS,GN PwD,GN PwD,Allotted
+1044,311629,MNG,"Meenakshi Medical College Host. and
+Res. Inst., Chennai",MBBS,GN,OBC,Allotted
+1045,311992,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,GNNO,Allotted
+1046,312446,MNG,"Sri Siddhartha DentalCollege, Tumkur",BDS,GN,OBC,Allotted
+1047,312685,MNG,"Santosh Dental College and Hospital,
+Ghaziabad",BDS,GN,OBC,Allotted
+1048,312745,MNG,"Saveetha Medical College, Chennai",MBBS,GN,OBC,Allotted
+1049,313559,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,SC,Allotted
+1050,313579,MNG,"Meenakshi Ammal Dental College and
+Host., Chennai1",BDS,GN,SC,Allotted
+1051,313661,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,ST,Allotted
+1052,313908,MNG,"Saveetha Medical College, Chennai",MBBS,GN,OBC,Allotted
+1053,314397,MNG,"Chettinad Hos. and Res. Inst.,
+Kancheepuram",MBBS,GN,GNNO,Allotted
+1054,314436,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,OBC,Allotted
+1055,314515,MNG,"Saveetha Medical College, Chennai",MBBS,GN,OBC,Allotted
+1056,314630,MNG,"K M Shah Dental Collegel, SumanDeep
+Vidyapeeth Vadodara",BDS,GN,GNNO,Allotted
+1057,315052,MNG,"Shri Sathya Sai Medical College and RI,
+Chennai",MBBS,GN,OBC,Allotted
+1058,315238,MNG,"JLN Medical College, Datta Meghe,
+Wardha",MBBS,GN,OBC,Allotted
+1059,315730,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1060,316061,MNG,"Manipal College of Dental Science,
+Mangalore",BDS,GN,GNNO,Allotted
+1061,316282,MNG,"Shri Sathya Sai Medical College and RI,
+Chennai",MBBS,GN,GNNO,Allotted
+1062,316654,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,GNNO,Allotted
+1063,317221,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1064,317235,MNG,"Sri Ramachandra Dental and Hospt.,
+Chennai",BDS,GN,GNNO,Allotted
+1065,317487,MNG,"Saveetha Medical College, Chennai",MBBS,GN,GNNO,Allotted
+1066,317922,MNG,"Saveetha Medical College, Chennai",MBBS,GN,OBC,Allotted
+1067,318626,MNG,"Saveetha Medical College, Chennai",MBBS,GN,SC,Allotted
+1068,318948,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+1069,319749,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+1070,319973,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+1071,321036,MNG,"GITAM Institue of Med. Sce. and Res.,
+Visakhapatnam",MBBS,GN,GNNO,Allotted
+1072,321139,MNG,"Saveetha Medical College, Chennai",MBBS,GN,OBC,Allotted
+1073,321287,MNG,"Shri Sathya Sai Medical College and RI,
+Chennai",MBBS,GN,SC,Allotted
+1074,321526,MNG,"Thaimoogambigai Dental College and
+Hsopt. Chennai",BDS,GN,OBC,Allotted
+1075,322260,MNG,"Shri Sathya Sai Medical College and RI,
+Chennai",MBBS,GN,OBC,Allotted
+1076,322793,MNG,"Chettinad Hos. and Res. Inst.,
+Kancheepuram",MBBS,GN,ST,Allotted
+1077,323047,MNG,"Thaimoogambigai Dental College and
+Hsopt. Chennai",BDS,GN,OBC,Allotted
+1078,323181,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,OBC,Allotted
+1079,323374,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,GNNO,Allotted
+1080,323550,MNG,"Shri Sathya Sai Medical College and RI,
+Chennai",MBBS,GN,OBC,Allotted
+1081,323720,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+1082,324276,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+1083,324375,NRI,"Jawahar Lal Nehru Medical College,
+Belagavi",MBBS,GN,GNNO,Allotted
+1084,326757,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,SC,Allotted
+1085,326865,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+1086,326964,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,SC,Allotted
+1087,328598,MNG,"MM College of Dental Scie. and Res.,
+Mullana",BDS,GN,EW NO,Allotted
+1088,329039,MNG,"JLN Medical College, Datta Meghe,
+Wardha",MBBS,GN,OBC,Allotted
+1089,329348,MNG,"Dr. DY Patil Dental College and Hosp.
+Pune",BDS,GN,GNNO,Allotted
+1090,329380,MNG,"SATHYABAMA UNIV. Dental College
+and Hospt. Chennai",BDS,GN,OBC,Allotted
+1091,330585,MNG,"GITAM Institue of Med. Sce. and Res.,
+Visakhapatnam",MBBS,GN,GNNO,Allotted
+1092,331805,MNG,"Santosh Dental College and Hospital,
+Ghaziabad",BDS,GN,OBC,Allotted
+1093,332453,NRI,"Kasturba Medical College, Manipal Univ.,
+Mangalore",MBBS,GN,GNNO,Allotted
+1094,332929,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+1095,333118,MNG,"Rural Dental College, Loni",BDS,GN,GNNO,Allotted
+1096,333148,MNG,"JLN Medical College, Datta Meghe,
+Wardha",MBBS,GN,SC,Allotted
+1097,333316,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+1098,333454,MNG,"Yenepoya Dental College, Yenepoya",BDS,GN,OBC,Allotted
+1099,333504,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,OBC,Allotted
+1100,334920,DU,"Maulana Azad Medical College, New
+Delhi",MBBS,OBC PwD,OBC PwD,Allotted
+1101,334958,MNG,"BVDU Dental College and Hospital,
+Sangli",BDS,GN,OBC,Allotted
+1102,334981,MNG,"Institute of Dental Sciences,
+Bhubaneswar",BDS,GN,EW NO,Allotted
+1103,336994,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,OBC,Allotted
+1104,337028,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,GNNO,Allotted
+1105,337442,AMS,"AIIMS, Raipur",MBBS,OBC PwD,OBC PwD,Allotted
+1106,337708,MNG,"Dr. DY Patil Medical College, Navi
+Mumbai",MBBS,GN,SC,Allotted
+1107,339097,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+1108,339987,MNG,"Thaimoogambigai Dental College and
+Hsopt. Chennai",BDS,GN,OBC,Allotted
+1109,340135,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,OBC,Allotted
+1110,340681,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1111,341221,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1112,342568,MNG,"Institute of Dental Sciences,
+Bhubaneswar",BDS,GN,GNNO,Allotted
+1113,342900,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+1114,343053,MNG,"SATHYABAMA UNIV. Dental College
+and Hospt. Chennai",BDS,GN,SC,Allotted
+1115,343101,MNG,"GITAM Institue of Med. Sce. and Res.,
+Visakhapatnam",MBBS,GN,GNNO,Allotted
+1116,344655,MNG,KLE VK Inst. of Dental Scie. Belagavi,BDS,GN,EW NO,Allotted
+1117,344943,MNG,"Sree Balaji Dental College and Hospital,
+Chennai",BDS,GN,OBC,Allotted
+1118,345076,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+1119,346469,NRI,"Amrita Institute of Medical Science,
+Kochi",MBBS,GN,OBC,Allotted
+1120,346711,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+1121,348039,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,GNNO,Allotted
+1122,348121,AMS,AIIMS Mangalagiri,MBBS,OBC PwD,OBC PwD,Allotted
+1123,348634,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+1124,349056,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,OBC,Allotted
+1125,349511,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,GNNO,Allotted
+1126,350025,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+1127,350300,MNG,"AB Shetty Memorial Inst. of Dental Sce.,
+Mangaluru",BDS,GN,ST,Allotted
+1128,351251,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+1129,351813,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+1130,351885,MNG,"SRM Katt. Dental College and Hospt.
+Chennai",BDS,GN,OBC,Allotted
+1131,352641,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,GNNO,Allotted
+1132,353018,CW,"Vardhman Mahavir Medical College and
+Safdarjung Hospital New Delhi, VMMC",MBBS,"GN
+(Priority: 4)",GNNO,Allotted
+1133,353414,MNG,"SRM Dental College, Chennai",BDS,GN,SC,Allotted
+1134,353848,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,OBC,Allotted
+1135,353855,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+1136,355192,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+1137,356495,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1138,356807,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,OBC,Allotted
+1139,357346,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,SC,Allotted
+1140,357668,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1141,357739,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,OBC,Allotted
+1142,359140,MNG,"Shri Sathya Sai Medical College and RI,
+Chennai",MBBS,GN,GNNO,Allotted
+1143,360077,MNG,"Dr. DY Patil Medical College, Navi
+Mumbai",MBBS,GN,GNNO,Allotted
+1144,360406,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1145,360666,MNG,"Chettinad Hos. and Res. Inst.,
+Kancheepuram",MBBS,GN,OBC,Allotted
+1146,361103,MNG,"Meenakshi Medical College Host. and
+Res. Inst., Chennai",MBBS,GN,OBC,Allotted
+1147,361245,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,OBC,Allotted
+1148,361299,MNG,"Sree Balaji Dental College and Hospital,
+Chennai",BDS,GN,OBC,Allotted
+1149,361580,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+1150,363973,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,SC,Allotted
+1151,364040,MNG,"BVDU Dental College and Hospital, Navi
+Mumbai",BDS,GN,GNNO,Allotted
+1152,364234,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,SC,Allotted
+1153,365030,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,OBC,Allotted
+1154,365305,MNG,"Institute of Dental Sciences,
+Bhubaneswar",BDS,GN,ST,Allotted
+1155,365521,NRI,"JSS Medical College, Jagadguru",MBBS,GN,OBC,Allotted
+1156,366140,MNG,"Saveetha Medical College, Chennai",MBBS,GN,GNNO,Allotted
+1157,366192,MNG,"Kalinga Institute of Dental Sciences,
+Bhubaneswar",BDS,GN,GNNO,Allotted
+1158,366405,MNG,"Meenakshi Ammal Dental College and
+Host., Chennai1",BDS,GN,OBC,Allotted
+1159,366556,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+1160,367347,MNG,"Saveetha Medical College, Chennai",MBBS,GN,GNNO,Allotted
+1161,367738,MNG,"Manipal College of Dental Science,
+Mangalore",BDS,GN,GNNO,Allotted
+1162,367912,AMS,"AIIMS, Kalyani",MBBS,GN PwD,GN PwD,Allotted
+1163,368398,MNG,"Sree Balaji Dental College and Hospital,
+Chennai",BDS,GN,OBC,Allotted
+1164,368663,MNG,"Saveetha Medical College, Chennai",MBBS,GN,GNNO,Allotted
+1165,369366,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+1166,369665,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+1167,369877,MNG,"MANAV RACHNA DENTAL COLLEGE
+FARIDABAD",BDS,GN,GNNO,Allotted
+1168,370161,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,OBC,Allotted
+1169,370927,NRI,"Jawahar Lal Nehru Medical College,
+Belagavi",MBBS,GN,GNNO,Allotted
+1170,371768,ANR,"DR.Z.A.D.C.,FAC.OF
+MEDICINE,ALIGARH",BDS,GN,GNNO,Allotted
+1171,373003,MNG,"Dr. DY Patil Medical College, Navi
+Mumbai",MBBS,GN,OBC,Allotted
+1172,374190,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,OBC,Allotted
+1173,374956,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,GNNO,Allotted
+1174,375098,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,GNNO,Allotted
+1175,376061,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,SC,Allotted
+1176,376332,MNG,"Santosh Medical College and Hospital,
+Ghaziabad",MBBS,GN,GNNO,Allotted
+1177,376623,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1178,376945,NRI,"Kalinga Institute of Medical Sciences,
+Bhubaneswar",MBBS,GN,OBC,Allotted
+1179,377081,MNG,"Rural Dental College, Loni",BDS,GN,OBC,Allotted
+1180,377361,MNG,"Institute of Dental Sciences,
+Bhubaneswar",BDS,GN,EW NO,Allotted
+1181,377372,MNG,"Rural Dental College, Loni",BDS,GN,GNNO,Allotted
+1182,377658,MNG,"BVDU Dental College and Hospital, Navi
+Mumbai",BDS,GN,GNNO,Allotted
+1183,378194,MNG,"Saveetha Medical College, Chennai",MBBS,GN,OBC,Allotted
+1184,378933,MNG,"BVDU Dental College and Hospital, Navi
+Mumbai",BDS,GN,SC,Allotted
+1185,379865,MNG,"Santosh Dental College and Hospital,
+Ghaziabad",BDS,GN,GNNO,Allotted
+1186,380343,MNG,"SRM Dental College, Chennai",BDS,GN,GNNO,Allotted
+1187,380360,MNG,"SATHYABAMA UNIV. Dental College
+and Hospt. Chennai",BDS,GN,GNNO,Allotted
+1188,380574,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+1189,381430,MNG,"Dr. DY Patil Medical College, Navi
+Mumbai",MBBS,GN,OBC,Allotted
+1190,382185,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,SC,Allotted
+1191,382800,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+1192,382815,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1193,383102,MNG,"Saveetha Medical College, Chennai",MBBS,GN,SC,Allotted
+1194,383719,MNG,"K M Shah Dental Collegel, SumanDeep
+Vidyapeeth Vadodara",BDS,GN,OBC,Allotted
+1195,383979,AMS,"AIIMS, Rishikesh",MBBS,OBC PwD,OBC PwD,Allotted
+1196,384199,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+1197,384596,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,OBC,Allotted
+1198,384934,JM,"K M Shah Dental Collegel, SumanDeep
+Vidyapeeth Vadodara",BDS,GN,GNNO,Allotted
+1199,385225,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+1200,385521,MNG,"Chettinad Hos. and Res. Inst.,
+Kancheepuram",MBBS,GN,GNNO,Allotted
+1201,385952,MNG,"Shri Sathya Sai Medical College and RI,
+Chennai",MBBS,GN,OBC,Allotted
+1202,386312,MNG,"Sree Balaji Dental College and Hospital,
+Chennai",BDS,GN,OBC,Allotted
+1203,387591,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+1204,388225,MNG,"School of Dental Sciences and KIMSDU,
+Karad",BDS,GN,OBC,Allotted
+1205,388493,MNG,"Amrita School of Dentistry, Kochi",BDS,GN,GNNO,Allotted
+1206,388639,MNG,"Dr. DY Patil Medical College, Navi
+Mumbai",MBBS,GN,EW NO,Allotted
+1207,388883,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+1208,390043,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+1209,390915,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+1210,391029,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,OBC,Allotted
+1211,392428,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,OBC,Allotted
+1212,392536,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,GNNO,Allotted
+1213,393088,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+1214,394075,MNG,"SATHYABAMA UNIV. Dental College
+and Hospt. Chennai",BDS,GN,OBC,Allotted
+1215,395077,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+1216,395653,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1217,396793,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+1218,396878,MNG,"Institute of Dental Sciences,
+Bhubaneswar",BDS,GN,OBC,Allotted
+1219,396916,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+1220,397003,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+1221,397523,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+1222,398201,MNG,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,GN,SC,Allotted
+1223,399153,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1224,399545,MNG,"Yenepoya Dental College, Yenepoya",BDS,GN,OBC,Allotted
+1225,399711,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,SC,Allotted
+1226,401758,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+1227,402071,MNG,"BVDU Dental College and Hospital, Navi
+Mumbai",BDS,GN,OBC,Allotted
+1228,402121,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+1229,402511,NRI,"Kasturba Medical College, Manipal Univ.,
+Mangalore",MBBS,GN,OBC,Allotted
+1230,404340,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+1231,404803,MNG,"Amrita School of Dentistry, Kochi",BDS,GN,GNNO,Allotted
+1232,405181,MNG,"Saveetha Dental College, Chennai",BDS,GN,OBC,Allotted
+1233,405685,MNG,"Shri Sathya Sai Medical College and RI,
+Chennai",MBBS,GN,SC,Allotted
+1234,406203,MNG,"Amrita School of Dentistry, Kochi",BDS,GN,GNNO,Allotted
+1235,406730,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+1236,408168,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+1237,408374,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+1238,409535,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,SC,Allotted
+1239,409736,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,EW NO,Allotted
+1240,410322,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+1241,410430,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,GNNO,Allotted
+1242,411414,AMS,"AIIMS, Kalyani",MBBS,SC PwD,SC PwD,Allotted
+1243,411482,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,OBC,Allotted
+1244,412010,MNG,"Sri Siddhartha DentalCollege, Tumkur",BDS,GN,OBC,Allotted
+1245,412282,MNG,"Yenepoya Dental College, Yenepoya",BDS,GN,GNNO,Allotted
+1246,412356,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1247,412541,MNG,"MANAV RACHNA DENTAL COLLEGE
+FARIDABAD",BDS,GN,GNNO,Allotted
+1248,412734,MNG,"Saveetha Medical College, Chennai",MBBS,GN,OBC,Allotted
+1249,413116,MNG,"Shri Sathya Sai Medical College and RI,
+Chennai",MBBS,GN,OBC,Allotted
+1250,413532,AMS,"AIIMS, Bhubaneswar",MBBS,OBC PwD,OBC PwD,Allotted
+1251,413573,MNG,"Shri Sathya Sai Medical College and RI,
+Chennai",MBBS,GN,GNNO,Allotted
+1252,413812,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+1253,414084,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+1254,414582,MNG,"Saveetha Medical College, Chennai",MBBS,GN,OBC,Allotted
+1255,415433,MNG,"Shri Sathya Sai Medical College and RI,
+Chennai",MBBS,GN,GNNO,Allotted
+1256,415723,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,OBC,Allotted
+1257,416281,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1258,416290,AMS,"AIIMS, Deogarh",MBBS,OBC PwD,OBC PwD,Allotted
+1259,416378,JM,"K M Shah Dental Collegel, SumanDeep
+Vidyapeeth Vadodara",BDS,GN,GNNO,Allotted
+1260,416399,MNG,KLE VK Inst. of Dental Scie. Belagavi,BDS,GN,OBC,Allotted
+1261,416695,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+1262,416748,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1263,417604,MNG,"GITAM Institue of Med. Sce. and Res.,
+Visakhapatnam",MBBS,GN,EW NO,Allotted
+1264,418042,MNG,"Santosh Medical College and Hospital,
+Ghaziabad",MBBS,GN,GNNO,Allotted
+1265,418245,MNG,"K M Shah Dental Collegel, SumanDeep
+Vidyapeeth Vadodara",BDS,GN,GNNO,Allotted
+1266,419212,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,ST,Allotted
+1267,419894,AMS,"AIIMS, Gorakhpur",MBBS,OBC PwD,OBC PwD,Allotted
+1268,419944,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+1269,420303,MNG,"GITAM Institue of Med. Sce. and Res.,
+Visakhapatnam",MBBS,GN,GNNO,Allotted
+1270,421120,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1271,421135,MNG,"Saveetha Medical College, Chennai",MBBS,GN,GNNO,Allotted
+1272,422195,MNG,"Rural Dental College, Loni",BDS,GN,SC,Allotted
+1273,422337,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1274,422553,MNG,"Dr. DY Patil Medical College, Navi
+Mumbai",MBBS,GN,GNNO,Allotted
+1275,423699,MNG,"Dr. DY Patil Medical College, Navi
+Mumbai",MBBS,GN,GNNO,Allotted
+1276,425819,MNG,"GITAM Institue of Med. Sce. and Res.,
+Visakhapatnam",MBBS,GN,SC,Allotted
+1277,425856,MNG,"Dr. DY Patil Dental College and Hosp.
+Pune",BDS,GN,SC,Allotted
+1278,426098,MNG,"Dr. DY Patil Medical College, Navi
+Mumbai",MBBS,GN,GNNO,Allotted
+1279,426325,MNG,"Manipal College of Dental Science,
+Mangalore",BDS,GN,OBC,Allotted
+1280,426395,MNG,"GITAM Institue of Med. Sce. and Res.,
+Visakhapatnam",MBBS,GN,GNNO,Allotted
+1281,426778,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+1282,428872,MNG,"GITAM Institue of Med. Sce. and Res.,
+Visakhapatnam",MBBS,GN,GNNO,Allotted
+1283,429239,MNG,"Santosh Medical College and Hospital,
+Ghaziabad",MBBS,GN,GNNO,Allotted
+1284,430196,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,GNNO,Allotted
+1285,430306,MNG,KLE VK Inst. of Dental Scie. Belagavi,BDS,GN,OBC,Allotted
+1286,430514,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+1287,430679,MNG,"Saveetha Dental College, Chennai",BDS,GN,GNNO,Allotted
+1288,431758,MNG,"Shri Sathya Sai Medical College and RI,
+Chennai",MBBS,GN,OBC,Allotted
+1289,431850,MNG,"SRM Katt. Dental College and Hospt.
+Chennai",BDS,GN,OBC,Allotted
+1290,432045,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+1291,433411,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1292,433490,MNG,"Dr. DY Patil Dental College and Hosp.
+Pune",BDS,GN,EW NO,Allotted
+1293,433674,MNG,"Shri Sathya Sai Medical College and RI,
+Chennai",MBBS,GN,OBC,Allotted
+1294,433799,MNG,"GITAM Institue of Med. Sce. and Res.,
+Visakhapatnam",MBBS,GN,OBC,Allotted
+1295,434050,MNG,"Shri Sathya Sai Medical College and RI,
+Chennai",MBBS,GN,OBC,Allotted
+1296,434426,AMS,"AIIMS, Raipur",MBBS,OBC PwD,OBC PwD,Allotted
+1297,435138,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,OBC,Allotted
+1298,435353,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+1299,435733,MNG,"Saveetha Medical College, Chennai",MBBS,GN,OBC,Allotted
+1300,435754,MNG,"Shri Sathya Sai Medical College and RI,
+Chennai",MBBS,GN,SC,Allotted
+1301,436042,MNG,"MANAV RACHNA DENTAL COLLEGE
+FARIDABAD",BDS,GN,OBC,Allotted
+1302,437417,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+1303,438309,MNG,"Meenakshi Medical College Host. and
+Res. Inst., Chennai",MBBS,GN,OBC,Allotted
+1304,439119,NRI,"Jawahar Lal Nehru Medical College,
+Belagavi",MBBS,GN,OBC,Allotted
+1305,439377,MNG,"Institute of Dental Sciences,
+Bhubaneswar",BDS,GN,GNNO,Allotted
+1306,439428,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,GNNO,Allotted
+1307,439889,NRI,"Institute of Medical Sciences and SUM
+Host., Bhubaneswar",MBBS,GN,OBC,Allotted
+1308,441512,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,ST,Allotted
+1309,442113,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,OBC,Allotted
+1310,442843,MNG,"Raja Rajeswari Medical College
+Bengaluru",MBBS,GN,SC,Allotted
+1311,443925,MNG,"Dr. DY Patil Dental College and Hosp.
+Pune",BDS,GN,OBC,Allotted
+1312,444184,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,GNNO,Allotted
+1313,444210,MNG,"Yenepoya Dental College, Yenepoya",BDS,GN,OBC,Allotted
+1314,444926,MNG,"AB Shetty Memorial Inst. of Dental Sce.,
+Mangaluru",BDS,GN,GNNO,Allotted
+1315,445026,MNG,"AB Shetty Memorial Inst. of Dental Sce.,
+Mangaluru",BDS,GN,GNNO,Allotted
+1316,445395,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1317,445497,MNG,"Kalinga Institute of Dental Sciences,
+Bhubaneswar",BDS,GN,GNNO,Allotted
+1318,445888,MNG,"GITAM Institue of Med. Sce. and Res.,
+Visakhapatnam",MBBS,GN,OBC,Allotted
+1319,446643,MNG,"GITAM Institue of Med. Sce. and Res.,
+Visakhapatnam",MBBS,GN,GNNO,Allotted
+1320,446810,MNG,"GITAM Institue of Med. Sce. and Res.,
+Visakhapatnam",MBBS,GN,OBC,Allotted
+1321,447709,AMS,"AIIMS, Kalyani",MBBS,EW PwD,EW PwD,Allotted
+1322,448227,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1323,448744,MNG,"Meenakshi Medical College Host. and
+Res. Inst., Chennai",MBBS,GN,GNNO,Allotted
+1324,449165,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,GNNO,Allotted
+1325,449643,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,GNNO,Allotted
+1326,449779,MNG,"Indira Gandhi Dental College and SBV,
+Pondycherry",BDS,GN,OBC,Allotted
+1327,450210,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,OBC,Allotted
+1328,450542,NRI,"Jawahar Lal Nehru Medical College,
+Belagavi",MBBS,GN,OBC,Allotted
+1329,450622,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1330,451144,MNG,"BVDU Dental College and Hospital,
+Sangli",BDS,GN,EW NO,Allotted
+1331,451178,MNG,"Kalinga Institute of Dental Sciences,
+Bhubaneswar",BDS,GN,GNNO,Allotted
+1332,452009,JM,"K M Shah Dental Collegel, SumanDeep
+Vidyapeeth Vadodara",BDS,GN,EW NO,Allotted
+1333,453608,MNG,"Manipal College of Dental Science,
+Mangalore",BDS,GN,GNNO,Allotted
+1334,453632,MNG,"Dr. DY Patil Medical College, Navi
+Mumbai",MBBS,GN,GNNO,Allotted
+1335,454043,MNG,"Santosh Medical College and Hospital,
+Ghaziabad",MBBS,GN,GNNO,Allotted
+1336,454669,MNG,"GITAM Institue of Med. Sce. and Res.,
+Visakhapatnam",MBBS,GN,GNNO,Allotted
+1337,456290,MNG,"GITAM Institue of Med. Sce. and Res.,
+Visakhapatnam",MBBS,GN,GNNO,Allotted
+1338,456562,MNG,"Sri Ramachandra Dental and Hospt.,
+Chennai",BDS,GN,GNNO,Allotted
+1339,457288,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,SC,Allotted
+1340,457561,MNG,"Santosh Medical College and Hospital,
+Ghaziabad",MBBS,GN,GNNO,Allotted
+1341,457776,DU,"University College of Medical Sciences,
+New Delhi",MBBS,GN PwD,OBC PwD,Allotted
+1342,458304,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,OBC,Allotted
+1343,458551,MNG,"Dr. DY Patil Dental College and Hosp.
+Pune",BDS,GN,GNNO,Allotted
+1344,458815,MNG,"GITAM Institue of Med. Sce. and Res.,
+Visakhapatnam",MBBS,GN,OBC,Allotted
+1345,461905,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,OBC,Allotted
+1346,462815,MNG,"K M Shah Dental Collegel, SumanDeep
+Vidyapeeth Vadodara",BDS,GN,OBC,Allotted
+1347,463081,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,OBC,Allotted
+1348,463176,MNG,"Saveetha Medical College, Chennai",MBBS,GN,GNNO,Allotted
+1349,464233,MNG,"K M Shah Dental Collegel, SumanDeep
+Vidyapeeth Vadodara",BDS,GN,GNNO,Allotted
+1350,464251,NRI,"Krishna Inst. of Med. Scie., Karad",MBBS,GN,GNNO,Allotted
+1351,465431,MNG,"Saveetha Medical College, Chennai",MBBS,GN,GNNO,Allotted
+1352,467717,MNG,"Chettinad Hos. and Res. Inst.,
+Kancheepuram",MBBS,GN,OBC,Allotted
+1353,467921,MNG,"Dr. DY Patil Medical College, Navi
+Mumbai",MBBS,GN,GNNO,Allotted
+1354,468627,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1355,468837,MNG,"Rural Dental College, Loni",BDS,GN,SC,Allotted
+1356,470393,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,ST,Allotted
+1357,471776,MNG,"Saveetha Medical College, Chennai",MBBS,GN,OBC,Allotted
+1358,472189,MNG,"Amrita School of Dentistry, Kochi",BDS,GN,GNNO,Allotted
+1359,472609,MNG,"GITAM Institue of Med. Sce. and Res.,
+Visakhapatnam",MBBS,GN,OBC,Allotted
+1360,473166,NRI,"Kasturba Medical College, Manipal Univ.,
+Mangalore",MBBS,GN,GNNO,Allotted
+1361,473458,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,GNNO,Allotted
+1362,474321,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1363,474437,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,OBC,Allotted
+1364,474989,MNG,"Chettinad Hos. and Res. Inst.,
+Kancheepuram",MBBS,GN,SC,Allotted
+1365,475259,MNG,"GITAM Institue of Med. Sce. and Res.,
+Visakhapatnam",MBBS,GN,GNNO,Allotted
+1366,475724,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,GNNO,Allotted
+1367,477270,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,GNNO,Allotted
+1368,477693,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,GNNO,Allotted
+1369,478883,MNG,"Santosh Dental College and Hospital,
+Ghaziabad",BDS,GN,EW NO,Allotted
+1370,480269,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,SC,Allotted
+1371,480647,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,GNNO,Allotted
+1372,481130,MNG,"Saveetha Medical College, Chennai",MBBS,GN,OBC,Allotted
+1373,481725,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1374,481839,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,OBC,Allotted
+1375,484067,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,ST,Allotted
+1376,486547,MNG,"Dr. DY Patil Medical College, Navi
+Mumbai",MBBS,GN,SC,Allotted
+1377,486569,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,GNNO,Allotted
+1378,486777,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,OBC,Allotted
+1379,486932,NRI,"MGM Medical College, Navi Mumbai",MBBS,GN,GNNO,Allotted
+1380,487003,MNG,"Meenakshi Medical College Host. and
+Res. Inst., Chennai",MBBS,GN,OBC,Allotted
+1381,487402,MNG,"Dr. DY Patil Dental College and Hosp.
+Navi Mumbai",BDS,GN,GNNO,Allotted
+1382,488342,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,OBC,Allotted
+1383,489751,MNG,"Saveetha Medical College, Chennai",MBBS,GN,OBC,Allotted
+1384,490461,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,SC,Allotted
+1385,491122,MNG,"Saveetha Medical College, Chennai",MBBS,GN,OBC,Allotted
+1386,491333,MNG,"SATHYABAMA UNIV. Dental College
+and Hospt. Chennai",BDS,GN,OBC,Allotted
+1387,491470,NRI,"Kalinga Institute of Medical Sciences,
+Bhubaneswar",MBBS,GN,GNNO,Allotted
+1388,491738,MNG,"Santosh Medical College and Hospital,
+Ghaziabad",MBBS,GN,OBC,Allotted
+1389,492830,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,GNNO,Allotted
+1390,494109,MNG,"AB Shetty Memorial Inst. of Dental Sce.,
+Mangaluru",BDS,GN,GNNO,Allotted
+1391,495745,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,OBC,Allotted
+1392,495840,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,OBC,Allotted
+1393,495943,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1394,496003,MNG,"GITAM Institue of Med. Sce. and Res.,
+Visakhapatnam",MBBS,GN,EW NO,Allotted
+1395,496070,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,GNNO,Allotted
+1396,496621,MNG,"SRM Katt. Dental College and Hospt.
+Chennai",BDS,GN,SC,Allotted
+1397,497688,BON,"IMS BHU Dental, Varanasi",BDS,GN PwD,OBC PwD,Allotted
+1398,497856,AON,"DR.Z.A.D.C.,FAC.OF
+MEDICINE,ALIGARH",BDS,GN PwD,GN PwD,Allotted
+1399,498078,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1400,498082,MNG,"Saveetha Dental College, Chennai",BDS,GN,GNNO,Allotted
+1401,498651,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1402,498796,MNG,"Santosh Medical College and Hospital,
+Ghaziabad",MBBS,GN,OBC,Allotted
+1403,499116,MNG,"Manipal College of Dental Science,
+Mangalore",BDS,GN,GNNO,Allotted
+1404,499477,MNG,"Sri Ramachandra Dental and Hospt.,
+Chennai",BDS,GN,OBC,Allotted
+1405,500128,MNG,"Santosh Medical College and Hospital,
+Ghaziabad",MBBS,GN,GNNO,Allotted
+1406,500161,MNG,"Meenakshi Ammal Dental College and
+Host., Chennai1",BDS,GN,OBC,Allotted
+1407,500295,NRI,"Kasturba Medical College, Manipal Univ.,
+Mangalore",MBBS,GN,GNNO,Allotted
+1408,501844,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,GNNO,Allotted
+1409,502664,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,SC,Allotted
+1410,502901,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,SC,Allotted
+1411,503463,MNG,"Meenakshi Medical College Host. and
+Res. Inst., Chennai",MBBS,GN,OBC,Allotted
+1412,503960,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,OBC,Allotted
+1413,504154,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,EW NO,Allotted
+1414,504364,NRI,"Krishna Inst. of Med. Scie., Karad",MBBS,GN,GNNO,Allotted
+1415,504707,MNG,"Institute of Dental Sciences,
+Bhubaneswar",BDS,GN,OBC,Allotted
+1416,504737,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1417,506989,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,OBC,Allotted
+1418,509882,MNG,"AB Shetty Memorial Inst. of Dental Sce.,
+Mangaluru",BDS,GN,GNNO,Allotted
+1419,510037,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,EW NO,Allotted
+1420,511236,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,GNNO,Allotted
+1421,511881,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1422,511970,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1423,512867,MNG,"SRM Dental College, Chennai",BDS,GN,OBC,Allotted
+1424,513723,NRI,"Krishna Inst. of Med. Scie., Karad",MBBS,GN,OBC,Allotted
+1425,514258,MNG,"Saveetha Medical College, Chennai",MBBS,GN,OBC,Allotted
+1426,514376,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,OBC,Allotted
+1427,516385,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,GNNO,Allotted
+1428,516705,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1429,517526,MNG,"Saveetha Dental College, Chennai",BDS,GN,OBC,Allotted
+1430,518025,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,EW NO,Allotted
+1431,519202,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,GNNO,Allotted
+1432,519442,MNG,"Meenakshi Medical College Host. and
+Res. Inst., Chennai",MBBS,GN,OBC,Allotted
+1433,520464,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1434,520583,MNG,KLE VK Inst. of Dental Scie. Belagavi,BDS,GN,OBC,Allotted
+1435,522739,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,OBC,Allotted
+1436,522842,NRI,"JSS Medical College, Jagadguru",MBBS,GN,OBC,Allotted
+1437,523133,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1438,524230,MNG,"Dr. DY Patil Medical College, Navi
+Mumbai",MBBS,GN,GNNO,Allotted
+1439,524412,MNG,"Meenakshi Ammal Dental College and
+Host., Chennai1",BDS,GN,GNNO,Allotted
+1440,526490,MNG,"Meenakshi Medical College Host. and
+Res. Inst., Chennai",MBBS,GN,SC,Allotted
+1441,527051,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1442,527635,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1443,527727,MNG,"Manipal College of Dental Science,
+Mangalore",BDS,GN,GNNO,Allotted
+1444,528155,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1445,528226,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,GNNO,Allotted
+1446,528332,MNG,"Yenepoya Dental College, Yenepoya",BDS,GN,OBC,Allotted
+1447,528652,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1448,529837,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1449,530898,MNG,"Dr. DY Patil Dental College and Hosp.
+Pune",BDS,GN,GNNO,Allotted
+1450,532393,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1451,532650,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1452,532721,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,OBC,Allotted
+1453,533777,NRI,"B.L.D.E University, Bijapur",MBBS,GN,OBC,Allotted
+1454,534086,MNG,"SRM Katt. Dental College and Hospt.
+Chennai",BDS,GN,OBC,Allotted
+1455,534885,AMS,AIIMS Mangalagiri,MBBS,SC PwD,SC PwD,Allotted
+1456,535027,MNG,"Santosh Medical College and Hospital,
+Ghaziabad",MBBS,GN,SC,Allotted
+1457,535051,NRI,"Krishna Inst. of Med. Scie., Karad",MBBS,GN,OBC,Allotted
+1458,535461,MNG,"SRM Katt. Dental College and Hospt.
+Chennai",BDS,GN,OBC,Allotted
+1459,536815,MNG,"Saveetha Medical College, Chennai",MBBS,GN,OBC,Allotted
+1460,538595,MNG,"Meenakshi Medical College Host. and
+Res. Inst., Chennai",MBBS,GN,OBC,Allotted
+1461,538830,NRI,"Kasturba Medical College, Manipal Univ.,
+Mangalore",MBBS,GN,GNNO,Allotted
+1462,538857,MNG,"Rural Dental College, Loni",BDS,GN,GNNO,Allotted
+1463,538888,MNG,"Santosh Medical College and Hospital,
+Ghaziabad",MBBS,GN,GNNO,Allotted
+1464,540526,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1465,540593,MNG,"Meenakshi Medical College Host. and
+Res. Inst., Chennai",MBBS,GN,OBC,Allotted
+1466,540697,MNG,"Sharad Pawar Dental College and
+Hospital, Wardha",BDS,GN,GNNO,Allotted
+1467,540734,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,GNNO,Allotted
+1468,541379,MNG,"SATHYABAMA UNIV. Dental College
+and Hospt. Chennai",BDS,GN,SC,Allotted
+1469,542929,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,SC,Allotted
+1470,544435,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,GNNO,Allotted
+1471,544793,MNG,"Meenakshi Medical College Host. and
+Res. Inst., Chennai",MBBS,GN,GNNO,Allotted
+1472,544899,MNG,"K M Shah Dental Collegel, SumanDeep
+Vidyapeeth Vadodara",BDS,GN,GNNO,Allotted
+1473,545454,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,GNNO,Allotted
+1474,545739,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1475,545823,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,GNNO,Allotted
+1476,548387,MNG,"Sree Balaji Dental College and Hospital,
+Chennai",BDS,GN,GNNO,Allotted
+1477,549183,MNG,KLE VK Inst. of Dental Scie. Belagavi,BDS,GN,EW NO,Allotted
+1478,549625,MNG,"JSS Dental College and Hospital,
+Jagadguru",BDS,GN,EW NO,Allotted
+1479,549636,MNG,"Institute of Dental Sciences,
+Bhubaneswar",BDS,GN,GNNO,Allotted
+1480,549776,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,GNNO,Allotted
+1481,549955,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1482,550082,MNG,"Institute of Dental Sciences,
+Bhubaneswar",BDS,GN,GNNO,Allotted
+1483,550647,MNG,"Sri Ramachandra Dental and Hospt.,
+Chennai",BDS,GN,GNNO,Allotted
+1484,551145,MNG,"Santosh Medical College and Hospital,
+Ghaziabad",MBBS,GN,GNNO,Allotted
+1485,551423,MNG,"MM College of Dental Scie. and Res.,
+Mullana",BDS,GN,OBC,Allotted
+1486,551782,MNG,"Meenakshi Medical College Host. and
+Res. Inst., Chennai",MBBS,GN,OBC,Allotted
+1487,552364,MNG,"Meenakshi Medical College Host. and
+Res. Inst., Chennai",MBBS,GN,OBC,Allotted
+1488,552380,MNG,"AB Shetty Memorial Inst. of Dental Sce.,
+Mangaluru",BDS,GN,EW NO,Allotted
+1489,553657,MNG,"Meenakshi Medical College Host. and
+Res. Inst., Chennai",MBBS,GN,OBC,Allotted
+1490,555314,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1491,555931,MNG,"Meenakshi Medical College Host. and
+Res. Inst., Chennai",MBBS,GN,OBC,Allotted
+1492,556168,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,OBC,Allotted
+1493,556769,MNG,"Sree Balaji Dental College and Hospital,
+Chennai",BDS,GN,OBC,Allotted
+1494,557146,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,OBC,Allotted
+1495,557361,MNG,"School of Dental Sciences and KIMSDU,
+Karad",BDS,GN,OBC,Allotted
+1496,557849,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1497,557911,MNG,"Santosh Medical College and Hospital,
+Ghaziabad",MBBS,GN,GNNO,Allotted
+1498,558218,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,EW NO,Allotted
+1499,558792,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1500,559584,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,SC,Allotted
+1501,559741,MNG,"K M Shah Dental Collegel, SumanDeep
+Vidyapeeth Vadodara",BDS,GN,GNNO,Allotted
+1502,560614,MNG,"Yenepoya Dental College, Yenepoya",BDS,GN,OBC,Allotted
+1503,561698,MNG,"Dr. DY Patil Dental College and Hosp.
+Pune",BDS,GN,GNNO,Allotted
+1504,561790,MNG,"Meenakshi Ammal Dental College and
+Host., Chennai1",BDS,GN,OBC,Allotted
+1505,562205,MNG,"Santosh Medical College and Hospital,
+Ghaziabad",MBBS,GN,GNNO,Allotted
+1506,562421,MNG,"BVDU Dental College and Hospital,
+Sangli",BDS,GN,EW NO,Allotted
+1507,562547,MNG,"Dr. DY Patil Dental College and Hosp.
+Pune",BDS,GN,OBC,Allotted
+1508,562858,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,SC,Allotted
+1509,563630,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1510,564556,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,EW NO,Allotted
+1511,564630,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,OBC,Allotted
+1512,565013,MNG,"Manipal College of Dental Science,
+Mangalore",BDS,GN,GNNO,Allotted
+1513,565285,MNG,"Sri Siddhartha DentalCollege, Tumkur",BDS,GN,OBC,Allotted
+1514,565825,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1515,566032,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,OBC,Allotted
+1516,566837,MNG,"SATHYABAMA UNIV. Dental College
+and Hospt. Chennai",BDS,GN,OBC,Allotted
+1517,567173,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,OBC,Allotted
+1518,568431,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1519,568503,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,GNNO,Allotted
+1520,568806,MNG,"Santosh Medical College and Hospital,
+Ghaziabad",MBBS,GN,GNNO,Allotted
+1521,568813,MNG,"Dr. DY Patil Dental College and Hosp.
+Pune",BDS,GN,GNNO,Allotted
+1522,568826,MNG,"Sri Ramachandra Dental and Hospt.,
+Chennai",BDS,GN,OBC,Allotted
+1523,569751,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,OBC,Allotted
+1524,570106,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,OBC,Allotted
+1525,570705,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,SC,Allotted
+1526,571317,MNG,"Sree Balaji Dental College and Hospital,
+Chennai",BDS,GN,SC,Allotted
+1527,571630,NRI,"Kalinga Institute of Medical Sciences,
+Bhubaneswar",MBBS,GN,GNNO,Allotted
+1528,571640,MNG,"K M Shah Dental Collegel, SumanDeep
+Vidyapeeth Vadodara",BDS,GN,GNNO,Allotted
+1529,572118,MNG,"JSS Dental College and Hospital,
+Jagadguru",BDS,GN,OBC,Allotted
+1530,572217,MNG,"Santosh Medical College and Hospital,
+Ghaziabad",MBBS,GN,GNNO,Allotted
+1531,572757,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,GNNO,Allotted
+1532,573761,MNG,"Sri Ramachandra Dental and Hospt.,
+Chennai",BDS,GN,OBC,Allotted
+1533,574582,MNG,"Santosh Medical College and Hospital,
+Ghaziabad",MBBS,GN,GNNO,Allotted
+1534,574641,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,OBC,Allotted
+1535,574778,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,SC,Allotted
+1536,574782,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1537,575651,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1538,575988,ESI,"ESIC Medical College, Faridabad",MBBS,GN PwD,GN PwD,Allotted
+1539,576103,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,ST,Allotted
+1540,576393,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,GNNO,Allotted
+1541,577515,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1542,577723,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1543,577758,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1544,577816,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,SC,Allotted
+1545,578167,MNG,"Meenakshi Medical College Host. and
+Res. Inst., Chennai",MBBS,GN,OBC,Allotted
+1546,578445,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,GNNO,Allotted
+1547,578914,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,EW NO,Allotted
+1548,579565,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1549,579869,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1550,580069,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,GNNO,Allotted
+1551,580512,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,GNNO,Allotted
+1552,580609,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,OBC,Allotted
+1553,580670,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1554,581213,MNG,"Sree Balaji Dental College and Hospital,
+Chennai",BDS,GN,OBC,Allotted
+1555,581637,MNG,"Saveetha Dental College, Chennai",BDS,GN,OBC,Allotted
+1556,581788,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,GNNO,Allotted
+1557,581923,NRI,"JLN Medical College, Datta Meghe,
+Wardha",MBBS,GN,GNNO,Allotted
+1558,582344,MNG,"SRM Katt. Dental College and Hospt.
+Chennai",BDS,GN,GNNO,Allotted
+1559,582582,MNG,"Santosh Medical College and Hospital,
+Ghaziabad",MBBS,GN,OBC,Allotted
+1560,582595,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,SC,Allotted
+1561,583144,MNG,"Santosh Medical College and Hospital,
+Ghaziabad",MBBS,GN,OBC,Allotted
+1562,583210,NRI,"SRM Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1563,583263,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1564,583266,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,OBC,Allotted
+1565,584266,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1566,584651,MNG,"Institute of Dental Sciences,
+Bhubaneswar",BDS,GN,GNNO,Allotted
+1567,584931,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1568,585076,MNG,"Meenakshi Medical College Host. and
+Res. Inst., Chennai",MBBS,GN,GNNO,Allotted
+1569,585257,NRI,"VMKV Medical College and Hospital,
+Salem",MBBS,GN,GNNO,Allotted
+1570,586046,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,SC,Allotted
+1571,586290,MNG,"Meenakshi Medical College Host. and
+Res. Inst., Chennai",MBBS,GN,OBC,Allotted
+1572,587321,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1573,587817,MNG,"Meenakshi Medical College Host. and
+Res. Inst., Chennai",MBBS,GN,OBC,Allotted
+1574,588051,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1575,588690,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,GNNO,Allotted
+1576,589321,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,OBC,Allotted
+1577,589571,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,SC,Allotted
+1578,589806,NRI,"Krishna Inst. of Med. Scie., Karad",MBBS,GN,GNNO,Allotted
+1579,590419,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1580,590490,MNG,"BVDU Dental College and Hospital, Navi
+Mumbai",BDS,GN,GNNO,Allotted
+1581,590814,MNG,"Meenakshi Medical College Host. and
+Res. Inst., Chennai",MBBS,GN,OBC,Allotted
+1582,591493,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,OBC,Allotted
+1583,591569,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1584,592004,AMS,"AIIMS, Bhubaneswar",MBBS,EW PwD,EW PwD,Allotted
+1585,592180,MNG,"Meenakshi Medical College Host. and
+Res. Inst., Chennai",MBBS,GN,OBC,Allotted
+1586,592466,NRI,"K.S Hegde Medical Academy, Mangaluru",MBBS,GN,OBC,Allotted
+1587,592763,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,OBC,Allotted
+1588,592995,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,SC,Allotted
+1589,593162,NRI,"Kasturba Medical College, Manipal Univ.,
+Mangalore",MBBS,GN,OBC,Allotted
+1590,593169,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1591,594959,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,GNNO,Allotted
+1592,595069,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1593,595694,NRI,"Krishna Inst. of Med. Scie., Karad",MBBS,GN,OBC,Allotted
+1594,596019,MNG,"Meenakshi Medical College Host. and
+Res. Inst., Chennai",MBBS,GN,OBC,Allotted
+1595,596312,MNG,"Santosh Medical College and Hospital,
+Ghaziabad",MBBS,GN,GNNO,Allotted
+1596,597715,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,GNNO,Allotted
+1597,597928,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1598,598024,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,GNNO,Allotted
+1599,598355,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,GNNO,Allotted
+1600,598370,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1601,598489,MNG,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,GN,OBC,Allotted
+1602,598853,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1603,599226,MNG,"Meenakshi Medical College Host. and
+Res. Inst., Chennai",MBBS,GN,GNNO,Allotted
+1604,599238,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,SC,Allotted
+1605,600477,MNG,"Saveetha Dental College, Chennai",BDS,GN,OBC,Allotted
+1606,602874,MNG,"Santosh Medical College and Hospital,
+Ghaziabad",MBBS,GN,GNNO,Allotted
+1607,602932,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,GNNO,Allotted
+1608,603055,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,SC,Allotted
+1609,603662,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,GNNO,Allotted
+1610,603860,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,SC,Allotted
+1611,604200,MNG,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,GN,OBC,Allotted
+1612,604426,MNG,"Santosh Medical College and Hospital,
+Ghaziabad",MBBS,GN,GNNO,Allotted
+1613,605665,MNG,"SRM Katt. Dental College and Hospt.
+Chennai",BDS,GN,OBC,Allotted
+1614,605887,MNG,"Santosh Medical College and Hospital,
+Ghaziabad",MBBS,GN,GNNO,Allotted
+1615,605902,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,GNNO,Allotted
+1616,605972,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1617,605992,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,GNNO,Allotted
+1618,606209,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,OBC,Allotted
+1619,606331,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1620,607566,NRI,"Yenepoya Dental College, Yenepoya",BDS,GN,OBC,Allotted
+1621,607607,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1622,607742,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,GNNO,Allotted
+1623,609739,MNG,"Saveetha Dental College, Chennai",BDS,GN,OBC,Allotted
+1624,613254,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,GNNO,Allotted
+1625,613305,MNG,"Rural Dental College, Loni",BDS,GN,EW NO,Allotted
+1626,614152,MNG,"Santosh Medical College and Hospital,
+Ghaziabad",MBBS,GN,GNNO,Allotted
+1627,614284,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1628,614864,NRI,"SBKS Med. Inst. and Res. Centre,
+Sumandeep Vidyapeeth",MBBS,GN,SC,Allotted
+1629,615365,NRI,"Krishna Inst. of Med. Scie., Karad",MBBS,GN,GNNO,Allotted
+1630,615416,AMU,"JWAHAR LAL NEHRU M.C. AMU,
+ALIGARH",MBBS,GN PwD,GN PwD,Allotted
+1631,615895,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,GNNO,Allotted
+1632,615960,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,OBC,Allotted
+1633,617392,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,GNNO,Allotted
+1634,617765,MNG,"SRM Katt. Dental College and Hospt.
+Chennai",BDS,GN,GNNO,Allotted
+1635,617928,MNG,"Santosh Medical College and Hospital,
+Ghaziabad",MBBS,GN,OBC,Allotted
+1636,618107,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1637,618279,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,OBC,Allotted
+1638,618293,MNG,"Santosh Medical College and Hospital,
+Ghaziabad",MBBS,GN,GNNO,Allotted
+1639,618630,MNG,"School of Dental Sciences and KIMSDU,
+Karad",BDS,GN,GNNO,Allotted
+1640,619884,MNG,"SATHYABAMA UNIV. Dental College
+and Hospt. Chennai",BDS,GN,OBC,Allotted
+1641,620148,NRI,"JLN Medical College, Datta Meghe,
+Wardha",MBBS,GN,OBC,Allotted
+1642,621067,MNG,"Meenakshi Ammal Dental College and
+Host., Chennai1",BDS,GN,OBC,Allotted
+1643,621234,MNG,"Manipal College of Dental Science,
+Mangalore",BDS,GN,SC,Allotted
+1644,621301,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1645,621372,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1646,621946,MNG,"Kalinga Institute of Dental Sciences,
+Bhubaneswar",BDS,GN,GNNO,Allotted
+1647,622471,MNG,"Santosh Medical College and Hospital,
+Ghaziabad",MBBS,GN,OBC,Allotted
+1648,622849,MNG,"SRM Katt. Dental College and Hospt.
+Chennai",BDS,GN,OBC,Allotted
+1649,624919,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,SC,Allotted
+1650,626342,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1651,626433,MNG,"JSS Dental College and Hospital,
+Jagadguru",BDS,GN,GNNO,Allotted
+1652,627156,MNG,"Institute of Dental Sciences,
+Bhubaneswar",BDS,GN,OBC,Allotted
+1653,627351,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,OBC,Allotted
+1654,627444,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,GNNO,Allotted
+1655,627554,MNG,"Dr. DY Patil Dental College and Hosp.
+Pune",BDS,GN,GNNO,Allotted
+1656,627616,MNG,"Santosh Medical College and Hospital,
+Ghaziabad",MBBS,GN,GNNO,Allotted
+1657,627957,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1658,628283,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,GNNO,Allotted
+1659,629134,MNG,"Meenakshi Ammal Dental College and
+Host., Chennai1",BDS,GN,OBC,Allotted
+1660,629274,NRI,"Institute of Medical Sciences and SUM
+Host., Bhubaneswar",MBBS,GN,GNNO,Allotted
+1661,629737,MNG,"Dr. DY Patil Dental College and Hosp.
+Pune",BDS,GN,GNNO,Allotted
+1662,629944,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1663,630354,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1664,631543,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,SC,Allotted
+1665,632932,MNG,"BVDU Dental College and Hospital, Navi
+Mumbai",BDS,GN,GNNO,Allotted
+1666,633374,MNG,"BVDU Dental College and Hospital, Navi
+Mumbai",BDS,GN,GNNO,Allotted
+1667,633505,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,OBC,Allotted
+1668,636564,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1669,637474,MNG,"MANAV RACHNA DENTAL COLLEGE
+FARIDABAD",BDS,GN,GNNO,Allotted
+1670,637593,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,EW NO,Allotted
+1671,638647,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1672,639403,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,GNNO,Allotted
+1673,640374,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1674,640483,MNG,"Meenakshi Ammal Dental College and
+Host., Chennai1",BDS,GN,SC,Allotted
+1675,641500,MNG,"SATHYABAMA UNIV. Dental College
+and Hospt. Chennai",BDS,GN,OBC,Allotted
+1676,641534,MNG,"Sharad Pawar Dental College and
+Hospital, Wardha",BDS,GN,GNNO,Allotted
+1677,642270,MNG,"Institute of Dental Sciences,
+Bhubaneswar",BDS,GN,OBC,Allotted
+1678,643534,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1679,643801,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,OBC,Allotted
+1680,644361,MNG,"Dr. DY Patil Dental College and Hosp.
+Pune",BDS,GN,GNNO,Allotted
+1681,644495,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,GNNO,Allotted
+1682,645990,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,GNNO,Allotted
+1683,646047,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,GNNO,Allotted
+1684,646290,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,ST,Allotted
+1685,646325,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,SC,Allotted
+1686,647309,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,GNNO,Allotted
+1687,647924,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,OBC,Allotted
+1688,648125,MNG,KLE VK Inst. of Dental Scie. Belagavi,BDS,GN,OBC,Allotted
+1689,649581,MNG,"BVDU Dental College and Hospital,
+Sangli",BDS,GN,GNNO,Allotted
+1690,649603,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1691,650775,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,GNNO,Allotted
+1692,652119,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,SC,Allotted
+1693,652306,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1694,652855,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,GNNO,Allotted
+1695,654015,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1696,654242,MNG,"Sree Balaji Dental College and Hospital,
+Chennai",BDS,GN,OBC,Allotted
+1697,654359,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1698,655056,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1699,655073,NRI,Bharati Vidyapeeth DU Medical College,MBBS,GN,OBC,Allotted
+1700,656425,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,GNNO,Allotted
+1701,657451,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1702,658297,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,OBC,Allotted
+1703,658557,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,GNNO,Allotted
+1704,660170,MNG,"Institute of Dental Sciences,
+Bhubaneswar",BDS,GN,GNNO,Allotted
+1705,660562,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,GNNO,Allotted
+1706,662319,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1707,662570,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1708,664251,MNG,"Sri Ramachandra Dental and Hospt.,
+Chennai",BDS,GN,OBC,Allotted
+1709,665251,MNG,"Institute of Dental Sciences,
+Bhubaneswar",BDS,GN,GNNO,Allotted
+1710,665461,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1711,665670,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1712,666283,NRI,"Yenepoya Dental College, Yenepoya",BDS,GN,OBC,Allotted
+1713,666630,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,GNNO,Allotted
+1714,666804,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1715,668324,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1716,668662,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1717,668713,CW,"Maulana Azad Medical College, New
+Delhi",MBBS,"SC
+(Priority: 6)",SC,Allotted
+1718,669329,MNG,"Dr. DY Patil Dental College and Hosp.
+Pune",BDS,GN,OBC,Allotted
+1719,669726,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,GNNO,Allotted
+1720,670860,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,GNNO,Allotted
+1721,672280,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,SC,Allotted
+1722,673092,MNG,"Sri Siddhartha DentalCollege, Tumkur",BDS,GN,SC,Allotted
+1723,674008,MNG,"Meenakshi Ammal Dental College and
+Host., Chennai1",BDS,GN,SC,Allotted
+1724,674024,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1725,674085,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,OBC,Allotted
+1726,674723,NRI,"Saveetha Medical College, Chennai",MBBS,GN,GNNO,Allotted
+1727,675941,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1728,676055,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,GNNO,Allotted
+1729,676109,MNG,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,GN,GNNO,Allotted
+1730,676308,MNG,KLE VK Inst. of Dental Scie. Belagavi,BDS,GN,ST,Allotted
+1731,676455,MNG,"Saveetha Dental College, Chennai",BDS,GN,OBC,Allotted
+1732,676882,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,OBC,Allotted
+1733,676888,MNG,"Saveetha Dental College, Chennai",BDS,GN,OBC,Allotted
+1734,677184,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,GNNO,Allotted
+1735,677759,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,GNNO,Allotted
+1736,677795,NRI,"SRM Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1737,678774,MNG,"MM College of Dental Scie. and Res.,
+Mullana",BDS,GN,GNNO,Allotted
+1738,679321,MNG,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,GN,GNNO,Allotted
+1739,679598,MNG,"MM College of Dental Scie. and Res.,
+Mullana",BDS,GN,OBC,Allotted
+1740,680331,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,GNNO,Allotted
+1741,681956,MNG,"JSS Dental College and Hospital,
+Jagadguru",BDS,GN,GNNO,Allotted
+1742,682247,MNG,"School of Dental Sciences and KIMSDU,
+Karad",BDS,GN,OBC,Allotted
+1743,684729,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1744,686165,MNG,"Saveetha Dental College, Chennai",BDS,GN,OBC,Allotted
+1745,686344,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1746,688867,MNG,KLE VK Inst. of Dental Scie. Belagavi,BDS,GN,OBC,Allotted
+1747,691108,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1748,694509,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1749,697127,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1750,697398,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1751,700055,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1752,700153,MNG,"Sri Ramachandra Dental and Hospt.,
+Chennai",BDS,GN,OBC,Allotted
+1753,700598,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1754,701772,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1755,701985,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,SC,Allotted
+1756,702006,NRI,"Yenepoya Dental College, Yenepoya",BDS,GN,OBC,Allotted
+1757,702396,MNG,"ACS Medical College and Hospital,
+Chennai",MBBS,GN,OBC,Allotted
+1758,703298,AMS,"AIIMS, Gorakhpur",MBBS,ST PwD,ST PwD,Allotted
+1759,703695,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1760,703792,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1761,704306,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1762,705118,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1763,706362,MNG,"SRM Dental College, Chennai",BDS,GN,OBC,Allotted
+1764,706631,NRI,"Krishna Inst. of Med. Scie., Karad",MBBS,GN,OBC,Allotted
+1765,706764,MNG,"SRM Katt. Dental College and Hospt.
+Chennai",BDS,GN,OBC,Allotted
+1766,706821,MNG,"SATHYABAMA UNIV. Dental College
+and Hospt. Chennai",BDS,GN,OBC,Allotted
+1767,707256,MNG,"AB Shetty Memorial Inst. of Dental Sce.,
+Mangaluru",BDS,GN,OBC,Allotted
+1768,708150,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1769,708155,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1770,708483,MNG,"Rural Dental College, Loni",BDS,GN,OBC,Allotted
+1771,708634,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1772,711836,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1773,711919,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1774,712040,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1775,713112,MNG,"Sri Ramachandra Dental and Hospt.,
+Chennai",BDS,GN,OBC,Allotted
+1776,715016,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1777,715054,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1778,715884,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1779,716338,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1780,718070,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1781,718318,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1782,718509,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,SC,Allotted
+1783,718665,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1784,718977,MNG,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,GN,OBC,Allotted
+1785,723826,MNG,"SRM Katt. Dental College and Hospt.
+Chennai",BDS,GN,OBC,Allotted
+1786,725689,MNG,"Sri Siddhartha DentalCollege, Tumkur",BDS,GN,OBC,Allotted
+1787,727542,MNG,"Sharad Pawar Dental College and
+Hospital, Wardha",BDS,GN,OBC,Allotted
+1788,727573,MNG,"SRM Katt. Dental College and Hospt.
+Chennai",BDS,GN,OBC,Allotted
+1789,727708,NRI,"Jawahar Lal Nehru Medical College,
+Belagavi",MBBS,GN,OBC,Allotted
+1790,731119,NRI,"Yenepoya Dental College, Yenepoya",BDS,GN,OBC,Allotted
+1791,731230,MNG,KLE VK Inst. of Dental Scie. Belagavi,BDS,GN,OBC,Allotted
+1792,734632,MNG,"SATHYABAMA UNIV. Dental College
+and Hospt. Chennai",BDS,GN,OBC,Allotted
+1793,735047,MNG,"Sri Siddhartha DentalCollege, Tumkur",BDS,GN,SC,Allotted
+1794,737383,NRI,"Yenepoya Dental College, Yenepoya",BDS,GN,OBC,Allotted
+1795,737639,MNG,"Meenakshi Ammal Dental College and
+Host., Chennai1",BDS,GN,OBC,Allotted
+1796,737724,MNG,"AB Shetty Memorial Inst. of Dental Sce.,
+Mangaluru",BDS,GN,SC,Allotted
+1797,744300,DU,"University College of Medical Sciences,
+New Delhi",MBBS,GN PwD,GN PwD,Allotted
+1798,746399,MNG,"Sharad Pawar Dental College and
+Hospital, Wardha",BDS,GN,SC,Allotted
+1799,748142,MNG,"AB Shetty Memorial Inst. of Dental Sce.,
+Mangaluru",BDS,GN,OBC,Allotted
+1800,750011,MNG,"Sri Siddhartha DentalCollege, Tumkur",BDS,GN,ST,Allotted
+1801,751790,NRI,"K.S Hegde Medical Academy, Mangaluru",MBBS,GN,OBC,Allotted
+1802,755133,MNG,"Institute of Dental Sciences,
+Bhubaneswar",BDS,GN,OBC,Allotted
+1803,759282,NRI,"Kasturba Medical College, Manipal Univ.,
+Mangalore",MBBS,GN,OBC,Allotted
+1804,760479,MNG,"SRM Katt. Dental College and Hospt.
+Chennai",BDS,GN,OBC,Allotted
+1805,765988,MNG,"Meenakshi Ammal Dental College and
+Host., Chennai1",BDS,GN,SC,Allotted
+1806,771031,MNG,"Sri Ramachandra Dental and Hospt.,
+Chennai",BDS,GN,OBC,Allotted
+1807,772612,NRI,"Yenepoya Dental College, Yenepoya",BDS,GN,OBC,Allotted
+1808,774372,MNG,"AB Shetty Memorial Inst. of Dental Sce.,
+Mangaluru",BDS,GN,OBC,Allotted
+1809,774616,NRI,"Jawahar Lal Nehru Medical College,
+Belagavi",MBBS,GN,SC,Allotted
+1810,775889,MNG,"Rural Dental College, Loni",BDS,GN,OBC,Allotted
+1811,776436,NRI,"Kasturba Medical College, Manipal Univ.,
+Mangalore",MBBS,GN,SC,Allotted
+1812,781196,MNG,"Meenakshi Ammal Dental College and
+Host., Chennai1",BDS,GN,OBC,Allotted
+1813,782921,MNG,"Sri Ramachandra Dental and Hospt.,
+Chennai",BDS,GN,OBC,Allotted
+1814,789732,MNG,"Sree Balaji Dental College and Hospital,
+Chennai",BDS,GN,OBC,Allotted
+1815,797970,MNG,"Manipal College of Dental Science,
+Mangalore",BDS,GN,OBC,Allotted
+1816,798023,MNG,"BVDU Dental College and Hospital,
+Sangli",BDS,GN,OBC,Allotted
+1817,800959,MNG,"JSS Dental College and Hospital,
+Jagadguru",BDS,GN,OBC,Allotted
+1818,804787,NRI,"SDU Medical College, Kolar",MBBS,GN,OBC,Allotted
+1819,805984,MNG,"Meenakshi Ammal Dental College and
+Host., Chennai1",BDS,GN,ST,Allotted
+1820,806817,MNG,"Sri Siddhartha DentalCollege, Tumkur",BDS,GN,SC,Allotted
+1821,814066,MNG,"Sri Siddhartha DentalCollege, Tumkur",BDS,GN,SC,Allotted
+1822,815370,MNG,"AB Shetty Memorial Inst. of Dental Sce.,
+Mangaluru",BDS,GN,OBC,Allotted
+1823,815856,MNG,"SATHYABAMA UNIV. Dental College
+and Hospt. Chennai",BDS,GN,OBC,Allotted
+1824,816709,MNG,"BVDU Dental College and Hospital,
+Sangli",BDS,GN,SC,Allotted

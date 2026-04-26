@@ -1,0 +1,2362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Vidysea – MBBS Admission Guidance India & Abroad | 2026</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#010D24;
+  --navy:#041230;
+  --navy2:#071A42;
+  --blue:#1847CC;
+  --blue2:#2A5FE8;
+  --blue-lt:#5B8AFF;
+  --blue-pale:#EBF0FF;
+  --cyan:#00BAFF;
+  --cyan-pale:#E5F7FF;
+  --white:#FFFFFF;
+  --off:#F4F7FF;
+  --surface:#EBF0FF;
+  --text:#030E28;
+  --mid:#2E4278;
+  --muted:#6375A0;
+  --border:rgba(24,71,204,.1);
+  --radius:14px;
+}
+html{scroll-behavior:smooth}
+body{font-family:Arial,sans-serif;color:var(--text);background:var(--white);overflow-x:hidden;font-size:16px;line-height:1.5}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--ink)}
+::-webkit-scrollbar-thumb{background:var(--blue);border-radius:3px}
+
+/* ─── NAV ─── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:999;
+  height:66px;padding:0 5%;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(6,14,36,.95);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(24,71,204,.15);
+  transition:box-shadow .3s;
+}
+.logo{font-size:23px;font-weight:700;color:#fff;letter-spacing:-.2px}
+.logo span{color:var(--blue2)}
+.logo sup{font-size:10px;color:var(--cyan);font-weight:700;vertical-align:super;margin-left:2px}
+.nav-links{display:flex;gap:26px;list-style:none;align-items:center}
+.nav-links a{color:rgba(255,255,255,.7);text-decoration:none;font-size:14px;transition:color .2s}
+.nav-links a:hover{color:var(--blue-lt)}
+.nav-cta{
+  background:linear-gradient(135deg,#1847CC,#2A5FE8);
+  color:#fff!important;padding:9px 22px;border-radius:7px;
+  font-weight:700!important;font-size:14px!important;
+  transition:opacity .2s,transform .15s!important;
+  box-shadow:0 4px 16px rgba(24,71,204,.3);
+}
+.nav-cta:hover{opacity:.9;transform:translateY(-1px)}
+
+/* ─── HERO ─── */
+.hero{
+  min-height:100vh;position:relative;overflow:hidden;
+  background:var(--ink);
+  display:flex;align-items:center;
+  padding:66px 5% 0;
+}
+.hero-mesh{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 30%,rgba(24,71,204,.2) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 60% at 15% 70%,rgba(0,186,255,.1) 0%,transparent 60%),
+    radial-gradient(ellipse 40% 40% at 50% 50%,rgba(18,32,71,.8) 0%,transparent 70%);
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:linear-gradient(rgba(91,138,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(91,138,255,.06) 1px,transparent 1px);
+  background-size:48px 48px;
+}
+.hero-inner{
+  position:relative;z-index:2;max-width:1240px;margin:0 auto;width:100%;
+  display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;
+  padding:88px 0;
+}
+
+/* Hero Visual Card */
+.hero-visual{}
+.hvc-label{
+  font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.35);margin-bottom:16px;
+}
+.hvc-paths{display:flex;flex-direction:column;gap:0}
+.hvc-path{
+  display:flex;align-items:center;gap:16px;
+  padding:20px 22px;border-radius:12px;cursor:default;
+  transition:background .2s;
+}
+.hvc-india{
+  background:rgba(11,23,57,.8);border:1px solid rgba(138,173,255,.18);
+  border-radius:12px 12px 0 0;
+}
+.hvc-abroad{
+  background:rgba(0,186,255,.08);border:1px solid rgba(0,186,255,.22);
+  border-radius:0 0 12px 12px;border-top:none;
+}
+.hvc-india:hover{background:rgba(11,23,57,1)}
+.hvc-abroad:hover{background:rgba(0,186,255,.13)}
+.hvc-path-icon{font-size:32px;flex-shrink:0}
+.hvc-path-title{font-size:17px;font-weight:700;color:#fff;margin-bottom:3px}
+.hvc-india .hvc-path-title{color:#7BAAFF}
+.hvc-abroad .hvc-path-title{color:var(--cyan)}
+.hvc-path-sub{font-size:13px;color:rgba(255,255,255,.45)}
+.hvc-arrow{margin-left:auto;font-size:20px;color:rgba(255,255,255,.2)}
+.hvc-divider{
+  text-align:center;padding:8px 0;
+  font-size:11px;font-weight:700;letter-spacing:.1em;
+  color:rgba(255,255,255,.25);
+  background:rgba(255,255,255,.03);border-left:1px solid rgba(255,255,255,.06);border-right:1px solid rgba(255,255,255,.06);
+}
+.hvc-footer{
+  display:flex;gap:0;margin-top:16px;
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
+  border-radius:10px;overflow:hidden;
+}
+.hvc-feat{
+  flex:1;text-align:center;padding:12px 8px;
+  font-size:12px;font-weight:600;color:rgba(255,255,255,.5);
+  border-right:1px solid rgba(255,255,255,.06);
+}
+.hvc-feat:last-child{border-right:none}
+.hvc-feat span{color:var(--cyan);margin-right:4px;font-size:13px}
+.h-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(24,71,204,.12);border:1px solid rgba(24,71,204,.3);
+  color:var(--blue-lt);padding:6px 16px;border-radius:100px;
+  font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  margin-bottom:22px;
+}
+.h-pill::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--blue2);flex-shrink:0}
+.hero h1{
+  font-size:clamp(34px,4vw,58px);font-weight:700;
+  line-height:1.1;color:#fff;margin-bottom:20px;letter-spacing:-.5px;
+}
+.hero h1 .g{color:var(--blue2)}
+.hero h1 .t{
+  background:linear-gradient(90deg,var(--cyan),#7FE8FF);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-desc{
+  font-size:16px;line-height:1.8;color:rgba(255,255,255,.62);
+  margin-bottom:14px;max-width:520px;
+}
+.hero-desc b{color:rgba(255,255,255,.88)}
+.hero-sub{
+  font-size:14px;color:rgba(255,255,255,.45);line-height:1.75;
+  margin-bottom:36px;max-width:500px;
+  padding-left:14px;border-left:2px solid rgba(24,71,204,.4);
+}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:40px}
+.btn-gold{
+  background:linear-gradient(135deg,#1847CC,#2A5FE8);
+  color:#fff;padding:14px 28px;border-radius:8px;
+  font-weight:700;font-size:15px;text-decoration:none;border:none;cursor:pointer;
+  box-shadow:0 6px 24px rgba(24,71,204,.4);
+  transition:opacity .2s,transform .15s,box-shadow .2s;
+  display:inline-flex;align-items:center;gap:8px;
+}
+.btn-gold:hover{opacity:.9;transform:translateY(-2px);box-shadow:0 10px 32px rgba(24,71,204,.5)}
+.btn-outline-w{
+  background:transparent;color:#fff;
+  padding:14px 28px;border-radius:8px;
+  font-weight:600;font-size:15px;text-decoration:none;
+  border:1px solid rgba(255,255,255,.25);cursor:pointer;
+  transition:background .2s,border-color .2s,transform .15s;
+  display:inline-flex;align-items:center;gap:8px;
+}
+.btn-outline-w:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.45);transform:translateY(-2px)}
+.hero-chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+  padding:6px 13px;border-radius:100px;
+  font-size:13px;color:rgba(255,255,255,.55);
+}
+.chip::before{content:'✓';color:var(--cyan);font-weight:700;font-size:12px}
+
+/* path tags kept for possible reuse */
+
+/* ─── TRUST BAR ─── */
+.trust-bar{background:linear-gradient(90deg,var(--navy),var(--navy2));border-bottom:1px solid rgba(24,71,204,.12)}
+.trust-inner{max-width:1240px;margin:0 auto;padding:0 5%;display:grid;grid-template-columns:repeat(5,1fr)}
+.t-cell{
+  padding:30px 16px;text-align:center;
+  border-right:1px solid rgba(255,255,255,.06);
+}
+.t-cell:last-child{border-right:none}
+.t-n{font-size:34px;font-weight:700;color:var(--blue2);line-height:1}
+.t-l{font-size:13px;color:rgba(255,255,255,.55);margin-top:5px;font-weight:600}
+
+/* ─── TOOL SECTION ─── */
+.tool-sec{background:var(--ink);padding:88px 0;position:relative;overflow:hidden}
+.tool-sec::before{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(rgba(24,71,204,.07) 1px,transparent 1px);
+  background-size:40px 40px;pointer-events:none;
+}
+.tool-glow{
+  position:absolute;width:700px;height:700px;border-radius:50%;
+  background:radial-gradient(circle,rgba(0,186,255,.12) 0%,transparent 60%);
+  top:-200px;right:-150px;pointer-events:none;
+}
+.tool-glow2{
+  position:absolute;width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(24,71,204,.1) 0%,transparent 60%);
+  bottom:-150px;left:-100px;pointer-events:none;
+}
+.tool-inner{max-width:1240px;margin:0 auto;padding:0 5%;position:relative;z-index:2}
+.tool-header{text-align:center;margin-bottom:48px}
+.tool-eyebrow{
+  display:inline-flex;align-items:center;gap:9px;
+  background:rgba(0,186,255,.12);border:1px solid rgba(0,184,160,.28);
+  color:var(--cyan);padding:7px 18px;border-radius:100px;
+  font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  margin-bottom:20px;
+}
+.tool-eyebrow::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--cyan);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.tool-title{font-size:clamp(26px,3.2vw,44px);font-weight:700;color:#fff;line-height:1.15;margin-bottom:14px;letter-spacing:-.4px}
+.tool-title em{
+  background:linear-gradient(90deg,var(--blue2),var(--blue-lt));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  font-style:normal;
+}
+.tool-sub{font-size:16px;color:rgba(255,255,255,.52);max-width:540px;margin:0 auto;line-height:1.75}
+.tool-chips{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:28px 0 40px}
+.t-chip{
+  display:flex;align-items:center;gap:7px;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+  padding:7px 15px;border-radius:100px;font-size:13px;color:rgba(255,255,255,.6);
+}
+.t-chip b{color:var(--blue2);font-weight:700}
+
+/* iframe container */
+.frame-wrap{
+  border-radius:20px;overflow:hidden;
+  box-shadow:0 40px 100px rgba(0,0,0,.6),0 0 0 1px rgba(24,71,204,.2);
+  background:#010D24;position:relative;
+}
+.frame-topbar{
+  background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.07);
+  padding:12px 20px;display:flex;align-items:center;gap:8px;
+}
+.dot-r{width:12px;height:12px;border-radius:50%;background:#FF5F57;display:inline-block}
+.dot-y{width:12px;height:12px;border-radius:50%;background:#FEBC2E;display:inline-block}
+.dot-g{width:12px;height:12px;border-radius:50%;background:#28C840;display:inline-block}
+.frame-url{
+  flex:1;margin-left:12px;
+  background:rgba(255,255,255,.06);border-radius:5px;
+  padding:5px 12px;font-size:12px;color:rgba(255,255,255,.4);
+  letter-spacing:.01em;
+}
+.frame-ext{
+  font-size:12px;font-weight:700;color:var(--cyan);text-decoration:none;
+  display:flex;align-items:center;gap:5px;white-space:nowrap;
+}
+.frame-ext:hover{color:var(--blue2)}
+.frame-loader{
+  position:absolute;top:46px;left:0;right:0;bottom:0;
+  background:#010D24;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  z-index:5;transition:opacity .5s;
+}
+.spin{
+  width:48px;height:48px;border-radius:50%;
+  border:3px solid rgba(24,71,204,.2);border-top-color:var(--blue2);
+  animation:spin .9s linear infinite;margin-bottom:14px;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.frame-loader p{font-size:14px;color:rgba(255,255,255,.45)}
+.tool-iframe{display:block;width:100%;height:700px;background:#010D24;border:none}
+
+/* ─── INLINE PREDICTOR TOOL (MedScout-style: light surface, indigo accent) ─── */
+.pred-shell{
+  background:#F4F5F9;border-radius:18px;overflow:hidden;
+  border:1px solid rgba(15,23,42,.06);
+  box-shadow:0 30px 80px rgba(0,0,0,.45);
+  position:relative;
+}
+.pred-app{position:relative}
+.pred-topbar{
+  display:flex;align-items:center;gap:18px;padding:14px 22px;
+  background:#fff;border-bottom:1px solid rgba(15,23,42,.06);
+}
+.pred-hide-btn{
+  display:inline-flex;align-items:center;gap:7px;
+  background:#fff;border:1px solid rgba(15,23,42,.1);
+  border-radius:8px;padding:7px 12px;cursor:pointer;
+  font-size:10px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+  color:#1e293b;transition:background .15s,border-color .15s;
+  flex-shrink:0;
+}
+.pred-hide-btn:hover{background:#F4F5F9;border-color:rgba(15,23,42,.18)}
+.pred-hide-btn svg{color:#475569}
+.pred-title-block{flex:1;min-width:0}
+.pred-title{
+  font-size:18px;font-weight:700;color:#0f172a;line-height:1.2;
+  letter-spacing:-.01em;margin:0 0 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.pred-title-sep{color:#94a3b8;font-weight:500}
+.pred-title-em{color:#4F46E5}
+.pred-subtitle{font-size:13px;color:#64748b;margin:0}
+.pred-status-pill{
+  display:inline-flex;align-items:center;gap:6px;flex-shrink:0;
+  background:linear-gradient(135deg,#4F46E5,#6366f1);
+  color:#fff;padding:6px 14px;border-radius:100px;
+  font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+}
+.pred-status-dot{width:6px;height:6px;border-radius:50%;background:#86efac;box-shadow:0 0 8px rgba(134,239,172,.7);animation:pulse 2s ease-in-out infinite}
+
+.pred-app{
+  display:grid;grid-template-columns:300px 1fr;gap:20px;
+  background:#F4F5F9;color:#0f172a;padding:20px;min-height:600px;
+  align-items:start;
+  transition:grid-template-columns .35s ease;
+}
+.pred-app.collapsed{grid-template-columns:0 1fr;gap:14px}
+.pred-app.collapsed .pred-side{
+  width:0;padding:0;margin:0;border:0;
+  opacity:0;pointer-events:none;overflow:hidden;
+}
+.pred-app.collapsed .pred-side-open{display:flex}
+.pred-side{
+  display:flex;flex-direction:column;gap:14px;align-self:start;
+  transition:opacity .25s ease;
+}
+.pred-side-open{
+  display:none;align-items:center;justify-content:center;
+  width:36px;height:36px;border-radius:9px;cursor:pointer;
+  background:#fff;border:1px solid rgba(15,23,42,.12);color:#475569;
+  position:absolute;left:20px;top:20px;
+  box-shadow:0 2px 6px rgba(15,23,42,.06);
+}
+.pred-side-open:hover{background:#F4F5F9}
+
+.pred-form{
+  background:#fff;border:1px solid rgba(15,23,42,.06);
+  border-radius:14px;padding:20px 18px;
+  display:flex;flex-direction:column;gap:11px;
+  box-shadow:0 1px 2px rgba(15,23,42,.04);
+}
+.pred-header{display:flex;align-items:center;gap:11px;margin-bottom:4px}
+.pred-ai-badge{
+  width:34px;height:34px;border-radius:9px;flex-shrink:0;
+  background:linear-gradient(135deg,#4F46E5,#6366f1);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;color:#fff;
+  box-shadow:0 4px 12px rgba(99,102,241,.3);
+}
+.pred-h1{font-size:13px;font-weight:800;color:#0f172a;letter-spacing:.04em;text-transform:uppercase;margin:0}
+.pred-h2{font-size:10px;color:#94a3b8;margin-top:2px}
+
+.pred-toggle{
+  display:grid;grid-template-columns:1fr 1fr;gap:3px;
+  background:#F1F1F5;border:1px solid rgba(15,23,42,.05);
+  border-radius:10px;padding:3px;
+}
+.pred-tab{
+  padding:8px 0;border-radius:7px;border:none;cursor:pointer;
+  font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  background:transparent;color:#94a3b8;transition:all .18s;
+}
+.pred-tab.active{
+  background:#fff;color:#4F46E5;
+  box-shadow:0 2px 6px rgba(15,23,42,.08);
+}
+
+.pred-lbl{
+  display:block;font-size:10px;font-weight:700;letter-spacing:.09em;
+  text-transform:uppercase;color:#64748b;margin:6px 0 5px;
+}
+.pred-req{color:#ef4444}
+.pred-in{
+  width:100%;background:#F8F9FC;
+  border:1px solid rgba(15,23,42,.08);border-radius:9px;
+  padding:10px 13px;color:#0f172a;font-size:13px;outline:none;
+  box-sizing:border-box;font-family:inherit;
+  transition:border-color .15s,box-shadow .15s,background .15s;
+}
+.pred-in:focus{border-color:#6366f1;background:#fff;box-shadow:0 0 0 3px rgba(99,102,241,.12)}
+.pred-in::placeholder{color:#94a3b8}
+.pred-in option{background:#fff;color:#0f172a}
+.pred-grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+/* Custom searchable countries dropdown */
+.pred-country-wrap{position:relative}
+.pred-country-trigger{
+  width:100%;display:flex;align-items:center;justify-content:space-between;
+  background:#F8F9FC;border:1px solid rgba(15,23,42,.08);border-radius:9px;
+  padding:9px 13px;cursor:pointer;color:#0f172a;font-size:13px;
+  font-family:inherit;transition:border-color .15s,box-shadow .15s;
+}
+.pred-country-trigger:focus,.pred-country-trigger.open{
+  outline:none;border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.12);
+}
+.pred-country-placeholder{color:#94a3b8;font-style:italic}
+.pred-country-chev{color:#94a3b8;flex-shrink:0;transition:transform .2s}
+.pred-country-trigger.open .pred-country-chev{transform:rotate(180deg)}
+.pred-country-chips{display:flex;flex-wrap:wrap;gap:5px;align-items:center;flex:1;min-width:0;text-align:left}
+.pred-country-chip{
+  display:inline-flex;align-items:center;gap:5px;
+  background:#EEF2FF;border:1px solid rgba(99,102,241,.25);
+  color:#4338CA;font-size:11px;font-weight:700;
+  padding:2px 8px;border-radius:5px;
+}
+.pred-country-chip-x{cursor:pointer;color:#6366f1;font-size:13px;line-height:1}
+.pred-country-chip-x:hover{color:#4338CA}
+.pred-country-panel{
+  position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:30;
+  background:#fff;border:1px solid rgba(15,23,42,.1);border-radius:11px;
+  box-shadow:0 16px 40px rgba(15,23,42,.15);overflow:hidden;
+}
+.pred-country-search-wrap{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 12px;border-bottom:1px solid rgba(15,23,42,.06);
+  background:#F8F9FC;
+}
+.pred-country-search-wrap svg{color:#94a3b8;flex-shrink:0}
+.pred-country-search-wrap input{
+  flex:1;border:none;outline:none;background:transparent;
+  font-size:12px;font-family:inherit;color:#0f172a;
+}
+.pred-country-search-wrap input::placeholder{color:#94a3b8}
+.pred-country-list{max-height:240px;overflow-y:auto}
+.pred-country-item{
+  padding:9px 14px;cursor:pointer;font-size:12px;color:#1e293b;
+  display:flex;align-items:center;justify-content:space-between;
+  text-transform:uppercase;letter-spacing:.04em;
+}
+.pred-country-item:hover{background:#F4F5F9}
+.pred-country-item.selected{color:#4F46E5;background:#EEF2FF;font-weight:700}
+.pred-country-item-check{width:8px;height:8px;border-radius:50%;background:#6366f1;flex-shrink:0}
+
+.pred-submit{
+  margin-top:6px;width:100%;padding:13px;border-radius:9px;border:none;
+  background:#0f172a;
+  color:#fff;font-size:11px;font-weight:800;letter-spacing:.16em;
+  text-transform:uppercase;cursor:pointer;
+  transition:background .15s,transform .12s;
+}
+.pred-submit:hover{background:#1e293b;transform:translateY(-1px)}
+.pred-submit:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.pred-secondary{
+  width:100%;padding:9px;border-radius:9px;
+  background:#fff;border:1px solid rgba(15,23,42,.1);
+  color:#475569;font-size:9px;font-weight:800;letter-spacing:.14em;
+  text-transform:uppercase;cursor:pointer;
+  transition:background .15s,border-color .15s;
+}
+.pred-secondary:hover{background:#F4F5F9;border-color:rgba(15,23,42,.18)}
+
+.pred-confidence{
+  background:linear-gradient(135deg,#4F46E5,#6366f1);
+  border-radius:14px;padding:18px 18px 16px;color:#fff;
+  box-shadow:0 8px 24px rgba(99,102,241,.25);
+}
+.pred-conf-eyebrow{
+  display:flex;align-items:center;gap:7px;
+  font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.85);margin-bottom:14px;
+}
+.pred-conf-dot{width:7px;height:7px;border-radius:50%;background:#86efac;box-shadow:0 0 8px rgba(134,239,172,.7)}
+.pred-conf-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:4px}
+.pred-conf-value{font-size:32px;font-weight:800;font-family:ui-monospace,Consolas,monospace;letter-spacing:.05em;line-height:1;margin-bottom:14px}
+.pred-conf-note{font-size:11px;line-height:1.55;color:rgba(255,255,255,.6);font-style:italic;margin:0}
+
+.pred-results{
+  background:#fff;border:1px solid rgba(15,23,42,.06);
+  border-radius:14px;padding:0;overflow:hidden;color:#0f172a;
+  box-shadow:0 1px 2px rgba(15,23,42,.04);
+}
+.pred-empty,.pred-loading,.pred-error{
+  padding:64px 32px;text-align:center;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:520px;
+}
+.pred-empty-ic{color:#C7D2FE;margin-bottom:18px}
+.pred-empty-h,.pred-loading-h{
+  font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;
+  color:#94a3b8;margin-bottom:8px;
+}
+.pred-empty-p,.pred-loading-p{font-size:13px;color:#94a3b8;max-width:380px;line-height:1.6}
+.pred-loading-spin{
+  width:42px;height:42px;border-radius:50%;
+  border:3px solid #E0E7FF;border-top-color:#6366f1;
+  animation:spin .9s linear infinite;margin-bottom:18px;
+}
+.pred-error{background:#FEF2F2}
+.pred-error-h{color:#b91c1c;font-weight:800;text-transform:uppercase;font-size:12px;letter-spacing:.1em}
+
+.pred-results-inner{padding:22px}
+.pred-analysis{
+  background:linear-gradient(135deg,#0f172a,#1e1b4b);
+  border:1px solid rgba(99,102,241,.25);
+  border-radius:13px;padding:18px 20px;margin-bottom:18px;
+}
+.pred-analysis-eyebrow{
+  display:flex;align-items:center;gap:7px;margin-bottom:10px;
+  font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#A5B4FC;
+}
+.pred-analysis-text{font-size:14px;line-height:1.65;color:rgba(255,255,255,.9);margin:0}
+
+.pred-table-wrap{
+  border:1px solid rgba(15,23,42,.06);border-radius:13px;overflow:hidden;
+  background:#fff;
+}
+.pred-table-head{
+  padding:13px 18px;border-bottom:1px solid rgba(15,23,42,.06);background:#F8F9FC;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;
+}
+.pred-table-title{
+  font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:#64748b;
+}
+.pred-currency{
+  display:inline-flex;background:#fff;
+  border:1px solid rgba(15,23,42,.08);border-radius:8px;padding:2px;gap:2px;
+}
+.pred-currency button{
+  padding:4px 12px;border-radius:6px;border:none;cursor:pointer;
+  font-size:10px;font-weight:800;background:transparent;color:#94a3b8;
+}
+.pred-currency button.active{background:#4F46E5;color:#fff}
+.pred-table{width:100%;border-collapse:collapse;text-align:left;font-size:12px}
+.pred-table thead tr{background:#F8F9FC;border-bottom:1px solid rgba(15,23,42,.06)}
+.pred-table th{
+  padding:10px 14px;font-size:10px;font-weight:800;text-transform:uppercase;
+  letter-spacing:.08em;color:#475569;white-space:nowrap;
+}
+.pred-table td{padding:12px 14px;color:#475569;border-bottom:1px solid rgba(15,23,42,.05);vertical-align:top}
+.pred-table tbody tr:hover{background:#F8F9FC;cursor:pointer}
+.pred-uname{color:#0f172a;font-weight:700;display:block}
+.pred-uloc{font-size:10px;color:#94a3b8;margin-top:2px;display:block}
+.pred-tag{
+  display:inline-block;padding:3px 9px;border-radius:5px;
+  font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;
+}
+.pred-tag-safe{background:#ECFDF5;color:#047857;border:1px solid #A7F3D0}
+.pred-tag-good{background:#EEF2FF;color:#4338CA;border:1px solid #C7D2FE}
+.pred-tag-reach{background:#FFFBEB;color:#B45309;border:1px solid #FCD34D}
+.pred-tag-stretch{background:#FFF1F2;color:#BE123C;border:1px solid #FECDD3}
+.pred-tag-nmc{background:#ECFDF5;color:#047857;border:1px solid #A7F3D0}
+.pred-roi-bar{display:inline-flex;align-items:center;gap:7px}
+.pred-roi-track{width:38px;height:5px;background:#E0E7FF;border-radius:3px;overflow:hidden}
+.pred-roi-fill{height:100%;background:#6366f1}
+.pred-roi-num{font-weight:800;color:#4338CA;font-size:12px}
+.pred-clip{display:inline-block;max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;vertical-align:middle}
+
+.pred-footbar{
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;
+  padding:12px 22px;background:#fff;border-top:1px solid rgba(15,23,42,.06);
+  font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#94a3b8;
+}
+.pred-footbar-right{display:inline-flex;align-items:center;gap:8px}
+.pred-foot-dot{width:6px;height:6px;border-radius:50%;background:#22c55e;display:inline-block}
+.pred-foot-sep{color:#cbd5e1;font-weight:400}
+
+@media(max-width:900px){
+  .pred-app{grid-template-columns:1fr;padding:14px;gap:14px}
+  .pred-app.collapsed{grid-template-columns:1fr}
+  .pred-side-open{position:static;margin-bottom:8px}
+  .pred-topbar{flex-wrap:wrap;gap:10px}
+  .pred-status-pill{order:3}
+}
+
+.tool-cta-row{text-align:center;margin-top:28px}
+.tool-cta-row p{font-size:14px;color:rgba(255,255,255,.38);margin-bottom:12px}
+
+/* ─── SECTION BASE ─── */
+.sec-pad{padding:88px 0}
+.wrap{max-width:1240px;margin:0 auto;padding:0 5%}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--blue);margin-bottom:14px;
+}
+.eyebrow::before{content:'';width:22px;height:3px;background:var(--blue);border-radius:2px;flex-shrink:0}
+.eyebrow-teal{color:var(--cyan)}
+.eyebrow-teal::before{background:var(--cyan)}
+h2.st{font-size:clamp(26px,3vw,40px);font-weight:700;line-height:1.2;color:var(--text);margin-bottom:12px;letter-spacing:-.3px}
+h2.st em{color:var(--blue);font-style:normal}
+h2.st span{color:var(--cyan)}
+h2.st-w{color:#fff}
+h2.st-w em{color:var(--blue-lt)}
+p.desc{font-size:16px;color:var(--muted);line-height:1.8;max-width:580px}
+p.desc-w{color:rgba(255,255,255,.55)}
+
+/* ─── SOLUTION ─── */
+.solution{background:var(--white)}
+.sol-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:52px}
+.sol-card{border-radius:18px;padding:38px 34px;position:relative;overflow:hidden}
+.sol-india{background:var(--navy);border:1px solid rgba(138,173,255,.12)}
+.sol-abroad{background:var(--blue-pale);border:1px solid rgba(24,71,204,.2)}
+.sol-icon{
+  width:52px;height:52px;border-radius:13px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;margin-bottom:18px;
+}
+.sol-icon-india{background:rgba(24,71,204,.15)}
+.sol-icon-abroad{background:rgba(0,186,255,.15)}
+.sol-card h3{font-size:22px;font-weight:700;margin-bottom:18px}
+.sol-india h3{color:#fff}
+.sol-abroad h3{color:var(--navy)}
+.sol-list{list-style:none}
+.sol-list li{
+  font-size:15px;line-height:1.6;padding:9px 0;
+  border-bottom:1px solid rgba(255,255,255,.07);
+  display:flex;align-items:flex-start;gap:10px;
+}
+.sol-abroad .sol-list li{border-color:rgba(10,22,40,.08);color:var(--mid)}
+.sol-india .sol-list li{color:rgba(255,255,255,.72)}
+.sol-list li::before{content:'→';flex-shrink:0;margin-top:1px;font-size:13px}
+.sol-india .sol-list li::before{color:var(--blue2)}
+.sol-abroad .sol-list li::before{color:var(--cyan)}
+.sol-list li:last-child{border-bottom:none}
+
+/* ─── WHY VIDYSEA ─── */
+.why{background:var(--off)}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.why-feats{display:grid;gap:12px;margin-top:36px}
+.wf{
+  display:flex;align-items:flex-start;gap:14px;
+  background:var(--white);border-radius:12px;padding:16px 18px;
+  border:1px solid var(--border);
+  transition:border-color .2s,transform .2s,box-shadow .2s;
+}
+.wf:hover{border-color:rgba(24,71,204,.4);transform:translateX(5px);box-shadow:0 4px 20px rgba(24,71,204,.08)}
+.wf-ic{
+  width:40px;height:40px;border-radius:9px;flex-shrink:0;
+  background:var(--blue-pale);display:flex;align-items:center;justify-content:center;font-size:18px;
+}
+.wf-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:3px}
+.wf-desc{font-size:13px;color:var(--muted);line-height:1.55}
+.why-panel{
+  background:var(--navy);border-radius:20px;padding:32px;
+  border:1px solid rgba(24,71,204,.12);
+  position:relative;overflow:hidden;
+}
+.why-panel::after{
+  content:'VICTORY';
+  position:absolute;bottom:-20px;right:-10px;
+  font-size:96px;font-weight:700;color:rgba(24,71,204,.04);
+  letter-spacing:-.05em;line-height:1;pointer-events:none;white-space:nowrap;
+}
+.wp-title{font-size:17px;font-weight:700;color:#fff;margin-bottom:22px}
+.wp-row{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.wp-label{font-size:13px;color:rgba(255,255,255,.5);min-width:120px}
+.wp-bar-bg{flex:1;height:8px;background:rgba(255,255,255,.08);border-radius:100px}
+.wp-bar{height:8px;border-radius:100px;background:linear-gradient(90deg,#1847CC,#5B8AFF)}
+.wp-pct{font-size:12px;font-weight:700;color:var(--blue2);min-width:38px;text-align:right}
+.wp-quote{
+  margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,.08);
+  font-size:14px;color:rgba(255,255,255,.5);font-style:italic;line-height:1.7;
+}
+.wp-quote strong{color:var(--blue-lt);font-style:normal}
+
+/* ─── AUDIENCE ─── */
+.audience{background:var(--white)}
+.aud-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:52px}
+.aud-card{
+  border-radius:16px;padding:34px;border:1px solid var(--border);
+  position:relative;overflow:hidden;
+}
+.aud-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px}
+.aud-students::before{background:linear-gradient(90deg,#1847CC,#5B8AFF)}
+.aud-parents::before{background:linear-gradient(90deg,var(--cyan),#7FE8FF)}
+.aud-icon{font-size:38px;margin-bottom:14px}
+.aud-card h3{font-size:22px;font-weight:700;color:var(--text);margin-bottom:18px}
+.aud-pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{padding:6px 13px;border-radius:100px;font-size:13px;font-weight:600}
+.pill-g{background:var(--blue-pale);color:#1847CC;border:1px solid rgba(24,71,204,.2)}
+.pill-t{background:var(--cyan-pale);color:#005880;border:1px solid rgba(0,186,255,.2)}
+
+/* ─── QUESTIONS ─── */
+.questions{background:var(--navy)}
+.q-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:52px}
+.q-item{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;padding:22px 20px;
+  transition:background .2s,border-color .2s;cursor:default;
+}
+.q-item:hover{background:rgba(24,71,204,.07);border-color:rgba(24,71,204,.25)}
+.q-n{font-size:11px;font-weight:700;color:var(--blue2);letter-spacing:.07em;margin-bottom:9px;text-transform:uppercase}
+.q-text{font-size:15px;color:rgba(255,255,255,.82);line-height:1.55}
+
+/* ─── INDIA MBBS ─── */
+.india-sec{background:var(--off)}
+.india-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:22px;margin-top:52px}
+.india-card{background:var(--white);border-radius:14px;padding:26px 22px;border:1px solid var(--border)}
+.india-card h4{font-size:15px;font-weight:700;color:var(--text);margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid var(--blue-pale)}
+.india-list{list-style:none}
+.india-list li{
+  font-size:14px;color:var(--mid);padding:7px 0;
+  border-bottom:1px solid var(--border);display:flex;gap:9px;align-items:flex-start;line-height:1.45;
+}
+.india-list li:last-child{border-bottom:none}
+.india-list li::before{content:'•';color:var(--blue);font-size:16px;flex-shrink:0;line-height:1.3}
+.india-banner{
+  grid-column:1/-1;
+  background:linear-gradient(135deg,#041230,#071A42);
+  border-radius:14px;padding:28px 32px;
+  display:flex;align-items:center;justify-content:space-between;gap:24px;
+  border:1px solid rgba(24,71,204,.15);
+}
+.ib-text h4{font-size:18px;font-weight:700;color:#fff;margin-bottom:6px}
+.ib-text p{font-size:14px;color:rgba(255,255,255,.5)}
+.btn-sm-gold{
+  background:linear-gradient(135deg,#1847CC,#2A5FE8);
+  color:#fff;padding:11px 24px;border-radius:8px;
+  font-weight:700;font-size:14px;text-decoration:none;white-space:nowrap;
+  transition:opacity .2s,transform .15s;display:inline-block;
+}
+.btn-sm-gold:hover{opacity:.9;transform:translateY(-1px)}
+
+/* ─── ABROAD MBBS ─── */
+.abroad-sec{background:var(--white)}
+.abroad-groups{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:52px}
+.ag{background:var(--off);border-radius:14px;padding:26px 22px;border:1px solid var(--border)}
+.ag-head{
+  font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);
+}
+.ag-budget .ag-head{color:var(--cyan)}
+.ag-premium .ag-head{color:var(--blue)}
+.ag-popular .ag-head{color:#2A5FE8}
+.ag-item{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 0;border-bottom:1px solid var(--border);
+  font-size:14px;color:var(--mid);font-weight:500;
+}
+.ag-item:last-child{border-bottom:none}
+.ag-item .flag{font-size:20px}
+.ag-badge{
+  margin-left:auto;font-size:11px;font-weight:700;
+  padding:2px 8px;border-radius:4px;
+}
+.badge-pop{background:rgba(0,186,255,.12);color:#006B8A}
+.badge-eu{background:rgba(24,71,204,.12);color:var(--blue)}
+
+/* ─── SCHOLARSHIP / LOAN ─── */
+.fin-sec{background:linear-gradient(135deg,var(--navy) 0%,#0E1E48 100%);padding:88px 0;position:relative;overflow:hidden}
+.fin-sec::before{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(rgba(24,71,204,.06) 1px,transparent 1px);
+  background-size:36px 36px;pointer-events:none;
+}
+.fin-glow{
+  position:absolute;width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(0,186,255,.1) 0%,transparent 65%);
+  top:-100px;right:-100px;pointer-events:none;
+}
+.fin-inner{max-width:1240px;margin:0 auto;padding:0 5%;position:relative;z-index:2}
+.fin-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:52px}
+.fin-card{
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+  border-radius:18px;padding:36px 32px;
+  transition:background .2s,border-color .2s;
+  position:relative;overflow:hidden;
+}
+.fin-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.fin-scholarship::before{background:linear-gradient(90deg,#1847CC,#5B8AFF)}
+.fin-loan::before{background:linear-gradient(90deg,var(--cyan),#7FE8FF)}
+.fin-card:hover{background:rgba(255,255,255,.07);border-color:rgba(24,71,204,.2)}
+.fin-icon{font-size:36px;margin-bottom:16px}
+.fin-phase{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;margin-bottom:8px}
+.fin-scholarship .fin-phase{color:var(--blue2)}
+.fin-loan .fin-phase{color:var(--cyan)}
+.fin-card h3{font-size:22px;font-weight:700;color:#fff;margin-bottom:14px}
+.fin-card p{font-size:14px;color:rgba(255,255,255,.58);line-height:1.75;margin-bottom:18px}
+.fin-list{list-style:none}
+.fin-list li{
+  font-size:14px;color:rgba(255,255,255,.65);
+  padding:7px 0;border-bottom:1px solid rgba(255,255,255,.07);
+  display:flex;align-items:flex-start;gap:9px;line-height:1.45;
+}
+.fin-list li:last-child{border-bottom:none}
+.fin-scholarship .fin-list li::before{content:'🏅';font-size:13px;flex-shrink:0;margin-top:1px}
+.fin-loan .fin-list li::before{content:'🏦';font-size:13px;flex-shrink:0;margin-top:1px}
+.fin-banner{
+  grid-column:1/-1;
+  background:rgba(24,71,204,.1);border:1px solid rgba(24,71,204,.25);
+  border-radius:14px;padding:24px 28px;
+  display:flex;align-items:center;gap:20px;
+}
+.fin-banner-icon{font-size:32px;flex-shrink:0}
+.fin-banner p{font-size:14px;color:rgba(255,255,255,.65);line-height:1.7}
+.fin-banner strong{color:var(--blue-lt)}
+
+/* ─── PROCESS ─── */
+.process-sec{background:var(--off)}
+.process-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:52px;position:relative}
+.process-grid::before{
+  content:'';position:absolute;top:34px;
+  left:calc(10% + 28px);right:calc(10% + 28px);
+  height:2px;background:linear-gradient(90deg,var(--blue),rgba(24,71,204,.15));
+  z-index:0;
+}
+.p-step{text-align:center;padding:0 10px;position:relative;z-index:1}
+.p-circle{
+  width:68px;height:68px;border-radius:50%;
+  background:var(--white);border:2px solid var(--blue);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 18px;font-size:22px;
+  box-shadow:0 0 0 8px rgba(24,71,204,.07);
+  transition:background .2s,transform .2s;
+}
+.p-step:hover .p-circle{background:var(--blue-pale);transform:scale(1.05)}
+.p-n{font-size:11px;font-weight:700;color:var(--blue);letter-spacing:.08em;margin-bottom:7px;text-transform:uppercase}
+.p-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px;line-height:1.35}
+.p-desc{font-size:13px;color:var(--muted);line-height:1.6}
+
+/* ─── TRUST SIGNALS ─── */
+.trust-signals{background:var(--white)}
+.ts-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:48px}
+.ts-card{
+  text-align:center;padding:30px 20px;
+  background:var(--off);border-radius:14px;border:1px solid var(--border);
+  transition:border-color .2s,transform .2s;
+}
+.ts-card:hover{border-color:rgba(24,71,204,.35);transform:translateY(-4px)}
+.ts-icon{font-size:36px;margin-bottom:12px}
+.ts-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px}
+.ts-desc{font-size:13px;color:var(--muted);line-height:1.55}
+
+/* ─── SERVICES ROADMAP ─── */
+.services-sec{background:var(--off)}
+.svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:52px}
+.svc{
+  background:var(--white);border-radius:14px;padding:26px 22px;
+  border:1px solid var(--border);border-top:3px solid transparent;
+  transition:transform .2s,box-shadow .2s;
+}
+.svc:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(10,22,40,.1)}
+.svc:nth-child(1){border-top-color:var(--blue)}
+.svc:nth-child(2){border-top-color:var(--cyan)}
+.svc:nth-child(3){border-top-color:#2A5FE8}
+.svc:nth-child(4){border-top-color:var(--cyan)}
+.svc-phase{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}
+.svc:nth-child(1) .svc-phase{color:var(--blue)}
+.svc:nth-child(2) .svc-phase{color:var(--cyan)}
+.svc:nth-child(3) .svc-phase{color:#2A5FE8}
+.svc:nth-child(4) .svc-phase{color:var(--cyan)}
+.svc-icon{font-size:28px;margin-bottom:12px}
+.svc h4{font-size:16px;font-weight:700;color:var(--text);margin-bottom:14px}
+.svc-list{list-style:none}
+.svc-list li{
+  font-size:13px;color:var(--muted);padding:6px 0;
+  border-bottom:1px solid var(--border);line-height:1.45;
+  display:flex;align-items:flex-start;gap:7px;
+}
+.svc-list li::before{content:'→';font-size:12px;color:var(--blue);flex-shrink:0;margin-top:1px}
+.svc-list li:last-child{border-bottom:none}
+
+/* ─── FAQ ─── */
+.faq-sec{background:var(--white)}
+.faq-wrap{display:grid;grid-template-columns:1fr 1fr;gap:0 52px;margin-top:52px}
+.faq-item{padding:20px 0;border-bottom:1px solid var(--border);cursor:pointer}
+.faq-q{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.faq-q span{font-size:15px;font-weight:600;color:var(--text);line-height:1.4}
+.faq-ico{
+  width:28px;height:28px;border-radius:50%;flex-shrink:0;
+  background:var(--blue-pale);border:1px solid rgba(24,71,204,.25);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;color:var(--blue);font-weight:700;
+  transition:transform .2s,background .2s;
+}
+.faq-item.open .faq-ico{transform:rotate(45deg);background:var(--blue);color:#fff;border-color:var(--blue)}
+.faq-a{
+  font-size:14px;color:var(--muted);line-height:1.75;
+  max-height:0;overflow:hidden;transition:max-height .3s,padding .3s;
+}
+.faq-item.open .faq-a{max-height:200px;padding-top:12px}
+
+/* ─── FINAL CTA ─── */
+.final-cta{
+  background:var(--ink);padding:100px 5%;
+  text-align:center;position:relative;overflow:hidden;
+}
+.cta-glow{
+  position:absolute;width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(24,71,204,.12) 0%,transparent 65%);
+  top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;
+}
+.cta-ring{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:500px;height:500px;border-radius:50%;
+  border:1px solid rgba(24,71,204,.08);pointer-events:none;
+}
+.cta-inner{position:relative;z-index:2;max-width:740px;margin:0 auto}
+.cta-pre{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(24,71,204,.1);border:1px solid rgba(91,138,255,.3);
+  color:var(--blue-lt);padding:6px 16px;border-radius:100px;
+  font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:22px;
+}
+.final-cta h2{
+  font-size:clamp(28px,3.8vw,50px);font-weight:700;color:#fff;
+  line-height:1.15;margin-bottom:14px;letter-spacing:-.4px;
+}
+.final-cta h2 em{color:var(--blue2);font-style:normal}
+.final-cta p{font-size:16px;color:rgba(255,255,255,.52);margin-bottom:38px;line-height:1.75}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.cta-checks{
+  display:flex;gap:20px;justify-content:center;flex-wrap:wrap;
+  margin-top:30px;
+}
+.cta-check{font-size:13px;color:rgba(255,255,255,.4);display:flex;align-items:center;gap:6px}
+.cta-check::before{content:'✓';color:var(--cyan);font-weight:700}
+
+/* ─── FOOTER ─── */
+footer{
+  background:#000810;padding:30px 5%;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+  border-top:1px solid rgba(255,255,255,.05);
+}
+.f-logo{font-size:20px;font-weight:700;color:#fff}
+.f-logo span{color:var(--blue2)}
+.f-links{display:flex;gap:20px;flex-wrap:wrap}
+.f-links a{font-size:13px;color:rgba(255,255,255,.35);text-decoration:none;transition:color .2s}
+.f-links a:hover{color:rgba(255,255,255,.7)}
+.f-copy{font-size:13px;color:rgba(255,255,255,.22)}
+
+/* ─── ANIMATIONS ─── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+.rd1{transition-delay:.1s}.rd2{transition-delay:.2s}.rd3{transition-delay:.3s}.rd4{transition-delay:.4s}
+
+@media(max-width:960px){
+  .hero-inner,.sol-grid,.why-grid,.aud-grid,.india-grid,.abroad-groups,.fin-grid,.svc-grid,.faq-wrap,.ts-grid{grid-template-columns:1fr}
+  .trust-inner{grid-template-columns:repeat(3,1fr)}
+  .q-grid{grid-template-columns:1fr 1fr}
+  .process-grid{grid-template-columns:1fr;gap:20px}
+  .process-grid::before{display:none}
+  .nav-links{display:none}
+  .india-banner{flex-direction:column;text-align:center}
+  .fin-banner{flex-direction:column;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav id="nav">
+  <div class="logo">Vidy<span>sea</span><sup>®</sup></div>
+  <ul class="nav-links">
+    <li><a href="#tool">Find University</a></li>
+    <li><a href="#india">MBBS India</a></li>
+    <li><a href="#abroad">MBBS Abroad</a></li>
+    <li><a href="#finance">Scholarships</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#" class="nav-cta" onclick="openLeadForm(event)">Free Counselling</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-mesh"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="h-pill">India's #1 MBBS Admission Advisory · 2026</div>
+      <h1>Become a Doctor<br/>with the <span class="g">Right Guidance</span><br/>for <span class="t">MBBS 2026</span></h1>
+      <p class="hero-desc">Confused between <b>MBBS in India or Abroad</b> after NEET? Vidysea helps students and parents make smart medical admission decisions through transparent counselling, verified options, and complete admission support.</p>
+      <p class="hero-sub">Whether you are targeting India private colleges, deemed universities, or affordable international MBBS pathways — we help you choose the best route based on your score, budget, and future goals.</p>
+      <div class="hero-btns">
+        <a href="#" class="btn-gold" onclick="openLeadForm(event)">✦ Get Free Counselling</a>
+        <a href="#tool" class="btn-outline-w">Find University →</a>
+      </div>
+      <div class="hero-chips">
+        <div class="chip">25,000+ Students Guided</div>
+        <div class="chip">NMC-Verified Only</div>
+        <div class="chip">Zero Hidden Costs</div>
+        <div class="chip">End-to-End Support</div>
+      </div>
+    </div>
+    <div class="hero-visual reveal rd1">
+      <div class="hero-img-card">
+        <div class="hvc-label">Trusted by students across India</div>
+        <div class="hvc-paths">
+          <div class="hvc-path hvc-india">
+            <div class="hvc-path-icon">🇮🇳</div>
+            <div>
+              <div class="hvc-path-title">MBBS in India</div>
+              <div class="hvc-path-sub">Govt · Private · Deemed</div>
+            </div>
+            <div class="hvc-arrow">→</div>
+          </div>
+          <div class="hvc-divider">vs</div>
+          <div class="hvc-path hvc-abroad">
+            <div class="hvc-path-icon">🌍</div>
+            <div>
+              <div class="hvc-path-title">MBBS Abroad</div>
+              <div class="hvc-path-sub">59+ Countries · NMC Listed</div>
+            </div>
+            <div class="hvc-arrow">→</div>
+          </div>
+        </div>
+        <div class="hvc-footer">
+          <div class="hvc-feat"><span>✓</span> Transparent Costs</div>
+          <div class="hvc-feat"><span>✓</span> Verified Universities</div>
+          <div class="hvc-feat"><span>✓</span> End-to-End Support</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TRUST BAR ── -->
+<div class="trust-bar">
+  <div class="trust-inner">
+    <div class="t-cell"><div class="t-n counter" data-target="25000" data-suf="+">25,000+</div><div class="t-l">Students Guided</div></div>
+    <div class="t-cell"><div class="t-n counter" data-target="800" data-suf="+">800+</div><div class="t-l">Partner Universities</div></div>
+    <div class="t-cell"><div class="t-n counter" data-target="95" data-suf="%">95%</div><div class="t-l">Admission Success Rate</div></div>
+    <div class="t-cell"><div class="t-n counter" data-target="59" data-suf="+">59+</div><div class="t-l">Countries Covered</div></div>
+    <div class="t-cell"><div class="t-n">10+</div><div class="t-l">Years Trusted</div></div>
+  </div>
+</div>
+
+<!-- ── TOOL SECTION ── -->
+<section class="tool-sec" id="tool">
+  <div class="tool-glow"></div>
+  <div class="tool-glow2"></div>
+  <div class="tool-inner">
+    <div class="tool-header reveal">
+      <div class="tool-eyebrow">AI-Powered · Live Tool</div>
+      <h2 class="tool-title">Find Your <em>Perfect MBBS University</em><br/>in Under 60 Seconds</h2>
+      <p class="tool-sub">Enter your NEET score, budget, and destination preference — our predictor instantly matches you with the best verified MBBS universities in India and abroad.</p>
+    </div>
+    <div class="tool-chips reveal rd1">
+      <div class="t-chip"><b>800+</b> Verified Universities</div>
+      <div class="t-chip"><b>NMC</b> Recognised Only</div>
+      <div class="t-chip"><b>Score + Budget</b> Matched</div>
+      <div class="t-chip"><b>Free</b> &amp; Instant Results</div>
+      <div class="t-chip"><b>India &amp; Abroad</b> Combined</div>
+    </div>
+    <div class="pred-shell reveal rd2">
+      <!-- Top header: title + Hide Panel + AI Analysis Active pill -->
+      <div class="pred-topbar">
+        <button type="button" id="pred-panel-toggle" class="pred-hide-btn" aria-label="Toggle panel">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+          <span id="pred-panel-toggle-label">Hide Panel</span>
+        </button>
+        <div class="pred-title-block">
+          <h3 class="pred-title">MedScout AI <span class="pred-title-sep">//</span> <span class="pred-title-em">MBBS Global Predictor</span></h3>
+          <p class="pred-subtitle">Finding the best medical universities for your rank.</p>
+        </div>
+        <div class="pred-status-pill"><span class="pred-status-dot"></span>AI Analysis Active</div>
+      </div>
+
+      <div id="predictor-app" class="pred-app">
+        <!-- LEFT: Form + Confidence engine -->
+        <aside id="pred-side" class="pred-side">
+          <form id="predictor-form" class="pred-form">
+            <div class="pred-header">
+              <div class="pred-ai-badge">AI</div>
+              <div>
+                <div class="pred-h1">Advanced Predictor</div>
+                <div class="pred-h2">2026 Intake Grounding Active</div>
+              </div>
+            </div>
+
+            <div class="pred-toggle">
+              <button type="button" class="pred-tab" data-dest="India">India</button>
+              <button type="button" class="pred-tab active" data-dest="Global">Global</button>
+            </div>
+
+            <label class="pred-lbl">AIR Score / Rank <span class="pred-req">*</span></label>
+            <div class="pred-grid2">
+              <input type="number" name="neetScore" max="720" placeholder="Score" class="pred-in" />
+              <input type="number" name="neetRank" placeholder="Rank" class="pred-in" />
+            </div>
+
+            <label class="pred-lbl">Max Budget (Total)</label>
+            <select name="budgetInUSD" class="pred-in">
+              <option value="">Select Range</option>
+              <option value="18000">₹15L – ₹25L</option>
+              <option value="30000">₹25L – ₹40L</option>
+              <option value="48000">₹40L – ₹60L</option>
+              <option value="80000">₹60L+</option>
+            </select>
+
+            <!-- Global: searchable countries dropdown -->
+            <div data-show-when="Global">
+              <label class="pred-lbl">Preferred Countries</label>
+              <div id="pred-countries" class="pred-country-wrap">
+                <button type="button" id="pred-country-trigger" class="pred-country-trigger">
+                  <span id="pred-country-label" class="pred-country-placeholder">Global search...</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="pred-country-chev"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div id="pred-country-panel" class="pred-country-panel" hidden>
+                  <div class="pred-country-search-wrap">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <input type="text" id="pred-country-search" placeholder="Find country..." autocomplete="off" />
+                  </div>
+                  <div id="pred-country-list" class="pred-country-list"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- India only -->
+            <div data-show-when="India" style="display:none">
+              <label class="pred-lbl">Category / Quota</label>
+              <select name="category" class="pred-in">
+                <option value="OPEN">General / OPEN</option>
+                <option value="OBC">OBC</option>
+                <option value="SC">SC</option>
+                <option value="ST">ST</option>
+                <option value="EWS">EWS</option>
+                <option value="OPEN_PWD">General-PWD</option>
+                <option value="OBC_PWD">OBC-PWD</option>
+              </select>
+
+              <label class="pred-lbl">Home State (for State Quota)</label>
+              <select name="domicileState" class="pred-in">
+                <option value="">Select state</option>
+                <option>Andhra Pradesh</option><option>Bihar</option><option>Delhi</option>
+                <option>Gujarat</option><option>Haryana</option><option>Karnataka</option>
+                <option>Kerala</option><option>Madhya Pradesh</option><option>Maharashtra</option>
+                <option>Odisha</option><option>Punjab</option><option>Rajasthan</option>
+                <option>Tamil Nadu</option><option>Telangana</option><option>Uttar Pradesh</option>
+                <option>West Bengal</option><option>Puducherry</option>
+              </select>
+            </div>
+
+            <label class="pred-lbl">Other Preferences</label>
+            <textarea name="otherPreferences" rows="2" class="pred-in"
+              placeholder="e.g. Need Indian food availability, specific city etc."></textarea>
+
+            <button type="submit" class="pred-submit">Find My College</button>
+          </form>
+
+          <!-- Confidence Engine card -->
+          <div class="pred-confidence">
+            <div class="pred-conf-eyebrow"><span class="pred-conf-dot"></span>Confidence Engine</div>
+            <div class="pred-conf-label">Selection Confidence</div>
+            <div id="pred-conf-value" class="pred-conf-value">- - -</div>
+            <p class="pred-conf-note">AI evaluates 150+ data points per university including clinical volume and FMGE pass rates.</p>
+          </div>
+        </aside>
+
+        <!-- Re-open button (visible only when panel is hidden) -->
+        <button type="button" id="pred-side-open" class="pred-side-open" hidden aria-label="Show panel">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+
+        <!-- RIGHT: Results -->
+        <div id="predictor-results" class="pred-results">
+          <div class="pred-empty">
+            <div class="pred-empty-ic">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </div>
+            <div class="pred-empty-h">Waiting for Data Input</div>
+            <div class="pred-empty-p">Fill in your NEET details on the left to begin the optimized college search.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer status strip -->
+      <div class="pred-footbar">
+        <span>Database last updated: April 2026 // NExT/NMC Guidelines v3.0</span>
+        <span class="pred-footbar-right">
+          <span class="pred-foot-dot"></span> Gemini 2.5 Flash Engine Active
+          <span class="pred-foot-sep">|</span>
+          Grounded Research Mode: Verified 2026-27
+        </span>
+      </div>
+    </div>
+    <div class="tool-cta-row reveal">
+      <p>Not sure how to use the tool? Our counsellors will help you find the right fit personally.</p>
+      <a href="#" class="btn-gold" style="display:inline-flex" onclick="openLeadForm(event)">Talk to a Counsellor →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── OUR SOLUTION ── -->
+<section class="sec-pad solution" id="solution">
+  <div class="wrap">
+    <div class="eyebrow reveal">Our Solution</div>
+    <h2 class="st reveal rd1">One Trusted Platform for <em>MBBS in India & Abroad</em></h2>
+    <p class="desc reveal rd2">We simplify the entire journey through structured counselling and end-to-end support — whether you're targeting India or an international pathway.</p>
+    <div class="sol-grid">
+      <div class="sol-card sol-india reveal">
+        <div class="sol-icon sol-icon-india">🇮🇳</div>
+        <h3>MBBS in India</h3>
+        <ul class="sol-list">
+          <li>Private medical college guidance</li>
+          <li>State and Central Counselling support</li>
+          <li>Seat mapping &amp; fee planning</li>
+          <li>Guidance for management and other eligible quotas, where applicable</li>
+        </ul>
+      </div>
+      <div class="sol-card sol-abroad reveal rd1">
+        <div class="sol-icon sol-icon-abroad">🌍</div>
+        <h3>MBBS Abroad</h3>
+        <ul class="sol-list">
+          <li>Country &amp; university comparisons</li>
+          <li>Verified admission process only</li>
+          <li>Visa &amp; documentation support</li>
+          <li>Pre-departure assistance</li>
+          <li>Settlement &amp; ongoing support</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHY VIDYSEA ── -->
+<section class="sec-pad why" id="why">
+  <div class="wrap">
+    <div class="why-grid">
+      <div>
+        <div class="eyebrow reveal">Why Vidysea</div>
+        <h2 class="st reveal rd1">We Stand for <em>Student Victory</em></h2>
+        <p class="desc reveal rd2">We are a trusted medical admissions advisory platform that helps students choose the right path in India or abroad based on facts, fitment, budget, and future outcomes — not commissions.</p>
+        <div class="why-feats">
+          <div class="wf reveal"><div class="wf-ic">🔍</div><div><div class="wf-title">Transparent Fee Structures</div><div class="wf-desc">Full cost breakdowns before you commit — no hidden charges, no surprises.</div></div></div>
+          <div class="wf reveal rd1"><div class="wf-ic">✅</div><div><div class="wf-title">Verified Universities Only</div><div class="wf-desc">Every partner institution is NMC-compliant and thoroughly vetted.</div></div></div>
+          <div class="wf reveal rd2"><div class="wf-ic">🎯</div><div><div class="wf-title">Personalised Shortlist Based on Profile</div><div class="wf-desc">Your NEET score, budget, and goals drive every single recommendation.</div></div></div>
+          <div class="wf reveal rd3"><div class="wf-ic">👨‍👩‍👧</div><div><div class="wf-title">Parent-Friendly Guidance Process</div><div class="wf-desc">We keep parents informed, involved, and confident at every stage.</div></div></div>
+        </div>
+      </div>
+      <div class="reveal rd2">
+        <div class="why-panel">
+          <div class="wp-title">Our Track Record</div>
+          <div class="wp-row"><div class="wp-label">Admission Success</div><div class="wp-bar-bg"><div class="wp-bar" style="width:95%"></div></div><div class="wp-pct">95%</div></div>
+          <div class="wp-row"><div class="wp-label">Visa Approvals</div><div class="wp-bar-bg"><div class="wp-bar" style="width:92%"></div></div><div class="wp-pct">92%</div></div>
+          <div class="wp-row"><div class="wp-label">Parent Satisfaction</div><div class="wp-bar-bg"><div class="wp-bar" style="width:97%"></div></div><div class="wp-pct">97%</div></div>
+          <div class="wp-row"><div class="wp-label">Cost Accuracy</div><div class="wp-bar-bg"><div class="wp-bar" style="width:100%"></div></div><div class="wp-pct">100%</div></div>
+          <div class="wp-row"><div class="wp-label">Student Placements</div><div class="wp-bar-bg"><div class="wp-bar" style="width:93%"></div></div><div class="wp-pct">Strong</div></div>
+          <div class="wp-quote">"Vidysea helped us make the right decision without any pressure. We got complete transparency on every cost upfront." — <strong>Parent, Tbilisi, Georgia · 2026</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── AUDIENCE ── -->
+<section class="sec-pad audience" id="audience">
+  <div class="wrap">
+    <div class="eyebrow reveal">Who We Help</div>
+    <h2 class="st reveal rd1">Built for <em>Students</em> & <span>Parents</span></h2>
+    <p class="desc reveal rd2">Whether you're a NEET aspirant navigating options or a parent focused on ROI and long-term stability — we have structured support for you.</p>
+    <div class="aud-grid">
+      <div class="aud-card aud-students reveal">
+        <div class="aud-icon">🎓</div>
+        <h3>For Students</h3>
+        <div class="aud-pills">
+          <span class="pill pill-g">NEET Appearing</span>
+          <span class="pill pill-g">NEET Qualified</span>
+          <span class="pill pill-g">Repeaters / Gap Year</span>
+          <span class="pill pill-g">No Government Seat Yet</span>
+          <span class="pill pill-g">India vs Abroad Comparison</span>
+        </div>
+      </div>
+      <div class="aud-card aud-parents reveal rd1">
+        <div class="aud-icon">👨‍👩‍👧</div>
+        <h3>For Parents</h3>
+        <div class="aud-pills">
+          <span class="pill pill-t">ROI-Focused Families</span>
+          <span class="pill pill-t">Budget-Sensitive</span>
+          <span class="pill pill-t">Long-Term Stability</span>
+          <span class="pill pill-t">Degree Validity Concerns</span>
+          <span class="pill pill-t">Transparent Cost Planning</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── QUESTIONS ── -->
+<section class="sec-pad questions" id="questions">
+  <div class="wrap">
+    <div class="eyebrow eyebrow-teal reveal">Real Questions</div>
+    <h2 class="st st-w reveal rd1">Questions We Help <em>You Solve</em></h2>
+    <p class="desc desc-w reveal rd2">These are the real questions every student and parent asks. We have honest, clear answers to all of them.</p>
+    <div class="q-grid">
+      <div class="q-item reveal"><div class="q-n">01</div><div class="q-text">Can I still become a doctor this year?</div></div>
+      <div class="q-item reveal rd1"><div class="q-n">02</div><div class="q-text">India private or Abroad: what is smarter?</div></div>
+      <div class="q-item reveal rd2"><div class="q-n">03</div><div class="q-text">What is the total cost across 5.5 years?</div></div>
+      <div class="q-item reveal"><div class="q-n">04</div><div class="q-text">Can I return to India and practice after MBBS Abroad?</div></div>
+      <div class="q-item reveal rd1"><div class="q-n">05</div><div class="q-text">Which college suits my score and budget?</div></div>
+      <div class="q-item reveal rd2"><div class="q-n">06</div><div class="q-text">What are PG &amp; job opportunities later?</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── MBBS INDIA ── -->
+<section class="sec-pad india-sec" id="india">
+  <div class="wrap">
+    <div class="eyebrow reveal">MBBS in India</div>
+    <h2 class="st reveal rd1"><em>India MBBS</em> Guidance</h2>
+    <p class="desc reveal rd2">From government college counselling to private seat strategy — we help you navigate every aspect of the India MBBS admission landscape.</p>
+    <div class="india-grid">
+      <div class="india-card reveal">
+        <h4>🏛️ Institutions Covered</h4>
+        <ul class="india-list">
+          <li>Government medical colleges</li>
+          <li>Private medical colleges</li>
+          <li>Deemed universities</li>
+          <li>Semi-government options</li>
+        </ul>
+      </div>
+      <div class="india-card reveal rd1">
+        <h4>📚 We Help You Understand</h4>
+        <ul class="india-list">
+          <li>NEET cut-offs by college &amp; category</li>
+          <li>State &amp; Central counselling process</li>
+          <li>Tuition &amp; hostel fee ranges</li>
+          <li>Bond policies &amp; internship structure</li>
+          <li>PG environment &amp; total course cost</li>
+        </ul>
+      </div>
+      <div class="india-card reveal rd2">
+        <h4>✅ Why Students Choose India</h4>
+        <ul class="india-list">
+          <li>Direct Indian practice route</li>
+          <li>Familiar environment &amp; culture</li>
+          <li>No relocation stress</li>
+          <li>Strong clinical exposure</li>
+        </ul>
+      </div>
+      <div class="india-banner reveal">
+        <div class="ib-text">
+          <h4>Need help with State or Central Counselling?</h4>
+          <p>Our counsellors guide you through every round — from seat allotment to final admission.</p>
+        </div>
+        <a href="#cta" class="btn-sm-gold">Get India Guidance →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── MBBS ABROAD ── -->
+<section class="sec-pad abroad-sec" id="abroad">
+  <div class="wrap">
+    <div class="eyebrow eyebrow-teal reveal">MBBS Abroad</div>
+    <h2 class="st reveal rd1">Top <em>MBBS Destinations</em> for Indian Students</h2>
+    <p class="desc reveal rd2">Explore verified MBBS destinations across three tiers — matched to your budget, NEET score, and career goals.</p>
+    <div class="abroad-groups">
+      <div class="ag ag-budget reveal">
+        <div class="ag-head">💚 Budget-Friendly Countries</div>
+        <div class="ag-item"><span class="flag">🇷🇺</span> Russia <span class="ag-badge badge-pop">Most Popular</span></div>
+        <div class="ag-item"><span class="flag">🇰🇿</span> Kazakhstan</div>
+        <div class="ag-item"><span class="flag">🇰🇬</span> Kyrgyzstan</div>
+        <div class="ag-item"><span class="flag">🇺🇿</span> Uzbekistan</div>
+        <div class="ag-item"><span class="flag">🇹🇯</span> Tajikistan</div>
+      </div>
+      <div class="ag ag-premium reveal rd1">
+        <div class="ag-head">⭐ Premium Europe Options</div>
+        <div class="ag-item"><span class="flag">🇭🇺</span> Hungary <span class="ag-badge badge-eu">EU Degree</span></div>
+        <div class="ag-item"><span class="flag">🇱🇹</span> Lithuania</div>
+        <div class="ag-item"><span class="flag">🇱🇻</span> Latvia</div>
+        <div class="ag-item"><span class="flag">🇵🇱</span> Poland</div>
+        <div class="ag-item"><span class="flag">🇬🇪</span> Georgia <span class="ag-badge badge-pop">Established</span></div>
+      </div>
+      <div class="ag ag-popular reveal rd2">
+        <div class="ag-head">🌟 Popular New MBBS Destinations</div>
+        <div class="ag-item"><span class="flag">🇦🇲</span> Armenia</div>
+        <div class="ag-item"><span class="flag">🇧🇧</span> Barbados</div>
+        <div class="ag-item"><span class="flag">🇲🇳</span> Mongolia</div>
+        <div class="ag-item" style="font-size:13px;color:var(--muted);padding:10px 0">+ 50 more countries available</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:36px" class="reveal">
+      <a href="#tool" class="btn-gold">Compare Universities via Predictor Tool →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── SCHOLARSHIP + LOAN ── -->
+<section class="fin-sec" id="finance">
+  <div class="fin-glow"></div>
+  <div class="fin-inner">
+    <div class="eyebrow eyebrow-teal reveal">Financial Support</div>
+    <h2 class="st st-w reveal rd1">Make MBBS <em>Financially Easier</em></h2>
+    <p class="desc desc-w reveal rd2">Vidysea helps students explore scholarships, grants, and education loans — so finances never become a barrier to your medical dream.</p>
+    <div class="fin-grid">
+      <div class="fin-card fin-scholarship reveal">
+        <div class="fin-icon">🏅</div>
+        <div class="fin-phase">Scholarship Assistance</div>
+        <h3>Unlock Funding Opportunities</h3>
+        <p>Studying MBBS in India or abroad becomes more affordable with the right scholarship opportunities. Vidysea helps students explore merit scholarships, tuition discounts, university grants, and country-specific scholarship programs.</p>
+        <ul class="fin-list">
+          <li>Merit-based scholarships by university</li>
+          <li>Country-specific government grants</li>
+          <li>Tuition discounts &amp; institutional awards</li>
+          <li>Application preparation &amp; profiling support</li>
+          <li>Maximise funding based on academic profile</li>
+        </ul>
+      </div>
+      <div class="fin-card fin-loan reveal rd1">
+        <div class="fin-icon">🏦</div>
+        <div class="fin-phase">Education Loan Assistance</div>
+        <h3>Simplify Your Loan Journey</h3>
+        <p>Funding your MBBS in India or abroad is easier with Vidysea's expert education loan support. We assist students through every step — from eligibility checks and bank selection to documentation and faster approvals.</p>
+        <ul class="fin-list">
+          <li>Eligibility check &amp; lender comparison</li>
+          <li>Full documentation support</li>
+          <li>Co-applicant &amp; collateral guidance</li>
+          <li>Application filing &amp; follow-up</li>
+          <li>Covers tuition, hostel, travel &amp; expenses</li>
+        </ul>
+      </div>
+      <div class="fin-banner reveal">
+        <div class="fin-banner-icon">💡</div>
+        <p>Whether you're targeting India private colleges or international MBBS universities, Vidysea helps you <strong>unlock financial support with confidence</strong> — with transparent guidance and smooth processing so students can focus on their future.</p>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:36px" class="reveal">
+      <a href="#" class="btn-gold" style="display:inline-flex" onclick="openLeadForm(event)">Explore Financial Options →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROCESS ── -->
+<section class="sec-pad process-sec" id="process">
+  <div class="wrap">
+    <div class="eyebrow reveal">How It Works</div>
+    <h2 class="st reveal rd1">Our <em>5-Stage</em> Guidance Process</h2>
+    <p class="desc reveal rd2">From your first query to settling in on Day 1 at college — we're with you at every step with structured, proven support.</p>
+    <div class="process-grid">
+      <div class="p-step reveal">
+        <div class="p-circle">🔍</div>
+        <div class="p-n">Stage 01</div>
+        <div class="p-title">Discovery</div>
+        <div class="p-desc">NEET score, budget, preferred country, university choices, and career goals assessed.</div>
+      </div>
+      <div class="p-step reveal rd1">
+        <div class="p-circle">⚖️</div>
+        <div class="p-n">Stage 02</div>
+        <div class="p-title">Evaluation</div>
+        <div class="p-desc">Compare Indian colleges, abroad universities, costs, and future pathways objectively.</div>
+      </div>
+      <div class="p-step reveal rd2">
+        <div class="p-circle">💡</div>
+        <div class="p-n">Stage 03</div>
+        <div class="p-title">Counselling</div>
+        <div class="p-desc">Expert recommendations based on your score, budget, and goals — with shortlist.</div>
+      </div>
+      <div class="p-step reveal rd3">
+        <div class="p-circle">📋</div>
+        <div class="p-n">Stage 04</div>
+        <div class="p-title">Admission Execution</div>
+        <div class="p-desc">Application filing, documentation, seat confirmation, and visa / counselling support.</div>
+      </div>
+      <div class="p-step reveal">
+        <div class="p-circle">🏫</div>
+        <div class="p-n">Stage 05</div>
+        <div class="p-title">Onboarding</div>
+        <div class="p-desc">Hostel support, travel planning, orientation, and parent assistance.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TRUST SIGNALS ── -->
+<section class="sec-pad trust-signals" id="trust">
+  <div class="wrap">
+    <div class="eyebrow reveal">Why Families Trust Us</div>
+    <h2 class="st reveal rd1">Built on <em>Transparency & Proof</em></h2>
+    <p class="desc reveal rd2">Every claim we make is backed by documentation, student stories, and verifiable outcomes.</p>
+    <div class="ts-grid">
+      <div class="ts-card reveal"><div class="ts-icon">📄</div><div class="ts-title">Transparent Fee Sheets</div><div class="ts-desc">Full itemised cost breakdowns for every partner university before you decide.</div></div>
+      <div class="ts-card reveal rd1"><div class="ts-icon">🎓</div><div class="ts-title">Real Student Testimonials</div><div class="ts-desc">Verified reviews from students and parents — with names, universities, and years.</div></div>
+      <div class="ts-card reveal rd2"><div class="ts-icon">📁</div><div class="ts-title">Official University Documents</div><div class="ts-desc">Offer letter proof, visa success stories, and university accreditation documents.</div></div>
+      <div class="ts-card reveal rd3"><div class="ts-icon">💬</div><div class="ts-title">Honest Counselling Notes</div><div class="ts-desc">We tell you what works — and also what to avoid. No pressure, no hidden agenda.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SERVICES ROADMAP ── -->
+<section class="sec-pad services-sec" id="services">
+  <div class="wrap">
+    <div class="eyebrow reveal">Complete Support</div>
+    <h2 class="st reveal rd1">With You at <em>Every Stage</em></h2>
+    <p class="desc reveal rd2">Our support extends far beyond admission — from your first profile evaluation to your ongoing career roadmap.</p>
+    <div class="svc-grid">
+      <div class="svc reveal">
+        <div class="svc-phase">Pre-Admission</div>
+        <div class="svc-icon">🔎</div>
+        <h4>Discovery & Planning</h4>
+        <ul class="svc-list">
+          <li>Profile evaluation</li>
+          <li>University shortlist</li>
+          <li>Full cost planning</li>
+          <li>Parent counselling</li>
+        </ul>
+      </div>
+      <div class="svc reveal rd1">
+        <div class="svc-phase">Admission Phase</div>
+        <div class="svc-icon">📁</div>
+        <h4>Application & Execution</h4>
+        <ul class="svc-list">
+          <li>Application processing</li>
+          <li>Documentation review</li>
+          <li>Interview preparation</li>
+          <li>Offer letter support</li>
+        </ul>
+      </div>
+      <div class="svc reveal rd2">
+        <div class="svc-phase">Post Admission</div>
+        <div class="svc-icon">✈️</div>
+        <h4>Departure & Settling</h4>
+        <ul class="svc-list">
+          <li>Visa processing support</li>
+          <li>Hostel assistance</li>
+          <li>Travel planning</li>
+          <li>Pre-departure briefing</li>
+        </ul>
+      </div>
+      <div class="svc reveal rd3">
+        <div class="svc-phase">Ongoing Support</div>
+        <div class="svc-icon">🩺</div>
+        <h4>Long-Term Welfare</h4>
+        <ul class="svc-list">
+          <li>Student welfare support</li>
+          <li>Renewal reminders</li>
+          <li>Career roadmap guidance</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ── -->
+<section class="sec-pad faq-sec" id="faq">
+  <div class="wrap">
+    <div class="eyebrow reveal">FAQ</div>
+    <h2 class="st reveal rd1">Frequently Asked <em>Questions</em></h2>
+    <div class="faq-wrap">
+      <div>
+        <div class="faq-item reveal" onclick="toggleFaq(this)"><div class="faq-q"><span>Is an MBBS abroad valid in India?</span><div class="faq-ico">+</div></div><div class="faq-a">Yes, subject to prevailing regulations and licensing pathways such as NMC norms and required exams (NExT). Vidysea only partners with NMC-listed universities.</div></div>
+        <div class="faq-item reveal" onclick="toggleFaq(this)"><div class="faq-q"><span>Can I get MBBS admission with a low NEET score?</span><div class="faq-ico">+</div></div><div class="faq-a">Yes, depending on your score, budget, and seat availability in India or abroad. Many reputed universities accept a range of qualifying NEET scores. We help match you with the best-fit options.</div></div>
+        <div class="faq-item reveal" onclick="toggleFaq(this)"><div class="faq-q"><span>Is MBBS abroad safe for Indian students?</span><div class="faq-ico">+</div></div><div class="faq-a">Yes, when you choose verified universities in the right countries. Vidysea only recommends institutions in countries with established Indian student communities and strong support networks.</div></div>
+      </div>
+      <div>
+        <div class="faq-item reveal" onclick="toggleFaq(this)"><div class="faq-q"><span>What is cheaper — India private or abroad?</span><div class="faq-ico">+</div></div><div class="faq-a">It depends on the college and country. In many cases, abroad can be more affordable than Indian private and deemed university fees. We provide full cost comparisons for every option.</div></div>
+        <div class="faq-item reveal" onclick="toggleFaq(this)"><div class="faq-q"><span>Do you help parents understand costs clearly?</span><div class="faq-ico">+</div></div><div class="faq-a">Yes. We provide transparent, itemised cost planning including tuition, hostel, travel, visa, and miscellaneous — so families can plan with complete financial clarity from Day 1.</div></div>
+        <div class="faq-item reveal" onclick="toggleFaq(this)"><div class="faq-q"><span>What are PG and job opportunities after MBBS abroad?</span><div class="faq-ico">+</div></div><div class="faq-a">After clearing NExT/FMGE, you can appear for NEET-PG in India just like any domestic MBBS graduate. We provide career roadmap guidance during and after your MBBS to plan ahead.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FINAL CTA ── -->
+<section class="final-cta" id="cta">
+  <div class="cta-glow"></div>
+  <div class="cta-ring"></div>
+  <div class="cta-inner">
+    <div class="cta-pre">2026 Admissions Now Open</div>
+    <h2>Your Medical Career Should Not<br/>Depend on <em>Confusion</em></h2>
+    <p>Get expert MBBS admission guidance for India or Abroad today.<br/>Choose smartly. Save time. Avoid costly mistakes.</p>
+    <div class="cta-btns">
+      <a href="#" class="btn-gold" onclick="openLeadForm(event)">✦ Book Free Counselling</a>
+      <a href="#tool" class="btn-outline-w">Compare My Options →</a>
+      <a href="#" class="btn-outline-w" onclick="openLeadForm(event)">Talk to an Expert →</a>
+    </div>
+    <div class="cta-checks">
+      <div class="cta-check">100% Free First Session</div>
+      <div class="cta-check">No Obligation</div>
+      <div class="cta-check">Expert Counsellors</div>
+      <div class="cta-check">Transparent & Honest</div>
+      <div class="cta-check">India & Abroad Covered</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="f-logo">Vidy<span>sea</span></div>
+  <div class="f-links">
+    <a href="#tool">Find University</a>
+    <a href="#india">MBBS India</a>
+    <a href="#abroad">MBBS Abroad</a>
+    <a href="#finance">Scholarships</a>
+    <a href="#process">Process</a>
+    <a href="#faq">FAQ</a>
+  </div>
+  <div class="f-copy">© 2026 Vidysea. All rights reserved.</div>
+</footer>
+
+<script>
+// ── Scroll reveal
+const io = new IntersectionObserver(e => e.forEach(el => { if(el.isIntersecting) el.target.classList.add('in'); }), {threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// ── Counters
+function runCount(el) {
+  const t = parseInt(el.dataset.target), s = el.dataset.suf || '+';
+  let c = 0; const step = t / (1600 / 16);
+  const tm = setInterval(() => {
+    c = Math.min(c + step, t);
+    el.textContent = (t >= 1000 ? Math.round(c).toLocaleString('en-IN') : Math.round(c)) + s;
+    if (c >= t) clearInterval(tm);
+  }, 16);
+}
+const cio = new IntersectionObserver(e => e.forEach(el => {
+  if(el.isIntersecting && !el.dataset.done) { el.dataset.done=1; runCount(el); }
+}), {threshold:.5});
+document.querySelectorAll('.counter').forEach(el => cio.observe(el));
+
+// ── FAQ
+function toggleFaq(el) {
+  const open = el.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!open) el.classList.add('open');
+}
+
+// ── Nav shadow
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').style.boxShadow = scrollY > 40 ? '0 4px 40px rgba(0,0,0,.45)' : 'none';
+});
+</script>
+<!-- ══════════════════════════════════════
+     LEAD CAPTURE MODAL
+══════════════════════════════════════ -->
+<style>
+/* ── Overlay ── */
+#leadModal{
+  display:none;position:fixed;inset:0;z-index:9999;
+  align-items:center;justify-content:center;padding:16px;
+}
+#leadModal.active{display:flex}
+
+.modal-backdrop{
+  position:absolute;inset:0;
+  background:rgba(3,9,30,.82);
+  backdrop-filter:blur(10px);
+  animation:fadeIn .25s ease;
+}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* ── Dialog ── */
+.modal-dialog{
+  position:relative;z-index:2;
+  width:100%;max-width:480px;
+  background:#041230;
+  border-radius:20px;
+  border:1px solid rgba(24,71,204,.25);
+  box-shadow:0 40px 100px rgba(0,0,0,.7),0 0 0 1px rgba(24,71,204,.1);
+  overflow:hidden;
+  animation:slideUp .3s cubic-bezier(.16,1,.3,1);
+}
+@keyframes slideUp{from{opacity:0;transform:translateY(32px) scale(.97)}to{opacity:1;transform:none}}
+
+/* ── Modal Header ── */
+.modal-header{
+  background:linear-gradient(135deg,#0E1E48,#071A42);
+  padding:28px 32px 24px;
+  border-bottom:1px solid rgba(24,71,204,.12);
+  position:relative;
+}
+.modal-logo{font-size:18px;font-weight:700;color:#fff;margin-bottom:10px;font-family:Arial,sans-serif}
+.modal-logo span{color:var(--blue2)}
+.modal-header h3{
+  font-size:22px;font-weight:700;color:#fff;
+  line-height:1.2;margin-bottom:6px;font-family:Arial,sans-serif;letter-spacing:-.3px;
+}
+.modal-header p{font-size:14px;color:rgba(255,255,255,.5);line-height:1.55;font-family:Arial,sans-serif}
+.modal-close{
+  position:absolute;top:18px;right:20px;
+  width:32px;height:32px;border-radius:50%;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;color:rgba(255,255,255,.5);cursor:pointer;
+  transition:background .2s,color .2s;font-family:Arial,sans-serif;
+  line-height:1;
+}
+.modal-close:hover{background:rgba(255,255,255,.14);color:#fff}
+
+/* ── Gold accent bar ── */
+.modal-accent{height:3px;background:linear-gradient(90deg,#1847CC,#5B8AFF,#1847CC)}
+
+/* ── Form body ── */
+.modal-body{padding:28px 32px 32px;font-family:Arial,sans-serif}
+
+.lf-group{margin-bottom:18px}
+.lf-label{
+  display:block;font-size:12px;font-weight:700;
+  color:rgba(255,255,255,.6);letter-spacing:.06em;text-transform:uppercase;
+  margin-bottom:8px;font-family:Arial,sans-serif;
+}
+.lf-input,.lf-select{
+  width:100%;padding:12px 15px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:9px;color:#fff;font-size:15px;font-family:Arial,sans-serif;
+  outline:none;transition:border-color .2s,background .2s;
+  appearance:none;-webkit-appearance:none;
+}
+.lf-input:focus,.lf-select:focus{
+  border-color:rgba(91,138,255,.6);
+  background:rgba(91,138,255,.06);
+}
+.lf-input::placeholder{color:rgba(255,255,255,.25)}
+.lf-select option{background:#041230;color:#fff}
+
+/* Input with icon */
+.lf-input-wrap{position:relative}
+.lf-input-wrap .lf-icon{
+  position:absolute;left:13px;top:50%;transform:translateY(-50%);
+  font-size:16px;pointer-events:none;
+}
+.lf-input-wrap .lf-input{padding-left:40px}
+
+/* ── Toggle ── */
+.lf-toggle-row{
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
+  border-radius:9px;padding:14px 16px;
+}
+.lf-toggle-label{font-size:14px;font-weight:600;color:rgba(255,255,255,.8);font-family:Arial,sans-serif}
+.lf-toggle-sub{font-size:12px;color:rgba(255,255,255,.35);margin-top:2px;font-family:Arial,sans-serif}
+.toggle-switch{position:relative;width:54px;height:28px;flex-shrink:0}
+.toggle-switch input{opacity:0;width:0;height:0;position:absolute}
+.toggle-track{
+  position:absolute;inset:0;border-radius:14px;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);
+  cursor:pointer;transition:background .25s,border-color .25s;
+}
+.toggle-switch input:checked + .toggle-track{
+  background:linear-gradient(135deg,#1847CC,#2A5FE8);
+  border-color:transparent;
+}
+.toggle-thumb{
+  position:absolute;top:3px;left:3px;
+  width:20px;height:20px;border-radius:50%;
+  background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.35);
+  transition:transform .25s cubic-bezier(.34,1.56,.64,1);
+  pointer-events:none;
+}
+.toggle-switch input:checked ~ .toggle-thumb{transform:translateX(26px)}
+.toggle-yn{
+  font-size:12px;font-weight:700;color:rgba(255,255,255,.4);
+  margin-left:10px;min-width:28px;font-family:Arial,sans-serif;
+  transition:color .2s;
+}
+.toggle-switch input:checked ~ .toggle-yn{color:var(--blue2)}
+
+/* ── Submit ── */
+.lf-submit{
+  width:100%;padding:14px;border-radius:9px;
+  background:linear-gradient(135deg,#1847CC,#2A5FE8);
+  color:#fff;font-size:16px;font-weight:700;
+  border:none;cursor:pointer;font-family:Arial,sans-serif;
+  box-shadow:0 6px 22px rgba(24,71,204,.4);
+  transition:opacity .2s,transform .15s,box-shadow .2s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  margin-top:6px;
+}
+.lf-submit:hover{opacity:.92;transform:translateY(-1px);box-shadow:0 10px 28px rgba(24,71,204,.5)}
+.lf-submit:active{transform:translateY(0)}
+.lf-submit.loading{opacity:.7;pointer-events:none}
+.lf-note{
+  text-align:center;margin-top:12px;
+  font-size:12px;color:rgba(255,255,255,.3);font-family:Arial,sans-serif;
+}
+.lf-note span{color:rgba(0,184,160,.6)}
+
+/* ── Success State ── */
+.modal-success{
+  display:none;flex-direction:column;align-items:center;justify-content:center;
+  padding:48px 32px;text-align:center;min-height:260px;
+}
+.modal-success.active{display:flex}
+.success-ring{
+  width:72px;height:72px;border-radius:50%;
+  background:rgba(0,186,255,.1);border:2px solid var(--cyan));
+  display:flex;align-items:center;justify-content:center;
+  font-size:32px;margin-bottom:20px;
+  animation:popIn .5s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes popIn{from{transform:scale(0)}to{transform:scale(1)}}
+.modal-success h4{font-size:22px;font-weight:700;color:#fff;margin-bottom:8px;font-family:Arial,sans-serif}
+.modal-success p{font-size:14px;color:rgba(255,255,255,.5);line-height:1.65;font-family:Arial,sans-serif;max-width:300px}
+
+@media(max-width:520px){.modal-dialog{border-radius:16px}.modal-header,.modal-body{padding-left:20px;padding-right:20px}}
+</style>
+
+<!-- Modal HTML -->
+<div id="leadModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-backdrop" onclick="closeLeadForm()"></div>
+  <div class="modal-dialog">
+
+    <!-- Accent bar -->
+    <div class="modal-accent"></div>
+
+    <!-- Header -->
+    <div class="modal-header">
+      <div class="modal-logo">Vidy<span>sea</span></div>
+      <button class="modal-close" onclick="closeLeadForm()" aria-label="Close">✕</button>
+      <h3 id="modalTitle">Get Free MBBS Counselling</h3>
+      <p>Our expert counsellors will help you find the right path — India or Abroad — based on your profile.</p>
+    </div>
+
+    <!-- Form -->
+    <div class="modal-body" id="leadFormBody">
+      <form id="leadForm" onsubmit="submitLeadForm(event)" novalidate>
+
+        <!-- Name -->
+        <div class="lf-group">
+          <label class="lf-label" for="lf-name">Full Name</label>
+          <div class="lf-input-wrap">
+            <span class="lf-icon">👤</span>
+            <input class="lf-input" id="lf-name" type="text" placeholder="Your full name" autocomplete="name" required/>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="lf-group">
+          <label class="lf-label" for="lf-email">Email Address</label>
+          <div class="lf-input-wrap">
+            <span class="lf-icon">✉️</span>
+            <input class="lf-input" id="lf-email" type="email" placeholder="you@email.com" autocomplete="email" required/>
+          </div>
+        </div>
+
+        <!-- Mobile -->
+        <div class="lf-group">
+          <label class="lf-label" for="lf-mobile">Mobile Number</label>
+          <div class="lf-input-wrap">
+            <span class="lf-icon">📱</span>
+            <input class="lf-input" id="lf-mobile" type="tel" placeholder="+91 XXXXX XXXXX" autocomplete="tel" required/>
+          </div>
+        </div>
+
+        <!-- NEET Year -->
+        <div class="lf-group">
+          <label class="lf-label" for="lf-year">In Which Year Did You Take NEET?</label>
+          <select class="lf-select" id="lf-year" required>
+            <option value="" disabled selected>Select year</option>
+            <option>2026</option>
+            <option>2025</option>
+            <option>2024</option>
+            <option>2023</option>
+            <option>2022</option>
+            <option>2021 or Earlier</option>
+            <option>Not Yet Appeared</option>
+          </select>
+        </div>
+
+        <!-- Study Abroad Toggle -->
+        <div class="lf-group">
+          <label class="lf-label">Want to Study Abroad?</label>
+          <div class="lf-toggle-row">
+            <div>
+              <div class="lf-toggle-label">Interested in MBBS Abroad</div>
+              <div class="lf-toggle-sub">Toggle Yes if you're open to international options</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:0;flex-shrink:0">
+              <label class="toggle-switch" for="lf-abroad">
+                <input type="checkbox" id="lf-abroad" onchange="updateToggleLabel(this)"/>
+                <span class="toggle-track"></span>
+                <span class="toggle-thumb"></span>
+              </label>
+              <span class="toggle-yn" id="toggleYN">No</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <button class="lf-submit" type="submit" id="lfSubmitBtn">
+          <span>✦</span> Get Free Counselling
+        </button>
+        <div class="lf-note">🔒 Your details are safe. <span>No spam, ever.</span> We'll reach out within 24 hours.</div>
+      </form>
+    </div>
+
+    <!-- Success state (hidden initially) -->
+    <div class="modal-success" id="leadSuccess">
+      <div class="success-ring">✓</div>
+      <h4>You're All Set!</h4>
+      <p>Thank you! Our counsellor will get in touch with you within <strong style="color:var(--blue2)">24 hours</strong> to guide you on the best MBBS path for your profile.</p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ── Modal open / close
+function openLeadForm(e){
+  if(e) e.preventDefault();
+  const m = document.getElementById('leadModal');
+  m.classList.add('active');
+  document.body.style.overflow='hidden';
+  setTimeout(()=>document.getElementById('lf-name')?.focus(),100);
+}
+function closeLeadForm(){
+  document.getElementById('leadModal').classList.remove('active');
+  document.body.style.overflow='';
+}
+// Close on Escape
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeLeadForm(); });
+
+// ── Toggle label
+function updateToggleLabel(el){
+  document.getElementById('toggleYN').textContent = el.checked ? 'Yes' : 'No';
+}
+
+// ── Form submit
+function submitLeadForm(e){
+  e.preventDefault();
+  const btn = document.getElementById('lfSubmitBtn');
+  const name  = document.getElementById('lf-name').value.trim();
+  const email = document.getElementById('lf-email').value.trim();
+  const mobile= document.getElementById('lf-mobile').value.trim();
+  const year  = document.getElementById('lf-year').value;
+
+  // Simple validation highlight
+  let valid = true;
+  [['lf-name',name],['lf-email',email],['lf-mobile',mobile],['lf-year',year]].forEach(([id,val])=>{
+    const el = document.getElementById(id);
+    if(!val){ el.style.borderColor='rgba(255,80,80,.6)'; valid=false; }
+    else el.style.borderColor='';
+  });
+  if(!valid) return;
+
+  const abroad = document.getElementById('lf-abroad').checked;
+
+  // Simulate submission
+  btn.classList.add('loading');
+  btn.textContent = 'Submitting…';
+
+  setTimeout(()=>{
+    document.getElementById('leadFormBody').style.display='none';
+    document.getElementById('leadSuccess').classList.add('active');
+    // Reset form after close
+    setTimeout(()=>{
+      document.getElementById('leadForm').reset();
+      document.getElementById('toggleYN').textContent='No';
+      btn.classList.remove('loading');
+      btn.innerHTML='<span>✦</span> Get Free Counselling';
+    }, 500);
+  }, 1200);
+}
+
+// ─────────────────────────────────────────────────────────────────
+// PREDICTOR TOOL  (MedScout-style: panel toggle + searchable countries + confidence)
+// ─────────────────────────────────────────────────────────────────
+(function(){
+  const form     = document.getElementById('predictor-form');
+  const results  = document.getElementById('predictor-results');
+  const app      = document.getElementById('predictor-app');
+  const sideOpen = document.getElementById('pred-side-open');
+  const toggleBtn= document.getElementById('pred-panel-toggle');
+  const toggleLbl= document.getElementById('pred-panel-toggle-label');
+  const confEl   = document.getElementById('pred-conf-value');
+  if(!form || !results) return;
+
+  // Country list (full ISO list, MBBS-relevant ones first will sort A-Z anyway)
+  const COUNTRIES = [
+    "Afghanistan","Albania","Algeria","Andorra","Angola","Antigua and Barbuda","Argentina","Armenia",
+    "Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium",
+    "Belize","Benin","Bhutan","Bolivia","Bosnia and Herzegovina","Botswana","Brazil","Brunei","Bulgaria",
+    "Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Central African Republic",
+    "Chad","Chile","China","Colombia","Comoros","Congo","Costa Rica","Croatia","Cuba","Cyprus",
+    "Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador",
+    "Equatorial Guinea","Eritrea","Estonia","Eswatini","Ethiopia","Fiji","Finland","France","Gabon",
+    "Gambia","Georgia","Germany","Ghana","Greece","Grenada","Guatemala","Guinea","Guinea-Bissau","Guyana",
+    "Haiti","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy",
+    "Ivory Coast","Jamaica","Japan","Jordan","Kazakhstan","Kenya","Kiribati","Kosovo","Kuwait","Kyrgyzstan",
+    "Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg",
+    "Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius",
+    "Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Morocco","Mozambique","Myanmar",
+    "Namibia","Nauru","Nepal","Netherlands","New Zealand","Nicaragua","Niger","Nigeria","North Korea",
+    "North Macedonia","Norway","Oman","Pakistan","Palau","Panama","Papua New Guinea","Paraguay","Peru",
+    "Philippines","Poland","Portugal","Qatar","Romania","Russia","Rwanda","Saint Kitts and Nevis",
+    "Saint Lucia","Saint Vincent and the Grenadines","Samoa","San Marino","Sao Tome and Principe",
+    "Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia",
+    "Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","Sudan",
+    "Suriname","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor-Leste",
+    "Togo","Tonga","Trinidad and Tobago","Tunisia","Turkey","Turkmenistan","Tuvalu","Uganda","Ukraine",
+    "United Arab Emirates","United Kingdom","United States","Uruguay","Uzbekistan","Vanuatu","Venezuela",
+    "Vietnam","Yemen","Zambia","Zimbabwe"
+  ];
+
+  let destination = 'Global';
+  let currency    = 'USD';
+  let lastResult  = null;
+  let selectedCountries = [];
+
+  // ── Country dropdown ──
+  const cTrigger = document.getElementById('pred-country-trigger');
+  const cPanel   = document.getElementById('pred-country-panel');
+  const cLabel   = document.getElementById('pred-country-label');
+  const cSearch  = document.getElementById('pred-country-search');
+  const cList    = document.getElementById('pred-country-list');
+
+  function el(tag, cls, txt) {
+    const e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (txt != null) e.textContent = txt;
+    return e;
+  }
+
+  function renderCountryLabel() {
+    cLabel.textContent = '';
+    cLabel.className = '';
+    if (selectedCountries.length === 0) {
+      cLabel.className = 'pred-country-placeholder';
+      cLabel.textContent = 'Global search...';
+      return;
+    }
+    cLabel.className = 'pred-country-chips';
+    selectedCountries.forEach(c => {
+      const chip = el('span', 'pred-country-chip');
+      chip.appendChild(el('span', null, c));
+      const x = el('span', 'pred-country-chip-x', '×');
+      x.addEventListener('click', (ev) => {
+        ev.stopPropagation();
+        selectedCountries = selectedCountries.filter(s => s !== c);
+        renderCountryLabel();
+        renderCountryList(cSearch.value);
+      });
+      chip.appendChild(x);
+      cLabel.appendChild(chip);
+    });
+  }
+
+  function renderCountryList(query) {
+    cList.textContent = '';
+    const q = (query || '').trim().toLowerCase();
+    const filtered = COUNTRIES.filter(c => !q || c.toLowerCase().includes(q));
+    filtered.forEach(c => {
+      const item = el('div', 'pred-country-item');
+      item.appendChild(el('span', null, c));
+      if (selectedCountries.includes(c)) {
+        item.classList.add('selected');
+        item.appendChild(el('span', 'pred-country-item-check'));
+      }
+      item.addEventListener('click', () => {
+        if (selectedCountries.includes(c)) {
+          selectedCountries = selectedCountries.filter(s => s !== c);
+        } else {
+          selectedCountries = [...selectedCountries, c];
+        }
+        renderCountryLabel();
+        renderCountryList(cSearch.value);
+      });
+      cList.appendChild(item);
+    });
+    if (filtered.length === 0) {
+      const empty = el('div', 'pred-country-item');
+      empty.style.color = '#94a3b8';
+      empty.style.fontStyle = 'italic';
+      empty.textContent = 'No matches';
+      cList.appendChild(empty);
+    }
+  }
+
+  function openCountry() {
+    cPanel.hidden = false;
+    cTrigger.classList.add('open');
+    cSearch.value = '';
+    renderCountryList('');
+    setTimeout(() => cSearch.focus(), 30);
+  }
+  function closeCountry() {
+    cPanel.hidden = true;
+    cTrigger.classList.remove('open');
+  }
+  cTrigger.addEventListener('click', () => {
+    cPanel.hidden ? openCountry() : closeCountry();
+  });
+  cSearch.addEventListener('input', e => renderCountryList(e.target.value));
+  document.addEventListener('click', e => {
+    if (!cPanel.hidden && !document.getElementById('pred-countries').contains(e.target)) closeCountry();
+  });
+
+  renderCountryLabel();
+
+  // ── Panel toggle (Hide Panel / hamburger) ──
+  function setPanel(hidden) {
+    app.classList.toggle('collapsed', hidden);
+    sideOpen.hidden = !hidden;
+    if (toggleLbl) toggleLbl.textContent = hidden ? 'Show Panel' : 'Hide Panel';
+  }
+  toggleBtn?.addEventListener('click', () => setPanel(!app.classList.contains('collapsed')));
+  sideOpen?.addEventListener('click', () => setPanel(false));
+
+  // ── Restore saved profile ──
+  try {
+    const saved = JSON.parse(localStorage.getItem('mbbs_predictor_profile') || 'null');
+    if (saved) applyProfile(saved);
+    // Results are not restored on reload — always start fresh to avoid showing stale cached data
+  } catch (e) {}
+
+  function applyProfile(p) {
+    if (p.destinationType) setDestination(p.destinationType);
+    for (const key of ['neetScore','neetRank','budgetInUSD','category','domicileState','otherPreferences']) {
+      const elx = form.querySelector(`[name="${key}"]`);
+      if (elx && p[key] != null) elx.value = p[key];
+    }
+    if (Array.isArray(p.preferredCountries)) {
+      selectedCountries = [...p.preferredCountries];
+      renderCountryLabel();
+    }
+  }
+
+  function setDestination(d) {
+    destination = d;
+    form.querySelectorAll('.pred-tab').forEach(t => {
+      t.classList.toggle('active', t.dataset.dest === d);
+    });
+    form.querySelectorAll('[data-show-when]').forEach(elx => {
+      elx.style.display = elx.dataset.showWhen === d ? '' : 'none';
+    });
+  }
+  form.querySelectorAll('.pred-tab').forEach(tab => {
+    tab.addEventListener('click', () => setDestination(tab.dataset.dest));
+  });
+
+  function buildProfile() {
+    const fd = new FormData(form);
+    const profile = {
+      destinationType: destination,
+      neetScore: parseInt(fd.get('neetScore') || '0', 10) || 0,
+      neetRank:  parseInt(fd.get('neetRank')  || '0', 10) || 0,
+      budgetInUSD: fd.get('budgetInUSD') || '',
+      otherPreferences: fd.get('otherPreferences') || '',
+    };
+    if (destination === 'India') {
+      profile.category      = fd.get('category') || 'OPEN';
+      profile.domicileState = fd.get('domicileState') || '';
+    } else {
+      profile.preferredCountries = [...selectedCountries];
+    }
+    return profile;
+  }
+
+
+  // ── Submit ──
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const profile = buildProfile();
+    if (!profile.neetScore && !profile.neetRank) {
+      showError('Please enter your NEET Score or Rank.');
+      return;
+    }
+    showLoading();
+    setPanel(true);  // auto-collapse left panel as recommendations come in
+    try {
+      const r = await fetch('/api/predict', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(profile),
+      });
+      if (!r.ok) {
+        const err = await r.json().catch(() => ({}));
+        throw new Error(err.error || `Server returned ${r.status}`);
+      }
+      const data = await r.json();
+      lastResult = data;
+      localStorage.setItem('mbbs_predictor_profile', JSON.stringify(profile));
+      localStorage.setItem('mbbs_predictor_results', JSON.stringify(data));
+      renderResults(data);
+      updateConfidence(data);
+    } catch (err) {
+      showError(err.message || 'Prediction failed.');
+      setPanel(false);
+    }
+  });
+
+  function updateConfidence(data) {
+    if (!confEl) return;
+    if (!data || !data.universities || data.universities.length === 0) {
+      confEl.textContent = '0.0%';
+      return;
+    }
+    // Confidence = mix of result count vs target 10 + average ROI score
+    const n = data.universities.length;
+    const avgRoi = data.universities.reduce((s, u) => s + (parseInt(u.roiScore, 10) || 7), 0) / n;
+    const score = Math.min(99.5, 60 + n * 2.5 + avgRoi * 1.5);
+    confEl.textContent = score.toFixed(1) + '%';
+  }
+
+  function clearResults() { while (results.firstChild) results.removeChild(results.firstChild); }
+
+  function showLoading() {
+    clearResults();
+    const wrap = el('div', 'pred-loading');
+    wrap.appendChild(el('div', 'pred-loading-spin'));
+    wrap.appendChild(el('div', 'pred-loading-h', destination === 'India' ? 'Matching NEET cutoffs…' : 'Searching universities…'));
+    wrap.appendChild(el('div', 'pred-loading-p', destination === 'India'
+      ? 'Reading 2024 cutoff data and finding your fit.'
+      : 'AI evaluating NMC-recognised options. May take 5–10 seconds.'));
+    results.appendChild(wrap);
+  }
+
+  function showError(msg) {
+    clearResults();
+    const wrap = el('div', 'pred-error');
+    wrap.appendChild(el('div', 'pred-error-h', 'Error'));
+    const p = el('div', 'pred-empty-p', msg); p.style.marginTop = '8px';
+    wrap.appendChild(p);
+    results.appendChild(wrap);
+  }
+
+  function tierClass(t) {
+    if (t === 'Safe') return 'pred-tag pred-tag-safe';
+    if (t === 'Good') return 'pred-tag pred-tag-good';
+    if (t === 'Reach') return 'pred-tag pred-tag-reach';
+    if (t === 'Stretch') return 'pred-tag pred-tag-stretch';
+    return 'pred-tag';
+  }
+
+  function fmtMoney(usd, fallbackStr) {
+    if (!usd || isNaN(usd)) return fallbackStr || '—';
+    if (currency === 'USD') return '$' + Math.round(usd).toLocaleString('en-US') + ' USD';
+    const inr = Math.round(usd * 83.5);
+    if (inr >= 10000000) return '₹' + (inr / 10000000).toFixed(2) + ' Cr';
+    if (inr >= 100000)   return '₹' + (inr / 100000).toFixed(2) + ' L';
+    return '₹' + inr.toLocaleString('en-IN');
+  }
+
+  function renderResults(data) {
+    clearResults();
+    const inner = el('div', 'pred-results-inner');
+
+    if (!data || !data.universities || data.universities.length === 0) {
+      const wrap = el('div', 'pred-empty');
+      wrap.appendChild(el('div', 'pred-empty-h', 'No matches found'));
+      wrap.appendChild(el('div', 'pred-empty-p', (data && data.analysis) || 'Try widening your filters.'));
+      results.appendChild(wrap);
+      return;
+    }
+
+    if (data.analysis) {
+      const a = el('div', 'pred-analysis');
+      const eb = el('div', 'pred-analysis-eyebrow');
+      eb.appendChild(el('span', null, '✦'));
+      eb.appendChild(el('span', null, 'AI Analysis'));
+      a.appendChild(eb);
+      a.appendChild(el('p', 'pred-analysis-text', data.analysis));
+      inner.appendChild(a);
+    }
+
+    const wrap = el('div', 'pred-table-wrap');
+    const head = el('div', 'pred-table-head');
+    head.appendChild(el('div', 'pred-table-title', 'Top Matches · Comparative Data'));
+    const cur = el('div', 'pred-currency');
+    ['USD','INR'].forEach(c => {
+      const b = el('button', null, c);
+      b.type = 'button';
+      if (c === currency) b.classList.add('active');
+      b.addEventListener('click', () => { currency = c; renderResults(lastResult); });
+      cur.appendChild(b);
+    });
+    head.appendChild(cur);
+    wrap.appendChild(head);
+
+    const tableScroll = el('div');
+    tableScroll.style.overflowX = 'auto';
+    const table = el('table', 'pred-table');
+    table.style.minWidth = '1280px';
+    const thead = el('thead');
+    const trh   = el('tr');
+    [
+      'University', 'Country', 'Tier', 'Duration', 'Medium',
+      'Tuition / Yr', 'Total (5–6 yr)', 'NMC Status',
+      'Global Rank', 'Clinical Quality', 'Safety / Indian Support',
+      'ROI', 'Best For'
+    ].forEach(h => trh.appendChild(el('th', null, h)));
+    thead.appendChild(trh); table.appendChild(thead);
+    const tbody = el('tbody');
+
+    function clipped(text) {
+      const span = el('span', 'pred-clip', text || '');
+      if (text) span.title = text;
+      return span;
+    }
+    function tdClip(text) {
+      const td = el('td');
+      td.appendChild(clipped(text));
+      return td;
+    }
+    function roiCell(score) {
+      const num = parseInt(score, 10) || 0;
+      const td = el('td');
+      const wrap = el('div', 'pred-roi-bar');
+      const track = el('div', 'pred-roi-track');
+      const fill = el('div', 'pred-roi-fill');
+      fill.style.width = Math.max(0, Math.min(100, num * 10)) + '%';
+      track.appendChild(fill);
+      wrap.appendChild(track);
+      wrap.appendChild(el('span', 'pred-roi-num', String(num || '—')));
+      td.appendChild(wrap);
+      return td;
+    }
+
+    data.universities.forEach(u => {
+      const tr = el('tr');
+
+      // University (with location subline)
+      const tdName = el('td');
+      tdName.appendChild(el('span', 'pred-uname', u.name || ''));
+      const loc = (u.country || '') + (u.continent ? ' · ' + u.continent : '');
+      tdName.appendChild(el('span', 'pred-uloc', loc));
+      tr.appendChild(tdName);
+
+      // Country
+      tr.appendChild(el('td', null, u.country || ''));
+
+      // Tier pill
+      const tdTier = el('td');
+      tdTier.appendChild(el('span', tierClass(u.tier), u.tier || '—'));
+      tr.appendChild(tdTier);
+
+      // Duration
+      tr.appendChild(tdClip(u.totalDurationYears || ''));
+
+      // Medium
+      tr.appendChild(tdClip(u.mediumOfInstruction || ''));
+
+      // Tuition / yr
+      tr.appendChild(el('td', null, fmtMoney(u.tuitionFeeUSD, u.annualTuitionFee)));
+
+      // Total program cost
+      tr.appendChild(el('td', null, fmtMoney(u.totalProgramCostUSD, u.totalProgramCost)));
+
+      // NMC pill
+      const tdNmc = el('td');
+      tdNmc.appendChild(el('span', 'pred-tag pred-tag-nmc', u.nmcRecognitionStatus || 'NMC'));
+      tr.appendChild(tdNmc);
+
+      // Global rank · source
+      const rankText = (u.globalRank || '—') + (u.rankingSource ? ' · ' + u.rankingSource : '');
+      tr.appendChild(tdClip(rankText));
+
+      // Clinical Quality
+      tr.appendChild(tdClip(u.clinicalExposure || ''));
+
+      // Safety / Indian Support
+      tr.appendChild(tdClip(u.safetyAndSupport || ''));
+
+      // ROI
+      tr.appendChild(roiCell(u.roiScore));
+
+      // Best For
+      tr.appendChild(tdClip(u.bestFor || ''));
+
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    tableScroll.appendChild(table);
+    wrap.appendChild(tableScroll);
+    inner.appendChild(wrap);
+    results.appendChild(inner);
+  }
+})();
+</script>
+</body>
+</html>

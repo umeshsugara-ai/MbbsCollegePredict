@@ -1,0 +1,825 @@
+SNo,Rank,Allotted Quota,Allotted Institute,Course,Allotted Category,Candidate Category,Remarks
+1,16179,Open Seat Quota,"AIIMS, Deogarh ,AIIMS Deoghar Devipur, Jharkhand
+India, PIN - 814152, Jharkhand, 814152",MBBS,Open,EWS,Allotted
+2,17771,All India,"Govt institute of Medcial Sciences, GREATER NOIDA,GOVERNMENT INSTITUTE OF
+MEDICAL SCIENCES GREATER NOIDA GAUTAM BUDH NAGAR UTTAR PRADESH,
+Uttar Pradesh, 201310",MBBS,Open,General,Allotted
+3,18259,All India,"MOTI LAL NEHRU MEDICAL COLL, ALLAHABAD,Principal Office Moti Lal Nehru
+Medical College, Lowther Road George Town Prayagraj, Uttar Pradesh, 211001",MBBS,Open,General,Allotted
+4,18962,All India,"G.S.V.M. MEDICAL COLLEGE, KANPUR,G.S.V.M Medical College Kanpur Swaroop
+Nagar Kanpur
+U.P 208002, Uttar Pradesh, 208002",MBBS,Open,General,Allotted
+5,21115,All India,"MOTI LAL NEHRU MEDICAL COLL, ALLAHABAD,Principal Office Moti Lal Nehru
+Medical College, Lowther Road George Town Prayagraj, Uttar Pradesh, 211001",MBBS,Open,OBC,Allotted
+6,21292,All India,"GRANT MEDICAL COLL & SIR J.J.HOSP,MUMBAI,Sir JJ Group of HospitalCompound,
+Sir JJ Road, Byculla Mumbai, Maharashtra, 400008",MBBS,Open,General,Allotted
+7,21541,All India,"ESIC Medical College, Hyderbad,Sanathnagar, Hyderabad, Telangana, 500038",MBBS,Open,General,Allotted
+8,22785,All India,"Chhindwara Institute of Medical Sciences,Teachers Colony, Chhindwara, Madhya
+Pradesh 480001, Madhya Pradesh, 480001",MBBS,Open,General,Allotted
+9,22926,All India,"INDIRA GANDHI MEDICAL COLL., SHIMLA,IGMC SHIMLA NEAR LAKKARBAZAR
+SHIMLA, Himachal Pradesh, 171001",MBBS,EWS,EWS,Allotted
+10,23861,All India,"Rani Durgavati Medical College, Banda,RANI DURGAVATI MEDICAL COLLEGE,
+NARAINI ROAD, BANDA-210001, Uttar Pradesh, 210001",MBBS,OBC,OBC,Allotted
+11,24800,All India,"GOVT. MEDICAL COLLEGE,PATIALA,Sangrur road Government Medical College,
+Patiala, Punjab, 147001",MBBS,Open,General,Allotted
+12,24924,All India,"RAJIV GANDHI MEDICAL COLLEGE, THANE,THANE BELAPUR ROAD KALWA
+THANE WEST, Maharashtra, 400605",MBBS,Open,General,Allotted
+13,24996,Open Seat Quota,"AIIMS, Madurai,AIIMS MADURAI, Tamil Nadu, 625008",MBBS,Open,OBC,Allotted
+14,25037,Open Seat Quota,"AIIMS, Madurai,AIIMS MADURAI, Tamil Nadu, 625008",MBBS,Open,OBC,Allotted
+15,25076,All India,"BELGAUM INST. OF MEDICAL SCI., BELGAUM,DR B R AMBEDKAR ROAD
+BELAGAVI., Karnataka, 590001",MBBS,Open,OBC,Allotted
+16,25087,Open Seat Quota,"JIPMER KARAIKAL,JIPMER Academic Campus, FCI Link Road, Kovilpathu, Karaikal -
+609602, Puducherry, 609602",MBBS,OBC,OBC,Allotted
+17,25097,All India,"Diamond Harbour Govt Medical College,New Town, Post-Diamond Harbour, PS-
+Diamond Harbour, District South 24 Parganas, West Bengal, 743331",MBBS,Open,OBC,Allotted
+18,25115,All India,"Government Medical College, Sundargarh,At-Chitabhanga,Po-Sankara,Dist-
+Sundargarh,Odisha,Pin-770001, Odisha, 770001",MBBS,Open,OBC,Allotted
+19,25123,All India,"Government Medical College & Hospital, Jalpaiguri,Hospital Road, Jalpaiguri, West
+Bengal- 735101, West Bengal, 735101",MBBS,Open,General,Allotted
+20,25124,All India,"Govt. Medical College Rajanna Sircilla,GOVERNMENT MEDICAL COLLEGE NEAR
+KASTURBA GIRLS SCHOOL PEDDUR SIRCILLA DISTRICT RAJANNA SIRCILLA,
+Telangana, 505301",MBBS,Open,General,Allotted
+21,25135,All India,"Deben Mahata Government Medical College & Hospital,Vill Hatuara PO Vivekananda
+Nagar PS Purulia Muffasil Dist Purulia Pin 723147, West Bengal, 723147",MBBS,OBC,OBC,Allotted
+22,25151,All India,"GOVT. MEDICAL COLLEGE,PATIALA,Sangrur road Government Medical College,
+Patiala, Punjab, 147001",MBBS,OBC,OBC,Allotted
+23,25161,All India,"Government Medical College, Amravati ,Government Medical College District Women
+Hospital Campus Daffrin Shrikrishna Peth Amravati, Maharashtra, 444601",MBBS,OBC,OBC,Allotted
+24,25167,All India,"Indira Gandhi Medical College & RI, Puducherry,Vazhudavour Road, Kadirkamam,
+Puducherry, 605009",MBBS,Open,OBC,Allotted
+25,25177,All India,"Government Medical College, Baramulla ,Kanth Bagh Baramulla, Jammu and Kashmir,
+Jammu And Kashmir, 193101",MBBS,Open,OBC,Allotted
+26,25189,All India,"Chitradurga Medical College and Research Institute,P B Road Chitradurga, Karnataka,
+577501",MBBS,OBC,OBC,Allotted
+27,25194,All India,"GOVT. MEDICAL COLLEGE,TIRUNELVELI,DEAN,
+TIRUNELVELI MEDICAL COLLEGE,
+HIGHGROUND, TIRUNELVELI-11, Tamil Nadu, 627011",MBBS,Open,OBC,Allotted
+28,25204,All India,"Sri Jagannath Medical College & Hospital, Puri,BALIGUALI SAMANGARA PURI PIN
+752004 (ODISHA), Odisha, 752004",MBBS,OBC,OBC,Allotted
+29,25212,All India,"Government of Medical College and Hospital, Balasore,Remuna, Balasore, 756019,
+Odisha, 756019",MBBS,OBC,OBC,Allotted
+30,25220,All India,"Andaman and Nicobar Islands Institute of Medical S,Director ANIIMS, DHS Annexe
+Building, Atlanta Point, Port Blair-744104, Andaman And Nicobar Islands, 744104",MBBS,Open,OBC,Allotted
+31,26122,All India,"Government Dental College, Thrissur,MEDICAL COLLEGE(P O) THRISSUR, Kerala,
+680596",BDS,Open,OBC,Allotted
+32,26382,"Delhi University
+Quota","Maulana Azad Institute of Dental Sciences, New Delhi,MAMC Complex, B.S. Zafar Marg,
+New Delhi, Delhi (NCT), 110002",BDS,Open,General,Allotted
+33,27413,All India,"Pt. Jawahar Lal Nehru Govt. Med. College, Chamba,Pt. Jawaharlal Nehru Govt. Medical
+College Chamba, Himachal Pradesh, 176310",MBBS,EWS,EWS,Allotted
+34,27899,All India,"SETH G.S. MEDICAL COLLEGE, MUMBAI,ACHARYA DONDE MARG PAREL
+MUMBAI, Maharashtra, 400012",MBBS,EWS,EWS,Allotted
+35,28752,Open Seat Quota,"AIIMS, Madurai,AIIMS MADURAI, Tamil Nadu, 625008",MBBS,EWS,EWS,Allotted
+36,28901,Open Seat Quota,"IMS BHU Dental, Varanasi,Institute of Medical Sciences, Banaras Hindu University, Uttar
+Pradesh, 221105",BDS,Open,OBC,Allotted
+37,31523,Open Seat Quota,"IMS BHU Dental, Varanasi,Institute of Medical Sciences, Banaras Hindu University, Uttar
+Pradesh, 221105",BDS,OBC,OBC,Allotted
+38,31621,Open Seat Quota,"Dr. Ziauddin Ahmed Dental College and Hospital,ALIGARH,ALIGARH MUSLIM
+UNIVERSITY, ALIGARH, Uttar Pradesh, 202002",BDS,Open,General,Allotted
+39,33501,Open Seat Quota,"Faculty of Dentistry, Jamia Millia Islamia, New Delhi,Faculty of Dentistry Jamia Millia
+Islamia A Central University Maulana Mohammad Ali Jauhar Marg, Delhi (NCT), 110025",BDS,Open,General,Allotted
+40,36827,Open Seat Quota,"IMS BHU Dental, Varanasi,Institute of Medical Sciences, Banaras Hindu University, Uttar
+Pradesh, 221105",BDS,EWS,EWS,Allotted
+41,43666,All India,"Burdwan Dental College & Hospital, Burdwan,POWER HOUSE PARA, BURDWAN
+TOWN.
+PURBA BARDHAMAN. W.B- 713101, West Bengal, 713101",BDS,Open,OBC,Allotted
+42,47072,IP University Quota,"ESIC Dental College and Hospital,ESIC Hospital, Sector 15, Rohini, Delhi (NCT), 110089",BDS,Open,General,Allotted
+43,52185,Open Seat Quota,"Faculty of Dentistry, Jamia Millia Islamia, New Delhi,Faculty of Dentistry Jamia Millia
+Islamia A Central University Maulana Mohammad Ali Jauhar Marg, Delhi (NCT), 110025",BDS,Open,General,Allotted
+44,52563,All India,"TAMILNADU GOVT D.C. & HOSP, CHENNAI,No. 1, TNPSC SALAI, PARK TOWN,
+CHENNAI 600003, Tamil Nadu, 600003",BDS,Open,OBC,Allotted
+45,55433,"Aligarh Muslim
+University (AMU)
+Quota","Dr. Ziauddin Ahmed Dental College and Hospital,ALIGARH,ALIGARH MUSLIM
+UNIVERSITY, ALIGARH, Uttar Pradesh, 202002",BDS,Open,General,Allotted
+46,56042,All India,"DR. R. AHMED DENT.COLL & HOSP,KOLKATA,114 AJC BOSE ROAD, West Bengal,
+700014",BDS,Open,General,Allotted
+47,56802,All India,"GOVT DENTAL COLLEGE Kannur,Pariyaram Medical College P O, Kannur, Kerala-
+670503., Kerala, 670503",BDS,Open,OBC,Allotted
+48,58487,All India,"S.C.B. MEDICAL COLL(DENTAL),CUTTACK,S.C.B. Dental College and Hospital,
+Mangalabag, Cuttack, Pin-753 007, Odisha, 753007",BDS,Open,General,Allotted
+49,58987,IP University Quota,"ESIC Dental College and Hospital,ESIC Hospital, Sector 15, Rohini, Delhi (NCT), 110089",BDS,Open,General,Allotted
+50,60303,All India,"RUHS College of Dental Science, Jaipur,Ruhs College of dental science , johtwara road
+jaipur, Rajasthan, 302016",BDS,Open,General,Allotted
+51,60609,"Delhi University
+Quota","Maulana Azad Institute of Dental Sciences, New Delhi,MAMC Complex, B.S. Zafar Marg,
+New Delhi, Delhi (NCT), 110002",BDS,OBC,OBC,Allotted
+52,61987,All India,"Dental Institue, RIMS, Ranchi,Dental Institute, Rajendra Institute of Medical Sciences,
+Bariatu, Ranchi, Jharkhand, 843009",BDS,Open,EWS,Allotted
+53,62616,All India,"GOVT DEN COLL DENTAL WING PATIALA,Govt.Dental College and Hospital,Patiala,
+Punjab, 147001",BDS,Open,General,Allotted
+54,63334,"Deemed/Paid Seats
+Quota","SYMBIOSIS MEDICAL COLLEGE FOR WOMEN PUNE,Gram Lavale Tal Mulshi Pune,
+Maharashtra, 412115 (Female Seat only )",MBBS,Open,General,Allotted
+55,65019,All India,"GOVT. DENTAL COLLEGE & HOSP,AHMEDABAD,NEW CIVIL HOSPITAL CAMPUS,
+ASARWA, AHMEDABAD, Gujarat, 380016",BDS,Open,General,Allotted
+56,65778,All India,"DR. R. AHMED DENT.COLL & HOSP,KOLKATA,114 AJC BOSE ROAD, West Bengal,
+700014",BDS,Open,OBC,Allotted
+57,66668,"B.Sc Nursing All
+India","College of Nursing BHU, VARANASI,The Director Institute of Medical Sciences Banaras
+Hindu University, Uttar Pradesh, 221005",B.Sc. Nursing,Open,OBC,Allotted
+58,66930,All India,"Burdwan Dental College & Hospital, Burdwan,POWER HOUSE PARA, BURDWAN
+TOWN.
+PURBA BARDHAMAN. W.B- 713101, West Bengal, 713101",BDS,Open,General,Allotted
+59,67452,All India,"ESIC Dental College and Hospital Rohini,ESIC DENTAL COLLEGE AND HOSPITAL
+SECTOR 15 ROHINI, Delhi (NCT), 110085",BDS,Open,General,Allotted
+60,67602,All India,"GDC,PT.BDS UNIV.OF HEALTH SCI,ROHTAK,Post Graduate Institute of Dental
+Sciences, Rohtak, Haryana, 124001",BDS,OBC,OBC,Allotted
+61,70417,All India,"Burdwan Dental College & Hospital, Burdwan,POWER HOUSE PARA, BURDWAN
+TOWN.
+PURBA BARDHAMAN. W.B- 713101, West Bengal, 713101",BDS,Open,General,Allotted
+62,72027,"Aligarh Muslim
+University (AMU)
+Quota","Dr. Ziauddin Ahmed Dental College and Hospital,ALIGARH,ALIGARH MUSLIM
+UNIVERSITY, ALIGARH, Uttar Pradesh, 202002",BDS,Open,General,Allotted
+63,72853,All India,"Government Dental College Hyderabad,GOVERNMENT DENTAL COLLEGE AND
+HOSPITAL,
+AFZALGUNJ, HYDERABAD - 500012, Telangana, 500012",BDS,Open,OBC,Allotted
+64,73390,All India,"NAIR HOSP DENTAL COLLEGE & HOSP,MUMBAI,Dr. A.L. Nair Road, Mumbai Central,
+Mumbai - 400 008, Maharashtra, 400008",BDS,Open,General,Allotted
+65,73659,All India,"GOVT. DENTAL COLLEGE & HOSP.,MUMBAI,St Georges Hospital Compound P D
+Mellow road Fort Mumbai, Maharashtra, 400001",BDS,Open,General,Allotted
+66,74161,All India,"Burdwan Dental College & Hospital, Burdwan,POWER HOUSE PARA, BURDWAN
+TOWN.
+PURBA BARDHAMAN. W.B- 713101, West Bengal, 713101",BDS,Open,OBC,Allotted
+67,74709,All India,"Burdwan Dental College & Hospital, Burdwan,POWER HOUSE PARA, BURDWAN
+TOWN.
+PURBA BARDHAMAN. W.B- 713101, West Bengal, 713101",BDS,Open,General,Allotted
+68,75304,All India,"ESIC Dental College and Hospital Rohini,ESIC DENTAL COLLEGE AND HOSPITAL
+SECTOR 15 ROHINI, Delhi (NCT), 110085",BDS,Open,General,Allotted
+69,75492,All India,"NAIR HOSP DENTAL COLLEGE & HOSP,MUMBAI,Dr. A.L. Nair Road, Mumbai Central,
+Mumbai - 400 008, Maharashtra, 400008",BDS,OBC,OBC,Allotted
+70,75994,All India,"GOVT. D.C. & RESEARCH INST,BANGALORE,FORT, VICTORIA HOSPITAL
+CAMPUS, BANGALORE, Karnataka, 560002",BDS,EWS,EWS,Allotted
+71,76072,All India,"GOVT. DENTAL COLLEGE, SHIMLA,HP GOVERNMENT DENTAL COLLEGE AND
+HOSPITAL SHIMLA, Himachal Pradesh, 171001",BDS,EWS,EWS,Allotted
+72,78096,All India,"DC, RIMS, Imphal,PO Lamphelpat, Imphal West District, Manipur, 795004",BDS,Open,General,Allotted
+73,78706,IP University Quota,"ESIC Dental College and Hospital,ESIC Hospital, Sector 15, Rohini, Delhi (NCT), 110089",BDS,OBC,OBC,Allotted
+74,79331,All India,"S.C.B. MEDICAL COLL(DENTAL),CUTTACK,S.C.B. Dental College and Hospital,
+Mangalabag, Cuttack, Pin-753 007, Odisha, 753007",BDS,Open,OBC,Allotted
+75,79354,All India,"ESIC Dental College and Hospital Rohini,ESIC DENTAL COLLEGE AND HOSPITAL
+SECTOR 15 ROHINI, Delhi (NCT), 110085",BDS,OBC,OBC,Allotted
+76,80385,All India,"M.G.D.C. & HOSPITAL, PUDUCHERRY,GOVT. OF PUDUCHERRY INSTITUTION,
+GORIMEDU, PONDICHERRY, Puducherry, 605006",BDS,Open,General,Allotted
+77,83597,All India,"GOVT. DENTAL COLLEGE, SHIMLA,HP GOVERNMENT DENTAL COLLEGE AND
+HOSPITAL SHIMLA, Himachal Pradesh, 171001",BDS,OBC,OBC,Allotted
+78,85125,All India,"ESIC PGIMSR, Joka, Kolkata, WB,DIAMOND HARBOUR ROAD
+POST OFFICE JOKA
+KOLKATA 700104, West Bengal, 700104",MBBS,SC,SC,Allotted
+79,85670,All India,"ESIC Dental College and Hospital Rohini,ESIC DENTAL COLLEGE AND HOSPITAL
+SECTOR 15 ROHINI, Delhi (NCT), 110085",BDS,OBC,OBC,Allotted
+80,87589,All India,"Burdwan Dental College & Hospital, Burdwan,POWER HOUSE PARA, BURDWAN
+TOWN.
+PURBA BARDHAMAN. W.B- 713101, West Bengal, 713101",BDS,OBC,OBC,Allotted
+81,87634,All India,"Burdwan Dental College & Hospital, Burdwan,POWER HOUSE PARA, BURDWAN
+TOWN.
+PURBA BARDHAMAN. W.B- 713101, West Bengal, 713101",BDS,OBC,OBC,Allotted
+82,87657,All India,"Burdwan Dental College & Hospital, Burdwan,POWER HOUSE PARA, BURDWAN
+TOWN.
+PURBA BARDHAMAN. W.B- 713101, West Bengal, 713101",BDS,EWS,EWS,Allotted
+83,91226,All India,"GOA DENTAL COLLEGE & HOSPITAL, GOA,Bambolim,Goa, Goa, 403202",BDS,Open,General,Allotted
+84,91950,All India,"GOVT. DC & RESEARCH INSt., BELLARY,GOVT DENTAL COLLEGE AND RI, VIMS
+CAMPUS, CANTONMENT BELLARY, Karnataka, 583104",BDS,Open,EWS,Allotted
+85,92325,All India,"TAMILNADU GOVT D.C. & HOSP, CHENNAI,No. 1, TNPSC SALAI, PARK TOWN,
+CHENNAI 600003, Tamil Nadu, 600003",BDS,Open,General,Allotted
+86,96730,All India,"Govt dental college Pudukkottai,GOVT DENTAL COLLEGE MULLUR PUDUKKOTTAI,
+Tamil Nadu, 622003",BDS,Open,General,Allotted
+87,99332,All India,"GOVT. DENTAL COLLEGE & HOSP.,AURANGABAD,Government Medical College and
+Hospital Campus Dhanwantari Nagar Ghati Chha. Sambhajinagar Aurangaba,
+Maharashtra, 431001",BDS,Open,General,Allotted
+88,100211,All India,"Burdwan Dental College & Hospital, Burdwan,POWER HOUSE PARA, BURDWAN
+TOWN.
+PURBA BARDHAMAN. W.B- 713101, West Bengal, 713101",BDS,OBC,OBC,Allotted
+89,102649,All India,"REGIONAL DENTAL COLLEGE, GUWAHATI,Regional Dental College, Bhangagarh, PO
+Indrapur, Dist.-Kamrup Metro, Assam, 781032",BDS,Open,General,Allotted
+90,104422,All India,"GOA DENTAL COLLEGE & HOSPITAL, GOA,Bambolim,Goa, Goa, 403202",BDS,OBC,OBC,Allotted
+91,106522,All India,"GOVT DENTAL COLLEGE Kannur,Pariyaram Medical College P O, Kannur, Kerala-
+670503., Kerala, 670503",BDS,OBC,OBC,Allotted
+92,106647,"B.Sc Nursing All
+India","College of Nursing BHU, VARANASI,The Director Institute of Medical Sciences Banaras
+Hindu University, Uttar Pradesh, 221005",B.Sc. Nursing,Open,OBC,Allotted
+93,110314,All India,"AGARTALA GOVT. DENTAL COLLEGE,AGARTAL,IGM Hospital Complex, Agartala,
+West Tripura, PIN- 799001, Tripura, 799001",BDS,Open,EWS,Allotted
+94,117641,All India,"GOVT. DENTAL COLLEGE & HOSP.,AURANGABAD,Government Medical College and
+Hospital Campus Dhanwantari Nagar Ghati Chha. Sambhajinagar Aurangaba,
+Maharashtra, 431001",BDS,EWS,EWS,Allotted
+95,118430,"Aligarh Muslim
+University (AMU)
+Quota","Dr. Ziauddin Ahmed Dental College and Hospital,ALIGARH,ALIGARH MUSLIM
+UNIVERSITY, ALIGARH, Uttar Pradesh, 202002",BDS,Open,EWS,Allotted
+96,121122,All India,"Govt Dental College RIMS Kadapa,PRINCIPAL GOVT DENTAL COLLEGE, RIMS,
+PUTLAMPALLI KADAPA State ANDHRA PRADESH Pin 516004, Andhra Pradesh,
+516004",BDS,Open,General,Allotted
+97,122053,All India,"Government Dental College, Silchar,Government Dental College,Silchar,Hailakandi
+road,Near Silchar Medical College,Ghungoor,Silchar, Assam, 788014",BDS,Open,General,Allotted
+98,122109,All India,"GOA DENTAL COLLEGE & HOSPITAL, GOA,Bambolim,Goa, Goa, 403202",BDS,EWS,EWS,Allotted
+99,124197,"B.Sc Nursing All
+India","College of Nursing BHU, VARANASI,The Director Institute of Medical Sciences Banaras
+Hindu University, Uttar Pradesh, 221005",B.Sc. Nursing,OBC,OBC,Allotted
+100,125070,All India,"Govt dental college Pudukkottai,GOVT DENTAL COLLEGE MULLUR PUDUKKOTTAI,
+Tamil Nadu, 622003",BDS,OBC,OBC,Allotted
+101,126936,All India,"AGARTALA GOVT. DENTAL COLLEGE,AGARTAL,IGM Hospital Complex, Agartala,
+West Tripura, PIN- 799001, Tripura, 799001",BDS,Open,General,Allotted
+102,129231,All India,"GOVT. DENTAL COLLEGE & HOSP.,AURANGABAD,Government Medical College and
+Hospital Campus Dhanwantari Nagar Ghati Chha. Sambhajinagar Aurangaba,
+Maharashtra, 431001",BDS,OBC,OBC,Allotted
+103,129400,All India,"AGARTALA GOVT. DENTAL COLLEGE,AGARTAL,IGM Hospital Complex, Agartala,
+West Tripura, PIN- 799001, Tripura, 799001",BDS,Open,OBC,Allotted
+104,130216,All India,"Government Dental College, Silchar,Government Dental College,Silchar,Hailakandi
+road,Near Silchar Medical College,Ghungoor,Silchar, Assam, 788014",BDS,Open,OBC,Allotted
+105,133589,All India,"Dr.Radhakrishnan Government Medical College, Hamirpur,Dr.Radhakrishnan
+Government Medical College,Hamirpur, Himachal Pradesh, 177001",MBBS,SC,SC,Allotted
+106,137333,All India,"Govt Dental College RIMS Kadapa,PRINCIPAL GOVT DENTAL COLLEGE, RIMS,
+PUTLAMPALLI KADAPA State ANDHRA PRADESH Pin 516004, Andhra Pradesh,
+516004",BDS,OBC,OBC,Allotted
+107,138004,All India,"Autonomous State Medical College Society , Mirzapur,MAA VINDHYAVASINI
+AUTONOMOUS STATE MEDICAL COLLEGE PIPARDARH, VISHUNDERPUR,
+MIRZAPUR, Uttar Pradesh, 231001",MBBS,SC,SC,Allotted
+108,138065,Open Seat Quota,"AIIMS, Madurai,AIIMS MADURAI, Tamil Nadu, 625008",MBBS,SC,SC,Allotted
+109,138322,All India,"GMERS Medical College, Navsari,Adarsh Nivasi Shala Campus, At- Khambhlav, Po-
+Sultanpur, Via- Abrama, Ta - Jalalpore, Dist - Navsar, Gujarat, 396406",MBBS,SC,SC,Allotted
+110,138587,All India,"Govt Dental College RIMS Kadapa,PRINCIPAL GOVT DENTAL COLLEGE, RIMS,
+PUTLAMPALLI KADAPA State ANDHRA PRADESH Pin 516004, Andhra Pradesh,
+516004",BDS,EWS,EWS,Allotted
+111,138639,All India,"Bhima Bhoi Medical College and Hospital , Balangir,PO - Rajendra College, District-
+Balangir, Odisha., Odisha, 767002",MBBS,SC,SC,Allotted
+112,138752,All India,"Rangaraya Medical College, Kakinada,PITHAPURAM ROAD, KAKINADA, Andhra
+Pradesh, 533003",MBBS,SC,SC,Allotted
+113,138780,All India,"Diamond Harbour Govt Medical College,New Town, Post-Diamond Harbour, PS-
+Diamond Harbour, District South 24 Parganas, West Bengal, 743331",MBBS,SC,SC,Allotted
+114,138851,All India,"Tamralipto Government Medical College & Hospital, West Bengal,227 Haldia Tamluk
+Mecheda Road, Tamluk, Purba Medinipur, West Bengal, 721636",MBBS,SC,SC,Allotted
+115,139193,All India,"GOVERNMENT MEDICAL COLLEGE MACHILIPATNAM ,KARA AGRAHARAM NEAR
+RADAR STATION MACHILIPATNAM, Andhra Pradesh, 521001",MBBS,SC,SC,Allotted
+116,139349,All India,"Rajah Muthiah Dental College and Hos. , Annamalai ,GOVT DENTAL COLLEGE AND
+HOSPITAL, CUDDALORE DT- ANNAMALAINAGAR CHIDAMBARAM, Tamil Nadu,
+608002",BDS,Open,General,Allotted
+117,139954,All India,"Jawaharlal Nehru Institute of Dental Sciences, Imphal,Porompat, Imphal East, Manipur,
+Manipur, 795005",BDS,Open,General,Allotted
+118,140095,All India,"ESIC Dental College, Gulbarga,ESIC MEDICAL COLLEGE & HOSPITAL CAMPUS,
+Sedam Road, Gulbarga, Karnataka, 585106",BDS,OBC,OBC,Allotted
+119,141390,All India,"Jawaharlal Nehru Institute of Dental Sciences, Imphal,Porompat, Imphal East, Manipur,
+Manipur, 795005",BDS,Open,EWS,Allotted
+120,144469,"B.Sc Nursing Delhi
+NCR","College of Nursing Ahilya Bai College of Nursing, Maulana Azad Medical College,Ahilya
+Bai College of Nursing
+Lok Nayak Hospital
+Jawaharlal Nehru Marg, Delhi (NCT), 110002 (Female Seat only )",B.Sc. Nursing,Open,OBC,Allotted
+121,147599,All India,"Rajah Muthiah Dental College and Hos. , Annamalai ,GOVT DENTAL COLLEGE AND
+HOSPITAL, CUDDALORE DT- ANNAMALAINAGAR CHIDAMBARAM, Tamil Nadu,
+608002",BDS,Open,General,Allotted
+122,147744,"B.Sc Nursing All
+India","College of Nursing RAK CON, New Delhi,Rajkumari Amrit Kaur College of Nursing Lajpat
+Nagar IV Near Moolchand Metro Station, Delhi (NCT), 110024 (Female Seat only )",B.Sc. Nursing,Open,General,Allotted
+123,148449,"B.Sc Nursing All
+India","College of Nursing Safdarjung Hospital, New Delhi,College of Nursing VMMC and
+Safdarjang Hospital New Delhi, Delhi (NCT), 110029 (Female Seat only )",B.Sc. Nursing,Open,OBC,Allotted
+124,148654,All India,"Rajah Muthiah Dental College and Hos. , Annamalai ,GOVT DENTAL COLLEGE AND
+HOSPITAL, CUDDALORE DT- ANNAMALAINAGAR CHIDAMBARAM, Tamil Nadu,
+608002",BDS,OBC,OBC,Allotted
+125,154036,"B.Sc Nursing All
+India","College of Nursing BHU, VARANASI,The Director Institute of Medical Sciences Banaras
+Hindu University, Uttar Pradesh, 221005",B.Sc. Nursing,OBC,OBC,Allotted
+126,157825,"B.Sc Nursing All
+India","College of Nursing Ahilya Bai College of Nursing, Maulana Azad Medical College,Ahilya
+Bai College of Nursing
+Lok Nayak Hospital
+Jawaharlal Nehru Marg, Delhi (NCT), 110002 (Female Seat only )",B.Sc. Nursing,Open,General,Allotted
+127,163762,IP University Quota,"ESIC Dental College and Hospital,ESIC Hospital, Sector 15, Rohini, Delhi (NCT), 110089",BDS,EWS,EWS,Allotted
+128,168349,Open Seat Quota,"AIIMS, Madurai,AIIMS MADURAI, Tamil Nadu, 625008",MBBS,ST,ST,Allotted
+129,168445,All India,"AGARTALA GOVT. DENTAL COLLEGE,AGARTAL,IGM Hospital Complex, Agartala,
+West Tripura, PIN- 799001, Tripura, 799001",BDS,EWS,EWS,Allotted
+130,168888,All India,"GMERS Medical College, Rajpipla,GMERS Medical College, Rajpipla
+Near Jakat Naka, Vadia Palace, Rajpipla
+Dist Narmada, GUJARAT., Gujarat, 393145",MBBS,ST,ST,Allotted
+131,170756,All India,"Burdwan Dental College & Hospital, Burdwan,POWER HOUSE PARA, BURDWAN
+TOWN.
+PURBA BARDHAMAN. W.B- 713101, West Bengal, 713101",BDS,SC,SC,Allotted
+132,172975,"Employees State
+Insurance
+Scheme(ESI)","ESIC Dental College, Gulbarga,ESIC MEDICAL COLLEGE & HOSPITAL CAMPUS,
+Sedam Road, Gulbarga, Karnataka, 585106",BDS,OBC,OBC,Allotted
+133,173902,"Deemed/Paid Seats
+Quota","Sri Ramachandra Med. College and Res. Inst., Chennai,No. One Ramachandra Nagar,
+Porur, Chennai., Tamil Nadu, 600116",MBBS,Open,OBC,Allotted
+134,181049,"B.Sc Nursing All
+India","College of Nursing RAK CON, New Delhi,Rajkumari Amrit Kaur College of Nursing Lajpat
+Nagar IV Near Moolchand Metro Station, Delhi (NCT), 110024 (Female Seat only )",B.Sc. Nursing,Open,EWS,Allotted
+135,181603,"B.Sc Nursing All
+India","College of Nursing Florence Nightingale CON, New
+Delhi,collegeofnursinggtbh@gmail.com, Delhi (NCT), 110095 (Female Seat only )",B.Sc. Nursing,Open,OBC,Allotted
+136,201757,IP University Quota,"ESIC Dental College and Hospital,ESIC Hospital, Sector 15, Rohini, Delhi (NCT), 110089",BDS,SC,SC,Allotted
+137,204421,All India,"M.G.D.C. & HOSPITAL, PUDUCHERRY,GOVT. OF PUDUCHERRY INSTITUTION,
+GORIMEDU, PONDICHERRY, Puducherry, 605006",BDS,OBC,OBC,Allotted
+138,212733,"Deemed/Paid Seats
+Quota","Amrita Institute of Medical Science, Kochi,Amrita School of Medicine,
+Amrita Institute of Medical Sciences
+AIMS Ponekkara P.O
+Kochi 682041, Kerala, 682041",MBBS,Open,General,Allotted
+139,214754,All India,"GOVT. DENTAL COLLEGE & HOSP.,NAGPUR,Government Dental College And
+Hospital GMC Campus Nagpur, Maharashtra, 440003",BDS,SC,SC,Allotted
+140,217252,All India,"TAMILNADU GOVT D.C. & HOSP, CHENNAI,No. 1, TNPSC SALAI, PARK TOWN,
+CHENNAI 600003, Tamil Nadu, 600003",BDS,SC,SC,Allotted
+141,219409,All India,"Govt Dental College RIMS Kadapa,PRINCIPAL GOVT DENTAL COLLEGE, RIMS,
+PUTLAMPALLI KADAPA State ANDHRA PRADESH Pin 516004, Andhra Pradesh,
+516004",BDS,OBC,OBC,Allotted
+142,224398,All India,"GOVT. COLLEGE OF DENTISTRY, INDORE,1 Sardar Patel Marg
+Indore, Madhya Pradesh, 452001",BDS,SC,SC,Allotted
+143,233670,All India,"Govt Dental College RIMS Kadapa,PRINCIPAL GOVT DENTAL COLLEGE, RIMS,
+PUTLAMPALLI KADAPA State ANDHRA PRADESH Pin 516004, Andhra Pradesh,
+516004",BDS,OBC,OBC,Allotted
+144,235597,All India,"DC, RIMS, Imphal,PO Lamphelpat, Imphal West District, Manipur, 795004",BDS,SC,SC,Allotted
+145,239000,All India,"GOVT. DENTAL COLLEGE, KOTTAYAM,Government Dental College, P.O.Gandhinagar
+Kottayam- 686008, Kerala, 686008",BDS,SC,SC,Allotted
+146,239122,All India,"NAIR HOSP DENTAL COLLEGE & HOSP,MUMBAI,Dr. A.L. Nair Road, Mumbai Central,
+Mumbai - 400 008, Maharashtra, 400008",BDS,SC,SC,Allotted
+147,239123,"B.Sc Nursing All
+India","College of Nursing Dr. RML Hospital, New Delhi,Baba Kharak Singh Marg College of
+Nursing Dr RML Hospital, Delhi (NCT), 110001 (Female Seat only )",B.Sc. Nursing,Open,OBC,Allotted
+148,243106,"Deemed/Paid Seats
+Quota","DATTA MEGHE MEDICAL COLLEGE WANADONGRI HINGNA NAGPUR,Hinaga Road
+Wanadongri Nagpur Maharashtra India, Maharashtra, 441110",MBBS,Open,General,Allotted
+149,243130,All India,"GOVT. DENTAL COLLEGE & HOSP.,MUMBAI,St Georges Hospital Compound P D
+Mellow road Fort Mumbai, Maharashtra, 400001",BDS,SC,SC,Allotted
+150,245799,"Employees State
+Insurance
+Scheme(ESI)","ESIC Dental College, Gulbarga,ESIC MEDICAL COLLEGE & HOSPITAL CAMPUS,
+Sedam Road, Gulbarga, Karnataka, 585106",BDS,OBC,OBC,Allotted
+151,248317,"B.Sc Nursing Delhi
+NCR","College of Nursing Florence Nightingale CON, New
+Delhi,collegeofnursinggtbh@gmail.com, Delhi (NCT), 110095 (Female Seat only )",B.Sc. Nursing,Open,General,Allotted
+152,248795,All India,"Rajah Muthiah Dental College and Hos. , Annamalai ,GOVT DENTAL COLLEGE AND
+HOSPITAL, CUDDALORE DT- ANNAMALAINAGAR CHIDAMBARAM, Tamil Nadu,
+608002",BDS,EWS,EWS,Allotted
+153,254659,All India,"Government Dental College Hyderabad,GOVERNMENT DENTAL COLLEGE AND
+HOSPITAL,
+AFZALGUNJ, HYDERABAD - 500012, Telangana, 500012",BDS,SC,SC,Allotted
+154,256158,"B.Sc Nursing All
+India","College of Nursing LHMC, New Delhi,College of Nursing Lady Hardinge Medical College
+& Associated Hospitals New Delhi, Delhi (NCT), 110001 (Female Seat only )",B.Sc. Nursing,Open,OBC,Allotted
+155,256192,All India,"DR. R. AHMED DENT.COLL & HOSP,KOLKATA,114 AJC BOSE ROAD, West Bengal,
+700014",BDS,SC,SC,Allotted
+156,258162,All India,"DC, RIMS, Imphal,PO Lamphelpat, Imphal West District, Manipur, 795004",BDS,OBC,OBC,Allotted
+157,261215,All India,"DR. R. AHMED DENT.COLL & HOSP,KOLKATA,114 AJC BOSE ROAD, West Bengal,
+700014",BDS,SC,SC,Allotted
+158,261633,All India,"ESIC Dental College, Gulbarga,ESIC MEDICAL COLLEGE & HOSPITAL CAMPUS,
+Sedam Road, Gulbarga, Karnataka, 585106",BDS,SC,SC,Allotted
+159,269577,All India,"Government Dental College, Silchar,Government Dental College,Silchar,Hailakandi
+road,Near Silchar Medical College,Ghungoor,Silchar, Assam, 788014",BDS,OBC,OBC,Allotted
+160,284108,All India,"DC, RIMS, Imphal,PO Lamphelpat, Imphal West District, Manipur, 795004",BDS,OBC,OBC,Allotted
+161,302719,"Deemed/Paid Seats
+Quota","Aarupadai Veedu Medical College and Hospt., Puducherry,PONDY - CUDDALORE
+MAIN ROAD, KIRUMAMPAKKAM, PUDUCHERRY, Puducherry, 607403",MBBS,Open,OBC,Allotted
+162,311156,All India,"GOVT. D.C. & RESEARCH INST,BANGALORE,FORT, VICTORIA HOSPITAL
+CAMPUS, BANGALORE, Karnataka, 560002",BDS,SC,SC,Allotted
+163,311229,All India,"Govt Dental College RIMS Kadapa,PRINCIPAL GOVT DENTAL COLLEGE, RIMS,
+PUTLAMPALLI KADAPA State ANDHRA PRADESH Pin 516004, Andhra Pradesh,
+516004",BDS,SC,SC,Allotted
+164,312120,All India,"GOVT. DENTAL COLLEGE & HOSP.,AURANGABAD,Government Medical College and
+Hospital Campus Dhanwantari Nagar Ghati Chha. Sambhajinagar Aurangaba,
+Maharashtra, 431001",BDS,SC,SC,Allotted
+165,317133,"Deemed/Paid Seats
+Quota","BVDU Dental College and Hospital, Navi Mumbai,Bharati Vidyapeeth Dental College and
+Hospital, Sec.7, Belapur Navi Mumbai., Maharashtra, 400614",BDS,Open,General,Allotted
+166,320838,All India,"FACULTY OF DEN SCI, KG MED UNIV,LUCKNOW,SHAHMINA ROAD,
+CHOWK,LUCKNOW, Uttar Pradesh, 226003",BDS,ST,ST,Allotted
+167,321224,All India,"Government Dental College Dibrugarh,I Lane, inside Assam Medical college campus,
+Barbari, Dibrugarh-786002, Assam, 786002",BDS,ST,ST,Allotted
+168,322419,"Employees State
+Insurance
+Scheme(ESI)","ESIC Dental College, Gulbarga,ESIC MEDICAL COLLEGE & HOSPITAL CAMPUS,
+Sedam Road, Gulbarga, Karnataka, 585106",BDS,SC,SC,Allotted
+169,322484,"Deemed/Paid Seats
+Quota","Malla Reddy Dental College For Women, Hyderabad,Suraram X Roads Jeedimetla
+Hyderabad
+Telangana, Telangana, 500055 (Female Seat only )",BDS,Open,General,Allotted
+170,323448,"Deemed/Paid Seats
+Quota","Graphic Era Institute Of Medical Science,Graphic Era Institute of Medical Sciences
+16th Milestone Chakrata Road
+Dehradun
+Uttarakhand
+2480, Uttarakhand, 248007",MBBS,Open,EWS,Allotted
+171,323611,"Deemed/Paid Seats
+Quota","Institute of Medical Sciences and SUM Host., Bhubaneswar,K 8 Kalinga Nagar Po
+Mahalaxmi Vihar Bhubaneswar, Odisha, 751029",MBBS,Open,SC,Allotted
+172,323681,All India,"AGARTALA GOVT. DENTAL COLLEGE,AGARTAL,IGM Hospital Complex, Agartala,
+West Tripura, PIN- 799001, Tripura, 799001",BDS,OBC,OBC,Allotted
+173,332026,All India,"Government Dental College Dibrugarh,I Lane, inside Assam Medical college campus,
+Barbari, Dibrugarh-786002, Assam, 786002",BDS,OBC,OBC,Allotted
+174,337066,"Deemed/Paid Seats
+Quota","Malla Reddy Institute of Dental Sciences, Hyderabad,Suraram X Roads Jeedimetla
+Hyderabad
+Telangana 500055, Telangana, 500055",BDS,Open,OBC,Allotted
+175,343228,"Deemed/Paid Seats
+Quota","Malla Reddy Institute of Dental Sciences, Hyderabad,Suraram X Roads Jeedimetla
+Hyderabad
+Telangana 500055, Telangana, 500055",BDS,Open,OBC,Allotted
+176,345466,"B.Sc Nursing All
+India","College of Nursing BHU, VARANASI,The Director Institute of Medical Sciences Banaras
+Hindu University, Uttar Pradesh, 221005",B.Sc. Nursing,SC,SC,Allotted
+177,348792,"Deemed/Paid Seats
+Quota","Malla Reddy Dental College For Women, Hyderabad,Suraram X Roads Jeedimetla
+Hyderabad
+Telangana, Telangana, 500055 (Female Seat only )",BDS,Open,General,Allotted
+178,349748,All India,"AGARTALA GOVT. DENTAL COLLEGE,AGARTAL,IGM Hospital Complex, Agartala,
+West Tripura, PIN- 799001, Tripura, 799001",BDS,OBC,OBC,Allotted
+179,351773,"Deemed/Paid Seats
+Quota","Malla Reddy Institute of Dental Sciences, Hyderabad,Suraram X Roads Jeedimetla
+Hyderabad
+Telangana 500055, Telangana, 500055",BDS,Open,General,Allotted
+180,352226,All India,"GOVT. DENTAL COLLEGE, RAIPUR,Near Marahi Mata Mandir, Rajbandha Maidan,
+Raipur (C.G.), Chhattisgarh, 492001",BDS,SC,SC,Allotted
+181,353393,"B.Sc Nursing All
+India","College of Nursing RAK CON, New Delhi,Rajkumari Amrit Kaur College of Nursing Lajpat
+Nagar IV Near Moolchand Metro Station, Delhi (NCT), 110024 (Female Seat only )",B.Sc. Nursing,Open,General,Allotted
+182,355812,All India,"GOVT. DC & RESEARCH INSt., BELLARY,GOVT DENTAL COLLEGE AND RI, VIMS
+CAMPUS, CANTONMENT BELLARY, Karnataka, 583104",BDS,SC,SC,Allotted
+183,356254,"Deemed/Paid Seats
+Quota","Malla Reddy Dental College For Women, Hyderabad,Suraram X Roads Jeedimetla
+Hyderabad
+Telangana, Telangana, 500055 (Female Seat only )",BDS,Open,General,Allotted
+184,361420,All India,"M.G.D.C. & HOSPITAL, PUDUCHERRY,GOVT. OF PUDUCHERRY INSTITUTION,
+GORIMEDU, PONDICHERRY, Puducherry, 605006",BDS,ST,ST,Allotted
+185,362234,"Deemed/Paid Seats
+Quota","Dr. DY Patil Medical College and Hospt., Pune,Dr. D. Y. Patil Medical College, Hospital
+and Research Centre, Sant Tukaram Nagar, Pimpri, Pune., Maharashtra, 411018",MBBS,Open,General,Allotted
+186,364279,"Deemed/Paid Seats
+Quota","MM Inst. Med. and Research, Mullana,M.M. INSTITUTE OF MEDICAL SCIENCES AND
+RESEARCH, MULLANA, AMBALA, HARYANA., Haryana, 133207",MBBS,Open,General,Allotted
+187,365221,All India,"Government Dental College, Silchar,Government Dental College,Silchar,Hailakandi
+road,Near Silchar Medical College,Ghungoor,Silchar, Assam, 788014",BDS,OBC,OBC,Allotted
+188,365512,All India,"GOVT. DENTAL COLLEGE & HOSP.,MUMBAI,St Georges Hospital Compound P D
+Mellow road Fort Mumbai, Maharashtra, 400001",BDS,ST,ST,Allotted
+189,365771,"Deemed/Paid Seats
+Quota","Malla Reddy Dental College For Women, Hyderabad,Suraram X Roads Jeedimetla
+Hyderabad
+Telangana, Telangana, 500055 (Female Seat only )",BDS,Open,General,Allotted
+190,365862,All India,"GOVT. DENTAL COLLEGE, RAIPUR,Near Marahi Mata Mandir, Rajbandha Maidan,
+Raipur (C.G.), Chhattisgarh, 492001",BDS,SC,SC,Allotted
+191,366073,"Deemed/Paid Seats
+Quota","Malla Reddy Dental College For Women, Hyderabad,Suraram X Roads Jeedimetla
+Hyderabad
+Telangana, Telangana, 500055 (Female Seat only )",BDS,Open,General,Allotted
+192,370144,"Deemed/Paid Seats
+Quota","Sri Ramachandra Med. College and Res. Inst., Chennai,No. One Ramachandra Nagar,
+Porur, Chennai., Tamil Nadu, 600116",MBBS,Open,General,Allotted
+193,377556,"Deemed/Paid Seats
+Quota","Dr. DY Patil Medical College and Hospt., Pune,Dr. D. Y. Patil Medical College, Hospital
+and Research Centre, Sant Tukaram Nagar, Pimpri, Pune., Maharashtra, 411018",MBBS,Open,General,Allotted
+194,378786,All India,"Government Dental College Hyderabad,GOVERNMENT DENTAL COLLEGE AND
+HOSPITAL,
+AFZALGUNJ, HYDERABAD - 500012, Telangana, 500012",BDS,ST,ST,Allotted
+195,386719,"B.Sc Nursing All
+India","College of Nursing Dr. RML Hospital, New Delhi,Baba Kharak Singh Marg College of
+Nursing Dr RML Hospital, Delhi (NCT), 110001 (Female Seat only )",B.Sc. Nursing,Open,OBC,Allotted
+196,388529,"Deemed/Paid Seats
+Quota","Amrita School of Medicine Faridabad,Mata Amritanandmayi Marg, Sector-88, Faridabad,
+Haryana, 121002",MBBS,Open,SC,Allotted
+197,389703,All India,"M.G.D.C. & HOSPITAL, PUDUCHERRY,GOVT. OF PUDUCHERRY INSTITUTION,
+GORIMEDU, PONDICHERRY, Puducherry, 605006",BDS,SC,SC,Allotted
+198,394251,All India,"Government Dental College & Hospital, Srinagar,Shireen Bagh Karan Nagar Srinagar
+Jammu and Kashmir India, Jammu And Kashmir, 190010",BDS,SC,SC,Allotted
+199,397861,"B.Sc Nursing All
+India","College of Nursing Florence Nightingale CON, New
+Delhi,collegeofnursinggtbh@gmail.com, Delhi (NCT), 110095 (Female Seat only )",B.Sc. Nursing,Open,SC,Allotted
+200,398289,"Employees State
+Insurance Scheme
+Nursing Quota (ESI-
+IP Quota Nursing)","ESIC College of Nursing, Indiranagar, Bangalore,70 APPAREDDY PALYA 7TH MAIN
+INDIRANAGAR BENGALURU, Karnataka, 560008",B.Sc. Nursing,Open,OBC,Allotted
+201,401020,"Deemed/Paid Seats
+Quota","Amrita School of Dentistry, Kochi,Amrita School of Dentistry, Amrita Institute of Medical
+Sciences (AIMS), AIMS Ponekkara P.O, Kochi, Kerala, 682041",BDS,Open,OBC,Allotted
+202,405042,"Deemed/Paid Seats
+Quota","Aarupadai Veedu Medical College and Hospt., Puducherry,PONDY - CUDDALORE
+MAIN ROAD, KIRUMAMPAKKAM, PUDUCHERRY, Puducherry, 607403",MBBS,Open,ST,Allotted
+203,405601,"B.Sc Nursing All
+India","College of Nursing Florence Nightingale CON, New
+Delhi,collegeofnursinggtbh@gmail.com, Delhi (NCT), 110095 (Female Seat only )",B.Sc. Nursing,Open,General,Allotted
+204,405914,"Deemed/Paid Seats
+Quota","Malla Reddy Dental College For Women, Hyderabad,Suraram X Roads Jeedimetla
+Hyderabad
+Telangana, Telangana, 500055 (Female Seat only )",BDS,Open,General,Allotted
+205,406791,All India,"GOA DENTAL COLLEGE & HOSPITAL, GOA,Bambolim,Goa, Goa, 403202",BDS,ST,ST,Allotted
+206,407234,"B.Sc Nursing All
+India","College of Nursing BHU, VARANASI,The Director Institute of Medical Sciences Banaras
+Hindu University, Uttar Pradesh, 221005",B.Sc. Nursing,OBC,OBC,Allotted
+207,412149,"B.Sc Nursing All
+India","College of Nursing Dr. RML Hospital, New Delhi,Baba Kharak Singh Marg College of
+Nursing Dr RML Hospital, Delhi (NCT), 110001 (Female Seat only )",B.Sc. Nursing,Open,SC,Allotted
+208,416865,"Deemed/Paid Seats
+Quota","Shri Sathya Sai Medical College and Research Institute, Chennai,SBV Chennai Campus,
+Shri Sathya Sai Nagar, Ammapettai, Chennai, Tamil Nadu, 603108",MBBS,Open,General,Allotted
+209,417182,"Deemed/Paid Seats
+Quota","VMKV Medical College and Hospital, Salem,Sankari Main Road, NH-47,
+Seeragapadi, Salem, Tamil Nadu, 636308",MBBS,Open,SC,Allotted
+210,418267,"Deemed/Paid Seats
+Quota","Amrita School of Medicine Faridabad,Mata Amritanandmayi Marg, Sector-88, Faridabad,
+Haryana, 121002",MBBS,Open,General,Allotted
+211,423370,"Deemed/Paid Seats
+Quota","Shri Sathya Sai Medical College and Research Institute, Chennai,SBV Chennai Campus,
+Shri Sathya Sai Nagar, Ammapettai, Chennai, Tamil Nadu, 603108",MBBS,Open,OBC,Allotted
+212,424919,All India,"GOVT. DENTAL COLLEGE, TRIVANDRUM,Govt Dental College Thiruvananthapuram
+Kerala, Kerala, 695011",BDS,SC,SC,Allotted
+213,427457,"Deemed/Paid Seats
+Quota","Malla Reddy Dental College For Women, Hyderabad,Suraram X Roads Jeedimetla
+Hyderabad
+Telangana, Telangana, 500055 (Female Seat only )",BDS,Open,OBC,Allotted
+214,428729,"Deemed/Paid Seats
+Quota","Sree Balaji Medical College and Hospital, Chennai,NO 7 WORKS ROAD CHROMEPET
+CHENNAI, Tamil Nadu, 600044",MBBS,Open,OBC,Allotted
+215,430208,"B.Sc Nursing All
+India","College of Nursing LHMC, New Delhi,College of Nursing Lady Hardinge Medical College
+& Associated Hospitals New Delhi, Delhi (NCT), 110001 (Female Seat only )",B.Sc. Nursing,Open,General,Allotted
+216,435665,All India,"GOVT DENTAL COLLEGE Kannur,Pariyaram Medical College P O, Kannur, Kerala-
+670503., Kerala, 670503",BDS,SC,SC,Allotted
+217,436503,All India,"Government Dental College, Alappuzha,Government Dental College
+T.D Medical College (PO)
+Alappuzha,Kerala, Kerala, 688005",BDS,ST,ST,Allotted
+218,436555,All India,"Rajah Muthiah Dental College and Hos. , Annamalai ,GOVT DENTAL COLLEGE AND
+HOSPITAL, CUDDALORE DT- ANNAMALAINAGAR CHIDAMBARAM, Tamil Nadu,
+608002",BDS,SC,SC,Allotted
+219,438088,"Employees State
+Insurance Scheme
+Nursing Quota (ESI-
+IP Quota Nursing)","ESIC College of Nursing, Indiranagar, Bangalore,70 APPAREDDY PALYA 7TH MAIN
+INDIRANAGAR BENGALURU, Karnataka, 560008",B.Sc. Nursing,Open,OBC,Allotted
+220,438863,"Deemed/Paid Seats
+Quota","Sree Balaji Medical College and Hospital, Chennai,NO 7 WORKS ROAD CHROMEPET
+CHENNAI, Tamil Nadu, 600044",MBBS,Open,General,Allotted
+221,443582,"B.Sc Nursing Delhi
+NCR","College of Nursing Florence Nightingale CON, New
+Delhi,collegeofnursinggtbh@gmail.com, Delhi (NCT), 110095 (Female Seat only )",B.Sc. Nursing,Open,EWS,Allotted
+222,445450,"Employees State
+Insurance Scheme
+Nursing Quota (ESI-
+IP Quota Nursing)","ESIC College of Nursing, Indiranagar, Bangalore,70 APPAREDDY PALYA 7TH MAIN
+INDIRANAGAR BENGALURU, Karnataka, 560008",B.Sc. Nursing,Open,General,Allotted
+223,445840,All India,"S.C.B. MEDICAL COLL(DENTAL),CUTTACK,S.C.B. Dental College and Hospital,
+Mangalabag, Cuttack, Pin-753 007, Odisha, 753007",BDS,SC,SC,Allotted
+224,452511,"B.Sc Nursing All
+India","College of Nursing Dr. RML Hospital, New Delhi,Baba Kharak Singh Marg College of
+Nursing Dr RML Hospital, Delhi (NCT), 110001 (Female Seat only )",B.Sc. Nursing,Open,General,Allotted
+225,454625,"B.Sc Nursing All
+India","College of Nursing RAK CON, New Delhi,Rajkumari Amrit Kaur College of Nursing Lajpat
+Nagar IV Near Moolchand Metro Station, Delhi (NCT), 110024 (Female Seat only )",B.Sc. Nursing,Open,OBC,Allotted
+226,456207,"Deemed/Paid Seats
+Quota","Malla Reddy Institute of Dental Sciences, Hyderabad,Suraram X Roads Jeedimetla
+Hyderabad
+Telangana 500055, Telangana, 500055",BDS,Open,OBC,Allotted
+227,457576,"Deemed/Paid Seats
+Quota","Yenepoya Dental College, Yenepoya,University Road Deralakatte Mangaluru,
+Karnataka, 575018",BDS,Open,OBC,Allotted
+228,458607,"B.Sc Nursing All
+India","College of Nursing RAK CON, New Delhi,Rajkumari Amrit Kaur College of Nursing Lajpat
+Nagar IV Near Moolchand Metro Station, Delhi (NCT), 110024 (Female Seat only )",B.Sc. Nursing,Open,General,Allotted
+229,458883,"B.Sc Nursing All
+India","College of Nursing BHU, VARANASI,The Director Institute of Medical Sciences Banaras
+Hindu University, Uttar Pradesh, 221005",B.Sc. Nursing,SC,SC,Allotted
+230,470132,"Deemed/Paid Seats
+Quota","Malla Reddy Institute of Dental Sciences, Hyderabad,Suraram X Roads Jeedimetla
+Hyderabad
+Telangana 500055, Telangana, 500055",BDS,Open,SC,Allotted
+231,473129,"B.Sc Nursing All
+India","College of Nursing Dr. RML Hospital, New Delhi,Baba Kharak Singh Marg College of
+Nursing Dr RML Hospital, Delhi (NCT), 110001 (Female Seat only )",B.Sc. Nursing,SC,SC,Allotted
+232,474018,"B.Sc Nursing Delhi
+NCR","College of Nursing Florence Nightingale CON, New
+Delhi,collegeofnursinggtbh@gmail.com, Delhi (NCT), 110095 (Female Seat only )",B.Sc. Nursing,Open,OBC,Allotted
+233,474763,"B.Sc Nursing All
+India","College of Nursing LHMC, New Delhi,College of Nursing Lady Hardinge Medical College
+& Associated Hospitals New Delhi, Delhi (NCT), 110001 (Female Seat only )",B.Sc. Nursing,Open,SC,Allotted
+234,476015,"Deemed/Paid Seats
+Quota","Malla Reddy Institute of Dental Sciences, Hyderabad,Suraram X Roads Jeedimetla
+Hyderabad
+Telangana 500055, Telangana, 500055",BDS,Open,OBC,Allotted
+235,477048,"Deemed/Paid Seats
+Quota","BVDU Dental College and Hospital, Navi Mumbai,Bharati Vidyapeeth Dental College and
+Hospital, Sec.7, Belapur Navi Mumbai., Maharashtra, 400614",BDS,Open,General,Allotted
+236,477117,All India,"Govt Dental College RIMS Kadapa,PRINCIPAL GOVT DENTAL COLLEGE, RIMS,
+PUTLAMPALLI KADAPA State ANDHRA PRADESH Pin 516004, Andhra Pradesh,
+516004",BDS,ST,ST,Allotted
+237,490729,All India,"Burdwan Dental College & Hospital, Burdwan,POWER HOUSE PARA, BURDWAN
+TOWN.
+PURBA BARDHAMAN. W.B- 713101, West Bengal, 713101",BDS,ST,ST,Allotted
+238,500548,"B.Sc Nursing All
+India","College of Nursing BHU, VARANASI,The Director Institute of Medical Sciences Banaras
+Hindu University, Uttar Pradesh, 221005",B.Sc. Nursing,OBC,OBC,Allotted
+239,501378,"Deemed/Paid Seats
+Quota","Sri Siddhartha DentalCollege, Tumkur,AGALAKOTE B H ROAD TUMKUR, Karnataka,
+572107",BDS,Open,OBC,Allotted
+240,516414,"Deemed/Paid Seats
+Quota","Yenepoya Dental College, Yenepoya,University Road Deralakatte Mangaluru,
+Karnataka, 575018",BDS,Open,OBC,Allotted
+241,521247,All India,"DR. R. AHMED DENT.COLL & HOSP,KOLKATA,114 AJC BOSE ROAD, West Bengal,
+700014",BDS,ST,ST,Allotted
+242,529202,All India,"Rajah Muthiah Dental College and Hos. , Annamalai ,GOVT DENTAL COLLEGE AND
+HOSPITAL, CUDDALORE DT- ANNAMALAINAGAR CHIDAMBARAM, Tamil Nadu,
+608002",BDS,EWS,EWS,Allotted
+243,536688,"B.Sc Nursing All
+India","College of Nursing BHU, VARANASI,The Director Institute of Medical Sciences Banaras
+Hindu University, Uttar Pradesh, 221005",B.Sc. Nursing,SC,SC,Allotted
+244,537499,All India,"NAIR HOSP DENTAL COLLEGE & HOSP,MUMBAI,Dr. A.L. Nair Road, Mumbai Central,
+Mumbai - 400 008, Maharashtra, 400008",BDS,ST,ST,Allotted
+245,540846,All India,"GOVT. D.C. & RESEARCH INST,BANGALORE,FORT, VICTORIA HOSPITAL
+CAMPUS, BANGALORE, Karnataka, 560002",BDS,ST,ST,Allotted
+246,541758,All India,"GOVT DENTAL COLLEGE Kannur,Pariyaram Medical College P O, Kannur, Kerala-
+670503., Kerala, 670503",BDS,ST,ST,Allotted
+247,549541,"Deemed/Paid Seats
+Quota","Malla Reddy Institute of Dental Sciences, Hyderabad,Suraram X Roads Jeedimetla
+Hyderabad
+Telangana 500055, Telangana, 500055",BDS,Open,OBC,Allotted
+248,551401,"Deemed/Paid Seats
+Quota","Malla Reddy Institute of Dental Sciences, Hyderabad,Suraram X Roads Jeedimetla
+Hyderabad
+Telangana 500055, Telangana, 500055",BDS,Open,OBC,Allotted
+249,551765,"Deemed/Paid Seats
+Quota","Dr. DY Patil Dental College and Hosp. Pune,Mahesh Nagar, Pimpri, Pune - 411018,
+Maharashtra, 411018",BDS,Open,General,Allotted
+250,560271,"Deemed/Paid Seats
+Quota","AB Shetty Memorial Inst. of Dental Sce., Mangaluru,Deralakatte, Mangaluru, Dakshina
+Kannada, Karnataka, 575018",BDS,Open,General,Allotted
+251,561999,"Deemed/Paid Seats
+Quota","Malla Reddy Institute of Dental Sciences, Hyderabad,Suraram X Roads Jeedimetla
+Hyderabad
+Telangana 500055, Telangana, 500055",BDS,Open,EWS,Allotted
+252,566223,"B.Sc Nursing All
+India","College of Nursing BHU, VARANASI,The Director Institute of Medical Sciences Banaras
+Hindu University, Uttar Pradesh, 221005",B.Sc. Nursing,OBC,OBC,Allotted
+253,567128,"B.Sc Nursing All
+India","College of Nursing LHMC, New Delhi,College of Nursing Lady Hardinge Medical College
+& Associated Hospitals New Delhi, Delhi (NCT), 110001 (Female Seat only )",B.Sc. Nursing,Open,ST,Allotted
+254,575713,"Deemed/Paid Seats
+Quota","Sri Siddhartha DentalCollege, Tumkur,AGALAKOTE B H ROAD TUMKUR, Karnataka,
+572107",BDS,Open,General,Allotted
+255,580471,"B.Sc Nursing Delhi
+NCR","College of Nursing Ahilya Bai College of Nursing, Maulana Azad Medical College,Ahilya
+Bai College of Nursing
+Lok Nayak Hospital
+Jawaharlal Nehru Marg, Delhi (NCT), 110002 (Female Seat only )",B.Sc. Nursing,SC,SC,Allotted
+256,596372,Non-Resident Indian,"JLN Medical College, Datta Meghe, Wardha,Sawangi (Meghe), Wardha, Maharashtra
+State,India, Maharashtra, 442107",MBBS,Open,General,Allotted
+257,602830,"B.Sc Nursing All
+India","College of Nursing Dr. RML Hospital, New Delhi,Baba Kharak Singh Marg College of
+Nursing Dr RML Hospital, Delhi (NCT), 110001 (Female Seat only )",B.Sc. Nursing,EWS,EWS,Allotted
+258,613958,"B.Sc Nursing All
+India","College of Nursing RAK CON, New Delhi,Rajkumari Amrit Kaur College of Nursing Lajpat
+Nagar IV Near Moolchand Metro Station, Delhi (NCT), 110024 (Female Seat only )",B.Sc. Nursing,Open,General,Allotted
+259,629481,"Deemed/Paid Seats
+Quota","Malla Reddy Institute of Dental Sciences, Hyderabad,Suraram X Roads Jeedimetla
+Hyderabad
+Telangana 500055, Telangana, 500055",BDS,Open,ST,Allotted
+260,631277,"Deemed/Paid Seats
+Quota","Amrita School of Dentistry, Kochi,Amrita School of Dentistry, Amrita Institute of Medical
+Sciences (AIMS), AIMS Ponekkara P.O, Kochi, Kerala, 682041",BDS,Open,General,Allotted
+261,654856,"B.Sc Nursing Delhi
+NCR","College of Nursing Florence Nightingale CON, New
+Delhi,collegeofnursinggtbh@gmail.com, Delhi (NCT), 110095 (Female Seat only )",B.Sc. Nursing,Open,OBC,Allotted
+262,658721,"Employees State
+Insurance Scheme
+Nursing Quota (ESI-
+IP Quota Nursing)","ESIC College of Nursing, Indiranagar, Bangalore,70 APPAREDDY PALYA 7TH MAIN
+INDIRANAGAR BENGALURU, Karnataka, 560008",B.Sc. Nursing,Open,OBC,Allotted
+263,670306,"Employees State
+Insurance Scheme
+Nursing Quota (ESI-
+IP Quota Nursing)","ESIC College of Nursing, Gulbarga, Karnataka,ESIC COLLEGE OF NURSING
+ESIC MEDICAL COLLEGE AND HOSPITAL
+SEDAM ROAD
+KALABURIGI, Karnataka, 585106",B.Sc. Nursing,Open,OBC,Allotted
+264,671618,"Deemed/Paid Seats
+Quota","Amrita School of Dentistry, Kochi,Amrita School of Dentistry, Amrita Institute of Medical
+Sciences (AIMS), AIMS Ponekkara P.O, Kochi, Kerala, 682041",BDS,Open,General,Allotted
+265,686920,"Deemed/Paid Seats
+Quota","Malla Reddy Dental College For Women, Hyderabad,Suraram X Roads Jeedimetla
+Hyderabad
+Telangana, Telangana, 500055 (Female Seat only )",BDS,Open,OBC,Allotted
+266,688490,"B.Sc Nursing All
+India","College of Nursing Dr. RML Hospital, New Delhi,Baba Kharak Singh Marg College of
+Nursing Dr RML Hospital, Delhi (NCT), 110001 (Female Seat only )",B.Sc. Nursing,SC,SC,Allotted
+267,690460,"Deemed/Paid Seats
+Quota","Dr. DY Patil Dental College and Hosp. Pune,Mahesh Nagar, Pimpri, Pune - 411018,
+Maharashtra, 411018",BDS,Open,General,Allotted
+268,713106,"Deemed/Paid Seats
+Quota","Malla Reddy Institute of Dental Sciences, Hyderabad,Suraram X Roads Jeedimetla
+Hyderabad
+Telangana 500055, Telangana, 500055",BDS,Open,General,Allotted
+269,720502,"Deemed/Paid Seats
+Quota","BVDU Dental College and Hospital, Navi Mumbai,Bharati Vidyapeeth Dental College and
+Hospital, Sec.7, Belapur Navi Mumbai., Maharashtra, 400614",BDS,Open,OBC,Allotted
+270,725900,"Deemed/Paid Seats
+Quota","KLE VK Inst. of Dental Scie. Belagavi,KLE V.K. Institute of Dental Sciences, J.N. Medical
+College Campus, Nehru Nagar,Belagavi-590010.Karn, Karnataka, 590010",BDS,Open,OBC,Allotted
+271,726754,"B.Sc Nursing All
+India","College of Nursing LHMC, New Delhi,College of Nursing Lady Hardinge Medical College
+& Associated Hospitals New Delhi, Delhi (NCT), 110001 (Female Seat only )",B.Sc. Nursing,Open,OBC,Allotted
+272,735111,Non-Resident Indian,"SDU Medical College, Kolar,SRI DEVARAJ URS MEDICAL COLLEGE, TAMAKA,
+KOLAR, Karnataka, 563103",MBBS,Open,OBC,Allotted
+273,748431,"B.Sc Nursing All
+India","College of Nursing LHMC, New Delhi,College of Nursing Lady Hardinge Medical College
+& Associated Hospitals New Delhi, Delhi (NCT), 110001 (Female Seat only )",B.Sc. Nursing,Open,SC,Allotted
+274,749000,"B.Sc Nursing All
+India","College of Nursing BHU, VARANASI,The Director Institute of Medical Sciences Banaras
+Hindu University, Uttar Pradesh, 221005",B.Sc. Nursing,ST,ST,Allotted
+275,770444,"Deemed/Paid Seats
+Quota","Malla Reddy Institute of Dental Sciences, Hyderabad,Suraram X Roads Jeedimetla
+Hyderabad
+Telangana 500055, Telangana, 500055",BDS,Open,General,Allotted
+276,777619,Non-Resident Indian,"B.L.D.E University, Bijapur,SMT BANGARAMMA SAJJAN CAMPUS B M PATIL ROAD
+VIJAYAPURA KARNATAKA, Karnataka, 586103",MBBS,Open,General,Allotted
+277,787332,"Employees State
+Insurance Scheme
+Nursing Quota (ESI-
+IP Quota Nursing)","ESIC College of Nursing, Indiranagar, Bangalore,70 APPAREDDY PALYA 7TH MAIN
+INDIRANAGAR BENGALURU, Karnataka, 560008",B.Sc. Nursing,Open,SC,Allotted
+278,804746,"Deemed/Paid Seats
+Quota","KLE VK Inst. of Dental Scie. Belagavi,KLE V.K. Institute of Dental Sciences, J.N. Medical
+College Campus, Nehru Nagar,Belagavi-590010.Karn, Karnataka, 590010",BDS,Open,General,Allotted
+279,809712,"Deemed/Paid Seats
+Quota","Malla Reddy Dental College For Women, Hyderabad,Suraram X Roads Jeedimetla
+Hyderabad
+Telangana, Telangana, 500055 (Female Seat only )",BDS,Open,General,Allotted
+280,839646,"Deemed/Paid Seats
+Quota","MANAV RACHNA DENTAL COLLEGE FARIDABAD,SECTOR - 43, DELHI
+SURAJKUND ROAD FARIDABAD, Haryana, 121004",BDS,Open,General,Allotted
+281,839769,"Deemed/Paid Seats
+Quota","KLE VK Inst. of Dental Scie. Belagavi,KLE V.K. Institute of Dental Sciences, J.N. Medical
+College Campus, Nehru Nagar,Belagavi-590010.Karn, Karnataka, 590010",BDS,Open,OBC,Allotted
+282,840405,"Deemed/Paid Seats
+Quota","Malla Reddy Dental College For Women, Hyderabad,Suraram X Roads Jeedimetla
+Hyderabad
+Telangana, Telangana, 500055 (Female Seat only )",BDS,Open,OBC,Allotted
+283,862529,"B.Sc Nursing All
+India","College of Nursing BHU, VARANASI,The Director Institute of Medical Sciences Banaras
+Hindu University, Uttar Pradesh, 221005",B.Sc. Nursing,ST,ST,Allotted
+284,881233,"Deemed/Paid Seats
+Quota","Yenepoya Dental College, Yenepoya,University Road Deralakatte Mangaluru,
+Karnataka, 575018",BDS,Open,OBC,Allotted
+285,889704,Non-Resident Indian,"B.L.D.E University, Bijapur,SMT BANGARAMMA SAJJAN CAMPUS B M PATIL ROAD
+VIJAYAPURA KARNATAKA, Karnataka, 586103",MBBS,Open,SC,Allotted
+286,905269,"Deemed/Paid Seats
+Quota","Malla Reddy Dental College For Women, Hyderabad,Suraram X Roads Jeedimetla
+Hyderabad
+Telangana, Telangana, 500055 (Female Seat only )",BDS,Open,EWS,Allotted
+287,906556,"Deemed/Paid Seats
+Quota","Malla Reddy Dental College For Women, Hyderabad,Suraram X Roads Jeedimetla
+Hyderabad
+Telangana, Telangana, 500055 (Female Seat only )",BDS,Open,General,Allotted
+288,914832,"Deemed/Paid Seats
+Quota","Yenepoya Dental College, Yenepoya,University Road Deralakatte Mangaluru,
+Karnataka, 575018",BDS,Open,General,Allotted
+289,924014,"Deemed/Paid Seats
+Quota","Malla Reddy Dental College For Women, Hyderabad,Suraram X Roads Jeedimetla
+Hyderabad
+Telangana, Telangana, 500055 (Female Seat only )",BDS,Open,SC,Allotted
+290,932081,"Deemed/Paid Seats
+Quota","Malla Reddy Dental College For Women, Hyderabad,Suraram X Roads Jeedimetla
+Hyderabad
+Telangana, Telangana, 500055 (Female Seat only )",BDS,Open,General,Allotted
+291,937267,"Deemed/Paid Seats
+Quota","Sri Siddhartha DentalCollege, Tumkur,AGALAKOTE B H ROAD TUMKUR, Karnataka,
+572107",BDS,Open,General,Allotted
+292,938697,"B.Sc Nursing All
+India","College of Nursing LHMC, New Delhi,College of Nursing Lady Hardinge Medical College
+& Associated Hospitals New Delhi, Delhi (NCT), 110001 (Female Seat only )",B.Sc. Nursing,OBC,OBC,Allotted
+293,940786,"Deemed/Paid Seats
+Quota","Malla Reddy Dental College For Women, Hyderabad,Suraram X Roads Jeedimetla
+Hyderabad
+Telangana, Telangana, 500055 (Female Seat only )",BDS,Open,General,Allotted
+294,950358,"Deemed/Paid Seats
+Quota","Sri Siddhartha DentalCollege, Tumkur,AGALAKOTE B H ROAD TUMKUR, Karnataka,
+572107",BDS,Open,SC,Allotted
+295,970606,"Deemed/Paid Seats
+Quota","Malla Reddy Dental College For Women, Hyderabad,Suraram X Roads Jeedimetla
+Hyderabad
+Telangana, Telangana, 500055 (Female Seat only )",BDS,Open,OBC,Allotted
+296,995625,"B.Sc Nursing All
+India","College of Nursing BHU, VARANASI,The Director Institute of Medical Sciences Banaras
+Hindu University, Uttar Pradesh, 221005",B.Sc. Nursing,ST,ST,Allotted
+297,1044963,Non-Resident Indian,"B.L.D.E University, Bijapur,SMT BANGARAMMA SAJJAN CAMPUS B M PATIL ROAD
+VIJAYAPURA KARNATAKA, Karnataka, 586103",MBBS,Open,OBC,Allotted
+298,1057930,"B.Sc Nursing All
+India","College of Nursing LHMC, New Delhi,College of Nursing Lady Hardinge Medical College
+& Associated Hospitals New Delhi, Delhi (NCT), 110001 (Female Seat only )",B.Sc. Nursing,OBC,OBC,Allotted
+299,1062187,"B.Sc Nursing All
+India","College of Nursing Dr. RML Hospital, New Delhi,Baba Kharak Singh Marg College of
+Nursing Dr RML Hospital, Delhi (NCT), 110001 (Female Seat only )",B.Sc. Nursing,SC,SC,Allotted
+300,1101551,Non-Resident Indian,"Dr. DY Patil Medical College and Hospt., Pune,Dr. D. Y. Patil Medical College, Hospital
+and Research Centre, Sant Tukaram Nagar, Pimpri, Pune., Maharashtra, 411018",MBBS,Open,OBC,Allotted
+301,1106822,Non-Resident Indian,"Mahatma Gandhi Medical College, Pondicherry,SBV Pondicherry Campus,
+Pillaiyarkuppam, Puducherry, 607402",MBBS,Open,OBC,Allotted
+302,1116730,Non-Resident Indian,"Dr. DY Patil Medical College and Hospt., Pune,Dr. D. Y. Patil Medical College, Hospital
+and Research Centre, Sant Tukaram Nagar, Pimpri, Pune., Maharashtra, 411018",MBBS,Open,SC,Allotted
+303,1174286,"B.Sc Nursing All
+India","College of Nursing Dr. RML Hospital, New Delhi,Baba Kharak Singh Marg College of
+Nursing Dr RML Hospital, Delhi (NCT), 110001 (Female Seat only )",B.Sc. Nursing,OBC,OBC,Allotted
+304,1214759,Non-Resident Indian,"Dr. DY Patil Medical College and Hospt., Pune,Dr. D. Y. Patil Medical College, Hospital
+and Research Centre, Sant Tukaram Nagar, Pimpri, Pune., Maharashtra, 411018",MBBS,Open,OBC,Allotted
+305,1273767,"B.Sc Nursing All
+India","College of Nursing Florence Nightingale CON, New
+Delhi,collegeofnursinggtbh@gmail.com, Delhi (NCT), 110095 (Female Seat only )",B.Sc. Nursing,OBC,OBC,Allotted
+306,1340353,Non-Resident Indian,"Mahatma Gandhi Medical College, Pondicherry,SBV Pondicherry Campus,
+Pillaiyarkuppam, Puducherry, 607402",MBBS,Open,OBC,Allotted
+307,1395103,"B.Sc Nursing All
+India","College of Nursing RAK CON, New Delhi,Rajkumari Amrit Kaur College of Nursing Lajpat
+Nagar IV Near Moolchand Metro Station, Delhi (NCT), 110024 (Female Seat only )",B.Sc. Nursing,OBC,OBC,Allotted

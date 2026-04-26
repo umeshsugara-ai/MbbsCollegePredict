@@ -1,0 +1,397 @@
+Round,Allotted Institute,Course,Allotted Quota,Allotted Category,Opening_Rank,Closing_Rank,Allotted_Count
+Mop Up,"AB Shetty Memorial Inst. of Dental Sce.,
+Mangaluru",BDS,MNG,GN,166272,815370,15
+Mop Up,"ACS Medical College and Hospital,
+Chennai",MBBS,MNG,GN,193925,702396,36
+Mop Up,AIIMS Bathinda,MBBS,AMS,GN,1754,4249,3
+Mop Up,AIIMS Bathinda,MBBS,AMS,OBC,4341,6338,3
+Mop Up,AIIMS Bathinda,MBBS,AMS,SC,46517,46517,1
+Mop Up,AIIMS Bathinda,MBBS,AMS,ST,67302,70275,2
+Mop Up,"AIIMS Bilaspur Changar Palasiyan,
+Himachal Pradesh",MBBS,AMS,GN,4672,6424,4
+Mop Up,"AIIMS Bilaspur Changar Palasiyan,
+Himachal Pradesh",MBBS,AMS,GN PwD,311094,311094,1
+Mop Up,"AIIMS Bilaspur Changar Palasiyan,
+Himachal Pradesh",MBBS,AMS,OBC,8041,8041,1
+Mop Up,"AIIMS Bilaspur Changar Palasiyan,
+Himachal Pradesh",MBBS,AMS,SC,52694,52694,1
+Mop Up,AIIMS Guahawti,MBBS,AMS,EW NO,8993,9609,3
+Mop Up,AIIMS Guahawti,MBBS,AMS,GN,7517,8464,7
+Mop Up,AIIMS Guahawti,MBBS,AMS,OBC,9079,9718,9
+Mop Up,AIIMS Guahawti,MBBS,AMS,SC,57717,59261,3
+Mop Up,AIIMS Guahawti,MBBS,AMS,ST,68504,73225,3
+Mop Up,AIIMS Jammu,MBBS,AMS,EW NO,9799,9799,1
+Mop Up,AIIMS Jammu,MBBS,AMS,GN,7299,9124,8
+Mop Up,AIIMS Jammu,MBBS,AMS,OBC,9635,10243,7
+Mop Up,AIIMS Jammu,MBBS,AMS,SC,61155,61155,1
+Mop Up,AIIMS Jammu,MBBS,AMS,ST,77980,78913,2
+Mop Up,AIIMS Mangalagiri,MBBS,AMS,EW NO,6713,6713,1
+Mop Up,AIIMS Mangalagiri,MBBS,AMS,OBC,5111,7176,5
+Mop Up,AIIMS Mangalagiri,MBBS,AMS,OBC PwD,348121,348121,1
+Mop Up,AIIMS Mangalagiri,MBBS,AMS,SC,45260,49290,4
+Mop Up,AIIMS Mangalagiri,MBBS,AMS,SC PwD,534885,534885,1
+Mop Up,AIIMS Rajkot,MBBS,AMS,EW NO,7062,7062,1
+Mop Up,AIIMS Rajkot,MBBS,AMS,GN,4748,6715,6
+Mop Up,AIIMS Rajkot,MBBS,AMS,OBC,7236,8745,7
+Mop Up,AIIMS Rajkot,MBBS,AMS,SC,50749,53037,3
+Mop Up,AIIMS Rajkot,MBBS,AMS,ST,58751,58751,1
+Mop Up,"AIIMS Telangana Bibi Nagar Village
+Rangapur Mandal Name Bibinagar",MBBS,AMS,EW NO,5634,5634,1
+Mop Up,"AIIMS Telangana Bibi Nagar Village
+Rangapur Mandal Name Bibinagar",MBBS,AMS,GN,3569,3961,2
+Mop Up,"AIIMS Telangana Bibi Nagar Village
+Rangapur Mandal Name Bibinagar",MBBS,AMS,OBC,4970,7579,3
+Mop Up,"AIIMS Telangana Bibi Nagar Village
+Rangapur Mandal Name Bibinagar",MBBS,AMS,SC,35107,35107,1
+Mop Up,"AIIMS, Bhubaneswar",MBBS,AMS,EW PwD,592004,592004,1
+Mop Up,"AIIMS, Bhubaneswar",MBBS,AMS,GN,691,817,3
+Mop Up,"AIIMS, Bhubaneswar",MBBS,AMS,OBC,1581,1674,2
+Mop Up,"AIIMS, Bhubaneswar",MBBS,AMS,OBC PwD,413532,413532,1
+Mop Up,"AIIMS, Deogarh",MBBS,AMS,EW NO,8266,8517,2
+Mop Up,"AIIMS, Deogarh",MBBS,AMS,GN,6623,7818,7
+Mop Up,"AIIMS, Deogarh",MBBS,AMS,OBC,8678,9238,9
+Mop Up,"AIIMS, Deogarh",MBBS,AMS,OBC PwD,416290,416290,1
+Mop Up,"AIIMS, Deogarh",MBBS,AMS,SC,55732,57226,3
+Mop Up,"AIIMS, Deogarh",MBBS,AMS,ST,71094,74086,2
+Mop Up,"AIIMS, Gorakhpur",MBBS,AMS,GN,2760,5415,6
+Mop Up,"AIIMS, Gorakhpur",MBBS,AMS,GN PwD,191189,201035,2
+Mop Up,"AIIMS, Gorakhpur",MBBS,AMS,OBC,6397,7067,4
+Mop Up,"AIIMS, Gorakhpur",MBBS,AMS,OBC PwD,419894,419894,1
+Mop Up,"AIIMS, Gorakhpur",MBBS,AMS,SC,43484,46819,2
+Mop Up,"AIIMS, Gorakhpur",MBBS,AMS,ST,57688,75019,2
+Mop Up,"AIIMS, Gorakhpur",MBBS,AMS,ST PwD,703298,703298,1
+Mop Up,"AIIMS, Jodhpur",MBBS,AMS,GN,852,852,1
+Mop Up,"AIIMS, Jodhpur",MBBS,AMS,GN PwD,30169,30169,1
+Mop Up,"AIIMS, Kalyani",MBBS,AMS,EW PwD,447709,447709,1
+Mop Up,"AIIMS, Kalyani",MBBS,AMS,GN,2964,7054,8
+Mop Up,"AIIMS, Kalyani",MBBS,AMS,GN PwD,367912,367912,1
+Mop Up,"AIIMS, Kalyani",MBBS,AMS,OBC,7954,8531,5
+Mop Up,"AIIMS, Kalyani",MBBS,AMS,SC,51510,51510,1
+Mop Up,"AIIMS, Kalyani",MBBS,AMS,SC PwD,411414,411414,1
+Mop Up,"AIIMS, Kalyani",MBBS,AMS,ST,68787,68787,1
+Mop Up,"AIIMS, Nagpur",MBBS,AMS,GN,2343,2902,2
+Mop Up,"AIIMS, Nagpur",MBBS,AMS,OBC,4000,4077,3
+Mop Up,"AIIMS, Nagpur",MBBS,AMS,SC,25565,25565,1
+Mop Up,"AIIMS, Patna",MBBS,AMS,GN,2157,2157,1
+Mop Up,"AIIMS, Patna",MBBS,AMS,GN PwD,302458,302458,1
+Mop Up,"AIIMS, Patna",MBBS,AMS,OBC,3704,3985,3
+Mop Up,"AIIMS, Patna",MBBS,AMS,SC,33715,35527,3
+Mop Up,"AIIMS, Patna",MBBS,AMS,ST,32046,37791,2
+Mop Up,"AIIMS, Rai Bareli",MBBS,AMS,GN,5331,6472,11
+Mop Up,"AIIMS, Rai Bareli",MBBS,AMS,OBC,6512,8264,9
+Mop Up,"AIIMS, Rai Bareli",MBBS,AMS,SC,39125,53004,4
+Mop Up,"AIIMS, Rai Bareli",MBBS,AMS,ST,64657,64657,1
+Mop Up,"AIIMS, Raipur",MBBS,AMS,GN,1016,1016,1
+Mop Up,"AIIMS, Raipur",MBBS,AMS,OBC,2908,3331,2
+Mop Up,"AIIMS, Raipur",MBBS,AMS,OBC PwD,337442,434426,2
+Mop Up,"AIIMS, Raipur",MBBS,AMS,ST,19752,19752,1
+Mop Up,"AIIMS, Rishikesh",MBBS,AMS,EW NO,2593,2593,1
+Mop Up,"AIIMS, Rishikesh",MBBS,AMS,OBC,2822,3601,4
+Mop Up,"AIIMS, Rishikesh",MBBS,AMS,OBC PwD,383979,383979,1
+Mop Up,"AIIMS, Rishikesh",MBBS,AMS,SC,28007,31295,2
+Mop Up,"AIIMS-Bhopal,",MBBS,AMS,GN PwD,102520,236232,2
+Mop Up,"AIIMS-Bhopal,",MBBS,AMS,OBC,1990,2860,3
+Mop Up,"AIIMS-Bhopal,",MBBS,AMS,SC,15085,15085,1
+Mop Up,"Aarupadai Veedu Medical College and
+Hospt., Puducherry",MBBS,MNG,GN,90728,398201,35
+Mop Up,"Amrita Institute of Medical Science,
+Kochi",MBBS,MNG,GN,59364,87693,5
+Mop Up,"Amrita Institute of Medical Science,
+Kochi",MBBS,NRI,GN,346469,346469,1
+Mop Up,"Amrita School of Dentistry, Kochi",BDS,MNG,GN,141514,472189,5
+Mop Up,"Atal Bihari Vajpayee Institute of Medical
+Sciences, New Delhi",MBBS,IP,EW NO,9848,9848,1
+Mop Up,"Atal Bihari Vajpayee Institute of Medical
+Sciences, New Delhi",MBBS,IP,OBC,13937,13937,1
+Mop Up,"Atal Bihari Vajpayee Institute of Medical
+Sciences, New Delhi",MBBS,IP,ST,170885,170885,1
+Mop Up,"B.L.D.E University, Bijapur",MBBS,MNG,GN,78273,110167,3
+Mop Up,"B.L.D.E University, Bijapur",MBBS,NRI,GN,533777,533777,1
+Mop Up,"BHAARATH MEDICAL COLLEGE AND
+HOSPITAL",MBBS,MNG,GN,177833,718977,59
+Mop Up,"BV Deemed Uni. Med. College and Hos.,
+Sangli",MBBS,MNG,GN,77601,190116,8
+Mop Up,"BVDU Dental College and Hospital,
+Sangli",BDS,MNG,GN,334958,816709,6
+Mop Up,"BVDU Dental College and Hospital, Navi
+Mumbai",BDS,MNG,GN,68240,633374,8
+Mop Up,"Bharati Vidyapeeth DU Dental College
+and Hospt., Pune",BDS,MNG,GN,86731,256758,4
+Mop Up,Bharati Vidyapeeth DU Medical College,MBBS,MNG,GN,67267,96930,5
+Mop Up,Bharati Vidyapeeth DU Medical College,MBBS,NRI,GN,655073,655073,1
+Mop Up,"Chettinad Hos. and Res. Inst.,
+Kancheepuram",MBBS,MNG,GN,189963,474989,10
+Mop Up,"DATTA MEGHE MEDICAL COLLEGE
+WANADONGRI HINGNA NAGPUR",MBBS,MNG,GN,80978,598489,60
+Mop Up,"DR.Z.A.D.C.,FAC.OF
+MEDICINE,ALIGARH",BDS,AMU,GN,19963,26431,3
+Mop Up,"DR.Z.A.D.C.,FAC.OF
+MEDICINE,ALIGARH",BDS,ANR,GN,178045,371768,2
+Mop Up,"DR.Z.A.D.C.,FAC.OF
+MEDICINE,ALIGARH",BDS,AON,GN,14166,18036,9
+Mop Up,"DR.Z.A.D.C.,FAC.OF
+MEDICINE,ALIGARH",BDS,AON,GN PwD,497856,497856,1
+Mop Up,"Dr. DY Patil Dental College and Hosp.
+Navi Mumbai",BDS,MNG,GN,487402,487402,1
+Mop Up,"Dr. DY Patil Dental College and Hosp.
+Pune",BDS,MNG,GN,83552,669329,16
+Mop Up,"Dr. DY Patil Medical College and Hospt.,
+Pune",MBBS,MNG,GN,134070,604200,79
+Mop Up,"Dr. DY Patil Medical College, Navi
+Mumbai",MBBS,MNG,GN,147801,524230,22
+Mop Up,"Dr. DYP Edu. Soc. Deemed Uni.,
+Kolhapur",MBBS,MNG,GN,138324,304824,8
+Mop Up,ESIC Dental College and Hospital,BDS,IP,EW NO,31960,36966,4
+Mop Up,ESIC Dental College and Hospital,BDS,IP,GN,18721,29196,18
+Mop Up,ESIC Dental College and Hospital,BDS,IP,OBC,35949,44052,11
+Mop Up,ESIC Dental College and Hospital,BDS,IP,SC,96120,106906,4
+Mop Up,ESIC Dental College and Hospital,BDS,IP,ST,216148,247783,3
+Mop Up,"ESIC Dental College, Gulbarga",BDS,ESI,EW NO,69818,76112,2
+Mop Up,"ESIC Dental College, Gulbarga",BDS,ESI,GN,51715,66292,8
+Mop Up,"ESIC Dental College, Gulbarga",BDS,ESI,OBC,71021,74421,3
+Mop Up,"ESIC Dental College, Gulbarga",BDS,ESI,SC,226513,277917,3
+Mop Up,"ESIC Medical College AND PGIMSR,
+Bangalore",MBBS,ESI,GN,36490,36490,1
+Mop Up,"ESIC Medical College AND PGIMSR,
+Bangalore",MBBS,ESI,OBC,54546,57188,2
+Mop Up,"ESIC Medical College AND PGIMSR,
+Bangalore",MBBS,ESI,SC,171234,231565,3
+Mop Up,"ESIC Medical College AND PGIMSR,
+Chennai",MBBS,ESI,EW NO,56089,56089,1
+Mop Up,"ESIC Medical College AND PGIMSR,
+Chennai",MBBS,ESI,GN,36866,36866,1
+Mop Up,"ESIC Medical College AND PGIMSR,
+Chennai",MBBS,ESI,OBC,39404,50872,2
+Mop Up,"ESIC Medical College AND PGIMSR,
+Chennai",MBBS,ESI,SC,193191,227356,3
+Mop Up,"ESIC Medical College AND PGIMSR,
+Kolkata",MBBS,ESI,GN,50032,50032,1
+Mop Up,"ESIC Medical College AND PGIMSR,
+Kolkata",MBBS,ESI,OBC,58010,58010,1
+Mop Up,"ESIC Medical College AND PGIMSR,
+Kolkata",MBBS,ESI,SC,233609,245018,6
+Mop Up,"ESIC Medical College, Faridabad",MBBS,ESI,EW NO,53721,53721,1
+Mop Up,"ESIC Medical College, Faridabad",MBBS,ESI,GN PwD,575988,575988,1
+Mop Up,"ESIC Medical College, Faridabad",MBBS,ESI,SC,223199,229243,2
+Mop Up,"ESIC Medical College, Gulbarga",MBBS,ESI,GN,49093,49093,1
+Mop Up,"ESIC Medical College, Gulbarga",MBBS,ESI,OBC,57660,57660,1
+Mop Up,"ESIC Medical College, Gulbarga",MBBS,ESI,SC,225417,265715,4
+Mop Up,"ESIC Medical College, Hyderbad",MBBS,ESI,GN,46105,46105,1
+Mop Up,"ESIC Medical College, Hyderbad",MBBS,ESI,OBC,54133,57466,2
+Mop Up,"Faculty of Dentistry, Jamia Millia Islamia,
+New Delhi",BDS,JI,GN,46380,78176,2
+Mop Up,"Faculty of Dentistry, Jamia Millia Islamia,
+New Delhi",BDS,JMQ,GN,24435,36826,6
+Mop Up,"Faculty of Dentistry, Jamia Millia Islamia,
+New Delhi",BDS,JON,GN,15290,21686,18
+Mop Up,"Faculty of Dentistry, Jamia Millia Islamia,
+New Delhi",BDS,JON,GN PwD,155006,155006,1
+Mop Up,"GITAM Institue of Med. Sce. and Res.,
+Visakhapatnam",MBBS,MNG,GN,169724,496003,29
+Mop Up,"Government Medical College, Kollam",MBBS,ESI,EW NO,55973,55973,1
+Mop Up,"Government Medical College, Kollam",MBBS,ESI,GN,37806,44550,2
+Mop Up,"Government Medical College, Kollam",MBBS,ESI,OBC,44981,44981,1
+Mop Up,"Government Medical College, Kollam",MBBS,ESI,SC,220700,240123,3
+Mop Up,"Govt. Med. College and ESIC Hospt.,
+Coimbatore",MBBS,ESI,OBC,46092,46092,1
+Mop Up,"Govt. Med. College and ESIC Hospt.,
+Coimbatore",MBBS,ESI,SC,256011,264989,2
+Mop Up,"IMS BHU Dental, Varanasi",BDS,BON,EW NO,19552,20640,4
+Mop Up,"IMS BHU Dental, Varanasi",BDS,BON,GN,12685,19116,19
+Mop Up,"IMS BHU Dental, Varanasi",BDS,BON,GN PwD,497688,497688,1
+Mop Up,"IMS BHU Dental, Varanasi",BDS,BON,OBC,19346,22090,11
+Mop Up,"IMS BHU Dental, Varanasi",BDS,BON,SC,73631,86560,9
+Mop Up,"IMS BHU Dental, Varanasi",BDS,BON,ST,98060,105056,4
+Mop Up,"INST.OF MED.SCIENCES,
+BHU,VARANASI",MBBS,BON,EW NO,2711,2711,1
+Mop Up,"INST.OF MED.SCIENCES,
+BHU,VARANASI",MBBS,BON,SC,37278,45182,4
+Mop Up,"Indira Gandhi Dental College and SBV,
+Pondycherry",BDS,MNG,GN,449779,449779,1
+Mop Up,"Institute of Dental Sciences,
+Bhubaneswar",BDS,MNG,GN,77775,755133,22
+Mop Up,"Institute of Medical Sciences and SUM
+Host., Bhubaneswar",MBBS,MNG,GN,53754,154386,12
+Mop Up,"Institute of Medical Sciences and SUM
+Host., Bhubaneswar",MBBS,NRI,GN,439889,629274,2
+Mop Up,JIPMER KARAIKAL,MBBS,JNO,EW NO,6402,7146,2
+Mop Up,JIPMER KARAIKAL,MBBS,JNO,GN,1240,4563,9
+Mop Up,JIPMER KARAIKAL,MBBS,JNO,OBC,4685,5698,7
+Mop Up,JIPMER KARAIKAL,MBBS,JNO,SC,23860,37879,4
+Mop Up,JIPMER KARAIKAL,MBBS,JNR,GN,20610,20610,1
+Mop Up,JIPMER PUDUCHERRY,MBBS,JNO,GN,247,309,3
+Mop Up,JIPMER PUDUCHERRY,MBBS,JNO,SC,12037,12037,1
+Mop Up,JIPMER PUDUCHERRY,MBBS,JNO,ST,18475,18475,1
+Mop Up,"JLN Medical College, Datta Meghe,
+Wardha",MBBS,MNG,GN,76648,333148,14
+Mop Up,"JLN Medical College, Datta Meghe,
+Wardha",MBBS,NRI,GN,581923,620148,2
+Mop Up,"JSS Dental College and Hospital,
+Jagadguru",BDS,MNG,GN,223965,800959,8
+Mop Up,"JSS Medical College, Jagadguru",MBBS,MNG,GN,22327,39477,5
+Mop Up,"JSS Medical College, Jagadguru",MBBS,NRI,GN,365521,522842,2
+Mop Up,"JWAHAR LAL NEHRU M.C. AMU,
+ALIGARH",MBBS,AMU,GN PwD,615416,615416,1
+Mop Up,"JWAHAR LAL NEHRU M.C. AMU,
+ALIGARH",MBBS,AON,GN,4705,5075,4
+Mop Up,"Jawahar Lal Nehru Medical College,
+Belagavi",MBBS,MNG,GN,45173,107299,8
+Mop Up,"Jawahar Lal Nehru Medical College,
+Belagavi",MBBS,NRI,GN,324375,774616,6
+Mop Up,"K M Shah Dental Collegel, SumanDeep
+Vidyapeeth Vadodara",BDS,JM,GN,384934,452009,3
+Mop Up,"K M Shah Dental Collegel, SumanDeep
+Vidyapeeth Vadodara",BDS,MNG,GN,168298,571640,12
+Mop Up,"K.S Hegde Medical Academy, Mangaluru",MBBS,MNG,GN,40705,47306,4
+Mop Up,"K.S Hegde Medical Academy, Mangaluru",MBBS,NRI,GN,239948,751790,3
+Mop Up,KLE VK Inst. of Dental Scie. Belagavi,BDS,MNG,GN,133697,731230,13
+Mop Up,"Kalinga Institute of Dental Sciences,
+Bhubaneswar",BDS,MNG,GN,230091,621946,7
+Mop Up,"Kalinga Institute of Medical Sciences,
+Bhubaneswar",MBBS,MNG,GN,21067,56316,5
+Mop Up,"Kalinga Institute of Medical Sciences,
+Bhubaneswar",MBBS,NRI,GN,376945,571630,3
+Mop Up,"Kasturba Medical College, Manipal Univ.,
+Mangalore",MBBS,MNG,GN,18767,30467,7
+Mop Up,"Kasturba Medical College, Manipal Univ.,
+Mangalore",MBBS,NRI,GN,332453,776436,8
+Mop Up,"Kasturba Medical College, Manipal Univ.,
+Manipal",MBBS,MNG,GN,10885,28696,16
+Mop Up,"Krishna Inst. of Med. Scie., Karad",MBBS,MNG,GN,120826,278607,8
+Mop Up,"Krishna Inst. of Med. Scie., Karad",MBBS,NRI,GN,464251,706631,8
+Mop Up,"Lady Hardinge Medical College, New
+Delhi",MBBS,DU,EW NO,13918,13918,1
+Mop Up,"Lady Hardinge Medical College, New
+Delhi",MBBS,DU,GN,6471,6471,1
+Mop Up,"Lady Hardinge Medical College, New
+Delhi",MBBS,DU,OBC,18527,20031,4
+Mop Up,"Lady Hardinge Medical College, New
+Delhi",MBBS,DU,SC,58457,58457,1
+Mop Up,"Lady Hardinge Medical College, New
+Delhi",MBBS,DU,ST,171381,171381,1
+Mop Up,"MANAV RACHNA DENTAL COLLEGE
+FARIDABAD",BDS,MNG,GN,120477,637474,6
+Mop Up,"MGM Medical College, Aurangabad",MBBS,MNG,GN,96990,132299,6
+Mop Up,"MGM Medical College, Navi Mumbai",MBBS,MNG,GN,74698,109268,5
+Mop Up,"MGM Medical College, Navi Mumbai",MBBS,NRI,GN,486932,486932,1
+Mop Up,"MM College of Dental Scie. and Res.,
+Mullana",BDS,MNG,GN,33036,679598,7
+Mop Up,"MM Inst. Med. and Research, Mullana",MBBS,MNG,GN,32551,175744,25
+Mop Up,"Mahatma Gandhi Medical College and
+Sri Balaji Vidyapeeth, Pondicherry",MBBS,MNG,GN,90704,201817,14
+Mop Up,"Manipal College of Dental Sce., Manipal",BDS,MNG,GN,89915,129485,3
+Mop Up,"Manipal College of Dental Science,
+Mangalore",BDS,MNG,GN,126257,797970,15
+Mop Up,"Manipal Tata Medical College,",MBBS,MNG,GN,16894,59965,19
+Mop Up,"Maulana Azad Institute of Dental
+Sciences, New Delhi",BDS,CW,"OBC
+(Priority: 6)",124164,124164,1
+Mop Up,"Maulana Azad Institute of Dental
+Sciences, New Delhi",BDS,DU,EW NO,19099,19153,2
+Mop Up,"Maulana Azad Institute of Dental
+Sciences, New Delhi",BDS,DU,GN,14643,18713,7
+Mop Up,"Maulana Azad Institute of Dental
+Sciences, New Delhi",BDS,DU,OBC,21455,33607,8
+Mop Up,"Maulana Azad Institute of Dental
+Sciences, New Delhi",BDS,DU,SC,83458,86096,3
+Mop Up,"Maulana Azad Institute of Dental
+Sciences, New Delhi",BDS,DU,ST,205695,211515,2
+Mop Up,"Maulana Azad Medical College, New
+Delhi",MBBS,CW,"SC
+(Priority: 6)",668713,668713,1
+Mop Up,"Maulana Azad Medical College, New
+Delhi",MBBS,DU,OBC PwD,334920,334920,1
+Mop Up,"Maulana Azad Medical College, New
+Delhi",MBBS,DU,ST,159613,159613,1
+Mop Up,"Meenakshi Ammal Dental College and
+Host., Chennai1",BDS,MNG,GN,300991,805984,14
+Mop Up,"Meenakshi Medical College Host. and
+Res. Inst., Chennai",MBBS,MNG,GN,117535,599226,29
+Mop Up,"Raja Rajeswari Medical College
+Bengaluru",MBBS,MNG,GN,132845,442843,95
+Mop Up,"Rural Dental College, Loni",BDS,MNG,GN,265249,775889,10
+Mop Up,"Rural Medical College and PIMS, Loni",MBBS,MNG,GN,44539,53265,5
+Mop Up,"SATHYABAMA UNIV. Dental College
+and Hospt. Chennai",BDS,MNG,GN,190243,815856,15
+Mop Up,"SBKS Med. Inst. and Res. Centre,
+Sumandeep Vidyapeeth",MBBS,JM,GN,81956,81956,1
+Mop Up,"SBKS Med. Inst. and Res. Centre,
+Sumandeep Vidyapeeth",MBBS,NRI,GN,260300,614864,3
+Mop Up,"SDU Medical College, Kolar",MBBS,MNG,GN,13721,46620,5
+Mop Up,"SDU Medical College, Kolar",MBBS,NRI,GN,804787,804787,1
+Mop Up,"SLBS Govt. Medical College, Mandi",MBBS,ESI,GN,50066,50066,1
+Mop Up,"SLBS Govt. Medical College, Mandi",MBBS,ESI,OBC,57855,57855,1
+Mop Up,"SRM Dental College, Chennai",BDS,MNG,GN,150073,706362,7
+Mop Up,"SRM Katt. Dental College and Hospt.
+Chennai",BDS,MNG,GN,150391,760479,16
+Mop Up,"SRM Medical College and Hospital,
+Chennai",MBBS,MNG,GN,76191,309443,24
+Mop Up,"SRM Medical College and Hospital,
+Chennai",MBBS,NRI,GN,583210,677795,2
+Mop Up,"SYMBIOSIS MEDICAL COLLEGE FOR
+WOMEN PUNE",MBBS,MNG,GN,16434,27085,5
+Mop Up,"Santosh Dental College and Hospital,
+Ghaziabad",BDS,MNG,GN,71433,478883,8
+Mop Up,"Santosh Medical College and Hospital,
+Ghaziabad",MBBS,MNG,GN,102147,627616,30
+Mop Up,"Saveetha Dental College, Chennai",BDS,MNG,GN,128586,686165,13
+Mop Up,"Saveetha Medical College, Chennai",MBBS,MNG,GN,76025,536815,41
+Mop Up,"Saveetha Medical College, Chennai",MBBS,NRI,GN,674723,674723,1
+Mop Up,"School of Dental Sciences and KIMSDU,
+Karad",BDS,MNG,GN,388225,682247,4
+Mop Up,"Sharad Pawar Dental College and
+Hospital, Wardha",BDS,MNG,GN,300201,746399,5
+Mop Up,"Shri Sathya Sai Medical College and RI,
+Chennai",MBBS,MNG,GN,136871,435754,24
+Mop Up,"Sree Balaji Dental College and Hospital,
+Chennai",BDS,MNG,GN,133322,789732,15
+Mop Up,"Sree Balaji Medical College and Hospital,
+Chennai",MBBS,MNG,GN,123401,676109,47
+Mop Up,"Sri Lakshmi Narayana Inst. of Med.
+Scien., Puducherry",MBBS,MNG,GN,254507,679321,38
+Mop Up,"Sri Ramachandra Dental and Hospt.,
+Chennai",BDS,MNG,GN,130243,782921,15
+Mop Up,"Sri Ramachandra Med. College and Res.
+Inst., Chennai",MBBS,MNG,GN,33796,75062,7
+Mop Up,"Sri Ramachandra Med. College and Res.
+Inst., Chennai",MBBS,NRI,GN,154637,154637,1
+Mop Up,Sri Siddhartha Academy T Begur,MBBS,MNG,GN,25286,207005,46
+Mop Up,"Sri Siddhartha DentalCollege, Tumkur",BDS,MNG,GN,312446,814066,9
+Mop Up,"Sri Siddhartha Medical College DU,
+Tumkur",MBBS,MNG,GN,68688,156487,24
+Mop Up,"Thaimoogambigai Dental College and
+Hsopt. Chennai",BDS,MNG,GN,239199,339987,4
+Mop Up,"University College of Medical Sciences,
+New Delhi",MBBS,CW,"SC
+(Priority: 8)",198681,198681,1
+Mop Up,"University College of Medical Sciences,
+New Delhi",MBBS,DU,GN,4442,4442,1
+Mop Up,"University College of Medical Sciences,
+New Delhi",MBBS,DU,GN PwD,457776,744300,2
+Mop Up,"University College of Medical Sciences,
+New Delhi",MBBS,DU,OBC,12887,13559,3
+Mop Up,"University College of Medical Sciences,
+New Delhi",MBBS,DU,SC,54249,54249,1
+Mop Up,"VMKV Medical College and Hospital,
+Salem",MBBS,MNG,GN,84787,188883,8
+Mop Up,"VMKV Medical College and Hospital,
+Salem",MBBS,NRI,GN,585257,585257,1
+Mop Up,"VMS Dental College, Salem",BDS,MNG,GN,151503,197596,2
+Mop Up,"Vardhman Mahavir Medical College and
+Safdarjung Hospital New Delhi, VMMC",MBBS,CW,"GN
+(Priority: 4)",353018,353018,1
+Mop Up,"Vardhman Mahavir Medical College and
+Safdarjung Hospital New Delhi, VMMC",MBBS,IP,EW NO,5130,5130,1
+Mop Up,"Vardhman Mahavir Medical College and
+Safdarjung Hospital New Delhi, VMMC",MBBS,IP,OBC,9548,13293,2
+Mop Up,"Vardhman Mahavir Medical College and
+Safdarjung Hospital New Delhi, VMMC",MBBS,IP,SC,43592,43592,1
+Mop Up,"Vardhman Mahavir Medical College and
+Safdarjung Hospital New Delhi, VMMC",MBBS,IP,ST,162976,162976,1
+Mop Up,"Vinayaka Missions Medical College and
+Hospital, Karaikal",MBBS,MNG,GN,129505,229623,22
+Mop Up,"Yenepoya Dental College, Yenepoya",BDS,MM,GN,116167,116167,1
+Mop Up,"Yenepoya Dental College, Yenepoya",BDS,MNG,GN,133325,560614,10
+Mop Up,"Yenepoya Dental College, Yenepoya",BDS,NRI,GN,607566,772612,6
+Mop Up,"Yenepoya Medical College, Mangalore",MBBS,MM,GN,95321,95321,1
+Mop Up,"Yenepoya Medical College, Mangalore",MBBS,MNG,GN,69171,115061,4

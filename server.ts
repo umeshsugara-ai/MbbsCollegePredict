@@ -1216,12 +1216,21 @@ async function predictIndiaCsv(profile: any) {
 
   const eligible = eligibleCategories(userCategory);
   const cutoffs = LATEST_CUTOFF_ROWS;
+  // Drop women-only seats for male / unspecified students. The CSV labels
+  // these in the institute string itself ("(Female Seat only)", "for women",
+  // "Lady Hardinge"). For 2024 alone there are 66+ such rows; without this
+  // filter a male student is silently shown a closing rank he can never
+  // actually reach (the LHMC leak that the verifier was supposed to block
+  // but only blocks on the Gemini path, not the CSV-fallback path).
+  const userGender = String(profile.gender || '').toLowerCase();
+  const filterWomenOnly = userGender !== 'female';
 
   // Group by (institute, quota, category) → keep min closing rank
   const groups = new Map<string, CutoffRow>();
   for (const r of cutoffs) {
     if (!isQuotaAccessible(r.quota, userState, r.state)) continue;
     if (!categoryMatches(r.category, eligible)) continue;
+    if (filterWomenOnly && isFemaleOnlyInstitute(r.institute)) continue;
     const key = `${r.institute}||${r.quota}||${r.category}`;
     const ex = groups.get(key);
     if (!ex || r.closingRank < ex.closingRank) groups.set(key, r);
@@ -1741,6 +1750,42 @@ function normalizeName(s: string): string {
   return String(s || '').toLowerCase().replace(/[^\w\s]/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
+// Token-prefix match — true if `a` and `b` share the first 3 significant
+// tokens (after normalization), or one is a strict prefix of the other.
+// Catches "Madras Medical College, Chennai" (Gemini) ≈ "MADRAS MEDICAL"
+// (CSV) so backfill dedup actually works.
+function namesMatchLoose(a: string, b: string): boolean {
+  const na = normalizeName(a);
+  const nb = normalizeName(b);
+  if (!na || !nb) return false;
+  if (na === nb) return true;
+  if (na.startsWith(nb + ' ') || nb.startsWith(na + ' ')) return true;
+  const ta = na.split(' ').filter(t => t.length > 1).slice(0, 3).join(' ');
+  const tb = nb.split(' ').filter(t => t.length > 1).slice(0, 3).join(' ');
+  return !!ta && ta === tb;
+}
+
+// Female-only institutions in the MCC CSV. Two patterns:
+//  (1) the institute string explicitly tags a female-only seat (the MCC
+//      annotation "(Female Seat only)" appears on 60+ rows in 2024 alone).
+//  (2) the college is structurally women-only — Lady Hardinge MC Delhi,
+//      ESIC PGIMSR Basaidarapur (women's wing), Government Medical College
+//      for Women (Khazipally, Salem), BPS GMCW Sonepat, etc.
+// A male student or one with no gender stated should not see these as
+// reachable — even when the CSV has an "Open" category row, the seat is
+// gender-restricted and our predicted "you can clear this" is wrong.
+const FEMALE_ONLY_INSTITUTE_PATTERNS = [
+  /\(female seat only\)/i,
+  /\bfor women\b/i,
+  /\bwomen[' ]s? medical\b/i,
+  /\blady hardinge\b/i,
+  /\bgmcw\b/i,
+];
+function isFemaleOnlyInstitute(name: string): boolean {
+  if (!name) return false;
+  return FEMALE_ONLY_INSTITUTE_PATTERNS.some(p => p.test(name));
+}
+
 // Map quotaSlot label to CSV quota convention. CSV uses "All India",
 // "Deemed/Paid Seats Quota", etc. — model returns shorthand "AIQ", "Deemed".
 function csvQuotaForSlot(slot: string): Set<string> {
@@ -1867,36 +1912,70 @@ async function buildValidatorBackfill(
   if (needCount <= 0) return [];
   try {
     const csvResult = await predictIndiaCsv(profile);
-    const userCategory = (profile.category || 'OPEN').toUpperCase();
-    const userState = String(profile.domicileState || '').toLowerCase();
     const budgetUSD = parseInt(profile.budgetInUSD || '0', 10);
     const budgetINR = budgetUSD ? budgetUSD * 83.5 : 0;
     const deemedAllowed = budgetINR >= 5_000_000;
-    const haveNames = new Set(alreadyHave.map(u => normalizeName(u.name)));
+    // Loose-match dedup against the validator survivors. Without the loose
+    // match the CSV's truncated names ("MADRAS MEDICAL") slip past the
+    // exact normalize() check and the student sees the same college twice
+    // (one Gemini row + one all-caps CSV duplicate).
+    const isDup = (name: string) =>
+      alreadyHave.some(u => namesMatchLoose(u?.name || '', name));
     const candidates = (csvResult.universities || []).filter((u: any) => {
-      // Skip duplicates
-      if (haveNames.has(normalizeName(u.name))) return false;
-      // Quota relevance
+      if (isDup(u.name)) return false;
       const q = String(u.quota || '');
       if (q === 'Deemed/Paid Seats Quota' && !deemedAllowed) return false;
-      // State-quota rows must match domicile (CSV barely has these, but be safe)
+      // AIQ/Deemed/Open quotas are profile-agnostic and safe to backfill.
+      // State quotas are skipped because predictIndiaCsv strips row.state
+      // from the University object and we can't re-verify domicile here —
+      // a Bengal college shown as "State quota" to a Maharashtra student
+      // is exactly the wrong-recommendation we are guarding against.
       if (q !== 'All India' && q !== 'Deemed/Paid Seats Quota' && q !== 'Open Seat Quota'
           && q !== 'IP University Quota' && q !== 'Delhi University Quota') {
-        // It's a state-domicile quota — caller must match domicile
-        // We don't have row.state on the University object, so skip these
-        // (rare edge case; AIQ + Deemed cover 95%+ of CSV).
         return false;
       }
-      // Category match: predictIndiaCsv already filters by eligibleCategories;
-      // its University objects don't expose category, but the eligibility
-      // filter in the source means these are safe by construction.
       return true;
     });
-    return candidates.slice(0, needCount);
+    // Normalise CSV-shape rows into the validator/UI shape — UI sort/filter
+    // assumes every row has quotaSlot, categorySlot, expectedClosingAirLow/High
+    // and reads `closingRank ~N` out of neetRequirement to derive AIR.
+    return candidates.slice(0, needCount).map(normaliseBackfillRow);
   } catch (e: any) {
     console.error('[validator] backfill failed:', e?.message || e);
     return [];
   }
+}
+
+// CSV-rooted backfill rows arrive with `quota` (different field name) and
+// no AIR band. The validator + UI both assume `quotaSlot`, `categorySlot`
+// and numeric `expectedClosingAirLow/High`. Without this fold, backfill
+// rows render with empty Tier/AIR cells and break ascending-rank sort.
+function normaliseBackfillRow(u: any): any {
+  const quotaSlot = (() => {
+    const q = String(u.quota || '');
+    if (q === 'All India') return 'AIQ';
+    if (q === 'Deemed/Paid Seats Quota') return 'Deemed';
+    return 'State';
+  })();
+  // Pull out the category slot from neetRequirement if absent
+  let categorySlot = u.categorySlot || '';
+  if (!categorySlot) {
+    const m = String(u.neetRequirement || '').match(/\(([^)]+)\)/);
+    if (m) categorySlot = m[1].trim();
+  }
+  // Recover AIR from the literal "Closing rank ~N" in neetRequirement.
+  let low = u.expectedClosingAirLow;
+  let high = u.expectedClosingAirHigh;
+  if (!low || !high) {
+    const m = String(u.neetRequirement || '').match(/closing rank ~?([\d,]+)/i);
+    const air = m ? parseInt(m[1].replace(/,/g, ''), 10) : 0;
+    if (air) {
+      // ±10% band — narrow because the CSV anchor IS the closing rank.
+      low  = Math.round(air * 0.9);
+      high = Math.round(air * 1.1);
+    }
+  }
+  return { ...u, quotaSlot, categorySlot, expectedClosingAirLow: low, expectedClosingAirHigh: high };
 }
 
 function validateIndiaUniversities(
@@ -2206,12 +2285,16 @@ async function predictIndia(profile: any) {
       userCategory,
     );
 
-    // Backfill on overdrop — keep at least 7 universities by pulling from the
-    // CSV fallback (already category/quota/budget filtered). Falls back gracefully
-    // if backfill fails — short list is better than no list.
-    const MIN_UNIS = 7;
+    // Backfill on overdrop — only when the validated list is genuinely thin.
+    // The earlier threshold (7) merged CSV rows even when 6 high-quality
+    // Gemini rows had already landed, surfacing all-caps CSV duplicates of
+    // colleges the student already saw. Drop the floor to 5 and cap the
+    // top-up so a final list of 6-7 well-validated colleges is preferred
+    // over 10 colleges with 4 lower-quality fillers.
+    const MIN_UNIS = 5;
+    const TARGET_UNIS = 7;
     if (validation.validated.length < MIN_UNIS) {
-      const need = 10 - validation.validated.length;
+      const need = TARGET_UNIS - validation.validated.length;
       console.log(`[validator] only ${validation.validated.length} unis survived validation, backfilling up to ${need} from CSV…`);
       const backfill = await buildValidatorBackfill(profile, validation.validated, need);
       validation.validated.push(...backfill);
@@ -2517,7 +2600,11 @@ function validateProfile(raw: any): { ok: true; profile: SanitizedProfile } | { 
     return { ok: false, error: 'For India recommendations, provide either neetScore or neetRank.' };
   }
 
-  const category = String(raw.category || 'OPEN').toUpperCase().replace(/\s+/g, '-');
+  // Normalise both spaces and underscores to hyphens. The UI dropdown uses
+  // `OPEN_PWD`, `OBC_PWD`, etc. (HTML option values can't sensibly contain
+  // hyphens that get url-encoded). Without this fold, every PwD-category
+  // student gets a 400 because `OPEN_PWD` isn't in the allowlist.
+  const category = String(raw.category || 'OPEN').toUpperCase().replace(/[\s_]+/g, '-');
   if (!ALLOWED_CATEGORIES.has(category)) {
     return { ok: false, error: `category must be one of: ${[...ALLOWED_CATEGORIES].join(', ')}.` };
   }

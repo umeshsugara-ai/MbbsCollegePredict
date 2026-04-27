@@ -7,6 +7,7 @@ import { parse } from 'csv-parse/sync';
 import { MongoClient, type Collection } from 'mongodb';
 import rateLimit from 'express-rate-limit';
 import { randomUUID } from 'crypto';
+import nodemailer, { type Transporter } from 'nodemailer';
 
 dotenv.config({ path: '.env' });
 dotenv.config({ path: '.env.local', override: true });
@@ -2684,6 +2685,222 @@ function normalizePhone(s: string): string {
 // stuffing 100KB of nested JSON into a lead doc.
 const MAX_LINKED_REC_BYTES = 8 * 1024;
 
+// ─── Lead-notification email (AWS SES via nodemailer) ─────────────────────
+// Two emails fire on every successful /api/lead: a thank-you to the student
+// and a notification to TEAM_EMAIL with the full lead context. Both are
+// awaited (the user's browser shows the success modal only after dispatch),
+// but a send failure never fails the lead — Mongo is the source of truth.
+
+const SES_SMTP_USER = process.env.SES_SMTP_USER || '';
+const SES_SMTP_PASS = process.env.SES_SMTP_PASS || '';
+const SES_SMTP_HOST = process.env.SES_SMTP_HOST || 'email-smtp.ap-south-1.amazonaws.com';
+const SES_SMTP_PORT = parseInt(process.env.SES_SMTP_PORT || '587', 10);
+const FROM_NAME     = process.env.FROM_NAME  || 'Vidysea MBBS Counselling';
+const FROM_EMAIL    = process.env.FROM_EMAIL || 'no-reply@vidysea.com';
+const TEAM_EMAIL    = (process.env.TEAM_EMAIL || 'umeshsugara@vidysea.com')
+  .split(',').map(s => s.trim()).filter(Boolean);
+
+let mailTransporter: Transporter | null = null;
+if (SES_SMTP_USER && SES_SMTP_PASS) {
+  mailTransporter = nodemailer.createTransport({
+    host: SES_SMTP_HOST,
+    port: SES_SMTP_PORT,
+    secure: SES_SMTP_PORT === 465,        // SES STARTTLS on 587, implicit TLS on 465
+    auth: { user: SES_SMTP_USER, pass: SES_SMTP_PASS },
+  });
+  // Verify lazily on first send; just log that the transport is configured.
+  console.log(`[mail] SES SMTP configured (${SES_SMTP_HOST}:${SES_SMTP_PORT}, from=${FROM_EMAIL})`);
+} else {
+  console.warn('[mail] SES_SMTP_USER/PASS not set — lead emails disabled (silent no-op).');
+}
+
+const FROM_HEADER = `"${FROM_NAME}" <${FROM_EMAIL}>`;
+
+function fmtLeadList(items: Array<[string, string]>): { html: string; text: string } {
+  const rows = items
+    .filter(([, v]) => v && v.trim())
+    .map(([k, v]) => [escapeHtml(k), escapeHtml(v)]);
+  const html =
+    '<table style="border-collapse:collapse;font-family:Arial,sans-serif;font-size:14px;">' +
+    rows.map(([k, v]) =>
+      `<tr><td style="padding:6px 14px 6px 0;color:#555;vertical-align:top;"><b>${k}</b></td>` +
+      `<td style="padding:6px 0;color:#111;">${v}</td></tr>`
+    ).join('') +
+    '</table>';
+  const text = rows.map(([k, v]) => `${k}: ${v}`).join('\n');
+  return { html, text };
+}
+
+interface LeadEmailContext {
+  name: string;
+  email: string;
+  phone: string;
+  message: string;
+  source: string;
+  neetYear: string;
+  wantsAbroad: boolean;
+  sessionId: string;
+  leadId: string;
+  linkedRecommendation: any;
+}
+
+function buildUserConfirmation(ctx: LeadEmailContext): { subject: string; html: string; text: string } {
+  const firstName = (ctx.name || 'there').split(/\s+/)[0];
+  const picks: Array<{ name: string; country: string; tier: string }> =
+    Array.isArray(ctx.linkedRecommendation?.universitiesPicked)
+      ? ctx.linkedRecommendation.universitiesPicked.slice(0, 3)
+      : [];
+  const picksHtml = picks.length
+    ? `<p style="font-size:14px;color:#333;margin:16px 0 8px;">Based on what you shared, we've already noted these colleges:</p>
+       <ul style="font-size:14px;color:#333;padding-left:20px;margin:0 0 16px;">
+         ${picks.map(p => `<li>${escapeHtml(p.name || '')}${p.country ? ` <span style="color:#888;">(${escapeHtml(p.country)})</span>` : ''}${p.tier ? ` — <i>${escapeHtml(p.tier)}</i>` : ''}</li>`).join('')}
+       </ul>`
+    : '';
+  const subject = 'Thanks for reaching out — Vidysea MBBS Counselling';
+  const html = `
+    <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;padding:32px;background:#ffffff;color:#111;">
+      <div style="font-weight:bold;font-size:13px;color:#1f4ed8;letter-spacing:1px;margin-bottom:16px;">VIDYSEA · MBBS COUNSELLING</div>
+      <p style="font-size:16px;margin:0 0 12px;">Hi ${escapeHtml(firstName)},</p>
+      <p style="font-size:14px;line-height:1.55;color:#333;margin:0 0 14px;">
+        Thanks for sharing your details with us. Our counselling team has received your enquiry and will reach out within
+        <b>24 working hours</b> to walk you through your MBBS options — both in India and abroad — based on your NEET profile.
+      </p>
+      ${picksHtml}
+      <p style="font-size:14px;line-height:1.55;color:#333;margin:14px 0;">
+        If you'd like to talk sooner, you can reply directly to this email or write to us at
+        <a href="mailto:product@vidysea.com" style="color:#1f4ed8;">product@vidysea.com</a>.
+      </p>
+      <p style="font-size:13px;color:#888;margin:24px 0 0;">— Team Vidysea</p>
+      <p style="font-size:11px;color:#aaa;margin-top:18px;border-top:1px solid #eee;padding-top:10px;">
+        Reference: ${escapeHtml(ctx.leadId)}
+      </p>
+    </div>`;
+  const text =
+`Hi ${firstName},
+
+Thanks for sharing your details with us. Our counselling team has received your enquiry and will reach out within 24 working hours to walk you through your MBBS options — both in India and abroad — based on your NEET profile.
+
+${picks.length ? 'Colleges noted:\n' + picks.map(p => `  - ${p.name}${p.country ? ` (${p.country})` : ''}${p.tier ? ` — ${p.tier}` : ''}`).join('\n') + '\n\n' : ''}If you'd like to talk sooner, reply to this email or write to product@vidysea.com.
+
+— Team Vidysea
+Reference: ${ctx.leadId}`;
+  return { subject, html, text };
+}
+
+function buildTeamNotification(ctx: LeadEmailContext): { subject: string; html: string; text: string } {
+  const profile = ctx.linkedRecommendation?.profile || {};
+  const picks: Array<{ name: string; country: string; tier: string }> =
+    Array.isArray(ctx.linkedRecommendation?.universitiesPicked)
+      ? ctx.linkedRecommendation.universitiesPicked
+      : [];
+  const subject = `New lead: ${ctx.name || '(no name)'} · ${ctx.source}${ctx.email ? ` · ${ctx.email}` : ''}`;
+
+  const profileFields: Array<[string, string]> = [
+    ['Destination',  String(profile.destinationType || '')],
+    ['NEET score',   profile.score != null ? String(profile.score) : ''],
+    ['NEET rank',    profile.rank  != null ? String(profile.rank)  : ''],
+    ['Category',     String(profile.category || '')],
+    ['Gender',       String(profile.gender   || '')],
+    ['Home state',   String(profile.homeState || '')],
+    ['Budget INR',   profile.budgetInrLakh != null ? `${profile.budgetInrLakh} L` : ''],
+    ['Pref. countries', Array.isArray(profile.preferredCountries) ? profile.preferredCountries.join(', ') : ''],
+  ];
+  const profileBlock = fmtLeadList(profileFields);
+
+  const leadFields: Array<[string, string]> = [
+    ['Name',        ctx.name],
+    ['Email',       ctx.email],
+    ['Phone',       ctx.phone],
+    ['Source',      ctx.source],
+    ['NEET year',   ctx.neetYear],
+    ['Wants abroad', ctx.wantsAbroad ? 'Yes' : 'No'],
+    ['Message',     ctx.message],
+    ['Session ID',  ctx.sessionId],
+    ['Lead ID',     ctx.leadId],
+  ];
+  const leadBlock = fmtLeadList(leadFields);
+
+  const picksHtml = picks.length
+    ? `<h3 style="font-family:Arial,sans-serif;font-size:14px;color:#111;margin:18px 0 6px;">Colleges they were shown</h3>
+       <ol style="font-family:Arial,sans-serif;font-size:13px;color:#333;padding-left:22px;margin:0;">
+         ${picks.map(p => `<li>${escapeHtml(p.name || '')}${p.country ? ` <span style="color:#888;">(${escapeHtml(p.country)})</span>` : ''}${p.tier ? ` — <i>${escapeHtml(p.tier)}</i>` : ''}</li>`).join('')}
+       </ol>`
+    : '';
+
+  const html = `
+    <div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto;padding:24px;background:#ffffff;color:#111;">
+      <h2 style="font-size:18px;margin:0 0 4px;color:#1f4ed8;">New lead from MBBS Predictor</h2>
+      <p style="font-size:13px;color:#666;margin:0 0 18px;">${escapeHtml(nowIST())}</p>
+
+      <h3 style="font-size:14px;color:#111;margin:0 0 6px;">Lead details</h3>
+      ${leadBlock.html}
+
+      <h3 style="font-size:14px;color:#111;margin:18px 0 6px;">Predictor profile</h3>
+      ${profileBlock.html}
+
+      ${picksHtml}
+
+      <p style="font-size:12px;color:#888;margin:24px 0 0;border-top:1px solid #eee;padding-top:10px;">
+        Join with the user's full prediction history in Mongo via <code>sessionId = ${escapeHtml(ctx.sessionId)}</code>.
+      </p>
+    </div>`;
+
+  const text =
+`New lead from MBBS Predictor — ${nowIST()}
+
+LEAD
+${leadBlock.text}
+
+PROFILE
+${profileBlock.text}
+${picks.length ? '\nCOLLEGES SHOWN\n' + picks.map((p, i) => `  ${i + 1}. ${p.name}${p.country ? ` (${p.country})` : ''}${p.tier ? ` — ${p.tier}` : ''}`).join('\n') + '\n' : ''}
+Join with the user's full prediction history in Mongo via sessionId = ${ctx.sessionId}`;
+
+  return { subject, html, text };
+}
+
+async function sendLeadEmails(ctx: LeadEmailContext): Promise<void> {
+  if (!mailTransporter) return;                        // disabled — silent
+  const tasks: Array<Promise<any>> = [];
+
+  // Team notification — always send if TEAM_EMAIL is set.
+  if (TEAM_EMAIL.length) {
+    const m = buildTeamNotification(ctx);
+    tasks.push(
+      mailTransporter.sendMail({
+        from: FROM_HEADER,
+        to: TEAM_EMAIL,
+        replyTo: ctx.email || undefined,                // team can reply directly to the student
+        subject: m.subject,
+        html: m.html,
+        text: m.text,
+      }).then(
+        info => console.log(`[mail] team notify → ${TEAM_EMAIL.join(',')} | ${info.messageId}`),
+        err  => console.error(`[mail] team notify FAILED:`, err?.message || err)
+      )
+    );
+  }
+
+  // Student confirmation — only if they gave us a real email.
+  if (ctx.email && isValidEmail(ctx.email)) {
+    const m = buildUserConfirmation(ctx);
+    tasks.push(
+      mailTransporter.sendMail({
+        from: FROM_HEADER,
+        to: ctx.email,
+        subject: m.subject,
+        html: m.html,
+        text: m.text,
+      }).then(
+        info => console.log(`[mail] user confirm → ${ctx.email} | ${info.messageId}`),
+        err  => console.error(`[mail] user confirm FAILED for ${ctx.email}:`, err?.message || err)
+      )
+    );
+  }
+
+  await Promise.allSettled(tasks);
+}
+
 app.post('/api/lead', leadLimiter, async (req, res) => {
   const body = req.body || {};
 
@@ -2730,9 +2947,17 @@ app.post('/api/lead', leadLimiter, async (req, res) => {
   }
 
   if (!leadsCollection) {
-    // Mongo down or disabled — fail loudly to the user; this is a real submission
-    console.error('[/api/lead] Mongo unavailable, lead NOT persisted:', { name, email, phone });
-    return res.status(503).json({ error: 'Submission service is temporarily unavailable. Please try again or call us directly.' });
+    // Boot-time connection may have failed (cold-start race, transient DNS,
+    // IP allowlist pending). Try once more before giving up so a single boot
+    // hiccup doesn't permanently disable lead capture for this process.
+    if (MONGODB_URI) {
+      console.warn('[/api/lead] leadsCollection null — attempting one-shot reconnect');
+      await initMongo();
+    }
+    if (!leadsCollection) {
+      console.error('[/api/lead] Mongo unavailable, lead NOT persisted:', { name, email, phone });
+      return res.status(503).json({ error: 'Submission service is temporarily unavailable. Please try again or call us directly.' });
+    }
   }
 
   try {
@@ -2764,8 +2989,23 @@ app.post('/api/lead', leadLimiter, async (req, res) => {
         : null,
     };
     const r = await leadsCollection.insertOne(doc);
-    console.log(`[mongo] lead inserted: ${r.insertedId} (source=${source}, email=${email || '-'}, phone=${phone || '-'})`);
-    res.json({ ok: true, id: r.insertedId.toHexString() });
+    const leadId = r.insertedId.toHexString();
+    console.log(`[mongo] lead inserted: ${leadId} (source=${source}, email=${email || '-'}, phone=${phone || '-'})`);
+
+    // Awaited per the user's choice — the success modal should render only
+    // after dispatch attempts complete. sendLeadEmails internally uses
+    // Promise.allSettled and never throws, so an SES outage does not turn a
+    // saved lead into a 5xx for the student.
+    try {
+      await sendLeadEmails({
+        name, email, phone, message, source, neetYear, wantsAbroad,
+        sessionId, leadId, linkedRecommendation,
+      });
+    } catch (mailErr: any) {
+      console.error('[/api/lead] email dispatch unexpected error:', mailErr?.message || mailErr);
+    }
+
+    res.json({ ok: true, id: leadId });
   } catch (e: any) {
     console.error('[/api/lead] insert failed:', e?.message || e);
     res.status(500).json({ error: 'Could not record your enquiry. Please try again.' });

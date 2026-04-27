@@ -26,7 +26,12 @@
   --radius:14px;
 }
 html{scroll-behavior:smooth}
-body{font-family:Arial,sans-serif;color:var(--text);background:var(--white);overflow-x:hidden;font-size:16px;line-height:1.5}
+/* body bg must match the dark hero — at very wide viewports / high DPI, any
+   sub-pixel gap or transform-clipped element exposes the body color, and a
+   white strip on a dark page reads as a broken layout. White-themed sections
+   (e.g. .faq-sec) set their own bg explicitly so this is safe. */
+html{background:var(--navy)}
+body{font-family:Arial,sans-serif;color:var(--text);background:var(--navy);overflow-x:hidden;font-size:16px;line-height:1.5}
 
 /* ─── SCROLLBAR ─── */
 ::-webkit-scrollbar{width:6px}
@@ -685,22 +690,38 @@ nav{
 .pred-th-sort.sort-desc .pred-sort-icon::after{content:'↓'}
 .pred-sort-icon::after{content:'↕'}
 
-/* Info icon tooltip */
+/* Info icon tooltip — JS positions left/top in viewport coords;
+   no transform here so JS math is the only source of truth.
+   On mobile (<600px) the tooltip docks to the bottom of the viewport
+   so it can never escape the screen edge. */
 .pred-th-info-wrap{position:relative;display:inline-flex;align-items:center}
-.pred-th-info{display:inline-flex;align-items:center;justify-content:center;width:13px;height:13px;border-radius:50%;background:#E2E8F0;color:#64748B;font-size:8px;font-weight:800;cursor:help;font-style:normal;flex-shrink:0;transition:background .12s}
-.pred-th-info-wrap:hover .pred-th-info{background:#C7D2FE;color:#4338CA}
+.pred-th-info{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:#E2E8F0;color:#64748B;font-size:11px;font-weight:800;cursor:help;font-style:normal;flex-shrink:0;transition:background .12s;-webkit-tap-highlight-color:transparent}
+.pred-th-info-wrap:hover .pred-th-info,.pred-th-info.active{background:#C7D2FE;color:#4338CA}
 .pred-col-tooltip{
   position:fixed;z-index:99999;
-  background:#0f172a;color:rgba(255,255,255,.92);font-size:11.5px;font-weight:400;
-  line-height:1.6;padding:10px 13px;border-radius:10px;max-width:240px;
+  background:#0f172a;color:rgba(255,255,255,.92);font-size:12px;font-weight:400;
+  line-height:1.55;padding:10px 13px;border-radius:10px;
   text-align:left;pointer-events:none;white-space:normal;
-  box-shadow:0 10px 28px rgba(15,23,42,.25);
-  transform:translateX(-50%) translateY(-100%);
-  margin-top:-8px;
+  box-shadow:0 10px 28px rgba(15,23,42,.35);
+  max-width:260px;
 }
-.pred-col-tooltip::after{
-  content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);
+.pred-col-tooltip[data-arrow="up"]::after{
+  content:'';position:absolute;bottom:100%;left:var(--arrow-x,50%);transform:translateX(-50%);
+  border:5px solid transparent;border-bottom-color:#0f172a;
+}
+.pred-col-tooltip[data-arrow="down"]::after{
+  content:'';position:absolute;top:100%;left:var(--arrow-x,50%);transform:translateX(-50%);
   border:5px solid transparent;border-top-color:#0f172a;
+}
+/* Mobile dock: full-width banner at bottom of viewport, never clips */
+@media(max-width:599px){
+  .pred-col-tooltip.mobile-dock{
+    left:12px !important;right:12px !important;top:auto !important;
+    bottom:calc(env(safe-area-inset-bottom,0) + 16px);
+    max-width:none;font-size:13px;padding:14px 16px;
+    box-shadow:0 -8px 24px rgba(0,0,0,.4);
+  }
+  .pred-col-tooltip.mobile-dock::after{display:none}
 }
 
 /* Tier filter pills row */
@@ -963,18 +984,6 @@ p.desc-w{color:rgba(255,255,255,.55)}
 .pill-g{background:var(--blue-pale);color:#1847CC;border:1px solid rgba(24,71,204,.2)}
 .pill-t{background:var(--cyan-pale);color:#005880;border:1px solid rgba(0,186,255,.2)}
 
-/* ─── QUESTIONS ─── */
-.questions{background:var(--navy)}
-.q-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:52px}
-.q-item{
-  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
-  border-radius:12px;padding:22px 20px;
-  transition:background .2s,border-color .2s;cursor:default;
-}
-.q-item:hover{background:rgba(24,71,204,.07);border-color:rgba(24,71,204,.25)}
-.q-n{font-size:11px;font-weight:700;color:var(--blue2);letter-spacing:.07em;margin-bottom:9px;text-transform:uppercase}
-.q-text{font-size:15px;color:rgba(255,255,255,.82);line-height:1.55}
-
 /* ─── INDIA MBBS ─── */
 .india-sec{background:var(--off)}
 .india-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:22px;margin-top:52px}
@@ -1222,7 +1231,6 @@ footer{
 :root{--gap:16px;--gap-lg:24px;--touch:44px}
 .hero-inner,.sol-grid,.why-grid,.aud-grid,.india-grid,.abroad-groups,.fin-grid,.svc-grid,.faq-wrap,.ts-grid{grid-template-columns:1fr}
 .trust-inner{grid-template-columns:repeat(2,1fr)}
-.q-grid{grid-template-columns:1fr}
 .process-grid{grid-template-columns:1fr;gap:20px}
 .process-grid::before{display:none}
 .india-banner{flex-direction:column;text-align:center}
@@ -1314,7 +1322,6 @@ textarea.pred-in{min-height:64px}
 /* ─── PHABLET (>=600px) ─── */
 @media(min-width:600px){
   .trust-inner{grid-template-columns:repeat(3,1fr)}
-  .q-grid{grid-template-columns:1fr 1fr}
   /* No structural changes to the results area at this breakpoint — the
      table-wrap + horizontal-scroll behavior is the same on every viewport.
      Card stack and mobile skeleton stay hidden at all sizes. */
@@ -1334,7 +1341,6 @@ textarea.pred-in{min-height:64px}
   .svc-grid,.ts-grid{grid-template-columns:repeat(4,1fr)}
   .faq-wrap{grid-template-columns:1fr 1fr}
   .trust-inner{grid-template-columns:repeat(5,1fr)}
-  .q-grid{grid-template-columns:repeat(3,1fr)}
   .process-grid{grid-template-columns:repeat(5,1fr)}
   .process-grid::before{display:block}
   .india-banner{flex-direction:row;text-align:left}
@@ -1730,23 +1736,6 @@ textarea.pred-in{min-height:64px}
   </div>
 </section>
 
-<!-- ── QUESTIONS ── -->
-<section class="sec-pad questions" id="questions">
-  <div class="wrap">
-    <div class="eyebrow eyebrow-teal reveal">Real Questions</div>
-    <h2 class="st st-w reveal rd1">Questions We Help <em>You Solve</em></h2>
-    <p class="desc desc-w reveal rd2">These are the real questions every student and parent asks. We have honest, clear answers to all of them.</p>
-    <div class="q-grid">
-      <div class="q-item reveal"><div class="q-n">01</div><div class="q-text">Can I still become a doctor this year?</div></div>
-      <div class="q-item reveal rd1"><div class="q-n">02</div><div class="q-text">India private or Abroad: what is smarter?</div></div>
-      <div class="q-item reveal rd2"><div class="q-n">03</div><div class="q-text">What is the total cost across 5.5 years?</div></div>
-      <div class="q-item reveal"><div class="q-n">04</div><div class="q-text">Can I return to India and practice after MBBS Abroad?</div></div>
-      <div class="q-item reveal rd1"><div class="q-n">05</div><div class="q-text">Which college suits my score and budget?</div></div>
-      <div class="q-item reveal rd2"><div class="q-n">06</div><div class="q-text">What are PG &amp; job opportunities later?</div></div>
-    </div>
-  </div>
-</section>
-
 <!-- ── MBBS INDIA ── -->
 <section class="sec-pad india-sec" id="india">
   <div class="wrap">
@@ -2027,6 +2016,30 @@ textarea.pred-in{min-height:64px}
     </div>
   </div>
 </section>
+
+<!-- ── BACK TO TOP ── -->
+<button id="back-to-top" type="button" aria-label="Back to top" hidden>
+  <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 4l-8 8h5v8h6v-8h5z" fill="currentColor"/></svg>
+</button>
+<style>
+#back-to-top{
+  position:fixed;right:18px;bottom:18px;z-index:9000;
+  width:48px;height:48px;border-radius:50%;border:0;cursor:pointer;
+  background:#1f4ed8;color:#fff;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 8px 24px rgba(31,78,216,.45);
+  opacity:0;transform:translateY(8px);transition:opacity .22s,transform .22s,background .15s;
+  -webkit-tap-highlight-color:transparent;
+}
+#back-to-top:hover,#back-to-top:focus-visible{background:#1740b8;outline:none}
+#back-to-top:active{transform:translateY(0) scale(.96)}
+#back-to-top.visible{opacity:1;transform:translateY(0)}
+@media(max-width:599px){
+  #back-to-top{right:14px;bottom:calc(env(safe-area-inset-bottom,0) + 14px);width:46px;height:46px}
+}
+@media(prefers-reduced-motion:reduce){
+  #back-to-top{transition:opacity .12s}
+}
+</style>
 
 <!-- ── FOOTER ── -->
 <footer>
@@ -2455,7 +2468,11 @@ async function submitLeadForm(e){
   } catch (err) {
     btn.classList.remove('loading');
     btn.innerHTML='<span>✦</span> Get Free Counselling';
-    alert('Could not submit your enquiry: ' + (err && err.message || err) + '\nPlease try again or call us directly.');
+    // Server-side errors already include a user-friendly hint
+    // (e.g. "...try again or call us directly."); avoid double-suffixing it.
+    var msg = (err && err.message) ? String(err.message) : 'Could not submit your enquiry.';
+    if (!/try again|contact|call us/i.test(msg)) msg += '\nPlease try again, or write to product@vidysea.com.';
+    alert(msg);
   }
 }
 
@@ -2507,10 +2524,71 @@ async function submitLeadForm(e){
   let lastProfile     = null;
   let currentController = null;
 
-  // Shared fixed-position tooltip for column headers (escapes overflow:hidden)
+  // Shared viewport-positioned tooltip for column headers. Stays within the
+  // viewport (clamped to 8px margins), flips above/below the icon based on
+  // available space, repositions on scroll/resize, and on phones (<600px)
+  // docks to the bottom of the screen so it can never clip off-screen. On
+  // touch devices it toggles on tap (hover doesn't fire on touch). The tip
+  // hides on outside tap, scroll-end, or repeat tap.
   const colTip = el('div', 'pred-col-tooltip');
   colTip.hidden = true;
   document.body.appendChild(colTip);
+  let tipAnchor = null;          // currently-anchored icon, or null when hidden
+  function positionTip() {
+    if (colTip.hidden || !tipAnchor) return;
+    const isMobile = window.innerWidth < 600;
+    if (isMobile) {
+      colTip.classList.add('mobile-dock');
+      colTip.removeAttribute('data-arrow');
+      // CSS handles positioning via mobile-dock class; just clear inline pos.
+      colTip.style.left = '';
+      colTip.style.top  = '';
+      return;
+    }
+    colTip.classList.remove('mobile-dock');
+    const r = tipAnchor.getBoundingClientRect();
+    // Measure tooltip in current viewport
+    const tw = colTip.offsetWidth;
+    const th = colTip.offsetHeight;
+    const margin = 8;
+    const iconCenterX = r.left + r.width / 2;
+    let left = iconCenterX - tw / 2;
+    if (left < margin) left = margin;
+    if (left + tw > window.innerWidth - margin) left = window.innerWidth - margin - tw;
+    // Prefer above; flip below if no room
+    let top  = r.top - th - 8;
+    let arrow = 'down';
+    if (top < margin) { top = r.bottom + 8; arrow = 'up'; }
+    colTip.style.left = left + 'px';
+    colTip.style.top  = top  + 'px';
+    colTip.setAttribute('data-arrow', arrow);
+    // Position the arrow under the icon, even when the tooltip is clamped
+    const arrowX = Math.min(Math.max(iconCenterX - left, 12), tw - 12);
+    colTip.style.setProperty('--arrow-x', arrowX + 'px');
+  }
+  function showTip(icon, text) {
+    if (tipAnchor && tipAnchor !== icon) tipAnchor.classList.remove('active');
+    tipAnchor = icon;
+    icon.classList.add('active');
+    colTip.textContent = text;
+    colTip.hidden = false;
+    positionTip();
+  }
+  function hideTip() {
+    colTip.hidden = true;
+    if (tipAnchor) tipAnchor.classList.remove('active');
+    tipAnchor = null;
+  }
+  // Hide when the user scrolls or resizes — repositioning while scrolling looks
+  // glitchy and the tooltip is non-essential. Cheap to re-show on next hover/tap.
+  window.addEventListener('scroll', hideTip, { passive: true, capture: true });
+  window.addEventListener('resize', hideTip);
+  // Outside tap dismisses on mobile (hover devices auto-hide on mouseleave).
+  document.addEventListener('click', (ev) => {
+    if (colTip.hidden) return;
+    if (tipAnchor && (ev.target === tipAnchor || tipAnchor.contains(ev.target))) return;
+    hideTip();
+  });
   let selectedCountries = [];
 
   // ── Country dropdown ──
@@ -3125,14 +3203,22 @@ async function submitLeadForm(e){
         const lbl = document.createTextNode(col.label + ' ');
         infoWrap.appendChild(lbl);
         const icon = el('i', 'pred-th-info', 'i');
-        icon.addEventListener('mouseenter', () => {
-          const r = icon.getBoundingClientRect();
-          colTip.textContent = col.info;
-          colTip.style.left = (r.left + r.width / 2) + 'px';
-          colTip.style.top  = (r.top - 6) + 'px';
-          colTip.hidden = false;
+        icon.setAttribute('role', 'button');
+        icon.setAttribute('aria-label', 'What does this column mean?');
+        icon.setAttribute('tabindex', '0');
+        // Hover (desktop pointer): show on enter, hide on leave (skip leave on
+        // touch so the tap-toggle below stays in control).
+        icon.addEventListener('mouseenter', () => showTip(icon, col.info));
+        icon.addEventListener('mouseleave', () => { if (!('ontouchstart' in window)) hideTip(); });
+        // Tap/click toggle. stopPropagation prevents the document-level
+        // outside-click handler from immediately re-hiding the tip.
+        icon.addEventListener('click', (ev) => {
+          ev.stopPropagation();
+          if (tipAnchor === icon && !colTip.hidden) hideTip();
+          else showTip(icon, col.info);
         });
-        icon.addEventListener('mouseleave', () => { colTip.hidden = true; });
+        // Don't trigger the column's sort handler when clicking the icon.
+        icon.addEventListener('mousedown', ev => ev.stopPropagation());
         infoWrap.appendChild(icon);
         inner.appendChild(infoWrap);
       } else {
@@ -3526,9 +3612,41 @@ window.resultsSkeleton = {
   hide: function () { var sk = document.querySelector('.results-cards-skeleton'); if (sk) sk.hidden = true; }
 };
 
+// Back-to-top: appears once the user has scrolled past one viewport, scrolls
+// the page to the top on click. Smooth-scroll respects the user's reduced-
+// motion preference automatically because we use scroll behavior 'smooth'
+// which the OS overrides when reduced motion is enabled.
+function setupBackToTop() {
+  const btn = document.getElementById('back-to-top');
+  if (!btn) return;
+  const SHOW_AFTER = 480;        // px scrolled before button appears
+  const apply = () => {
+    const y = window.scrollY || document.documentElement.scrollTop;
+    if (y > SHOW_AFTER) {
+      if (btn.hidden) { btn.hidden = false; requestAnimationFrame(() => btn.classList.add('visible')); }
+    } else {
+      btn.classList.remove('visible');
+      // Wait for the fade-out before re-hiding so it animates cleanly.
+      setTimeout(() => { if (!btn.classList.contains('visible')) btn.hidden = true; }, 240);
+    }
+  };
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => { apply(); ticking = false; });
+  }, { passive: true });
+  btn.addEventListener('click', () => {
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+  });
+  apply();
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   setupHamburger();
   setupModalScrollLock();
+  setupBackToTop();
 });
 </script>
 </body>

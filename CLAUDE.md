@@ -21,6 +21,9 @@ Loaded by `dotenv` at boot: `.env` first, then `.env.local` with `override: true
 - `DAILY_USD_CAP` — optional, default `50`. Process-wide cumulative Gemini spend; once today's total exceeds this, `/api/predict` returns 503 until UTC rollover. Per-process counter — multi-replica deployments need to swap to a shared store.
 - `PORT` — default 3000. Healthcheck hits `/api/health` (which probes Mongo + data-load state and returns 503 if degraded).
 - `APP_URL` — auto-injected by AI Studio at runtime, otherwise unused.
+- `SES_SMTP_HOST` / `SES_SMTP_PORT` / `SES_SMTP_USER` / `SES_SMTP_PASS` — optional AWS SES SMTP creds for lead-notification emails (nodemailer). When `USER`+`PASS` are unset, the email step in `/api/lead` is a silent no-op and the lead still saves to Mongo.
+- `FROM_EMAIL` / `FROM_NAME` — sender identity. `FROM_EMAIL` must be a verified SES identity (or its domain must be).
+- `TEAM_EMAIL` — recipient(s) for new-lead notifications. Comma-separated for multiple. Defaults to `umeshsugara@vidysea.com`.
 
 ## Architecture
 
@@ -62,6 +65,8 @@ Two Mongo collections, joined by browser-supplied `sessionId`:
 - **`leads`** — written from `/api/lead` (the "Get Free Counselling" modal). **Awaited** because the user expects confirmation. Free-text fields (`name`, `message`) are `escapeHtml`-encoded at write time. `linkedRecommendation` is capped at 8KB.
 
 Timestamps are stored as **IST ISO 8601 strings** (`"…+05:30"`), not UTC `Z` — sortable lexicographically, parseable everywhere, human-readable in MongoDB Compass without TZ math. See `nowIST()`.
+
+After the lead is saved to Mongo, `sendLeadEmails()` fires two awaited dispatches via `nodemailer` over AWS SES SMTP: a thank-you to the student (skipped if no email) and a notification to `TEAM_EMAIL` (with the student's email as `replyTo` so the team can reply directly). Failures are logged but never fail the API — Mongo is the source of truth and a saved lead must never surface as a 5xx because SES had a hiccup. When `SES_SMTP_USER`/`PASS` are unset, the dispatcher is a silent no-op.
 
 ### CSV ingestion + state-parse backfill
 

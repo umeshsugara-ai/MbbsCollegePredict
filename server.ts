@@ -348,15 +348,35 @@ function computeQuotaProbabilities(
   const deemedRaw   = Math.min(100, avgPct(deemedRows) * yoyBuffer);
   const stateRaw    = Math.min(100, avgPct(stateRows) * yoyBuffer);
 
-  // Govt AIQ: extremely competitive nationwide; demand discount 0.40, cap 20%
-  const aiq         = Math.min(20, Math.round(govtAiqRaw * 0.40));
-  // State quota: state-level competition; demand discount 0.70, cap 65%.
-  // MCC CSV has no state quota rows — we estimate from AIQ raw probability:
-  // state quota has 85% of seats but is state-domicile-only (much smaller pool),
-  // net effect ≈ 65% of AIQ raw accessibility after state demand discount.
-  const stateCalib  = stateRows.length > 0
-    ? Math.min(75, Math.round(stateRaw * 0.70))
-    : Math.min(65, Math.round(govtAiqRaw * 0.65));
+  // Three-band rank-aware caps — derived empirically from this CSV.
+  // Counted across all 5,264 MBBS AIQ rows: at AIR 1,500 ~95–97% of seats
+  // are catalogue-accessible; at AIR 25,000 accessibility crashes to 1–3%
+  // for OPEN/OBC/EWS (cliff). Demand discount also varies by tier — toppers
+  // have first pick (no real competition pressure), low-rank face thicker
+  // contention for the few accessible seats. Reflects the structural
+  // difference between rank tiers, not a gradual curve.
+  //
+  // TODO (B.1 — flagged in audit): SC/ST have a fundamentally different
+  // accessibility curve (still ~75–89% accessible at AIR 50K). Current
+  // single-band-set under-states their AIQ probability. To address: split
+  // into per-category caps; SC/ST topper 85/70/40, mid 70/55/35, low 40/30/15.
+  // Deferred to Commit B.1 to keep this commit scoped to topper calibration.
+  const userAir = rankRange.mid;
+  let aiqDiscount: number, aiqCap: number, stateCap: number, stateAiqMult: number;
+  if (userAir < 1500) {           // topper band — first pick, mild contention
+    aiqDiscount = 0.70; aiqCap = 70; stateCap = 90; stateAiqMult = 0.95;
+  } else if (userAir < 25000) {   // mid band — competitive pool
+    aiqDiscount = 0.40; aiqCap = 35; stateCap = 65; stateAiqMult = 0.65;
+  } else {                        // low band — past the AIQ cliff
+    aiqDiscount = 0.30; aiqCap = 10; stateCap = 35; stateAiqMult = 0.55;
+  }
+
+  const aiq        = Math.min(aiqCap, Math.round(govtAiqRaw * aiqDiscount));
+  // State quota: prefer real CSV-derived rows when present (rare — MCC CSV
+  // has near-zero state-quota rows); otherwise estimate from AIQ pattern.
+  const stateCalib = stateRows.length > 0
+    ? Math.min(stateCap, Math.round(stateRaw * 0.70))
+    : Math.min(stateCap, Math.round(govtAiqRaw * stateAiqMult));
   // Deemed: management/private seats are less competitive; admission probability is high
   // Budget is the real gate, not rank — reported separately in prompt
   const deemed      = Math.min(90, deemedRows.length > 0 ? deemedRaw : Math.min(90, govtAiqRaw + 35));
@@ -895,6 +915,15 @@ async function predictIndia(profile: any) {
     ? fillTemplate(PROMPTS.india.categoryAdvantageNote, { userCategory })
     : '';
 
+  // Counselling strategy varies by rank tier. Toppers get AIQ-primary
+  // strategy (top national colleges live in AIQ); everyone else gets
+  // state-primary (safety net first, AIQ as upside).
+  const counsellingStrategy = fillTemplate(
+    isTopper ? PROMPTS.india.counsellingStrategyTopper
+             : PROMPTS.india.counsellingStrategyDefault,
+    { state },
+  );
+
   // Data-year context — explicit gap between CSV anchor year and prediction
   // year so Gemini compensates for stale anchors. INTERNAL ONLY: the user
   // never sees this; it just shapes Gemini's reasoning.
@@ -925,6 +954,7 @@ async function predictIndia(profile: any) {
     altOpenLine, probSection, deemedVerdict, deemedSlot,
     topperBlock, altInstruction, altAnalysisNote, budgetReality,
     categoryAdvantageNote, genderExclusion,
+    counsellingStrategy,
     dataYearNote,
   }).trim();
 

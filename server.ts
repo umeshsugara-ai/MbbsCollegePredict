@@ -352,9 +352,17 @@ function computeQuotaProbabilities(
     rows.length === 0 ? 0 :
     Math.round(rows.reduce((s, r) => s + admissionProbability(rankRange, r.closingRank), 0) / rows.length * 100);
 
-  const govtAiqRaw  = avgPct(govtAiqRows);
-  const deemedRaw   = avgPct(deemedRows);
-  const stateRaw    = avgPct(stateRows);
+  // YoY drift buffer: closing-rank data is from LATEST_CUTOFF_YEAR (2024).
+  // For 2026 predictions, seat expansion (~15-20 new colleges/year) tends to
+  // push closing ranks slightly higher (i.e. easier for any given student).
+  // A 10% buffer in the student's favor is a conservative, honest correction
+  // for stale-anchor data. Compounds linearly with the cutoff staleness gap.
+  const cutoffStaleYears = Math.max(0, PREDICTION_YEAR - LATEST_CUTOFF_YEAR);
+  const yoyBuffer = 1 + 0.05 * cutoffStaleYears;  // ~10% buffer at 2-year gap
+
+  const govtAiqRaw  = Math.min(100, avgPct(govtAiqRows) * yoyBuffer);
+  const deemedRaw   = Math.min(100, avgPct(deemedRows) * yoyBuffer);
+  const stateRaw    = Math.min(100, avgPct(stateRows) * yoyBuffer);
 
   // Govt AIQ: extremely competitive nationwide; demand discount 0.40, cap 20%
   const aiq         = Math.min(20, Math.round(govtAiqRaw * 0.40));
@@ -710,9 +718,12 @@ function extractContextRows(userRank: number, category: string, state: string, l
     .filter(r => isQuotaAccessible(r.quota, state, r.state) && categoryMatches(r.category, eligible))
     .sort((a, b) => Math.abs(a.closingRank - userRank) - Math.abs(b.closingRank - userRank))
     .slice(0, limit);
-  if (!rows.length) return 'No matching rows found in latest MCC cutoff data.';
+  if (!rows.length) return `No matching rows found in MCC ${LATEST_CUTOFF_YEAR} cutoff data.`;
+  // Stamp every row with the source year so Gemini cannot mistake stale anchors
+  // for current-year data. Closing ranks here are CATEGORY-specific (the row's
+  // category column is what the closing rank applies to).
   return rows.map(r =>
-    `${r.institute} | ${r.state || '?'} | ${r.quota} | ${r.category} | closing_rank:${r.closingRank}`
+    `${r.institute} | ${r.state || '?'} | ${r.quota} | ${r.category} | closing_rank_${LATEST_CUTOFF_YEAR}:${r.closingRank}`
   ).join('\n');
 }
 
@@ -921,6 +932,18 @@ async function predictIndia(profile: any) {
       })
     : '';
 
+  // Data-year context — explicit gap between CSV anchor year and prediction
+  // year so Gemini compensates for stale anchors instead of trusting them as
+  // current-year data.
+  const cutoffStaleYears = Math.max(0, PREDICTION_YEAR - LATEST_CUTOFF_YEAR);
+  const dataYearNote = fillTemplate(PROMPTS.india.dataYearNote, {
+    latestCutoffYear: LATEST_CUTOFF_YEAR,
+    cutoffStaleYears,
+  });
+  const stalenessDisclaimerLine = fillTemplate(PROMPTS.india.stalenessDisclaimerLine, {
+    latestCutoffYear: LATEST_CUTOFF_YEAR,
+  });
+
   // Gender exclusion — only injected when we know the gender or it's
   // unspecified (in which case we exclude women-only as a safe default).
   const genderExclusion = (gender !== 'Female')
@@ -931,6 +954,7 @@ async function predictIndia(profile: any) {
     today: '2026-04-26',
     score, rankDisplay, userCategory, gender,
     latestCutoffYear: LATEST_CUTOFF_YEAR,
+    cutoffStaleYears,
     rankNote, state, budgetINR, budgetINRL,
     contextRows, userRank,
     rankRangeLow, rankRangeMid, rankRangeHigh,
@@ -941,6 +965,7 @@ async function predictIndia(profile: any) {
     altOpenLine, probSection, deemedVerdict, deemedSlot,
     topperBlock, altInstruction, altAnalysisNote, budgetReality,
     reservationNote, genderExclusion,
+    dataYearNote, stalenessDisclaimerLine,
   }).trim();
 
   // Fire main recommendation + state-quota verification in parallel.

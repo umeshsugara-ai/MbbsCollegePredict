@@ -186,7 +186,7 @@ nav{
 /* path tags kept for possible reuse */
 
 /* ─── TRUST BAR ─── */
-.trust-bar{background:linear-gradient(90deg,var(--navy),var(--navy2));border-bottom:1px solid rgba(24,71,204,.12)}
+.trust-bar{background:linear-gradient(90deg,var(--navy),var(--navy2));border-bottom:1px solid rgba(91,138,255,.22)}
 .trust-inner{max-width:1240px;margin:0 auto;padding:0 5%;display:grid;grid-template-columns:repeat(5,1fr)}
 .t-cell{
   padding:30px 16px;text-align:center;
@@ -197,7 +197,7 @@ nav{
 .t-l{font-size:13px;color:rgba(255,255,255,.55);margin-top:5px;font-weight:600}
 
 /* ─── TOOL SECTION ─── */
-.tool-sec{background:var(--ink);padding:88px 0;position:relative;overflow:hidden}
+.tool-sec{background:var(--ink);padding:120px 0 88px;position:relative;overflow:hidden}
 .tool-sec::before{
   content:'';position:absolute;inset:0;
   background-image:radial-gradient(rgba(24,71,204,.07) 1px,transparent 1px);
@@ -1266,6 +1266,13 @@ footer{
                 <option value="OBC_PWD">OBC-PWD</option>
               </select>
 
+              <label class="pred-lbl">Gender</label>
+              <select name="gender" class="pred-in">
+                <option value="">Prefer not to say</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+
               <label class="pred-lbl">Home State (for State Quota)</label>
               <div class="pred-state-wrap">
                 <button type="button" id="pred-state-trigger" class="pred-state-trigger">
@@ -2321,7 +2328,7 @@ function submitLeadForm(e){
 
   function applyProfile(p) {
     if (p.destinationType) setDestination(p.destinationType);
-    for (const key of ['neetScore','neetRank','budgetInUSD','category','otherPreferences']) {
+    for (const key of ['neetScore','neetRank','budgetInUSD','category','gender','otherPreferences']) {
       const elx = form.querySelector(`[name="${key}"]`);
       if (elx && p[key] != null) elx.value = p[key];
     }
@@ -2377,6 +2384,9 @@ function submitLeadForm(e){
       }
       return tbl[tbl.length-1][1];
     }
+    // Mirror server CATEGORY_POOL_FRACTION (NEET 2024 NTA-derived)
+    const CAT_FRAC = { OPEN: 1.0, EWS: 0.11, OBC: 0.37, SC: 0.14, ST: 0.07,
+                       OPEN_PWD: 1.0, OBC_PWD: 0.37 };
     function rankRange(sc) {
       if (!sc || sc < 100 || sc > 720) return null;
       const years = [2022, 2023, 2024];
@@ -2384,22 +2394,36 @@ function submitLeadForm(e){
       const mean = years.reduce((s, y, i) => s + NORM_W[y] * ry[i], 0);
       const variance = years.reduce((s, y, i) => s + NORM_W[y] * (ry[i]-mean)**2, 0);
       const std = Math.sqrt(variance);
-      const mid  = Math.round(mean * GROWTH);
-      const low  = Math.round(Math.max(1, (mean-std) * GROWTH));
-      const high = Math.round((mean+std) * GROWTH);
+      // General AIR (no category adjustment)
+      const gMid  = Math.round(mean * GROWTH);
+      const gLow  = Math.round(Math.max(1, (mean-std) * GROWTH));
+      const gHigh = Math.round((mean+std) * GROWTH);
       const cv = std / Math.max(mean, 1);
       const conf = cv < 0.20 ? 'High' : cv < 0.45 ? 'Medium' : 'Low';
-      return { low, mid, high, conf };
+      return { generalLow: gLow, generalMid: gMid, generalHigh: gHigh, conf };
     }
     const scoreEl = document.getElementById('indNeetScore');
+    const catEl   = form.querySelector('[name="category"]');
     const hintEl  = document.getElementById('indRankHint');
+    function renderHint() {
+      if (!scoreEl || !hintEl) return;
+      const rr = rankRange(parseInt(scoreEl.value));
+      if (!rr) { hintEl.textContent = ''; return; }
+      const cat = (catEl?.value || 'OPEN').toUpperCase().split(/[_\s]/)[0];
+      const fr  = CAT_FRAC[cat] ?? 1.0;
+      const cMid  = Math.max(1, Math.round(rr.generalMid  * fr));
+      const cLow  = Math.max(1, Math.round(rr.generalLow  * fr));
+      const cHigh = Math.max(1, Math.round(rr.generalHigh * fr));
+      const fmt = n => n.toLocaleString('en-IN');
+      if (fr === 1.0) {
+        hintEl.textContent = `Estimated rank: ${fmt(cLow)} – ${fmt(cHigh)}  ·  Confidence: ${rr.conf}`;
+      } else {
+        hintEl.textContent = `${cat} Category rank: ${fmt(cLow)} – ${fmt(cHigh)}  ·  General AIR: ~${fmt(rr.generalMid)}  ·  ${rr.conf}`;
+      }
+    }
     if (scoreEl && hintEl) {
-      scoreEl.addEventListener('input', function() {
-        const rr = rankRange(parseInt(this.value));
-        hintEl.textContent = rr
-          ? `Estimated rank: ${rr.low.toLocaleString('en-IN')} – ${rr.high.toLocaleString('en-IN')}  ·  Confidence: ${rr.conf}`
-          : '';
-      });
+      scoreEl.addEventListener('input', renderHint);
+      catEl?.addEventListener('change', renderHint);
     }
   })();
 
@@ -2414,6 +2438,7 @@ function submitLeadForm(e){
     };
     if (destination === 'India') {
       profile.category      = fd.get('category') || 'OPEN';
+      profile.gender        = fd.get('gender') || '';
       profile.domicileState = fd.get('domicileState') || '';
       profile.coursePreferences = [...form.querySelectorAll('input[name="coursePrefs"]:checked')].map(el => el.value);
     } else {
@@ -2614,21 +2639,9 @@ function submitLeadForm(e){
         body.appendChild(tbl);
       }
 
-      if (sq.sources && sq.sources.length) {
-        const srcRow = el('div', 'pred-state-verify-sources');
-        srcRow.appendChild(el('span', null, 'Sources: '));
-        sq.sources.slice(0, 4).forEach((url, i) => {
-          if (i > 0) srcRow.appendChild(el('span', null, ' · '));
-          const a = document.createElement('a');
-          a.href = url; a.target = '_blank'; a.rel = 'noopener noreferrer';
-          let host;
-          try { host = new URL(url).host.replace(/^www\./, ''); } catch (_) { host = url.slice(0, 30); }
-          a.textContent = host;
-          srcRow.appendChild(a);
-        });
-        body.appendChild(srcRow);
-      }
-
+      // Sources intentionally not rendered — third-party aggregators
+      // can mislead users vs official state portals; the cited closing
+      // ranks are what matter, not the citation chain.
       panel.appendChild(body);
       // Default to collapsed so the panel doesn't dominate the page;
       // user clicks the header to expand.

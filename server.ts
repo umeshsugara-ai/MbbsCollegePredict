@@ -933,15 +933,12 @@ async function predictIndia(profile: any) {
     : '';
 
   // Data-year context — explicit gap between CSV anchor year and prediction
-  // year so Gemini compensates for stale anchors instead of trusting them as
-  // current-year data.
+  // year so Gemini compensates for stale anchors. INTERNAL ONLY: the user
+  // never sees this; it just shapes Gemini's reasoning.
   const cutoffStaleYears = Math.max(0, PREDICTION_YEAR - LATEST_CUTOFF_YEAR);
   const dataYearNote = fillTemplate(PROMPTS.india.dataYearNote, {
     latestCutoffYear: LATEST_CUTOFF_YEAR,
     cutoffStaleYears,
-  });
-  const stalenessDisclaimerLine = fillTemplate(PROMPTS.india.stalenessDisclaimerLine, {
-    latestCutoffYear: LATEST_CUTOFF_YEAR,
   });
 
   // Gender exclusion — only injected when we know the gender or it's
@@ -965,7 +962,7 @@ async function predictIndia(profile: any) {
     altOpenLine, probSection, deemedVerdict, deemedSlot,
     topperBlock, altInstruction, altAnalysisNote, budgetReality,
     reservationNote, genderExclusion,
-    dataYearNote, stalenessDisclaimerLine,
+    dataYearNote,
   }).trim();
 
   // Fire main recommendation + state-quota verification in parallel.

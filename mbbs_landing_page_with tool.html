@@ -596,6 +596,10 @@ nav{
 }
 .pred-state-verify-sources a{color:var(--blue);text-decoration:none}
 .pred-state-verify-sources a:hover{text-decoration:underline}
+.pred-disclaimer{
+  margin-top:18px;font-size:11px;line-height:1.55;color:var(--muted);
+  text-align:center;opacity:.7;padding:0 12px;
+}
 
 .pred-table-wrap{
   border:1px solid rgba(15,23,42,.06);border-radius:13px;overflow:hidden;
@@ -2787,6 +2791,12 @@ function submitLeadForm(e){
     tableScroll.appendChild(table);
     wrap.appendChild(tableScroll);
     inner.appendChild(wrap);
+
+    // Single small legal-cover line, below everything. Not in the decision flow.
+    const disc = el('div', 'pred-disclaimer',
+      'Recommendations are based on historical counselling data and AI analysis. Verify with official counselling portals before making admission decisions.');
+    inner.appendChild(disc);
+
     results.appendChild(inner);
   }
 })();

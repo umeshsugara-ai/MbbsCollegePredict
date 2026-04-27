@@ -1,19 +1,60 @@
-import express from 'express';
+import express, { type Request, type Response, type NextFunction } from 'express';
 import { GoogleGenAI, Type } from '@google/genai';
 import dotenv from 'dotenv';
-import { readFileSync, existsSync } from 'fs';
+import { readFileSync, readdirSync, existsSync, statSync } from 'fs';
 import { join } from 'path';
 import { parse } from 'csv-parse/sync';
 import { MongoClient, type Collection } from 'mongodb';
+import rateLimit from 'express-rate-limit';
+import { randomUUID } from 'crypto';
 
 dotenv.config({ path: '.env' });
 dotenv.config({ path: '.env.local', override: true });
 
 const app = express();
-app.use(express.json());
+// Tight body cap — every legit profile payload is well under a few KB. The
+// 16 KB ceiling stops unbounded `linkedRecommendation` blobs from filling
+// Mongo with arbitrary JSON via /api/lead, and rules out trivially-large
+// prompt-injection payloads that try to fill the prompt window.
+app.use(express.json({ limit: '16kb' }));
+app.disable('x-powered-by');
+
+// Per-request correlation id — propagates through all logs for one request
+// and is echoed back in the response so support can trace user reports to
+// the exact Gemini call. Express attaches it to res.locals so handlers can
+// log with it and Mongo can store it.
+app.use((req, res, next) => {
+  const rid = randomUUID();
+  res.locals.requestId = rid;
+  res.setHeader('X-Request-Id', rid);
+  next();
+});
 
 const PORT = parseInt(process.env.PORT || '3000', 10);
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
+
+// Fast-fail at boot rather than handing out 500s on the first prediction.
+// `process.env.GEMINI_API_KEY!` would let the server boot with the key
+// undefined and only blow up on the first /api/predict — much harder to
+// diagnose in a fresh deploy. Surfacing it here keeps misconfig visible.
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY || '';
+if (!GEMINI_API_KEY) {
+  console.error('[boot] GEMINI_API_KEY is not set — predictor will be unavailable');
+  console.error('[boot] Set GEMINI_API_KEY in .env / .env.local / docker compose env, then restart.');
+  process.exit(1);
+}
+
+// ── Boot-time diagnostics ───────────────────────────────────────────────────
+// Loud on startup so deployment problems surface immediately in the logs
+// rather than as cryptic auth errors on the first prediction call.
+console.log('━'.repeat(72));
+console.log(`[boot] node ${process.version} | NODE_ENV=${process.env.NODE_ENV || '(unset)'} | cwd=${process.cwd()}`);
+console.log(`[boot] PORT=${PORT}`);
+console.log(`[boot] GEMINI_API_KEY: loaded (${GEMINI_API_KEY.length} chars, prefix=${GEMINI_API_KEY.slice(0,6)}…)`);
+console.log(`[boot] MONGODB_URI: ${process.env.MONGODB_URI ? 'set' : '(unset — persistence disabled)'}`);
+console.log(`[boot] MONGODB_DB: ${process.env.MONGODB_DB || 'mbbs_predictor (default)'}`);
+console.log(`[boot] GOOGLE_GENAI_USE_VERTEXAI: ${process.env.GOOGLE_GENAI_USE_VERTEXAI || '(unset, good)'}${process.env.GOOGLE_GENAI_USE_VERTEXAI === 'true' ? ' ⚠️ VERTEX MODE FORCES ADC AUTH' : ''}`);
+console.log(`[boot] dotenv loaded from: .env${existsSync('.env') ? ' ✓' : ' ✗'} | .env.local${existsSync('.env.local') ? ' ✓' : ' ✗'}`);
+console.log('━'.repeat(72));
 
 // ── MongoDB persistence ──────────────────────────────────────────────────────
 // Two collections, two separate concerns:
@@ -34,6 +75,7 @@ const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
 
 const MONGODB_URI = process.env.MONGODB_URI || '';
 const MONGODB_DB  = process.env.MONGODB_DB  || 'mbbs_predictor';
+let mongoClient: MongoClient | null = null;
 let recommendationsCollection: Collection | null = null;
 let leadsCollection: Collection | null = null;
 
@@ -45,6 +87,7 @@ async function initMongo(): Promise<void> {
   try {
     const client = new MongoClient(MONGODB_URI, { serverSelectionTimeoutMS: 8000 });
     await client.connect();
+    mongoClient = client;
     const db = client.db(MONGODB_DB);
 
     recommendationsCollection = db.collection('recommendations');
@@ -94,17 +137,27 @@ function nowIST(): string {
 }
 
 // recordRecommendation — fire-and-forget, called AFTER res.json() in /api/predict.
+// Verification output is broken out as a top-level field (stateVerification /
+// abroadVerification) rather than left buried in result.stateQuotaInsights, so
+// support can reproduce exactly what the grounded call returned for a given
+// session — grounding results aren't cached and re-running won't reproduce
+// them.
 function recordRecommendation(profile: any, result: any): void {
   if (!recommendationsCollection) return;
   try {
     const tel  = result?.telemetry || {};
     const main = tel.mainCall || {};
     const sessionId = sanitizeSessionId(profile?.sessionId);
+    const isIndia = profile?.destinationType === 'India';
+    const stateVerification  = isIndia ? (result?.stateQuotaInsights ?? null) : null;
+    const abroadVerification = isIndia ? null : (result?.abroadInsights ?? null);
     const doc  = {
       timestamp: nowIST(),       // ISO 8601 +05:30 (IST), e.g. "2026-04-27T14:30:45.123+05:30"
       sessionId,                 // join key with leads collection
       profile,
       result,
+      stateVerification,         // grounded state-quota verifier output (India only) or null
+      abroadVerification,        // grounded abroad verifier output (future, abroad only) or null
       meta: {
         sessionId,
         destinationType:    profile?.destinationType,
@@ -121,23 +174,57 @@ function recordRecommendation(profile: any, result: any): void {
         outputTokens:       main.outputTokens ?? null,
         estCostUSD:         main.estCostUSD   ?? null,
         stateVerified:      tel.stateVerified ?? false,
+        abroadVerified:     tel.abroadVerified ?? false,
+        validatorDrops:      tel.validatorDrops      ?? null,
+        validatorOverrides:  tel.validatorOverrides  ?? null,
+        validatorSkipped:    tel.validatorSkipped    ?? null,
+        validatorBackfilled: tel.validatorBackfilled ?? null,
       },
     };
-    recommendationsCollection.insertOne(doc).catch(err => {
-      console.error('[mongo] recommendations.insertOne failed:', err?.message || err);
+    recommendationsCollection.insertOne(doc).then(r => {
+      console.log(`[mongo] recommendation saved: ${r.insertedId} (sessionId=${sessionId || '-'}, dest=${profile?.destinationType}, unis=${doc.meta.universitiesCount})`);
+    }).catch(err => {
+      console.error('[mongo] recommendations.insertOne FAILED:', err?.message || err);
+      if (err?.stack) console.error(err.stack);
     });
   } catch (e: any) {
-    console.error('[mongo] recordRecommendation threw:', e?.message || e);
+    console.error('[mongo] recordRecommendation THREW:', e?.message || e);
+    if (e?.stack) console.error(e.stack);
   }
 }
 
 // ── Static frontend ──────────────────────────────────────────────────────────
+// Only the landing HTML is served. The previous `express.static(ROOT)` mounted
+// the entire repo over HTTP — anyone could fetch /prompts.json (the IP), the
+// raw datasets (data/**, MBBS.xlsx), or source files (server.ts, package.json,
+// Dockerfile, .env.example). The HTML has no external asset references (all
+// CSS/JS inlined) so a single sendFile route is all we need.
 
 const ROOT = process.cwd();
 const LANDING_HTML = 'mbbs_landing_page_with tool.html';
 
 app.get('/', (_req, res) => res.sendFile(join(ROOT, LANDING_HTML)));
-app.use(express.static(ROOT, { index: false }));
+
+// ── Rate limiting ────────────────────────────────────────────────────────────
+// /api/predict spends real money on every call (Gemini Flash + grounded query
+// ≈ $0.015–0.05 each). /api/lead writes to Mongo and forwards to the
+// counselling team. Both need per-IP caps. Numbers are deliberately generous
+// for legit users on one device but tight enough to make a brute spam loop
+// unprofitable.
+const predictLimiter = rateLimit({
+  windowMs: 60 * 1000,        // 1 minute
+  limit: 8,                    // 8 predictions per IP per minute
+  standardHeaders: 'draft-7',
+  legacyHeaders: false,
+  message: { error: 'Too many prediction requests. Please wait a minute and try again.' },
+});
+const leadLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000,   // 10 minutes
+  limit: 5,                    // 5 lead submissions per IP per 10 min
+  standardHeaders: 'draft-7',
+  legacyHeaders: false,
+  message: { error: 'Too many submissions. Please wait a few minutes before trying again.' },
+});
 
 // ── NEET CSV loader (India predictor) ────────────────────────────────────────
 
@@ -181,6 +268,57 @@ function instituteShortName(raw: string): string {
   return norm(head);
 }
 
+// City→state backfill map. The address-tail heuristic in extractState() misses
+// ~42% of MCC institutes (audited on 2024 CSV) because many institute names
+// are short like "AIIMS Patna" or "GMC Mumbai" with no state suffix. The
+// curated city_state_map.json bridges this gap: lookup keyed on lowercase
+// city tokens extracted from the institute's short name. Loaded once at boot.
+let CITY_STATE_MAP: Record<string, string> = {};
+function loadCityStateMap(): void {
+  const path = join(ROOT, 'scripts', 'data', 'city_state_map.json');
+  if (!existsSync(path)) {
+    console.warn('[backfill] scripts/data/city_state_map.json missing — state backfill disabled');
+    return;
+  }
+  try {
+    const raw = JSON.parse(readFileSync(path, 'utf-8'));
+    const cities = raw?.cities && typeof raw.cities === 'object' ? raw.cities : raw;
+    let count = 0;
+    for (const [k, v] of Object.entries(cities)) {
+      if (typeof k === 'string' && typeof v === 'string') {
+        CITY_STATE_MAP[k.toLowerCase().trim()] = String(v).trim();
+        count++;
+      }
+    }
+    console.log(`[backfill] loaded ${count} city→state entries`);
+  } catch (e: any) {
+    console.error('[backfill] failed to load city_state_map.json:', e?.message || e);
+  }
+}
+loadCityStateMap();
+
+// Try the city map when extractState() returns empty. Tokenizes the raw
+// institute string and walks longest-phrase-first, RIGHT-TO-LEFT — addresses
+// typically end with location info ("College Name, district, City, State"),
+// so the city/state token is further right. The map is keyed on both city
+// tokens (patna, mumbai, kolkata) and institutional shorthand (vmmc, jipmer,
+// abvims) so even short-name-only rows resolve.
+function backfillStateFromCity(institute: string): string {
+  if (!Object.keys(CITY_STATE_MAP).length) return '';
+  const lower = institute.toLowerCase();
+  const tokens = lower.split(/[\s\-_(),./0-9]+/).filter(Boolean);
+  // Multi-word first (length 3 → 1) so "new delhi" beats "new" or "delhi"
+  // alone when both are present. Within each span, scan right-to-left.
+  for (let span = Math.min(3, tokens.length); span >= 1; span--) {
+    for (let i = tokens.length - span; i >= 0; i--) {
+      const phrase = tokens.slice(i, i + span).join(' ');
+      const hit = CITY_STATE_MAP[phrase];
+      if (hit) return hit;
+    }
+  }
+  return '';
+}
+
 function loadCutoffs(year: number): CutoffRow[] {
   const path = join(ROOT, 'data', 'neet', 'cutoffs_yearly', `neet_cutoffs_${year}.csv`);
   if (!existsSync(path)) return [];
@@ -197,9 +335,15 @@ function loadCutoffs(year: number): CutoffRow[] {
     const closing = parseInt(String(r['Closing_Rank']).replace(/[^\d]/g, ''), 10);
     if (!closing || closing <= 0) continue;
     const instituteRaw = r['Allotted Institute'] || '';
+    const shortName = instituteShortName(instituteRaw);
+    // Address-tail heuristic first; city-map backfill if that returns empty.
+    // Use the FULL raw string for backfill — gives the map more tokens to
+    // hit (e.g. address chunks beyond the short name) and matches how the
+    // city_state_map.json was generated against the corpus.
+    const state = extractState(instituteRaw) || backfillStateFromCity(instituteRaw);
     rows.push({
-      institute: instituteShortName(instituteRaw),
-      state: extractState(instituteRaw),
+      institute: shortName,
+      state,
       course,
       quota: norm(r['Allotted Quota']),
       category: norm(r['Allotted Category']),
@@ -209,11 +353,90 @@ function loadCutoffs(year: number): CutoffRow[] {
   return rows;
 }
 
-const cutoffs2024 = loadCutoffs(2024);
-const cutoffs2023 = loadCutoffs(2023);
-// Resolved at startup: use the most recent year we have data for
-const LATEST_CUTOFF_YEAR = cutoffs2024.length ? 2024 : 2023;
-console.log(`[CSV] Loaded ${cutoffs2024.length} MBBS rows from 2024, ${cutoffs2023.length} from 2023`);
+// Auto-discover cutoff years from the directory rather than hardcoding 2024/
+// 2023. When the 2025 file lands, drop it into the folder and the server
+// picks it up on next boot — no code change. Falls back to an empty map if
+// the directory is missing so the rest of the boot doesn't crash.
+function discoverCutoffYears(): number[] {
+  const dir = join(ROOT, 'data', 'neet', 'cutoffs_yearly');
+  if (!existsSync(dir)) return [];
+  const years = new Set<number>();
+  for (const f of readdirSync(dir)) {
+    const m = f.match(/^neet_cutoffs_(\d{4})\.csv$/);
+    if (m) years.add(parseInt(m[1], 10));
+  }
+  return [...years].sort((a, b) => b - a);  // newest first
+}
+
+const CUTOFF_YEARS = discoverCutoffYears();
+const cutoffsByYear: Record<number, CutoffRow[]> = {};
+for (const y of CUTOFF_YEARS) cutoffsByYear[y] = loadCutoffs(y);
+
+// Latest year that actually has data — `LATEST_CUTOFF_YEAR` is used widely
+// for prompt anchors and "data is from year X" framing. If no CSVs exist,
+// fall back to the current year so downstream math doesn't divide by zero.
+const LATEST_CUTOFF_YEAR = CUTOFF_YEARS.find(y => cutoffsByYear[y].length > 0)
+  ?? new Date().getFullYear();
+
+// Convenience handles for the two most-recent years; consumers that want
+// "the freshest available" use LATEST_CUTOFF_ROWS.
+const LATEST_CUTOFF_ROWS = cutoffsByYear[LATEST_CUTOFF_YEAR] ?? [];
+
+console.log(`[CSV] discovered cutoff years: ${CUTOFF_YEARS.length ? CUTOFF_YEARS.join(', ') : '(none)'} | latest=${LATEST_CUTOFF_YEAR} (${LATEST_CUTOFF_ROWS.length} MBBS rows)`);
+
+// Boot-time data integrity check. Single multi-line audit block: per-year row
+// counts, state-parse miss rate post-backfill, quota distribution, plus
+// non-fatal warnings for anomalies that would silently degrade
+// recommendations. Logged once at boot — does not run per request.
+function validateDataIntegrityAtBoot(): void {
+  console.log('━'.repeat(72));
+  console.log('[data-audit] India CSV health');
+
+  if (CUTOFF_YEARS.length === 0) {
+    console.warn('[data-audit] ⚠️ no cutoff years discovered — India predictor will be effectively offline');
+    console.log('━'.repeat(72));
+    return;
+  }
+
+  // Per-year row counts + state-parse miss rates
+  const rowCounts: Array<[number, number]> = CUTOFF_YEARS
+    .map(y => [y, cutoffsByYear[y].length] as [number, number])
+    .sort((a, b) => b[0] - a[0]);
+  const median = rowCounts.map(([, n]) => n).sort((a, b) => a - b)[Math.floor(rowCounts.length / 2)];
+  for (const [y, n] of rowCounts) {
+    const rows = cutoffsByYear[y];
+    const missing = rows.filter(r => !r.state).length;
+    const missPct = rows.length ? Math.round(100 * missing / rows.length) : 0;
+    const driftPct = median ? Math.round(100 * Math.abs(n - median) / median) : 0;
+    const warn = driftPct > 25 ? ' ⚠️ row count is >25% off median' : '';
+    const stateWarn = missPct > 10 ? ` ⚠️ ${missPct}% rows missing state` : '';
+    console.log(`[data-audit]   ${y}: ${n} MBBS rows · ${missPct}% no-state${warn}${stateWarn}`);
+  }
+
+  // Quota distribution for the latest year
+  const latest = LATEST_CUTOFF_ROWS;
+  const byQuota: Record<string, number> = {};
+  for (const r of latest) byQuota[r.quota] = (byQuota[r.quota] || 0) + 1;
+  const aiqCount    = Object.entries(byQuota).filter(([q]) => ALL_INDIA_QUOTAS.has(q) && q !== 'Deemed/Paid Seats Quota').reduce((s, [, n]) => s + n, 0);
+  const deemedCount = byQuota['Deemed/Paid Seats Quota'] || 0;
+  const stateCount  = latest.length - aiqCount - deemedCount;
+  console.log(`[data-audit]   ${LATEST_CUTOFF_YEAR} quotas: AIQ=${aiqCount} · Deemed=${deemedCount} · Other/State=${stateCount}`);
+  if (aiqCount === 0)    console.warn('[data-audit] ⚠️ no AIQ rows in latest year — recommendations will lean entirely on Gemini knowledge');
+  if (deemedCount === 0) console.warn('[data-audit] ⚠️ no Deemed rows in latest year — deemed probability will be 0%');
+
+  // Abroad anchor freshness — warn if older than 6 months
+  const abroadPath = join(ROOT, 'data', 'abroad', 'universities.json');
+  if (existsSync(abroadPath)) {
+    const ageMs = Date.now() - statSync(abroadPath).mtime.getTime();
+    const ageDays = Math.floor(ageMs / (1000 * 60 * 60 * 24));
+    const stale = ageDays > 180;
+    console.log(`[data-audit]   abroad anchors: ${ABROAD_UNIS.length} unis · ${ageDays}d old${stale ? ' ⚠️ >6 months — consider re-extract' : ''}`);
+  }
+
+  // City-state map size
+  console.log(`[data-audit]   city-state backfill map: ${Object.keys(CITY_STATE_MAP).length} entries`);
+  console.log('━'.repeat(72));
+}
 
 // ── Prompt registry: all LLM prompts live in prompts.json ────────────────────
 // Edit prompts there without touching this file. Variables use ${name} syntax
@@ -237,6 +460,50 @@ function fillTemplate(template: string, vars: Record<string, string | number>): 
   });
 }
 
+// Robust JSON extractor for grounded Gemini responses. Grounding cannot be
+// combined with responseSchema, so the model returns free-form text that
+// usually contains JSON but may have:
+//   - a prose preface ("Based on my search, here is the result: { ... }")
+//   - one or more ```json ... ``` fences
+//   - a trailing commentary or "Sources:" footer
+// We try, in order:
+//   1. parse the string verbatim (best case)
+//   2. peel off markdown fences and parse
+//   3. extract the first balanced { ... } substring and parse it
+// If everything fails, return null and let the caller treat it as "no insights"
+// rather than throwing.
+function extractJsonObject(raw: string): any | null {
+  if (!raw) return null;
+  const text = raw.trim();
+  // 1. straight parse
+  try { return JSON.parse(text); } catch { /* fall through */ }
+  // 2. strip markdown code fences (supports ```json or plain ```)
+  const fenced = text.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/, '').trim();
+  if (fenced !== text) {
+    try { return JSON.parse(fenced); } catch { /* fall through */ }
+  }
+  // 3. find first balanced JSON object — counts braces ignoring strings
+  const start = text.indexOf('{');
+  if (start === -1) return null;
+  let depth = 0, inStr = false, esc = false;
+  for (let i = start; i < text.length; i++) {
+    const c = text[i];
+    if (esc) { esc = false; continue; }
+    if (c === '\\' && inStr) { esc = true; continue; }
+    if (c === '"') { inStr = !inStr; continue; }
+    if (inStr) continue;
+    if (c === '{') depth++;
+    else if (c === '}') {
+      depth--;
+      if (depth === 0) {
+        const candidate = text.slice(start, i + 1);
+        try { return JSON.parse(candidate); } catch { return null; }
+      }
+    }
+  }
+  return null;
+}
+
 // ── LLM call wrapper: telemetry for every Gemini call ─────────────────────────
 // Captures latency, prompt/output/total tokens, model name, and a label so the
 // caller can correlate logs. Gemini ungrounded Flash pricing (Apr 2026): input
@@ -249,6 +516,40 @@ const PRICE_INPUT_PER_M  = 0.50;
 const PRICE_OUTPUT_PER_M = 3.00;
 const PRICE_GROUNDING_PER_QUERY = 0.014;  // $14 per 1K grounded queries
 
+// In-process spend accumulator. Resets on UTC day rollover. If today's spend
+// exceeds DAILY_USD_CAP, /api/predict short-circuits with 503. This is a
+// best-effort guard — distributed across replicas it under-counts (each
+// replica accumulates independently), so set the cap below the true budget
+// to leave headroom. For multi-replica deployments swap this for a Mongo or
+// Redis counter.
+const DAILY_USD_CAP = parseFloat(process.env.DAILY_USD_CAP || '50');
+const spendTracker = {
+  utcDay: new Date().toISOString().slice(0, 10),
+  totalUSD: 0,
+  callCount: 0,
+};
+
+function rollSpendDayIfNeeded(): void {
+  const today = new Date().toISOString().slice(0, 10);
+  if (today !== spendTracker.utcDay) {
+    console.log(`[spend] day rollover: ${spendTracker.utcDay} → ${today} | yesterday total=$${spendTracker.totalUSD.toFixed(4)} (${spendTracker.callCount} calls)`);
+    spendTracker.utcDay = today;
+    spendTracker.totalUSD = 0;
+    spendTracker.callCount = 0;
+  }
+}
+
+function recordSpend(usd: number): void {
+  rollSpendDayIfNeeded();
+  spendTracker.totalUSD += usd;
+  spendTracker.callCount++;
+}
+
+function isOverDailyCap(): boolean {
+  rollSpendDayIfNeeded();
+  return spendTracker.totalUSD >= DAILY_USD_CAP;
+}
+
 interface CallTelemetry {
   label: string;
   latencyMs: number;
@@ -259,6 +560,66 @@ interface CallTelemetry {
   grounded: boolean;
 }
 
+// Per-call deadline. Real-world India predictions take 36–84s in our
+// telemetry (long structured response + parallel grounded verifier). 25s
+// was guarding against the wrong failure mode — it killed legitimate slow
+// calls and the retry would also hit the same wall. 90s gives generous
+// headroom above p95 (84s) without holding the user-facing request open
+// indefinitely on a wedged Gemini connection.
+const GEMINI_CALL_TIMEOUT_MS = 90_000;
+
+// Retryable upstream conditions: 429 (rate-limited), 5xx (server-side
+// transient), and network-level disconnects. Critically NOT retryable:
+// our own client-side timeout (the call is genuinely slow, not transiently
+// broken — retrying just burns the second 90s budget for the same result).
+// Whether OUR timeout fired is checked SEPARATELY in the retry loop via the
+// returned `timedOut` flag, because the SDK wraps the AbortError and loses
+// our custom reason.
+function isRetryableGeminiError(err: any): boolean {
+  const status = err?.status ?? err?.response?.status;
+  if (status === 429) return true;
+  if (typeof status === 'number' && status >= 500 && status < 600) return true;
+  const msg = String(err?.message || '').toLowerCase();
+  if (msg.includes('etimedout') || msg.includes('econnreset') || msg.includes('socket hang up')) return true;
+  // Transport-level abort that's NOT from our deadline (which we filter
+  // separately via the timedOut flag in the retry loop).
+  if (msg.includes('socket') && msg.includes('closed')) return true;
+  return false;
+}
+
+// Returns the SDK response, or throws { error, timedOut } so the caller
+// knows whether the failure was OUR timeout (don't retry) or a real
+// upstream issue (retry might help).
+async function callGeminiOnce(
+  ai: GoogleGenAI,
+  request: any,
+): Promise<{ resp: any; timedOut: false }> {
+  const ac = new AbortController();
+  let timedOut = false;
+  const t = setTimeout(() => { timedOut = true; ac.abort(); }, GEMINI_CALL_TIMEOUT_MS);
+  try {
+    // The SDK respects AbortSignal on the underlying fetch.
+    const resp = await ai.models.generateContent({
+      model: GEMINI_MODEL,
+      ...request,
+      config: { ...(request.config || {}), abortSignal: ac.signal },
+    });
+    return { resp, timedOut: false };
+  } catch (err: any) {
+    // Decorate the error with our timedOut flag so the retry loop can see
+    // whether to retry or give up. Re-throw the original error otherwise.
+    if (timedOut) {
+      const wrap: any = new Error(`Gemini call exceeded ${GEMINI_CALL_TIMEOUT_MS}ms timeout`);
+      wrap.timedOut = true;
+      wrap.cause = err;
+      throw wrap;
+    }
+    throw err;
+  } finally {
+    clearTimeout(t);
+  }
+}
+
 async function callGemini(
   ai: GoogleGenAI,
   label: string,
@@ -266,7 +627,49 @@ async function callGemini(
   grounded = false,
 ): Promise<{ resp: any; tel: CallTelemetry }> {
   const t0 = Date.now();
-  const resp = await ai.models.generateContent({ model: GEMINI_MODEL, ...request });
+  const promptPreview = typeof request?.contents === 'string'
+    ? `${request.contents.length} chars`
+    : '(non-string contents)';
+  console.log(`  [gemini→] ${label} model=${GEMINI_MODEL} grounded=${grounded} prompt=${promptPreview}`);
+
+  let resp: any;
+  let attempt = 0;
+  // Retry loop: at most 1 retry. We don't retry the main /api/predict prompt
+  // a third time because each retry takes seconds and the user is waiting.
+  // 250ms + full-jitter backoff on the retry to spread bursts.
+  while (true) {
+    attempt++;
+    try {
+      const out = await callGeminiOnce(ai, request);
+      resp = out.resp;
+      if (attempt > 1) console.log(`  [gemini↻] ${label} succeeded on retry ${attempt}`);
+      break;
+    } catch (err: any) {
+      const latencyMs = Date.now() - t0;
+      // OUR client-side timeout: don't retry. The next attempt will hit the
+      // same wall and waste the user's time + double the cost. Surface it
+      // immediately so the caller knows to fail fast.
+      const wasOurTimeout = err?.timedOut === true;
+      const retryable = !wasOurTimeout && isRetryableGeminiError(err);
+      if (retryable && attempt < 2) {
+        const backoff = 250 + Math.floor(Math.random() * 500);
+        console.warn(`  [gemini↻] ${label} retryable error (${err?.status || 'no-status'}: ${err?.message || err}); retrying after ${backoff}ms`);
+        await new Promise(r => setTimeout(r, backoff));
+        continue;
+      }
+      console.error(`  [gemini✗] ${label} after ${latencyMs}ms (attempt ${attempt})${wasOurTimeout ? ' [OUR TIMEOUT — call exceeded ' + GEMINI_CALL_TIMEOUT_MS + 'ms]' : ''}`);
+      console.error(`    message: ${err?.message || err}`);
+      if (err?.status)   console.error(`    status:  ${err.status}`);
+      if (err?.code)     console.error(`    code:    ${err.code}`);
+      if (err?.cause)    console.error(`    cause:   ${err.cause?.message || err.cause}`);
+      if (err?.response) console.error(`    response:`, JSON.stringify(err.response).slice(0, 800));
+      if (err?.stack)    console.error(`    stack:\n${err.stack}`);
+      if (/credential|adc|application default/i.test(String(err?.message || ''))) {
+        console.error(`    HINT: this is the ADC fallback. GEMINI_API_KEY was empty/invalid when the SDK initialised. Check boot logs.`);
+      }
+      throw err;
+    }
+  }
   const latencyMs = Date.now() - t0;
 
   const usage = resp.usageMetadata || {};
@@ -282,10 +685,13 @@ async function callGemini(
     label, latencyMs, promptTokens, outputTokens, totalTokens, estCostUSD, grounded,
   };
 
+  recordSpend(estCostUSD);
+
   console.log(
     `[gemini] ${label} model=${GEMINI_MODEL} ${latencyMs}ms ` +
     `in=${promptTokens} out=${outputTokens} total=${totalTokens} ` +
-    `cost=$${estCostUSD.toFixed(5)}${grounded ? ' [grounded]' : ''}`,
+    `cost=$${estCostUSD.toFixed(5)}${grounded ? ' [grounded]' : ''} ` +
+    `(today=$${spendTracker.totalUSD.toFixed(4)}/${DAILY_USD_CAP.toFixed(2)})`,
   );
 
   return { resp, tel };
@@ -325,7 +731,14 @@ const SCORE_RANK_HISTORY: Record<number, Array<[number, number]>> = {
 // Effective contribution per year = weight × reliability, then normalized across all years
 const SCORE_RANK_YEAR_META: Record<number, { weight: number; reliability: number }> = {
   2024: { weight: 0.50, reliability: 0.65 },
-  2023: { weight: 0.35, reliability: 0.95 },
+  // 2023 reliability dropped from 0.95 → 0.65: our 2023 yearly CSV is missing
+  // Round 2 (~1,900–2,100 MBBS rows). The per-round files sum exactly to the
+  // 3,525 in the yearly file; only R1, R3, R5_BDS-BSc, and Special Stray were
+  // scraped — Round 2 was never captured. Until that gap is backfilled (raw
+  // PDF still available at cdnbbsr.s3waas.gov.in/.../2023081882.pdf), the
+  // 2023 distribution is biased toward later-round closing ranks. See
+  // scripts/data/2023-anomaly.md.
+  2023: { weight: 0.35, reliability: 0.65 },
   2022: { weight: 0.20, reliability: 0.90 },
 };
 
@@ -340,9 +753,23 @@ const SCORE_RANK_YEAR_META: Record<number, { weight: number; reliability: number
 // because it shrank the student's rank into a fake "category rank" and
 // compared it against AIR-based closing ranks. Removed.
 
-// Competition grows ~5%/yr → forward-project ranks to the prediction year
+// Competition grows ~5%/yr → forward-project ranks to the prediction year.
+// PREDICTION_YEAR auto-derives: take the next academic intake (current year
+// in IST + 1) so the prompt always advises for the upcoming cycle, and never
+// goes below latestCutoff + 1 (otherwise growth-projection would invert when
+// the CSV is freshly updated).
 const COMPETITION_GROWTH_PER_YEAR = 0.05;
-const PREDICTION_YEAR = 2026;
+const PREDICTION_YEAR = Math.max(
+  new Date().getFullYear() + (new Date().getMonth() >= 5 ? 1 : 0),
+  LATEST_CUTOFF_YEAR + 1,
+);
+console.log(`[boot] PREDICTION_YEAR resolved to ${PREDICTION_YEAR} (latestCutoff=${LATEST_CUTOFF_YEAR})`);
+
+// Today as an ISO date (YYYY-MM-DD), evaluated per request so the prompt
+// always carries the actual date rather than a stale build-time constant.
+function todayISO(): string {
+  return new Date().toISOString().slice(0, 10);
+}
 
 // ─── internal: piecewise-linear interpolation for one year's table
 function _interpRank(table: Array<[number, number]>, score: number): number {
@@ -433,25 +860,63 @@ function computeQuotaProbabilities(
   state: string
 ): { aiqMbbs: number; stateQuotaMbbs: number; deemedPrivate: number; stateIsEstimated: boolean } {
   const eligible = eligibleCategories(category);
-  const cutoffs = cutoffs2024.length ? cutoffs2024 : cutoffs2023;
 
-  const govtAiqRows = cutoffs.filter(r =>
+  // Multi-year blend: previously this used only the freshest year, which made
+  // the probability estimate noisy when a single year had a one-off shift
+  // (e.g. NEET 2024's grace-marks controversy). We blend across all available
+  // years with recency weighting matching the SCORE_RANK_YEAR_META pattern —
+  // the rank model is multi-year, so the probability model should be too.
+  const yearWeight = (y: number): number => {
+    const offset = LATEST_CUTOFF_YEAR - y;        // 0 for newest, +1, +2…
+    if (offset === 0) return 1.0;
+    if (offset === 1) return 0.6;
+    if (offset === 2) return 0.3;
+    return 0.15;
+  };
+
+  const filterRows = (predicate: (r: CutoffRow) => boolean) => {
+    const perYear: Array<{ year: number; rows: CutoffRow[] }> = [];
+    for (const y of CUTOFF_YEARS) {
+      const rows = cutoffsByYear[y].filter(predicate);
+      if (rows.length > 0) perYear.push({ year: y, rows });
+    }
+    return perYear;
+  };
+
+  const govtAiqYears = filterRows(r =>
     ALL_INDIA_QUOTAS.has(r.quota) &&
     r.quota !== 'Deemed/Paid Seats Quota' &&
     categoryMatches(r.category, eligible)
   );
-  const deemedRows = cutoffs.filter(r =>
+  const deemedYears = filterRows(r =>
     r.quota === 'Deemed/Paid Seats Quota' &&
     categoryMatches(r.category, eligible)
   );
-  const stateRows = cutoffs.filter(r =>
+  const stateYears = filterRows(r =>
     !ALL_INDIA_QUOTAS.has(r.quota) && categoryMatches(r.category, eligible) &&
-    r.state && r.state.toLowerCase() === (state || '').toLowerCase()
+    !!r.state && r.state.toLowerCase() === (state || '').toLowerCase()
   );
 
-  const avgPct = (rows: typeof cutoffs): number =>
-    rows.length === 0 ? 0 :
-    Math.round(rows.reduce((s, r) => s + admissionProbability(rankRange, r.closingRank), 0) / rows.length * 100);
+  // Year-blended average: each year contributes its own avgPct, weighted by
+  // recency. Years with 0 matching rows are skipped (would bias toward 0).
+  const blendedAvgPct = (perYear: Array<{ year: number; rows: CutoffRow[] }>): number => {
+    if (perYear.length === 0) return 0;
+    let sumW = 0, sumWP = 0;
+    for (const { year, rows } of perYear) {
+      const yearAvg = rows.reduce((s, r) => s + admissionProbability(rankRange, r.closingRank), 0) / rows.length;
+      const w = yearWeight(year);
+      sumW  += w;
+      sumWP += w * yearAvg;
+    }
+    return sumW > 0 ? Math.round((sumWP / sumW) * 100) : 0;
+  };
+
+  // Convenience for places further down that still want a per-row count
+  // (used for the "stateIsEstimated" / branch-selection signals).
+  const govtAiqRows = govtAiqYears.flatMap(y => y.rows);
+  const deemedRows  = deemedYears.flatMap(y => y.rows);
+  const stateRows   = stateYears.flatMap(y => y.rows);
+  const avgPct = (perYear: Array<{ year: number; rows: CutoffRow[] }>) => blendedAvgPct(perYear);
 
   // YoY drift buffer: closing-rank data is from LATEST_CUTOFF_YEAR (2024).
   // For 2026 predictions, seat expansion (~15-20 new colleges/year) tends to
@@ -461,9 +926,9 @@ function computeQuotaProbabilities(
   const cutoffStaleYears = Math.max(0, PREDICTION_YEAR - LATEST_CUTOFF_YEAR);
   const yoyBuffer = 1 + 0.05 * cutoffStaleYears;  // ~10% buffer at 2-year gap
 
-  const govtAiqRaw  = Math.min(100, avgPct(govtAiqRows) * yoyBuffer);
-  const deemedRaw   = Math.min(100, avgPct(deemedRows) * yoyBuffer);
-  const stateRaw    = Math.min(100, avgPct(stateRows) * yoyBuffer);
+  const govtAiqRaw  = Math.min(100, avgPct(govtAiqYears) * yoyBuffer);
+  const deemedRaw   = Math.min(100, avgPct(deemedYears) * yoyBuffer);
+  const stateRaw    = Math.min(100, avgPct(stateYears) * yoyBuffer);
 
   // Three-band rank-aware caps — derived empirically from this CSV.
   // Counted across all 5,264 MBBS AIQ rows: at AIR 1,500 ~95–97% of seats
@@ -532,12 +997,12 @@ function eligibleCategories(userCat: string): Set<string> {
 }
 
 function categoryMatches(rowCategory: string, eligible: Set<string>): boolean {
-  // CSV uses "Open"/"OBC"/"SC"/"ST"/"EWS" + " PwD" variants, normalize to upper.
-  const c = rowCategory.toUpperCase().replace(/PWD/g, 'PWD');
-  for (const e of eligible) if (c === e || c === e.replace('OPEN', 'OPEN')) return true;
-  // Fallback substring (handles odd whitespace)
-  for (const e of eligible) if (c.replace(/\s+/g, ' ') === e.replace(/\s+/g, ' ')) return true;
-  return false;
+  // CSV uses "Open"/"OBC"/"SC"/"ST"/"EWS" + " PwD" variants. Normalise both
+  // sides — uppercase, collapse whitespace — then exact match against the
+  // eligible set. The previous implementation had a bogus "fallback" that
+  // re-applied identical normalisation and so never fired.
+  const c = rowCategory.toUpperCase().replace(/\s+/g, ' ').trim();
+  return eligible.has(c);
 }
 
 // ── India predictor ──────────────────────────────────────────────────────────
@@ -558,12 +1023,34 @@ function isQuotaAccessible(quota: string, userState: string, instState: string):
   return false;
 }
 
+// Shared tier primitive — both tierName() (single-rank, used by the CSV
+// fallback ranker) and deriveTierFromRange() (range, used by the Gemini
+// validator) delegate here so the two paths can't drift. NEET semantics:
+// LOWER AIR = better student; student gets a seat if rank ≤ closing rank.
+//
+// Bands:
+//   Safe    — comfortably in range (rank ≤ closing × 0.85)
+//   Good    — within year-on-year noise (rank ≤ closing × 1.10)
+//   Reach   — aspirational with some chance (rank ≤ closing × 1.40)
+//   Stretch — unlikely, cutoff must shift significantly (rank ≤ closing × 2.50)
+//   null    — past 2.5×, treat as unreachable
+const TIER_BANDS = {
+  safe:    0.85,
+  good:    1.10,
+  reach:   1.40,
+  stretch: 2.50,
+} as const;
+
+function classifyTier(userRank: number, closingRank: number): 'Safe' | 'Good' | 'Reach' | 'Stretch' | null {
+  if (userRank <= closingRank * TIER_BANDS.safe)    return 'Safe';
+  if (userRank <= closingRank * TIER_BANDS.good)    return 'Good';
+  if (userRank <= closingRank * TIER_BANDS.reach)   return 'Reach';
+  if (userRank <= closingRank * TIER_BANDS.stretch) return 'Stretch';
+  return null;
+}
+
 function tierName(userRank: number, closing: number): 'Safe' | 'Good' | 'Reach' | 'Stretch' | null {
-  if (userRank <= closing * 0.85) return 'Safe';   // comfortably in range
-  if (userRank <= closing * 1.10) return 'Good';   // within year-on-year variation
-  if (userRank <= closing * 1.40) return 'Reach';  // aspirational with some chance
-  if (userRank <= closing * 2.50) return 'Stretch'; // unlikely — cutoff must shift significantly
-  return null;  // too far, exclude from Pass A
+  return classifyTier(userRank, closing);
 }
 
 function tierOrder(t: string): number {
@@ -727,7 +1214,7 @@ async function predictIndiaCsv(profile: any) {
     : approximateRank(profile.neetScore || 0, userCategory);
 
   const eligible = eligibleCategories(userCategory);
-  const cutoffs = cutoffs2024.length ? cutoffs2024 : cutoffs2023;
+  const cutoffs = LATEST_CUTOFF_ROWS;
 
   // Group by (institute, quota, category) → keep min closing rank
   const groups = new Map<string, CutoffRow>();
@@ -838,18 +1325,58 @@ async function predictIndiaCsv(profile: any) {
 
 // ── India predictor: hybrid Gemini + CSV ────────────────────────────────────
 
+// Quota-bucketed nearest-rank context. The previous implementation took the
+// 25 rows closest to the user's rank without quota guardrails — at certain
+// rank bands that returned 25 deemed-only or 25 same-state rows, giving the
+// model a misleading anchor density. Now we pick the nearest N from each of
+// {AIQ, Deemed, State} so the prompt always shows a balanced picture.
 function extractContextRows(userRank: number, category: string, state: string, limit = 25): string {
   const eligible = eligibleCategories(category);
-  const cutoffs = cutoffs2024.length ? cutoffs2024 : cutoffs2023;
-  const rows = cutoffs
-    .filter(r => isQuotaAccessible(r.quota, state, r.state) && categoryMatches(r.category, eligible))
-    .sort((a, b) => Math.abs(a.closingRank - userRank) - Math.abs(b.closingRank - userRank))
-    .slice(0, limit);
-  if (!rows.length) return `No matching rows found in MCC ${LATEST_CUTOFF_YEAR} cutoff data.`;
-  // Stamp every row with the source year so Gemini cannot mistake stale anchors
-  // for current-year data. Closing ranks here are CATEGORY-specific (the row's
-  // category column is what the closing rank applies to).
-  return rows.map(r =>
+  const cutoffs = LATEST_CUTOFF_ROWS;
+  const matching = cutoffs.filter(r =>
+    isQuotaAccessible(r.quota, state, r.state) && categoryMatches(r.category, eligible)
+  );
+  if (matching.length === 0) {
+    return `No matching rows found in MCC ${LATEST_CUTOFF_YEAR} cutoff data.`;
+  }
+
+  const distance = (r: CutoffRow) => Math.abs(r.closingRank - userRank);
+  const aiq    = matching.filter(r => ALL_INDIA_QUOTAS.has(r.quota) && r.quota !== 'Deemed/Paid Seats Quota');
+  const deemed = matching.filter(r => r.quota === 'Deemed/Paid Seats Quota');
+  const stateRows = matching.filter(r =>
+    r.state && state && r.state.toLowerCase() === state.toLowerCase() && !ALL_INDIA_QUOTAS.has(r.quota)
+  );
+
+  // Aim for roughly 60/30/10 mix (AIQ/Deemed/State) but flex if a bucket is
+  // empty so we still hit `limit`. AIQ is the dominant decision surface, so
+  // it gets the largest share of the prompt's anchor budget.
+  const aiqQuota    = Math.round(limit * 0.60);
+  const deemedQuota = Math.round(limit * 0.30);
+  const stateQuota  = limit - aiqQuota - deemedQuota;
+
+  const pickNearest = (rows: CutoffRow[], n: number) =>
+    rows.slice().sort((a, b) => distance(a) - distance(b)).slice(0, n);
+
+  const picks: CutoffRow[] = [];
+  picks.push(...pickNearest(aiq,       aiqQuota));
+  picks.push(...pickNearest(deemed,    deemedQuota));
+  picks.push(...pickNearest(stateRows, stateQuota));
+
+  // If buckets came up short (e.g. no state rows for this state in CSV),
+  // backfill with overall nearest rows from the matching pool, deduped.
+  if (picks.length < limit) {
+    const seen = new Set(picks.map(r => `${r.institute}|${r.quota}|${r.category}`));
+    const extras = matching
+      .filter(r => !seen.has(`${r.institute}|${r.quota}|${r.category}`))
+      .sort((a, b) => distance(a) - distance(b))
+      .slice(0, limit - picks.length);
+    picks.push(...extras);
+  }
+
+  // Final ordering: by distance to user rank, so closest rows lead the prompt.
+  picks.sort((a, b) => distance(a) - distance(b));
+
+  return picks.map(r =>
     `${r.institute} | ${r.state || '?'} | ${r.quota} | ${r.category} | closing_rank_${LATEST_CUTOFF_YEAR}:${r.closingRank}`
   ).join('\n');
 }
@@ -892,7 +1419,7 @@ async function verifyStateQuota(
   // Gender is passed through so women-only colleges get filtered for
   // Male / unspecified visitors (B.2 — the LHMC-leak fix).
   const prompt = fillTemplate(PROMPTS.india.stateQuotaVerification, {
-    today: '2026-04-26',
+    today: todayISO(),
     rankRangeLow:  rankRange.low.toLocaleString('en-IN'),
     rankRangeMid:  rankRange.mid.toLocaleString('en-IN'),
     rankRangeHigh: rankRange.high.toLocaleString('en-IN'),
@@ -909,16 +1436,558 @@ async function verifyStateQuota(
       config: { tools: [{ googleSearch: {} }] },
     }, /* grounded */ true);
 
-    let text = (resp.text || '').trim();
-    text = text.replace(/^```json\s*/i, '').replace(/^```\s*/, '').replace(/```\s*$/, '').trim();
-
-    const parsed = JSON.parse(text) as StateQuotaInsights;
+    const text = (resp.text || '').trim();
+    const parsed = extractJsonObject(text) as StateQuotaInsights | null;
+    if (!parsed) {
+      console.warn(`[verifyStateQuota:${state}] could not extract JSON from response (${text.length} chars) — preview:`, text.slice(0, 200));
+      return null;
+    }
     console.log(`[verifyStateQuota] ${state}: ${parsed.stateColleges?.length || 0} colleges, ${parsed.sources?.length || 0} sources`);
     return parsed;
   } catch (err: any) {
-    console.error('[verifyStateQuota] failed:', err?.message || err);
+    console.error(`[verifyStateQuota:${state}] FAILED:`, err?.message || err);
+    if (err?.stack) console.error(err.stack);
+    if (err?.response) console.error('  response:', JSON.stringify(err.response).slice(0, 800));
     return null;
   }
+}
+
+// ── Abroad universities anchor data ──────────────────────────────────────────
+// 45 manually-curated universities (Russia/Georgia/Kyrgyzstan/Hungary/etc.)
+// extracted from MBBS.xlsx via scripts/extract-abroad.py. Same role as the
+// MCC CSV plays for India: ground-truth context that the LLM anchors on
+// instead of fully relying on grounded search. Loaded once at startup.
+
+interface AbroadUni {
+  source: string;                       // 'vyom_sir' | 'russia_univ' | 'neethu_mam'
+  nameOfTheUniversity?: string;
+  country?: string;
+  city?: string;
+  publicPrivateUniversity?: string;
+  recognitionByNmc?: string;
+  recognitionByWho?: string;
+  ecfmgEligibility?: string;
+  wfmeAccreditation?: string;
+  courseDuration?: string;
+  mediumOfInstruction?: string;
+  neetRequirement?: string;
+  tuitionFeePerYear?: string;
+  tuitionFeePerYear_num?: number;
+  totalProgramCost?: string;
+  totalProgramCost_num?: number;
+  hostelFeePerYear?: string;
+  hostelFeePerYear_num?: number;
+  fmgeNextPassingPercentage?: string;
+  fmgeNextPassingPercentage_num?: number;
+  numberOfIndianStudents?: string;
+  numberOfIndianStudents_num?: number;
+  indianFoodMessAvailability?: string;
+  globalRecognitionScore_num?: number;
+  costIndex_num?: number;
+  roiScore_num?: number;
+  safetyIndex_num?: number;
+  admissionDifficultyScore_num?: number;
+  [k: string]: any;
+}
+
+function loadAbroadUnis(): AbroadUni[] {
+  const path = join(ROOT, 'data', 'abroad', 'universities.json');
+  if (!existsSync(path)) {
+    console.log('[abroad] universities.json missing — abroad runs grounded-only');
+    return [];
+  }
+  try {
+    const json = JSON.parse(readFileSync(path, 'utf-8'));
+    const list = Array.isArray(json?.universities) ? json.universities : [];
+    console.log(`[abroad] loaded ${list.length} anchor universities`);
+    return list;
+  } catch (e: any) {
+    console.error('[abroad] failed to load universities.json:', e?.message || e);
+    return [];
+  }
+}
+
+const ABROAD_UNIS = loadAbroadUnis();
+
+// Reference-data compile date for the abroad anchor file. Derived from the
+// JSON file's mtime so the prompt always carries the actual freshness of the
+// dataset — no more hardcoded 'April 2026' strings to forget on re-extract.
+// Format: "April 2026" (Month YYYY) so it reads naturally inside the prompt.
+const ABROAD_REFERENCE_DATE = (() => {
+  const path = join(ROOT, 'data', 'abroad', 'universities.json');
+  if (!existsSync(path)) return 'unknown';
+  try {
+    const m = statSync(path).mtime;
+    const months = ['January', 'February', 'March', 'April', 'May', 'June',
+                    'July', 'August', 'September', 'October', 'November', 'December'];
+    return `${months[m.getMonth()]} ${m.getFullYear()}`;
+  } catch {
+    return 'unknown';
+  }
+})();
+console.log(`[abroad] reference date (file mtime): ${ABROAD_REFERENCE_DATE}`);
+
+// Run data integrity audit now that abroad + India + quota constants are all
+// loaded. Single block of structured warnings — non-fatal.
+validateDataIntegrityAtBoot();
+
+// Filter abroad anchor rows down to a relevant subset for prompt injection.
+// Rules:
+//   1. If user listed preferredCountries → restrict to those (case-insensitive).
+//   2. If user gave budgetInUSD → prefer unis with totalProgramCost ≤ budget×1.3
+//      (30% slack so we don't hide near-budget options).
+//   3. Cap at MAX_ROWS so the prompt stays compact (45 unis × 72 fields would
+//      blow the input-token budget).
+//   4. Always preserve diversity: at least 1 row per country in the candidate
+//      set, even if budget excludes others.
+function filterAbroadAnchors(profile: any): AbroadUni[] {
+  if (ABROAD_UNIS.length === 0) return [];
+
+  const MAX_ROWS = 18;
+  const wantCountries: Set<string> = new Set(
+    (profile.preferredCountries || []).map((c: string) => String(c).toLowerCase().trim()),
+  );
+  const budget = Number(profile.budgetInUSD) || 0;
+
+  let pool = ABROAD_UNIS.slice();
+
+  if (wantCountries.size > 0) {
+    pool = pool.filter(u => wantCountries.has(String(u.country || '').toLowerCase().trim()));
+  }
+
+  if (budget > 0) {
+    // Soft filter — don't drop unis missing total_num, treat them as eligible.
+    const slack = budget * 1.3;
+    pool = pool.filter(u => !u.totalProgramCost_num || u.totalProgramCost_num <= slack);
+  }
+
+  // If filtering left us with too few, fall back to the full list (still
+  // respecting country preference if any matched at all).
+  if (pool.length < 6) {
+    pool = wantCountries.size > 0
+      ? ABROAD_UNIS.filter(u => wantCountries.has(String(u.country || '').toLowerCase().trim()))
+      : ABROAD_UNIS.slice();
+  }
+
+  // Sort: NMC=Yes first, then by costIndex (cheaper first if available),
+  // then by globalRecognitionScore (better-known first).
+  pool.sort((a, b) => {
+    const an = /^yes/i.test(String(a.recognitionByNmc || '')) ? 0 : 1;
+    const bn = /^yes/i.test(String(b.recognitionByNmc || '')) ? 0 : 1;
+    if (an !== bn) return an - bn;
+    const ac = a.totalProgramCost_num ?? 1e9;
+    const bc = b.totalProgramCost_num ?? 1e9;
+    if (ac !== bc) return ac - bc;
+    const ar = a.globalRecognitionScore_num ?? 0;
+    const br = b.globalRecognitionScore_num ?? 0;
+    return br - ar;
+  });
+
+  // Diversity guarantee: ensure at least one row per country in the top-N
+  // before we truncate (so a budget-shopper still sees Hungary even if Russia
+  // dominates the cheap end).
+  const seen = new Set<string>();
+  const diverse: AbroadUni[] = [];
+  const rest: AbroadUni[] = [];
+  for (const u of pool) {
+    const c = String(u.country || '').toLowerCase().trim();
+    if (!seen.has(c)) { seen.add(c); diverse.push(u); }
+    else rest.push(u);
+  }
+  return [...diverse, ...rest].slice(0, MAX_ROWS);
+}
+
+// Render anchor rows as compact pipe-delimited lines. The model reads these as
+// authoritative — it should not invent fees that contradict these strings.
+function formatAbroadContext(rows: AbroadUni[]): string {
+  if (rows.length === 0) return '(no anchor data — use grounded knowledge only)';
+  return rows.map(u => {
+    const name   = u.nameOfTheUniversity || u.name || 'Unknown';
+    const fields = [
+      u.country,
+      u.city,
+      u.publicPrivateUniversity ? `Type: ${u.publicPrivateUniversity}` : null,
+      u.recognitionByNmc      ? `NMC: ${u.recognitionByNmc}` : null,
+      u.mediumOfInstruction   ? `Medium: ${u.mediumOfInstruction}` : null,
+      u.tuitionFeePerYear     ? `Tuition: ${u.tuitionFeePerYear}` : null,
+      u.totalProgramCost      ? `Total: ${u.totalProgramCost}` : null,
+      u.fmgeNextPassingPercentage ? `FMGE: ${u.fmgeNextPassingPercentage}` : null,
+      u.numberOfIndianStudents    ? `IndianStudents: ${u.numberOfIndianStudents}` : null,
+      u.indianFoodMessAvailability ? `IndianFood: ${u.indianFoodMessAvailability}` : null,
+    ].filter(Boolean).join(' | ');
+    return `- ${name} | ${fields}`;
+  }).join('\n');
+}
+
+// ── Abroad verifier (grounded) ───────────────────────────────────────────────
+// Parallel grounded call alongside predictAbroad.main. Same shape as
+// verifyStateQuota: returns null on failure so the main result still ships.
+// Catches the gap our static dataset can't: NMC status changes, geopolitical
+// advisories, and recently-derecognised universities.
+
+interface AbroadVerifierCollege {
+  name: string;
+  country: string;
+  nmcStatus: string;
+  fmgeRecentRate: string | null;
+  travelAdvisory: string | null;
+  notes: string;
+}
+
+interface AbroadInsights {
+  flaggedColleges: AbroadVerifierCollege[];
+  generalAdvisory: string;
+  sources: string[];
+}
+
+async function verifyAbroad(
+  ai: GoogleGenAI,
+  profile: any,
+  candidates: AbroadUni[],
+): Promise<AbroadInsights | null> {
+  if (candidates.length === 0) return null;
+
+  const candidateNames = candidates.slice(0, 12)
+    .map(u => `${u.nameOfTheUniversity || u.name} (${u.country})`)
+    .join(', ');
+  const countries = Array.from(new Set(candidates.map(u => u.country).filter(Boolean))).join(', ');
+
+  const prompt = fillTemplate(PROMPTS.abroad.verifyAbroad, {
+    today: todayISO(),
+    candidateNames,
+    countries,
+  });
+
+  try {
+    const { resp } = await callGemini(ai, 'verifyAbroad', {
+      contents: prompt,
+      config: { tools: [{ googleSearch: {} }] },
+    }, /* grounded */ true);
+
+    const text = (resp.text || '').trim();
+    const parsed = extractJsonObject(text) as AbroadInsights | null;
+    if (!parsed) {
+      console.warn(`[verifyAbroad] could not extract JSON from response (${text.length} chars) — preview:`, text.slice(0, 200));
+      return null;
+    }
+    console.log(`[verifyAbroad] flagged ${parsed.flaggedColleges?.length || 0} colleges, ${parsed.sources?.length || 0} sources`);
+    return parsed;
+  } catch (err: any) {
+    console.error('[verifyAbroad] FAILED:', err?.message || err);
+    if (err?.stack) console.error(err.stack);
+    if (err?.response) console.error('  response:', JSON.stringify(err.response).slice(0, 800));
+    return null;
+  }
+}
+
+// ── India tier validator (Stage 1 of Pro hybrid) ─────────────────────────────
+// Code-level safety net for the AIIMS-Safe-at-AIR-500 bug class. The mechanical
+// tier gate currently lives in prompts.json (india.main text); this layer
+// enforces the same logic in code so a model that rationalizes past the prompt
+// instruction can't ship a wrong tier to the user.
+//
+// Stage 1 (this code): runs against current Flash output. Schema includes
+// expectedClosingAirLow/High (numeric AIR claim) so the validator can compare
+// against student rankRange without parsing free text.
+//
+// Stage 2 (deferred): same validator, but selection model swaps to
+// gemini-3.1-pro-preview and narrative writing splits to Flash. Validator
+// itself is model-agnostic.
+
+interface ValidationResult {
+  validated: any[];
+  drops:      { name: string; reason: string }[];
+  overrides:  { name: string; from: string; to: string; reason: string }[];
+  skipped:    { name: string; reason: string }[];
+  backfilled: number;
+}
+
+// Asymmetric drop thresholds — see plan rationale. The "tooEasy" direction
+// (model claims an easier college than reality) is more harmful: student
+// plans around a seat they can't get. The "tooHard" direction is a missed
+// opportunity but doesn't create false hope.
+//
+// SCALE-AWARE: a fixed multiplier is wrong because closing-rank noise grows
+// with the rank itself. AIIMS Delhi at AIR ~50 vs claimed ~80 is a perfectly
+// valid forward estimate (1.6x), but a flat 1.5x cap drops it as
+// "hallucinated". Conversely, a deemed college closing AIR 200,000 vs claimed
+// 300,000 is well within YoY noise. We pick thresholds by the rank tier of
+// the CSV anchor itself.
+function halluTooEasyMult(csvRank: number): number {
+  if (csvRank < 500)    return 2.5;   // toppers — wide claims OK at the elite end
+  if (csvRank < 5000)   return 2.0;   // mid AIQ — moderate slack
+  if (csvRank < 50000)  return 1.7;
+  return 1.5;                          // low band — claims should hug the CSV
+}
+function halluTooHardMult(csvRank: number): number {
+  if (csvRank < 500)    return 0.20;  // toppers — claiming AIIMS at AIR 10 (5x stricter than 50) is suspect
+  if (csvRank < 5000)   return 0.30;
+  if (csvRank < 50000)  return 0.40;
+  return 0.50;                          // low band — tighter strict-side
+}
+
+// Topper exception — preserves prompts.india.topperBlock invariant: AIR<1500
+// must see at least one of {AIIMS Delhi, AIIMS Bombay, AIIMS Jodhpur}. Even if
+// the student's AIR is mathematically past these closing ranks, drop-then-
+// promote-to-Stretch keeps the topper map intact.
+const TOPPER_EXEMPT_INSTITUTES = [
+  'aiims delhi', 'all india institute of medical sciences delhi',
+  'aiims bombay', 'aiims mumbai',
+  'aiims jodhpur',
+];
+
+function normalizeName(s: string): string {
+  return String(s || '').toLowerCase().replace(/[^\w\s]/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+// Map quotaSlot label to CSV quota convention. CSV uses "All India",
+// "Deemed/Paid Seats Quota", etc. — model returns shorthand "AIQ", "Deemed".
+function csvQuotaForSlot(slot: string): Set<string> {
+  const s = String(slot || '').toLowerCase();
+  if (s === 'aiq' || s === 'aiims') return new Set(['All India']);
+  if (s === 'deemed') return new Set(['Deemed/Paid Seats Quota']);
+  if (s === 'state') return new Set([]); // CSV has very few state-quota rows; let validator be permissive
+  return new Set([]);
+}
+
+// Find the matching CSV row for hallucination check. Match on:
+//   institute name (substring either direction, normalized)
+//   quota (loose match via csvQuotaForSlot)
+//   category (substring match — CSV "Open"/"OBC"/"SC"/"ST"/"EWS")
+// Returns the lowest-closingRank row when multiple match (most competitive).
+// Token-based name match. The previous implementation used substring-either-
+// direction which made "AIIMS" match every AIIMS row in the CSV — picking the
+// lowest-closing one (AIIMS Delhi) and using it as the anchor for AIIMS Patna,
+// AIIMS Bhopal, AIIMS Rishikesh, etc. That created false-positive
+// hallucination drops where a perfectly valid "AIIMS Patna at AIR ~2,500" got
+// compared against AIIMS Delhi's ~50 closing.
+//
+// New rule: tokenize both names, require ALL tokens of the shorter name to
+// appear in the longer name's token set, AND require the length ratio to be
+// within 2x (so "AIIMS" alone doesn't match "AIIMS Delhi" — too short
+// relative to the row, ambiguous). For multi-token rows, this means the
+// model's "AIIMS Delhi" matches a CSV row containing "All India Institute Of
+// Medical Sciences Delhi" only when both share at least the location token.
+function nameMatches(modelName: string, csvName: string): boolean {
+  const a = modelName.split(/\s+/).filter(Boolean);
+  const b = csvName.split(/\s+/).filter(Boolean);
+  if (a.length === 0 || b.length === 0) return false;
+  // Length ratio guard — "aiims" (1 token) vs "all india institute of medical
+  // sciences delhi" (7 tokens) is too lopsided to be a confident match.
+  const shorter = a.length <= b.length ? a : b;
+  const longer  = a.length <= b.length ? b : a;
+  if (longer.length > shorter.length * 4) return false;
+  // Strip a small set of generic tokens that appear in many institute names
+  // and don't disambiguate.
+  const STOP = new Set(['college', 'medical', 'institute', 'of', 'and', 'the', 'sciences', 'science', 'university', 'hospital', 'all', 'india']);
+  const longerSet = new Set(longer.filter(t => !STOP.has(t)));
+  const meaningful = shorter.filter(t => !STOP.has(t));
+  if (meaningful.length === 0) return false;          // both names are stopwords-only
+  return meaningful.every(t => longerSet.has(t));
+}
+
+function findCsvAnchor(
+  uniName: string,
+  quotaSlot: string,
+  categorySlot: string,
+): CutoffRow | null {
+  const cutoffs = LATEST_CUTOFF_ROWS;
+  const nameNorm = normalizeName(uniName);
+  if (!nameNorm) return null;
+  const quotaSet = csvQuotaForSlot(quotaSlot);
+  const catNorm = normalizeName(categorySlot);
+  let best: CutoffRow | null = null;
+  for (const r of cutoffs) {
+    const rNameNorm = normalizeName(r.institute);
+    if (!rNameNorm) continue;
+    if (!nameMatches(nameNorm, rNameNorm)) continue;
+    if (quotaSet.size > 0 && !quotaSet.has(r.quota)) continue;
+    if (catNorm) {
+      const rCatNorm = normalizeName(r.category);
+      if (!rCatNorm.includes(catNorm) && !catNorm.includes(rCatNorm)) continue;
+    }
+    if (!best || r.closingRank < best.closingRank) best = r;
+  }
+  return best;
+}
+
+// Mechanical tier derivation from student rankRange + claimed closing AIR
+// range. NEET semantics: LOWER AIR = better student. Student gets a seat if
+// their rank ≤ closing rank. claimedLow = strictest closing (e.g. AIIMS Delhi
+// at AIR 50), claimedHigh = loosest within the predicted range.
+//
+//   Safe    — even student's WORST rank (high) clears the strictest closing
+//             with 15% cushion: rankRange.high ≤ claimedLow × 0.85
+//   Good    — student's mid clears the loosest closing: rankRange.mid ≤ claimedHigh
+//   Reach   — student range overlaps with claimed range
+//   Stretch — student's best is past the loose closing but within 2.5×:
+//             rankRange.low > claimedHigh AND rankRange.low ≤ claimedHigh × 2.5
+//   DROP    — truly unreachable: rankRange.low > claimedHigh × 2.5
+//
+// This mirrors the existing tierName(userRank, closing) function used in
+// predictIndiaCsv (server.ts:572), generalised to operate on ranges instead
+// of single values. The original AIIMS-Safe-at-AIR-500 bug arose from the
+// model rationalising past the prompt-level gate; this function is the
+// deterministic backstop.
+function deriveTierFromRange(
+  rankRange: { low: number; mid: number; high: number },
+  claimedLow: number,
+  claimedHigh: number,
+): 'Safe' | 'Good' | 'Reach' | 'Stretch' | 'DROP' {
+  // Truly unreachable: even student's best rank is past the stretch band of
+  // the loosest closing. Uses the shared TIER_BANDS.stretch constant so this
+  // and classifyTier() can never disagree on what "unreachable" means.
+  if (rankRange.low > claimedHigh * TIER_BANDS.stretch) return 'DROP';
+  // Safe: student's WORST rank clears the strictest closing with the same
+  // 15% cushion as the single-value classifier.
+  if (rankRange.high <= claimedLow * TIER_BANDS.safe) return 'Safe';
+  // Good: student's mid clears the loosest closing
+  if (rankRange.mid <= claimedHigh) return 'Good';
+  // Past the loose closing but not unreachable → Stretch
+  if (rankRange.low > claimedHigh) return 'Stretch';
+  // Otherwise: ranges overlap → Reach
+  return 'Reach';
+}
+
+function isTopperExempt(name: string): boolean {
+  const n = normalizeName(name);
+  return TOPPER_EXEMPT_INSTITUTES.some(t => n.includes(t));
+}
+
+// Build validator backfill rows from predictIndiaCsv, filtered by user
+// profile. Plan §"Backfill on overdrop — filtered by user profile" — only
+// pull rows matching student's category, with quota relevance gated by
+// domicile and budget. Drop duplicates already in the validated list.
+async function buildValidatorBackfill(
+  profile: any,
+  alreadyHave: any[],
+  needCount: number,
+): Promise<any[]> {
+  if (needCount <= 0) return [];
+  try {
+    const csvResult = await predictIndiaCsv(profile);
+    const userCategory = (profile.category || 'OPEN').toUpperCase();
+    const userState = String(profile.domicileState || '').toLowerCase();
+    const budgetUSD = parseInt(profile.budgetInUSD || '0', 10);
+    const budgetINR = budgetUSD ? budgetUSD * 83.5 : 0;
+    const deemedAllowed = budgetINR >= 5_000_000;
+    const haveNames = new Set(alreadyHave.map(u => normalizeName(u.name)));
+    const candidates = (csvResult.universities || []).filter((u: any) => {
+      // Skip duplicates
+      if (haveNames.has(normalizeName(u.name))) return false;
+      // Quota relevance
+      const q = String(u.quota || '');
+      if (q === 'Deemed/Paid Seats Quota' && !deemedAllowed) return false;
+      // State-quota rows must match domicile (CSV barely has these, but be safe)
+      if (q !== 'All India' && q !== 'Deemed/Paid Seats Quota' && q !== 'Open Seat Quota'
+          && q !== 'IP University Quota' && q !== 'Delhi University Quota') {
+        // It's a state-domicile quota — caller must match domicile
+        // We don't have row.state on the University object, so skip these
+        // (rare edge case; AIQ + Deemed cover 95%+ of CSV).
+        return false;
+      }
+      // Category match: predictIndiaCsv already filters by eligibleCategories;
+      // its University objects don't expose category, but the eligibility
+      // filter in the source means these are safe by construction.
+      return true;
+    });
+    return candidates.slice(0, needCount);
+  } catch (e: any) {
+    console.error('[validator] backfill failed:', e?.message || e);
+    return [];
+  }
+}
+
+function validateIndiaUniversities(
+  unis: any[],
+  rankRange: { low: number; mid: number; high: number },
+  userCategory: string,
+): ValidationResult {
+  const drops: ValidationResult['drops'] = [];
+  const overrides: ValidationResult['overrides'] = [];
+  const skipped: ValidationResult['skipped'] = [];
+  const validated: any[] = [];
+
+  for (const u of unis) {
+    const name = String(u?.name || '(unnamed)');
+    const claimedLow  = Number(u?.expectedClosingAirLow);
+    const claimedHigh = Number(u?.expectedClosingAirHigh);
+    const quotaSlot   = String(u?.quotaSlot || '');
+    const categorySlot = String(u?.categorySlot || userCategory);
+
+    // 0. Missing/zero numeric fields — model failed schema requirement.
+    //    Don't drop; pass through unchanged. Counter surfaces in telemetry so
+    //    we can monitor schema compliance rate.
+    if (!claimedLow || !claimedHigh || claimedHigh < claimedLow) {
+      skipped.push({ name, reason: `missing or invalid expectedClosingAir (low=${u?.expectedClosingAirLow}, high=${u?.expectedClosingAirHigh})` });
+      validated.push(u);
+      continue;
+    }
+
+    // 1. Hallucination drop — asymmetric AND scale-aware. Multipliers tighten
+    //    at low ranks (where noise is small in absolute terms) and loosen at
+    //    high ranks (where YoY drift can shift closing by tens of thousands).
+    const csvAnchor = findCsvAnchor(name, quotaSlot, categorySlot);
+    if (csvAnchor) {
+      const csvRank = csvAnchor.closingRank;
+      const easyMult = halluTooEasyMult(csvRank);
+      const hardMult = halluTooHardMult(csvRank);
+      // Use claimedHigh as the comparison anchor — model's optimistic upper bound.
+      if (claimedHigh > csvRank * easyMult) {
+        drops.push({ name, reason: `hallucinated tooEasy: claimed ${claimedHigh} vs CSV ${csvRank} (×${easyMult})` });
+        continue;
+      }
+      if (claimedHigh < csvRank * hardMult) {
+        drops.push({ name, reason: `hallucinated tooHard: claimed ${claimedHigh} vs CSV ${csvRank} (×${hardMult})` });
+        continue;
+      }
+    }
+
+    // 2. Mechanical tier derivation
+    const codeTier = deriveTierFromRange(rankRange, claimedLow, claimedHigh);
+
+    // 3. Topper exception — promote-then-keep instead of drop for AIIMS toppers
+    if (codeTier === 'DROP') {
+      if (rankRange.mid < 1500 && isTopperExempt(name)) {
+        const oldTier = String(u.tier || 'unknown');
+        if (oldTier !== 'Stretch') {
+          overrides.push({
+            name, from: oldTier, to: 'Stretch',
+            reason: `topper-exempt AIIMS promoted from DROP to Stretch (AIR ${rankRange.mid} < 1500)`,
+          });
+          u.tier = 'Stretch';
+          // Refresh bestFor to match new tier when it leads with a tier word
+          if (typeof u.bestFor === 'string' && /\b(safe|good|reach|stretch)\b/i.test(u.bestFor)) {
+            u.bestFor = u.bestFor.replace(/\b(safe|good|reach|stretch)\b/i, 'Stretch');
+          }
+        }
+        validated.push(u);
+        continue;
+      }
+      drops.push({
+        name,
+        reason: `unreachable: student high=${rankRange.high} < claimed.low=${claimedLow} × 0.5`,
+      });
+      continue;
+    }
+
+    // 4. Tier override when model disagrees with code
+    const modelTier = String(u.tier || '');
+    if (modelTier !== codeTier) {
+      overrides.push({
+        name, from: modelTier || '(unset)', to: codeTier,
+        reason: `student rank=[${rankRange.low}-${rankRange.high}] vs claimed=[${claimedLow}-${claimedHigh}]`,
+      });
+      u.tier = codeTier;
+      if (typeof u.bestFor === 'string' && /\b(safe|good|reach|stretch)\b/i.test(u.bestFor)) {
+        u.bestFor = u.bestFor.replace(/\b(safe|good|reach|stretch)\b/i, codeTier);
+      }
+    }
+
+    validated.push(u);
+  }
+
+  return { validated, drops, overrides, skipped, backfilled: 0 };
 }
 
 async function predictIndia(profile: any) {
@@ -1042,14 +2111,18 @@ async function predictIndia(profile: any) {
     ? fillTemplate(PROMPTS.india.categoryAdvantageNote, { userCategory })
     : '';
 
-  // Counselling strategy varies by rank tier. Toppers get AIQ-primary
-  // strategy (top national colleges live in AIQ); everyone else gets
-  // state-primary (safety net first, AIQ as upside).
-  const counsellingStrategy = fillTemplate(
-    isTopper ? PROMPTS.india.counsellingStrategyTopper
-             : PROMPTS.india.counsellingStrategyDefault,
-    { state },
-  );
+  // Counselling strategy varies by rank tier — three bands matching the
+  // probability-cap bands. Toppers (<1500): AIQ-primary (top national colleges
+  // live in AIQ). Mid (1500–25000): balanced — both channels are competitive
+  // here, AIQ for non-AIIMS govt + state for mid/lower-tier state GMCs. Low
+  // (>25000): state-primary safety net first.
+  const isMidRank = !isTopper && userRank < 25000;
+  const strategyTemplate = isTopper
+    ? PROMPTS.india.counsellingStrategyTopper
+    : isMidRank
+      ? PROMPTS.india.counsellingStrategyMid
+      : PROMPTS.india.counsellingStrategyDefault;
+  const counsellingStrategy = fillTemplate(strategyTemplate, { state });
 
   // Data-year context — explicit gap between CSV anchor year and prediction
   // year so Gemini compensates for stale anchors. INTERNAL ONLY: the user
@@ -1067,7 +2140,7 @@ async function predictIndia(profile: any) {
     : '';
 
   const prompt = fillTemplate(PROMPTS.india.main, {
-    today: '2026-04-26',
+    today: todayISO(),
     score, rankDisplay, userCategory, gender,
     latestCutoffYear: LATEST_CUTOFF_YEAR,
     cutoffStaleYears,
@@ -1092,26 +2165,90 @@ async function predictIndia(profile: any) {
     contents: prompt,
     config: {
       responseMimeType: 'application/json',
-      responseSchema,
+      responseSchema: indiaResponseSchema,
     },
   });
   const verifyCall = verifyStateQuota(ai, rankRange, userCategory, state, gender);
 
   try {
-    const [{ resp, tel }, stateQuotaInsights] = await Promise.all([mainCall, verifyCall]);
+    console.log(`[predictIndia] starting | userRank=${userRank} category=${userCategory} state=${state || '-'} contextRows=${contextRows.split('\n').length}`);
+    // allSettled so verifier crash doesn't kill the main call
+    const [mainSettled, verifySettled] = await Promise.allSettled([mainCall, verifyCall]);
+    if (mainSettled.status === 'rejected') {
+      const err: any = mainSettled.reason;
+      console.error('[predictIndia] main call REJECTED');
+      console.error(`  message: ${err?.message || err}`);
+      if (err?.stack) console.error(`  stack:\n${err.stack}`);
+      if (err?.cause) console.error(`  cause:`, err.cause);
+      if (err?.response) console.error(`  response:`, JSON.stringify(err.response).slice(0, 800));
+      throw err;
+    }
+    const { resp, tel } = mainSettled.value;
+    let stateQuotaInsights: StateQuotaInsights | null = null;
+    if (verifySettled.status === 'fulfilled') {
+      stateQuotaInsights = verifySettled.value;
+    } else {
+      const err: any = verifySettled.reason;
+      console.error('[predictIndia] verifier crashed (continuing without it):');
+      console.error(`  message: ${err?.message || err}`);
+      if (err?.stack) console.error(`  stack:\n${err.stack}`);
+    }
     const result = JSON.parse(resp.text || '{"universities":[],"analysis":""}');
     if (stateQuotaInsights) result.stateQuotaInsights = stateQuotaInsights;
+
+    // Code-level tier validator — Stage 1 of the Pro hybrid. Runs against the
+    // parsed Gemini response and enforces deterministic tier assignment based
+    // on student rankRange vs claimed expectedClosingAir. See plan §Validator.
+    const validation = validateIndiaUniversities(
+      Array.isArray(result.universities) ? result.universities : [],
+      rankRange,
+      userCategory,
+    );
+
+    // Backfill on overdrop — keep at least 7 universities by pulling from the
+    // CSV fallback (already category/quota/budget filtered). Falls back gracefully
+    // if backfill fails — short list is better than no list.
+    const MIN_UNIS = 7;
+    if (validation.validated.length < MIN_UNIS) {
+      const need = 10 - validation.validated.length;
+      console.log(`[validator] only ${validation.validated.length} unis survived validation, backfilling up to ${need} from CSV…`);
+      const backfill = await buildValidatorBackfill(profile, validation.validated, need);
+      validation.validated.push(...backfill);
+      validation.backfilled = backfill.length;
+      console.log(`[validator] backfill returned ${backfill.length} rows`);
+    }
+    result.universities = validation.validated;
+
     // Telemetry summary for the whole India request — wall-clock includes both parallel calls
     result.telemetry = {
       wallClockMs: Date.now() - t0,
       mainCall: tel,
       stateVerified: !!stateQuotaInsights,
+      validatorDrops:      validation.drops.length,
+      validatorOverrides:  validation.overrides.length,
+      validatorSkipped:    validation.skipped.length,
+      validatorBackfilled: validation.backfilled,
     };
-    console.log(`[predictIndia] total wall-clock ${result.telemetry.wallClockMs}ms (state verified: ${result.telemetry.stateVerified})`);
+    console.log(
+      `[predictIndia] total wall-clock ${result.telemetry.wallClockMs}ms (state verified: ${result.telemetry.stateVerified}) ` +
+      `[validator] drops=${validation.drops.length} overrides=${validation.overrides.length} ` +
+      `skipped=${validation.skipped.length} backfilled=${validation.backfilled}`
+    );
+    if (validation.drops.length)     console.log('[validator] drops:',     validation.drops);
+    if (validation.overrides.length) console.log('[validator] overrides:', validation.overrides);
     return result;
-  } catch (err) {
-    console.error('[predictIndia] Gemini call failed, falling back to CSV:', err);
-    return predictIndiaCsv(profile);
+  } catch (err: any) {
+    // No silent CSV fallback — Gemini's anchored reasoning IS the product. A
+    // CSV-only response would look like a recommendation but lack the rank-
+    // tier-aware probabilities, topper logic, state-quota grounding, and
+    // category-specific narrative the user is paying for. Better to surface
+    // the failure cleanly so the caller sees a real error and we can fix it.
+    console.error('[predictIndia] FAILED — bubbling up to /api/predict (NO silent CSV fallback by design)');
+    console.error(`  message: ${err?.message || err}`);
+    if (err?.stack) console.error(`  stack:\n${err.stack}`);
+    if (err?.cause) console.error(`  cause:`, err.cause);
+    if (err?.response) console.error(`  response:`, JSON.stringify(err.response).slice(0, 800));
+    throw err;
   }
 }
 
@@ -1162,6 +2299,37 @@ const responseSchema = {
   required: ['universities', 'analysis'],
 };
 
+// India response schema — universitySchema + four numeric/string fields the
+// code-level validator uses to override hallucinated tier assignments. The
+// rank fields are AIR (single coordinate system across the codebase). Marked
+// required so the model reliably populates them; if it returns 0/null anyway,
+// validateIndiaUniversities skips that row instead of dropping it (counted as
+// `validatorSkipped` for telemetry — leading indicator that the schema isn't
+// being honored and Stage 2 (Pro) may be needed sooner than planned).
+const indiaUniversitySchema = {
+  type: Type.OBJECT,
+  properties: {
+    ...universitySchema.properties,
+    expectedClosingAirLow:  { type: Type.NUMBER, description: 'Forward-looking 2026 expected closing AIR — lower bound of the predicted range. Use the most-recent MCC anchor data ±5%. Plain number, not string. Required for India route.' },
+    expectedClosingAirHigh: { type: Type.NUMBER, description: 'Forward-looking 2026 expected closing AIR — upper bound. Plain number. Required for India route.' },
+    quotaSlot:    { type: Type.STRING, description: "Quota label this rank applies to: 'AIQ', 'State', 'Deemed', 'Management', 'NRI', 'AIIMS', or 'NEET-Alt'." },
+    categorySlot: { type: Type.STRING, description: "Category the closing AIR applies to: 'Open', 'OBC', 'SC', 'ST', 'EWS', etc." },
+  },
+  required: [
+    ...universitySchema.required,
+    'expectedClosingAirLow', 'expectedClosingAirHigh', 'quotaSlot', 'categorySlot',
+  ],
+};
+
+const indiaResponseSchema = {
+  type: Type.OBJECT,
+  properties: {
+    universities: { type: Type.ARRAY, items: indiaUniversitySchema },
+    analysis: { type: Type.STRING },
+  },
+  required: ['universities', 'analysis'],
+};
+
 async function predictAbroad(profile: any) {
   const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
 
@@ -1175,55 +2343,319 @@ async function predictAbroad(profile: any) {
     ? PROMPTS.abroad.indianFoodNote
     : '';
 
+  // NEET qualifying cutoff — under NMC FMGL regulations, an Indian student
+  // must clear NEET-UG to be eligible for an Indian medical license post
+  // foreign-MBBS. Approximate 720-scale cutoffs: ~137 General/EWS, ~107 reserved.
+  // Use the lower bound as the trigger so we don't false-positive reserved
+  // students sitting just under the General cutoff.
+  const NEET_QUALIFYING_FLOOR = 107;
+  const numericScore = Number(profile.neetScore) || 0;
+  const qualifyingCutoffNote = (numericScore > 0 && numericScore < NEET_QUALIFYING_FLOOR)
+    ? fillTemplate(PROMPTS.abroad.qualifyingCutoffNote, { score: String(numericScore) })
+    : '';
+
+  // Anchor rows: filter the 45-uni dataset down to ≤18 candidates relevant to
+  // this profile (preferred countries, budget). The model is instructed to
+  // anchor on these for fees / NMC status / FMGE rather than fully relying on
+  // grounded knowledge — same pattern as MCC CSV anchoring on the India side.
+  const anchorRows = filterAbroadAnchors(profile);
+  const anchorBlock = formatAbroadContext(anchorRows);
+  const anchorRowCount = anchorRows.length;
+
   const prompt = fillTemplate(PROMPTS.abroad.main, {
-    today: '2026-04-25',
+    today: todayISO(),
     score, rank, budget, countries,
     otherPrefsOrNone: otherPrefs || 'none',
     indianFoodNote,
+    qualifyingCutoffNote,
+    anchorBlock,
+    anchorRowCount: String(anchorRowCount),
+    referenceDataDate: ABROAD_REFERENCE_DATE,
   }).trim();
 
+  console.log(`[predictAbroad] starting | anchorRows=${anchorRowCount} | qualifyingNote=${qualifyingCutoffNote ? 'YES' : 'no'} | foodNote=${indianFoodNote ? 'YES' : 'no'}`);
+
+  // Fire main + verifier in parallel. Verifier is best-effort: if it fails,
+  // null insights ship and the main result is still returned.
+  // Use Promise.allSettled so a verifier crash doesn't kill the main call.
   const t0 = Date.now();
-  const { resp, tel } = await callGemini(ai, 'predictAbroad', {
+  const mainCall = callGemini(ai, 'predictAbroad.main', {
     contents: prompt,
     config: {
       responseMimeType: 'application/json',
       responseSchema,
     },
   });
+  const verifyCall = verifyAbroad(ai, profile, anchorRows);
+
+  const [mainSettled, verifySettled] = await Promise.allSettled([mainCall, verifyCall]);
+  if (mainSettled.status === 'rejected') {
+    console.error('[predictAbroad] main call REJECTED');
+    const err: any = mainSettled.reason;
+    console.error(`  message: ${err?.message || err}`);
+    if (err?.stack) console.error(`  stack:\n${err.stack}`);
+    if (err?.cause) console.error(`  cause:`, err.cause);
+    if (err?.response) console.error(`  response:`, JSON.stringify(err.response).slice(0, 800));
+    throw err;  // bubble up so /api/predict 500s with the real cause
+  }
+  const { resp, tel } = mainSettled.value;
+  let abroadInsights: AbroadInsights | null = null;
+  if (verifySettled.status === 'fulfilled') {
+    abroadInsights = verifySettled.value;
+  } else {
+    const err: any = verifySettled.reason;
+    console.error('[predictAbroad] verifier crashed (continuing without it):');
+    console.error(`  message: ${err?.message || err}`);
+    if (err?.stack) console.error(`  stack:\n${err.stack}`);
+  }
 
   const result = JSON.parse(resp.text || '{"universities":[],"analysis":""}');
+  if (abroadInsights) result.abroadInsights = abroadInsights;
   result.telemetry = {
     wallClockMs: Date.now() - t0,
     mainCall: tel,
     stateVerified: false,
+    abroadVerified: !!abroadInsights,
+    anchorRowsUsed: anchorRowCount,
   };
-  console.log(`[predictAbroad] total wall-clock ${result.telemetry.wallClockMs}ms`);
+  console.log(`[predictAbroad] DONE wall-clock=${result.telemetry.wallClockMs}ms anchorRows=${anchorRowCount} verified=${result.telemetry.abroadVerified} unisReturned=${result.universities?.length ?? 0}`);
   return result;
+}
+
+// ── Input sanitization ───────────────────────────────────────────────────────
+// Profile fields are forwarded into a Gemini prompt via fillTemplate(). Without
+// these guards a user could plant prompt-injection markers ("IGNORE PRIOR
+// INSTRUCTIONS…") inside otherPreferences/state/category and steer the model.
+// Allowlist enums where we can; for free text, length-cap and strip control
+// chars + section-header words we use ourselves in prompts.json.
+
+const ALLOWED_DESTINATIONS = new Set(['India', 'Abroad']);
+const ALLOWED_CATEGORIES   = new Set(['OPEN', 'OBC', 'OBC-NCL', 'SC', 'ST', 'EWS', 'OPEN-PWD', 'OBC-PWD', 'SC-PWD', 'ST-PWD', 'EWS-PWD']);
+const ALLOWED_GENDERS      = new Set(['Male', 'Female', '']);
+// Section-header substrings we use in our own prompts. Reject input that tries
+// to inject these — cheap defence, real attackers will encode/paraphrase but
+// the obvious cases are blocked.
+const PROMPT_INJECTION_MARKERS = [
+  'ignore prior', 'ignore previous', 'disregard the above', 'system prompt',
+  'critical rules', 'final check', 'mechanical tier gate', 'ui hygiene',
+  '⚠️', '⛔',
+];
+
+function sanitizeFreeText(raw: any, maxLen: number): string {
+  if (raw == null) return '';
+  // Strip control characters (incl. zero-width / RTL-override tricks) and
+  // collapse whitespace. NFKC would be ideal but isn't critical here.
+  // eslint-disable-next-line no-control-regex
+  let s = String(raw).replace(/[\x00-\x1F\x7F​-‏‪-‮]/g, ' ').replace(/\s+/g, ' ').trim();
+  if (s.length > maxLen) s = s.slice(0, maxLen);
+  return s;
+}
+
+function containsInjectionMarker(s: string): boolean {
+  const low = s.toLowerCase();
+  return PROMPT_INJECTION_MARKERS.some(m => low.includes(m));
+}
+
+function sanitizeStringArray(raw: any, maxItems: number, maxLen: number): string[] {
+  if (!Array.isArray(raw)) return [];
+  const out: string[] = [];
+  for (const item of raw.slice(0, maxItems)) {
+    const s = sanitizeFreeText(item, maxLen);
+    if (s) out.push(s);
+  }
+  return out;
+}
+
+function escapeHtml(s: string): string {
+  return s.replace(/[&<>"']/g, c => (
+    c === '&' ? '&amp;' :
+    c === '<' ? '&lt;' :
+    c === '>' ? '&gt;' :
+    c === '"' ? '&quot;' :
+                '&#39;'
+  ));
+}
+
+interface SanitizedProfile {
+  destinationType: 'India' | 'Abroad';
+  neetScore: number;
+  neetRank: number;
+  category: string;
+  gender: string;
+  domicileState: string;
+  budgetInUSD: number;
+  preferredCountries: string[];
+  coursePreferences: string[];
+  otherPreferences: string;
+  sessionId: string | null;
+}
+
+function validateProfile(raw: any): { ok: true; profile: SanitizedProfile } | { ok: false; error: string } {
+  if (!raw || typeof raw !== 'object') return { ok: false, error: 'Request body must be a JSON object.' };
+
+  const destinationType = String(raw.destinationType || '');
+  if (!ALLOWED_DESTINATIONS.has(destinationType)) {
+    return { ok: false, error: 'destinationType must be "India" or "Abroad".' };
+  }
+
+  // Score: optional, but if present must be 0–720. Score=0 is treated as
+  // "not provided" and we require a rank instead. Score below the NEET
+  // qualifying floor is allowed (we surface a warning in predictAbroad).
+  const neetScore = Number.isFinite(Number(raw.neetScore)) ? Number(raw.neetScore) : 0;
+  if (neetScore < 0 || neetScore > 720) {
+    return { ok: false, error: 'neetScore must be between 0 and 720.' };
+  }
+  const neetRank = Number.isFinite(Number(raw.neetRank)) ? Number(raw.neetRank) : 0;
+  if (neetRank < 0 || neetRank > 3_000_000) {
+    return { ok: false, error: 'neetRank must be between 0 and 3,000,000.' };
+  }
+  // For India we need either a meaningful score or a rank — otherwise we'd
+  // produce recommendations against AIR 999,999 which is garbage in / garbage
+  // out. Abroad is more lenient: score helps but isn't strictly required.
+  if (destinationType === 'India' && neetScore < 1 && neetRank < 1) {
+    return { ok: false, error: 'For India recommendations, provide either neetScore or neetRank.' };
+  }
+
+  const category = String(raw.category || 'OPEN').toUpperCase().replace(/\s+/g, '-');
+  if (!ALLOWED_CATEGORIES.has(category)) {
+    return { ok: false, error: `category must be one of: ${[...ALLOWED_CATEGORIES].join(', ')}.` };
+  }
+
+  const gender = String(raw.gender || '');
+  if (!ALLOWED_GENDERS.has(gender)) {
+    return { ok: false, error: 'gender must be "Male", "Female", or empty.' };
+  }
+
+  const domicileState = sanitizeFreeText(raw.domicileState, 60);
+  const budgetInUSD = Math.max(0, Math.min(1_000_000, Number(raw.budgetInUSD) || 0));
+
+  const preferredCountries = sanitizeStringArray(raw.preferredCountries, 12, 40);
+  const coursePreferences  = sanitizeStringArray(raw.coursePreferences,  12, 40);
+  const otherPreferences   = sanitizeFreeText(raw.otherPreferences, 400);
+
+  if (containsInjectionMarker(otherPreferences) || containsInjectionMarker(domicileState)) {
+    return { ok: false, error: 'Input contains disallowed content. Please rephrase your preferences in plain language.' };
+  }
+
+  return {
+    ok: true,
+    profile: {
+      destinationType: destinationType as 'India' | 'Abroad',
+      neetScore, neetRank, category, gender, domicileState, budgetInUSD,
+      preferredCountries, coursePreferences, otherPreferences,
+      sessionId: sanitizeSessionId(raw.sessionId),
+    },
+  };
+}
+
+// Keep telemetry server-side: useful for Mongo + logs, sensitive to leak in
+// the response body (model name, exact USD cost, token counts = competitive
+// intel + prompt-engineering surface). Detach before res.json().
+function detachTelemetry(result: any): { telemetry: any | null; clientResult: any } {
+  if (!result || typeof result !== 'object') return { telemetry: null, clientResult: result };
+  const { telemetry, ...rest } = result;
+  return { telemetry: telemetry ?? null, clientResult: rest };
 }
 
 // ── Routes ───────────────────────────────────────────────────────────────────
 
-app.get('/api/health', (_req, res) => {
-  res.json({
-    status: 'ok',
-    cutoffs_2024: cutoffs2024.length,
-    cutoffs_2023: cutoffs2023.length,
+// Health check probes the things that actually need to be up for the
+// predictor to serve a request: NEET CSV data, abroad anchor data, and
+// Mongo (if persistence is configured). Returns 503 if any required
+// component is missing/down so orchestrators (Docker, Kubernetes, Cloud Run)
+// stop routing traffic to a wedged container instead of accepting requests
+// that would 500 internally.
+app.get('/api/health', async (_req, res) => {
+  const checks: Record<string, any> = {
+    cutoffYears:     CUTOFF_YEARS,
+    latestCutoff:    LATEST_CUTOFF_YEAR,
+    cutoffRows:      LATEST_CUTOFF_ROWS.length,
+    abroadAnchors:   ABROAD_UNIS.length,
+    abroadRefDate:   ABROAD_REFERENCE_DATE,
+    predictionYear:  PREDICTION_YEAR,
+    today:           todayISO(),
+    mongoConfigured: !!MONGODB_URI,
+    mongoConnected:  null as boolean | null,
+  };
+
+  let mongoOk = true;
+  if (MONGODB_URI && recommendationsCollection) {
+    try {
+      // Cheap round-trip — admin().ping() with a short timeout. If Mongo is
+      // wedged we don't want healthcheck itself to hang the orchestrator.
+      await Promise.race([
+        recommendationsCollection.estimatedDocumentCount(),
+        new Promise((_, rej) => setTimeout(() => rej(new Error('mongo ping timeout')), 2000)),
+      ]);
+      checks.mongoConnected = true;
+    } catch (e: any) {
+      checks.mongoConnected = false;
+      checks.mongoError = e?.message || String(e);
+      mongoOk = false;
+    }
+  } else if (MONGODB_URI) {
+    // URI configured but collection handle never came up — initMongo is
+    // either still in-flight (cold start) or failed silently.
+    checks.mongoConnected = false;
+    mongoOk = false;
+  }
+
+  const dataOk = LATEST_CUTOFF_ROWS.length > 0 && ABROAD_UNIS.length > 0;
+  const ready  = dataOk && mongoOk;
+  res.status(ready ? 200 : 503).json({
+    status: ready ? 'ok' : 'degraded',
+    ...checks,
   });
 });
 
-app.post('/api/predict', async (req, res) => {
-  const profile = req.body;
+app.post('/api/predict', predictLimiter, async (req, res) => {
+  const reqStart = Date.now();
+  const reqId = String(res.locals.requestId || randomUUID()).slice(0, 8);
+
+  // Daily-spend circuit breaker. If today's accumulated cost has hit the cap,
+  // refuse new predictions until UTC rollover. Catches a stuck loop / scraper
+  // before it burns the monthly budget. Cap is set via DAILY_USD_CAP env var.
+  if (isOverDailyCap()) {
+    console.warn(`[predict #${reqId}] rejected: daily spend cap $${DAILY_USD_CAP} reached (today=$${spendTracker.totalUSD.toFixed(4)})`);
+    return res.status(503).json({
+      error: 'Service is temporarily over today\'s usage cap. Please try again tomorrow or contact support.',
+      requestId: reqId,
+    });
+  }
+
+  const validation = validateProfile(req.body);
+  if (validation.ok === false) {
+    const errMsg = (validation as { ok: false; error: string }).error;
+    console.warn(`[predict #${reqId}] rejected: ${errMsg}`);
+    return res.status(400).json({ error: errMsg, requestId: reqId });
+  }
+  const profile = (validation as { ok: true; profile: SanitizedProfile }).profile;
+
+  console.log(`\n┌─ [predict #${reqId}] received ─────────────────────────────────`);
+  console.log(`│  destination=${profile.destinationType} score=${profile.neetScore || '-'} rank=${profile.neetRank || '-'} category=${profile.category} state=${profile.domicileState || '-'} budgetUSD=${profile.budgetInUSD || '-'} gender=${profile.gender || '-'} sessionId=${profile.sessionId ? profile.sessionId.slice(0, 8) + '…' : '-'}`);
   try {
     const result =
       profile.destinationType === 'India'
         ? await predictIndia(profile)
         : await predictAbroad(profile);
-    res.json(result);
-    // Persist the recommendation AFTER the response is sent — never blocks UX
-    recordRecommendation(profile, result);
+
+    const { telemetry, clientResult } = detachTelemetry(result);
+    res.json({ ...clientResult, requestId: reqId });
+    const ms = Date.now() - reqStart;
+    console.log(`└─ [predict #${reqId}] sent ${result?.universities?.length ?? 0} unis in ${ms}ms ──────────\n`);
+    // Persist the recommendation AFTER the response is sent — never blocks UX.
+    // Telemetry is preserved for Mongo so we keep cost/token visibility internally.
+    recordRecommendation(profile, { ...clientResult, telemetry, requestId: reqId });
   } catch (e: any) {
-    console.error('[/api/predict]', e);
-    res.status(500).json({ error: e.message || 'Prediction failed' });
+    const ms = Date.now() - reqStart;
+    console.error(`└─ [predict #${reqId}] FAILED after ${ms}ms ─────────────────────`);
+    console.error(`   message: ${e?.message || e}`);
+    if (e?.stack) console.error(`   stack:\n${e.stack}`);
+    if (e?.cause) console.error(`   cause:`, e.cause);
+    if (e?.response) console.error(`   response:`, JSON.stringify(e.response).slice(0, 800));
+    // Don't leak raw upstream error text to the client — could include API key
+    // fragments, stack traces, internal URLs. Generic message + requestId.
+    res.status(500).json({ error: 'Prediction failed. Please try again.', requestId: reqId });
   }
 });
 
@@ -1234,23 +2666,44 @@ app.post('/api/predict', async (req, res) => {
 // what's in localStorage). We DO await this insert because the user is
 // expecting confirmation that their enquiry was received.
 function isValidEmail(s: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
+  // Basic shape + reject obvious disposable patterns. Not a full DNS check.
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(s)) return false;
+  const low = s.toLowerCase();
+  // Truncate at @ so domain check is unambiguous
+  const domain = low.split('@')[1] || '';
+  const DISPOSABLE = ['mailinator.com', 'guerrillamail.com', '10minutemail.com', 'tempmail.com', 'yopmail.com', 'sharklasers.com', 'throwaway.email'];
+  if (DISPOSABLE.some(d => domain === d || domain.endsWith('.' + d))) return false;
+  return true;
 }
 function normalizePhone(s: string): string {
   return (s || '').replace(/[^\d+]/g, '');
 }
 
-app.post('/api/lead', async (req, res) => {
+// Cap on the linkedRecommendation snapshot — anything larger than this is
+// suspicious (the legitimate snapshot is ~2-4KB). Stops a malicious browser
+// stuffing 100KB of nested JSON into a lead doc.
+const MAX_LINKED_REC_BYTES = 8 * 1024;
+
+app.post('/api/lead', leadLimiter, async (req, res) => {
   const body = req.body || {};
-  const name    = String(body.name    || '').trim().slice(0, 200);
-  const email   = String(body.email   || '').trim().slice(0, 200);
+
+  // Honeypot: a hidden form field name that real users never fill (CSS-hidden
+  // in the HTML). Bots that auto-fill all form inputs will populate it. If
+  // it's non-empty, silently 200 without writing — no signal to the bot that
+  // detection happened.
+  if (body.website || body.url || body.fax) {
+    console.warn('[/api/lead] honeypot triggered — silently dropping');
+    return res.json({ ok: true, id: null });
+  }
+
+  const name    = sanitizeFreeText(body.name,    200);
+  const email   = sanitizeFreeText(body.email,   200);
   const phone   = normalizePhone(String(body.phone || '')).slice(0, 32);
-  const message = String(body.message || '').trim().slice(0, 2000);
-  const source  = String(body.source  || 'unknown').trim().slice(0, 60);
+  const message = sanitizeFreeText(body.message, 2000);
+  const source  = sanitizeFreeText(body.source,  60) || 'unknown';
   const sessionId = sanitizeSessionId(body.sessionId);
-  const neetYear  = String(body.neetYear || '').trim().slice(0, 30);
+  const neetYear  = sanitizeFreeText(body.neetYear, 30);
   const wantsAbroad = !!body.wantsAbroad;
-  const linkedRecommendation = body.linkedRecommendation || null;
 
   // Validation: require name + (email OR phone). Both is best.
   if (!name || (!email && !phone)) {
@@ -1263,6 +2716,19 @@ app.post('/api/lead', async (req, res) => {
     return res.status(400).json({ error: 'Phone looks invalid.' });
   }
 
+  // Cap the linked snapshot so attackers can't bloat Mongo via this field.
+  let linkedRecommendation: any = null;
+  if (body.linkedRecommendation && typeof body.linkedRecommendation === 'object') {
+    try {
+      const raw = JSON.stringify(body.linkedRecommendation);
+      if (raw.length <= MAX_LINKED_REC_BYTES) {
+        linkedRecommendation = body.linkedRecommendation;
+      } else {
+        console.warn(`[/api/lead] linkedRecommendation oversize (${raw.length} bytes) — dropped`);
+      }
+    } catch { /* malformed — drop */ }
+  }
+
   if (!leadsCollection) {
     // Mongo down or disabled — fail loudly to the user; this is a real submission
     console.error('[/api/lead] Mongo unavailable, lead NOT persisted:', { name, email, phone });
@@ -1273,8 +2739,15 @@ app.post('/api/lead', async (req, res) => {
     const doc = {
       timestamp: nowIST(),       // ISO 8601 +05:30 (IST)
       sessionId,                  // joins this lead to the user's recommendations
-      name, email, phone, message, source,
+      // HTML-escape free-text fields at write time so any future admin
+      // dashboard that renders them unescaped can't be XSS'd from a lead.
+      name:    escapeHtml(name),
+      email,                                   // shape-validated, no HTML
+      phone,                                   // digits + plus only
+      message: escapeHtml(message),
+      source:  escapeHtml(source),
       neetYear, wantsAbroad,
+      requestId: String(res.locals.requestId || ''),
       // Soft link to the recommendation context (snapshot only; full result is
       // already in the recommendations collection — joinable by sessionId).
       linkedRecommendation: linkedRecommendation
@@ -1282,7 +2755,9 @@ app.post('/api/lead', async (req, res) => {
             profile: linkedRecommendation.profile || null,
             universitiesPicked: Array.isArray(linkedRecommendation?.result?.universities)
               ? linkedRecommendation.result.universities.map((u: any) => ({
-                  name: u?.name, country: u?.country, tier: u?.tier,
+                  name: u?.name ? escapeHtml(String(u.name)) : null,
+                  country: u?.country ? escapeHtml(String(u.country)) : null,
+                  tier: u?.tier ? escapeHtml(String(u.tier)) : null,
                 }))
               : null,
           }
@@ -1299,6 +2774,42 @@ app.post('/api/lead', async (req, res) => {
 
 initMongo();  // best-effort; predictor works regardless
 
-app.listen(PORT, () => {
-  console.log(`[Server] http://localhost:${PORT}`);
+const httpServer = app.listen(PORT, () => {
+  console.log('━'.repeat(72));
+  console.log(`[server] listening on http://localhost:${PORT}`);
+  console.log(`[server] routes: GET /api/health · POST /api/predict · POST /api/lead`);
+  console.log(`[server] frontend served from: ${join(ROOT, LANDING_HTML)}`);
+  console.log('━'.repeat(72));
 });
+
+// Graceful shutdown — without this, SIGTERM (Docker stop, K8s rollout, Cloud
+// Run revision swap) drops in-flight requests on the floor and never closes
+// the Mongo socket. We give the HTTP server up to 10s to drain, then close
+// Mongo, then exit. If anything hangs past 15s, hard-exit so the orchestrator
+// doesn't wait forever.
+let shuttingDown = false;
+async function shutdown(signal: string): Promise<void> {
+  if (shuttingDown) return;
+  shuttingDown = true;
+  console.log(`[shutdown] ${signal} received — draining`);
+  const hardExit = setTimeout(() => {
+    console.error('[shutdown] timed out after 15s — forcing exit');
+    process.exit(1);
+  }, 15_000);
+  hardExit.unref();
+  try {
+    await new Promise<void>(resolve => httpServer.close(() => resolve()));
+    console.log('[shutdown] http server closed');
+    if (mongoClient) {
+      await mongoClient.close();
+      console.log('[shutdown] mongo client closed');
+    }
+    clearTimeout(hardExit);
+    process.exit(0);
+  } catch (e: any) {
+    console.error('[shutdown] error during drain:', e?.message || e);
+    process.exit(1);
+  }
+}
+process.on('SIGTERM', () => shutdown('SIGTERM'));
+process.on('SIGINT',  () => shutdown('SIGINT'));

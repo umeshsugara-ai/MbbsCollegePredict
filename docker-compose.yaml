@@ -38,11 +38,15 @@ services:
       # APP_URL: "https://predictor.vidysea.com"
 
     # ── Fallback values from .env ──
-    # If .env is missing on the host, compose will warn (compose v2 with the
-    # `required: false` form silences the warning entirely).
+    # `required: true` — refuse to start if .env is missing on the host. We
+    # learned the hard way that `required: false` lets the container boot with
+    # an empty GEMINI_API_KEY, the SDK falls back to ADC, and every prediction
+    # 500s with "Could not load default credentials". Far better to fail at
+    # `docker compose up` time with a clear "env file not found" message than
+    # at first user request.
     env_file:
       - path: .env
-        required: false
+        required: true
 
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3000/api/health"]

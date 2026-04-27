@@ -14,4 +14,6 @@ coverage/
 # Local test artifacts
 test-*.png
 rank-hint-test.png
+viewport-*.png
+spacing-*.png
 tool-snapshot.md

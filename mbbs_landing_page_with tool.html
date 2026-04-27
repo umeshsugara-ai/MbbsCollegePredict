@@ -457,7 +457,14 @@ nav{
 .pred-state-chev{transition:transform .15s;flex-shrink:0;color:#94a3b8}
 .pred-state-trigger.open .pred-state-chev{transform:rotate(180deg)}
 .pred-state-panel{
-  position:fixed;z-index:9000;
+  /* position:absolute (NOT fixed) — anchors to .pred-state-wrap (which is
+     position:relative). When the user scrolls the page the panel scrolls
+     with the trigger instead of detaching from it. The previous fixed
+     positioning + JS-set top/left meant the panel stayed at its original
+     viewport position while the trigger scrolled away — students reported
+     seeing the panel float over unrelated parts of the form. */
+  position:absolute;top:calc(100% + 6px);left:0;right:0;
+  z-index:9000;
   background:#fff;border:1px solid rgba(15,23,42,.1);border-radius:11px;
   box-shadow:0 16px 40px rgba(15,23,42,.15);
   min-width:200px;overflow:hidden;
@@ -468,7 +475,10 @@ nav{
   background:#F8F9FC;
 }
 .pred-state-search-wrap svg{color:#94a3b8;flex-shrink:0}
-.pred-state-search-wrap input{flex:1;border:none;outline:none;background:transparent;font-size:12px;font-family:inherit;color:#0f172a}
+/* font-size 16px (not 12) — iOS auto-zooms any text input below 16px on focus,
+   which on mobile would jerk the entire page when the user taps the search.
+   Visual size still feels small thanks to the field's compact padding. */
+.pred-state-search-wrap input{flex:1;border:none;outline:none;background:transparent;font-size:16px;font-family:inherit;color:#0f172a}
 .pred-state-search-wrap input::placeholder{color:#94a3b8}
 .pred-state-list{max-height:200px;overflow-y:auto}
 .pred-state-item{padding:9px 14px;cursor:pointer;font-size:12px;color:#1e293b;transition:background .1s}
@@ -603,7 +613,12 @@ nav{
 }
 
 .pred-table-wrap{
-  border:1px solid rgba(15,23,42,.06);border-radius:13px;overflow:hidden;
+  border:1px solid rgba(15,23,42,.06);border-radius:13px;
+  /* overflow-x:auto + table min-width below = the table scrolls
+     horizontally on narrow viewports while keeping the rounded card
+     chrome. The previous `overflow:hidden` clipped the table on phones
+     so columns past viewport width were just lost. */
+  overflow-x:auto;-webkit-overflow-scrolling:touch;
   background:#fff;
 }
 .pred-table-head{
@@ -623,7 +638,14 @@ nav{
   font-size:10px;font-weight:800;background:transparent;color:#94a3b8;
 }
 .pred-currency button.active{background:#4F46E5;color:#fff}
-.pred-table{width:100%;border-collapse:collapse;text-align:left;font-size:12px}
+.pred-table{
+  width:100%;border-collapse:collapse;text-align:left;font-size:12px;
+  /* Force a sensible minimum width so .pred-table-wrap's overflow-x:auto
+     actually engages on phones — without this, columns squish to nothing
+     instead of producing a horizontal scrollbar. 900px keeps every
+     column readable; the wrapper handles the scroll. */
+  min-width:900px;
+}
 .pred-table thead tr{background:#F8F9FC;border-bottom:1px solid rgba(15,23,42,.06)}
 .pred-table th{
   padding:10px 14px;font-size:10px;font-weight:800;text-transform:uppercase;
@@ -710,13 +732,127 @@ nav{
 .pred-foot-dot{width:6px;height:6px;border-radius:50%;background:#22c55e;display:inline-block}
 .pred-foot-sep{color:#cbd5e1;font-weight:400}
 
-@media(max-width:900px){
-  .pred-app{grid-template-columns:1fr;padding:14px;gap:14px}
-  .pred-app.has-results{grid-template-columns:1fr}
-  .pred-app.collapsed{grid-template-columns:1fr}
-  .pred-side-open{position:static;margin-bottom:8px}
-  .pred-topbar{flex-wrap:wrap;gap:10px}
-  .pred-status-pill{order:3}
+/* ─── Mobile-first predictor app cascade ──────────────────────────────────
+   Stacks the predictor into a single column on phones; restores the desktop
+   sidebar+results grid at min-width:900px. The collapsed-state UX differs by
+   breakpoint:
+
+   • DESKTOP (≥900px): "Hide Panel" zeroes the sidebar so results expand to
+     fill the row; a small floating "Show Panel" arrow lets the user
+     re-open. Same as the original design.
+
+   • MOBILE (<900px): "Hide Panel" tucks the form into a sticky full-width
+     "Edit search" summary bar pinned to the top of the predictor card. The
+     bar shows the student's current query (e.g. "AIR ~12,000 · OBC ·
+     Maharashtra · ₹10L") so they can verify what they searched without
+     re-opening — and tapping it expands the form again. This pattern
+     mirrors familiar mobile search UIs (Booking.com, Airbnb) and keeps the
+     student in context as they scroll long results lists.
+*/
+.pred-app{grid-template-columns:1fr;padding:14px;gap:14px;display:flex;flex-direction:column;position:relative}
+.pred-app.has-results{grid-template-columns:1fr}
+.pred-app.collapsed{grid-template-columns:1fr}
+.pred-app.collapsed .pred-side{
+  /* Match the desktop collapse rule so the form is removed from the layout
+     when collapsed on mobile too — its replacement is .pred-side-open
+     (styled below as a full-width sticky bar, not a tiny floating button). */
+  width:0;padding:0;margin:0;border:0;max-height:0;
+  opacity:0;pointer-events:none;overflow:hidden;
+}
+.pred-topbar{flex-wrap:wrap;gap:10px}
+.pred-title{font-size:16px;line-height:1.3}
+.pred-title-sep,.pred-title-em{display:inline}
+.pred-status-pill{order:3;font-size:11px}
+.pred-app > *{width:100%;min-width:0}
+
+/* Hide-panel button in the topbar — keep available on mobile too, but make
+   it ergonomic (full pill, not a thin chip) and give it a clear icon. */
+#pred-panel-toggle{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 14px;min-height:44px;
+  background:#fff;border:1px solid rgba(15,23,42,.12);border-radius:999px;
+  font-size:13px;font-weight:600;color:#334155;
+  cursor:pointer;transition:background .18s ease, border-color .18s ease;
+}
+#pred-panel-toggle:hover{background:#F4F5F9;border-color:rgba(15,23,42,.18)}
+#pred-panel-toggle:active{transform:scale(.98)}
+
+/* The collapsed-state affordance on MOBILE is a sticky full-width bar
+   spanning the whole predictor card. NOT a floating 36×36 button. */
+.pred-side-open{
+  display:none;align-items:center;justify-content:space-between;gap:12px;
+  position:static;left:auto;top:auto;            /* override the absolute desktop positioning */
+  width:100%;min-height:56px;padding:10px 16px;
+  background:linear-gradient(180deg,#FFFFFF 0%,#F8FAFD 100%);
+  border:1px solid rgba(15,23,42,.10);border-radius:14px;
+  box-shadow:0 2px 8px rgba(15,23,42,.04), 0 1px 0 rgba(15,23,42,.04);
+  cursor:pointer;text-align:left;color:#0f172a;
+  transition:transform .15s ease, box-shadow .18s ease;
+}
+.pred-side-open:hover{box-shadow:0 4px 14px rgba(15,23,42,.08), 0 1px 0 rgba(15,23,42,.04)}
+.pred-side-open:active{transform:scale(.995)}
+.pred-app.collapsed .pred-side-open{display:flex}
+.pred-side-open .pred-side-open__text{
+  flex:1 1 auto;min-width:0;        /* allow text block to shrink and ellipsis */
+  display:flex;flex-direction:column;gap:1px;overflow:hidden;
+}
+.pred-side-open .pred-side-open__label{
+  font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:#5b6cff;display:block;line-height:1.2;
+  white-space:nowrap;                /* "YOUR SEARCH" stays on one line */
+}
+.pred-side-open .pred-side-open__summary{
+  font-size:13px;font-weight:500;color:#334155;line-height:1.35;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+                                     /* one-line ellipsis instead of 2-line clamp */
+}
+.pred-side-open .pred-side-open__chev{
+  flex:0 0 auto;width:36px;height:36px;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:#5b6cff;color:#fff;border-radius:50%;
+  transition:transform .25s ease;
+}
+.pred-side-open svg{width:16px;height:16px;display:block}
+
+.pred-empty-state{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:32px 20px;color:#64748b;
+  background:#fff;border:1px dashed rgba(15,23,42,.12);border-radius:12px;
+  min-height:160px;
+}
+.pred-empty-state-icon{font-size:32px;margin-bottom:8px;opacity:.6}
+.pred-empty-state-title{font-size:14px;font-weight:600;color:#334155;margin-bottom:4px}
+.pred-empty-state-text{font-size:13px;color:#64748b;line-height:1.5;max-width:280px}
+
+@media(min-width:900px){
+  .pred-app{display:grid;grid-template-columns:minmax(0,340px);padding:20px;gap:20px;flex-direction:initial}
+  .pred-app.has-results{grid-template-columns:300px 1fr}
+  .pred-app.collapsed{grid-template-columns:0 1fr;gap:14px}
+  .pred-app.collapsed.has-results{grid-template-columns:0 1fr}
+  /* Desktop: the toggle button reverts to its original chip style and the
+     side-open returns to the small absolute-positioned arrow it used to be. */
+  #pred-panel-toggle{
+    padding:6px 10px;min-height:0;border-radius:8px;
+    background:#fff;border:1px solid rgba(15,23,42,.12);
+    font-size:12px;font-weight:500;
+  }
+  .pred-side-open{
+    display:none;width:36px;min-height:0;padding:0;
+    position:absolute;left:20px;top:20px;
+    background:#fff;border-radius:9px;
+    box-shadow:0 2px 6px rgba(15,23,42,.06);
+    border:1px solid rgba(15,23,42,.12);
+  }
+  .pred-app.collapsed .pred-side-open{display:flex;justify-content:center;align-items:center;gap:0}
+  .pred-side-open .pred-side-open__label,
+  .pred-side-open .pred-side-open__summary{display:none}      /* desktop arrow has no text */
+  .pred-side-open .pred-side-open__chev{
+    background:transparent;color:#475569;width:auto;height:auto;border-radius:0;
+  }
+  .pred-topbar{flex-wrap:nowrap;gap:18px}
+  .pred-title{font-size:initial}
+  .pred-status-pill{order:initial;font-size:initial}
+  .pred-empty-state{display:none}
 }
 
 .tool-cta-row{text-align:center;margin-top:28px}
@@ -1082,15 +1218,132 @@ footer{
 .reveal.in{opacity:1;transform:none}
 .rd1{transition-delay:.1s}.rd2{transition-delay:.2s}.rd3{transition-delay:.3s}.rd4{transition-delay:.4s}
 
-@media(max-width:960px){
-  .hero-inner,.sol-grid,.why-grid,.aud-grid,.india-grid,.abroad-groups,.fin-grid,.svc-grid,.faq-wrap,.ts-grid{grid-template-columns:1fr}
+/* ─── MOBILE-FIRST OVERRIDES (base = phone) ─── */
+:root{--gap:16px;--gap-lg:24px;--touch:44px}
+.hero-inner,.sol-grid,.why-grid,.aud-grid,.india-grid,.abroad-groups,.fin-grid,.svc-grid,.faq-wrap,.ts-grid{grid-template-columns:1fr}
+.trust-inner{grid-template-columns:repeat(2,1fr)}
+.q-grid{grid-template-columns:1fr}
+.process-grid{grid-template-columns:1fr;gap:20px}
+.process-grid::before{display:none}
+.india-banner{flex-direction:column;text-align:center}
+.fin-banner{flex-direction:column;text-align:center}
+
+/* Decorative glows hidden on small screens (per spec) */
+.tool-glow,.tool-glow2{display:none}
+@media(min-width:900px){.tool-glow,.tool-glow2{display:block}}
+
+/* iframe fluid height */
+.tool-iframe{height:auto;min-height:60vh;max-height:90vh}
+
+/* Inputs & form controls — 16px to defeat iOS zoom, 44px touch target */
+input,select,textarea,button{font-family:inherit}
+.pred-in,.lf-input,.lf-select,.pred-country-trigger,.pred-state-trigger{font-size:16px;min-height:44px;padding:10px 12px}
+.pred-in{font-size:16px}
+textarea.pred-in{min-height:64px}
+.pred-submit,.lf-submit,.btn-gold,.btn-outline-w,.btn-sm-gold,.nav-cta,.pred-hide-btn,.modal-close,.pred-tab,.pred-tier-pill,.pred-currency button{min-height:44px}
+.modal-close{min-width:44px}
+/* .pred-side-open is intentionally NOT in the touch-target enforcement list —
+   on mobile it's a full-width sticky search bar (its own min-height is 56px,
+   set in the predictor mobile cascade above), and on desktop it's a 36×36
+   floating arrow re-styled in the @media(min-width:900px) block. The
+   previous `width:44px;height:44px` rule was overriding both shapes. */
+
+/* Hamburger button (base: visible on small screens) */
+.nav-hamburger{
+  display:flex;align-items:center;justify-content:center;
+  width:44px;height:44px;min-height:44px;min-width:44px;
+  background:transparent;border:1px solid rgba(255,255,255,.15);
+  border-radius:8px;color:#fff;cursor:pointer;padding:0;
+}
+.nav-hamburger:hover{background:rgba(255,255,255,.06)}
+
+/* Mobile nav-links: hidden by default, slide-down panel when .open */
+.nav-links{display:none}
+.nav-links.open{
+  display:flex;position:absolute;top:100%;left:0;right:0;
+  flex-direction:column;background:#041230;padding:16px;
+  gap:0;border-bottom:1px solid rgba(24,71,204,.2);
+  box-shadow:0 8px 24px rgba(0,0,0,.4);
+}
+.nav-links.open li{width:100%}
+.nav-links.open a{display:block;padding:12px 8px;min-height:44px;font-size:15px}
+
+/* Results: the same scrollable table is shown on every viewport. The
+   per-row card stack at .results-cards was hard to scan ("which closing
+   rank is highest? which fee is lowest?") — students reported it as
+   harder to read than a horizontally-scrollable table.
+
+   The actual horizontal scroll lives on .pred-table-wrap (rendered by JS
+   inside #predictor-results), which now has overflow-x:auto + the table
+   has min-width:900px. This outer wrapper is just a layout passthrough. */
+.results-table-wrap{display:block;width:100%}
+.results-cards{display:none}                           /* table is the canonical view now */
+/* Mobile spinner-card is redundant now — the desktop pred-loading inside
+   #predictor-results renders into the visible table area. Hide the
+   parallel mobile skeleton to avoid showing two loaders stacked. */
+.results-cards-skeleton,
+.results-cards-skeleton[hidden]{display:none !important}
+/* Mobile loading state — replaces the four blank skeleton cards with a
+   single rotating spinner + message card that mirrors the desktop loader.
+   Compact (~180px tall) so the user can scroll past it to read other
+   sections of the page while waiting for the prediction. The spinner
+   animation reuses @keyframes spin defined earlier in the stylesheet. */
+.results-cards-skeleton{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:28px 22px;gap:12px;
+  background:#fff;border:1px solid rgba(15,23,42,.08);border-radius:14px;
+  min-height:180px;box-shadow:0 1px 3px rgba(15,23,42,.04);
+}
+.results-cards-skeleton[hidden]{display:none}
+.results-cards-skeleton .skel-spin{
+  width:42px;height:42px;border-radius:50%;
+  border:3px solid rgba(91,108,255,.18);border-top-color:#5b6cff;
+  animation:spin .9s linear infinite;
+}
+.results-cards-skeleton .skel-title{
+  font-size:14px;font-weight:600;color:#0f172a;margin-top:4px;
+}
+.results-cards-skeleton .skel-sub{
+  font-size:12.5px;color:#64748b;line-height:1.5;max-width:260px;
+}
+/* Card content colors override the dark default for visibility on light shell */
+.results-cards .result-card{color:#0f172a;background:#fff;border:1px solid rgba(15,23,42,.06)}
+.results-cards .result-card details summary{color:#0f172a}
+.results-cards .result-card details p{color:#475569}
+
+/* ─── PHABLET (>=600px) ─── */
+@media(min-width:600px){
   .trust-inner{grid-template-columns:repeat(3,1fr)}
   .q-grid{grid-template-columns:1fr 1fr}
-  .process-grid{grid-template-columns:1fr;gap:20px}
-  .process-grid::before{display:none}
-  .nav-links{display:none}
-  .india-banner{flex-direction:column;text-align:center}
-  .fin-banner{flex-direction:column;text-align:center}
+  /* No structural changes to the results area at this breakpoint — the
+     table-wrap + horizontal-scroll behavior is the same on every viewport.
+     Card stack and mobile skeleton stay hidden at all sizes. */
+}
+
+/* ─── TABLET LANDSCAPE / SMALL LAPTOP (>=900px) ─── */
+@media(min-width:900px){
+  .nav-hamburger{display:none}
+  .nav-links{display:flex;position:static;flex-direction:row;background:transparent;padding:0;box-shadow:none;border:none}
+  .nav-links li{width:auto}
+  .nav-links a{padding:0;min-height:auto;font-size:14px;display:inline}
+  .hero-inner{grid-template-columns:1fr 1fr}
+  .sol-grid,.why-grid,.aud-grid{grid-template-columns:1fr 1fr}
+  .india-grid{grid-template-columns:1fr 1fr 1fr}
+  .abroad-groups{grid-template-columns:repeat(3,1fr)}
+  .fin-grid{grid-template-columns:1fr 1fr}
+  .svc-grid,.ts-grid{grid-template-columns:repeat(4,1fr)}
+  .faq-wrap{grid-template-columns:1fr 1fr}
+  .trust-inner{grid-template-columns:repeat(5,1fr)}
+  .q-grid{grid-template-columns:repeat(3,1fr)}
+  .process-grid{grid-template-columns:repeat(5,1fr)}
+  .process-grid::before{display:block}
+  .india-banner{flex-direction:row;text-align:left}
+  .fin-banner{flex-direction:row;text-align:left}
+}
+
+/* ─── DESKTOP (>=1200px) ─── */
+@media(min-width:1200px){
+  .svc-grid,.ts-grid{grid-template-columns:repeat(4,1fr)}
 }
 </style>
 </head>
@@ -1099,7 +1352,8 @@ footer{
 <!-- ── NAV ── -->
 <nav id="nav">
   <div class="logo">Vidy<span>sea</span><sup>®</sup></div>
-  <ul class="nav-links">
+  <button class="nav-hamburger" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+  <ul id="primary-nav" class="nav-links">
     <li><a href="#tool">Find University</a></li>
     <li><a href="#india">MBBS India</a></li>
     <li><a href="#abroad">MBBS Abroad</a></li>
@@ -1207,7 +1461,7 @@ footer{
         </button>
         <div class="pred-title-block">
           <h3 class="pred-title">MedScout AI <span class="pred-title-sep">//</span> <span class="pred-title-em">MBBS Global Predictor</span></h3>
-          <p class="pred-subtitle">Finding the best medical universities for your rank.</p>
+          <p class="pred-subtitle">Finding the best medical universities for your score.</p>
         </div>
         <div class="pred-status-pill"><span class="pred-status-dot"></span>AI Analysis Active</div>
       </div>
@@ -1324,13 +1578,47 @@ footer{
           </div>
         </aside>
 
-        <!-- Re-open button (visible only when panel is hidden) -->
-        <button type="button" id="pred-side-open" class="pred-side-open" hidden aria-label="Show panel">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        <!-- Re-open button. On mobile this becomes a sticky full-width search-
+             summary bar; on desktop it reverts to the small floating arrow
+             via the @media(min-width:900px) overrides. The label and summary
+             children are hidden on desktop and visible on mobile. The
+             summary text is populated by JS (buildSearchSummary) on every
+             collapse so the student sees their current query at a glance. -->
+        <button type="button" id="pred-side-open" class="pred-side-open" hidden aria-label="Show search panel">
+          <span class="pred-side-open__text">
+            <span class="pred-side-open__label">Your search</span>
+            <span class="pred-side-open__summary" id="pred-side-open-summary">Tap to edit your search</span>
+          </span>
+          <span class="pred-side-open__chev" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
         </button>
 
-        <!-- RIGHT: Results -->
-        <div id="predictor-results" class="pred-results" style="display:none"></div>
+        <!-- RIGHT: Results — desktop table (wrapped) + mobile cards (parallel) -->
+        <div class="results-table-wrap">
+          <div id="predictor-results" class="pred-results" style="display:none"></div>
+        </div>
+        <div class="results-cards" aria-live="polite"></div>
+        <!-- Single spinner-with-message loader (mobile-only — hidden at
+             min-width:600px where the desktop pred-loading card is shown
+             inside results-table-wrap). Compact ~180px tall so the user
+             can scroll past it to read other sections of the page during
+             the 30–60s prediction wait. -->
+        <div class="results-cards-skeleton" hidden role="status" aria-live="polite">
+          <div class="skel-spin" aria-hidden="true"></div>
+          <div class="skel-title">Loading the best-fit universities for you…</div>
+          <div class="skel-sub">Good things take a moment — we’re reading the latest cutoff data and matching colleges to your profile.</div>
+        </div>
+        <!-- Mobile-only empty state shown until first prediction renders. The
+             previous build left this area as blank white space, which on a
+             phone (where the form already sits above) made the tool look
+             broken. CSS hides it at min-width:900px, and JS hides it once
+             the first cards render. -->
+        <div class="pred-empty-state" id="pred-empty-state">
+          <div class="pred-empty-state-icon">🎯</div>
+          <div class="pred-empty-state-title">Your matches will appear here</div>
+          <div class="pred-empty-state-text">Fill in your AIR/score, category and preferences above, then tap <strong>Find My College</strong> to get personalised MBBS recommendations.</div>
+        </div>
       </div>
     </div>
     <div class="tool-cta-row reveal">
@@ -1949,7 +2237,17 @@ window.addEventListener('scroll', () => {
 .modal-success h4{font-size:22px;font-weight:700;color:#fff;margin-bottom:8px;font-family:Arial,sans-serif}
 .modal-success p{font-size:14px;color:rgba(255,255,255,.5);line-height:1.65;font-family:Arial,sans-serif;max-width:300px}
 
-@media(max-width:520px){.modal-dialog{border-radius:16px}.modal-header,.modal-body{padding-left:20px;padding-right:20px}}
+/* Mobile-first modal: scrollable body, header pinned */
+.modal-dialog{max-height:90vh;display:flex;flex-direction:column;border-radius:16px}
+.modal-body{overflow-y:auto;flex:1 1 auto;padding-left:20px;padding-right:20px}
+.modal-header{flex:0 0 auto;padding-left:20px;padding-right:20px}
+.lf-input,.lf-select{font-size:16px;min-height:44px}
+.modal-close{min-width:44px;min-height:44px;width:44px;height:44px;font-size:20px}
+@media(min-width:600px){
+  .modal-dialog{border-radius:20px}
+  .modal-header{padding-left:32px;padding-right:32px}
+  .modal-body{padding-left:32px;padding-right:32px}
+}
 </style>
 
 <!-- Modal HTML -->
@@ -2353,10 +2651,10 @@ async function submitLeadForm(e){
   function openState() {
     sPanel.hidden = false;
     sTrigger.classList.add('open');
-    const rect = sTrigger.getBoundingClientRect();
-    sPanel.style.top   = (rect.bottom + 6) + 'px';
-    sPanel.style.left  = rect.left + 'px';
-    sPanel.style.width = rect.width + 'px';
+    // No JS positioning needed — CSS pins the panel to position:absolute
+    // top:calc(100% + 6px) below the trigger. Removing the inline top/
+    // left/width also fixes the "panel floats midway over the form when
+    // user scrolls" bug we saw with the previous position:fixed approach.
     sSearch.value = '';
     renderStateList('');
     setTimeout(() => sSearch.focus(), 30);
@@ -2374,8 +2672,23 @@ async function submitLeadForm(e){
   document.addEventListener('click', (e) => {
     if (!sPanel.hidden && !sTrigger.contains(e.target) && !sPanel.contains(e.target)) closeState();
   });
-  window.addEventListener('scroll', () => { if (!sPanel.hidden) closeState(); });
-  window.addEventListener('resize', () => { if (!sPanel.hidden) closeState(); });
+  // The previous `window.addEventListener('scroll', closeState)` killed the
+  // panel on mobile: tapping the trigger focuses the search input, which
+  // pops the iOS keyboard, which fires a scroll/resize event, which closed
+  // the panel before the user could pick a state. Since the panel is
+  // position:fixed it stays in the viewport regardless of page scroll, so
+  // we don't need to close on scroll at all. Resize close is kept ONLY
+  // for landscape↔portrait orientation flips (large width delta), filtered
+  // so the keyboard's vertical resize doesn't trip it.
+  let lastViewportW = window.innerWidth;
+  window.addEventListener('resize', () => {
+    const dw = Math.abs(window.innerWidth - lastViewportW);
+    lastViewportW = window.innerWidth;
+    if (dw > 80 && !sPanel.hidden) closeState();   // big horizontal change = orientation
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !sPanel.hidden) closeState();
+  });
   sSearch.addEventListener('input', e => renderStateList(e.target.value));
 
   // ── Panel toggle (Hide Panel / hamburger) ──
@@ -2429,7 +2742,10 @@ async function submitLeadForm(e){
   function buildProfile() {
     const fd = new FormData(form);
     const profile = {
-      destinationType: destination,
+      // Server allowlist is { 'India', 'Abroad' }; the UI tab is labelled
+      // "Global" for student-facing copy. Map at the boundary so the rest
+      // of the client code can keep using `destination = 'Global'`.
+      destinationType: destination === 'Global' ? 'Abroad' : destination,
       sessionId: window.__vidyseaSessionId || null,   // joins to leads in Mongo
       neetScore: parseInt(fd.get('neetScore') || '0', 10) || 0,
       neetRank:  parseInt(fd.get('neetRank')  || '0', 10) || 0,
@@ -2529,9 +2845,33 @@ async function submitLeadForm(e){
     results.style.display = '';
     app.classList.add('has-results');
     const wrap = el('div', 'pred-error');
-    wrap.appendChild(el('div', 'pred-error-h', 'Error'));
-    const p = el('div', 'pred-empty-p', msg); p.style.marginTop = '8px';
+    wrap.appendChild(el('div', 'pred-error-h', 'Something went wrong'));
+    // Friendlier wording for the most common failure mode (Gemini timeout):
+    // tell the student what happened and that retrying often works.
+    const isTimeout = /timeout|aborted|exceeded/i.test(String(msg || ''));
+    const friendly = isTimeout
+      ? 'The prediction took longer than expected. This usually clears up on a retry — tap the button below to try again.'
+      : (msg || 'Prediction failed.');
+    const p = el('div', 'pred-empty-p', friendly); p.style.marginTop = '8px';
     wrap.appendChild(p);
+
+    // Retry button — re-submits the same form data without the user having
+    // to re-tap each field. Triggers the existing form 'submit' handler so
+    // all the existing validation, telemetry, sessionId persistence, and
+    // mobile auto-collapse logic re-run unchanged.
+    const retryBtn = el('button', 'btn-gold');
+    retryBtn.type = 'button';
+    retryBtn.style.cssText = 'margin-top:18px;padding:10px 22px;font-size:13px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;border-radius:9px;color:#fff;background:#5b6cff;font-weight:600;';
+    retryBtn.textContent = '↻  Try again';
+    retryBtn.addEventListener('click', () => {
+      // Re-fire the form submit handler — same path as the user clicking
+      // Find My College. requestSubmit() respects validation; submit() would
+      // bypass it.
+      if (typeof form.requestSubmit === 'function') form.requestSubmit();
+      else form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+    });
+    wrap.appendChild(retryBtn);
+
     results.appendChild(wrap);
   }
 
@@ -2617,7 +2957,13 @@ async function submitLeadForm(e){
       if (sq.summary) body.appendChild(el('p', 'pred-state-verify-summary', sq.summary));
 
       if (sq.stateColleges && sq.stateColleges.length) {
+        // Same horizontal-scroll pattern as the main .pred-table: an
+        // overflow-x:auto wrapper + min-width on the table so columns stay
+        // legible on phones instead of squishing into one another.
+        const tblScroll = el('div');
+        tblScroll.style.cssText = 'overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:8px;border:1px solid rgba(24,71,204,.1);';
         const tbl = el('table', 'pred-state-verify-tbl');
+        tbl.style.minWidth = '600px';
         const thead = el('thead');
         const trh = el('tr');
         ['College', 'City', 'Tier', '2024 Cutoff', '2025 Cutoff'].forEach(h => trh.appendChild(el('th', null, h)));
@@ -2636,7 +2982,8 @@ async function submitLeadForm(e){
           tbody.appendChild(tr);
         });
         tbl.appendChild(tbody);
-        body.appendChild(tbl);
+        tblScroll.appendChild(tbl);
+        body.appendChild(tblScroll);
       }
 
       // Sources intentionally not rendered — third-party aggregators
@@ -2887,7 +3234,275 @@ async function submitLeadForm(e){
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); jumpToTool(dest); }
     });
   });
+
+  // ── Mobile additions: also render the results as a card stack so the mobile
+  // CSS (.results-cards visible <600px) has data to display in parallel with
+  // the existing table renderer. We hook into the SAME submit flow without
+  // mutating the existing handler logic.
+
+  // Build a one-line search summary from the current form values, e.g.
+  // "AIR ~12,000 · OBC · Maharashtra · ₹10L". Used to label the collapsed
+  // mobile "Edit search" sticky bar so the student sees what they queried
+  // without re-opening the panel.
+  function buildSearchSummary() {
+    try {
+      const fd = new FormData(form);
+      const isIndia = (fd.get('destinationType') || form.querySelector('[data-mode-active]')?.dataset?.mode || 'India') === 'India';
+      const parts = [];
+      // Coerce to numbers and treat 0 / empty / NaN as "not provided".
+      // The previous `if (rank)` was truthy on the string "0" because
+      // FormData returns string values — that produced "AIR ~0" in the
+      // summary when only score was entered.
+      const score = Number(fd.get('neetScore')) || 0;
+      const rank  = Number(fd.get('neetRank'))  || 0;
+      if (rank > 0)       parts.push('AIR ~' + rank.toLocaleString('en-IN'));
+      else if (score > 0) parts.push('Score ' + score);
+      const cat = fd.get('category');
+      if (isIndia && cat) parts.push(String(cat).replace('_', '-'));
+      const state = fd.get('domicileState');
+      if (isIndia && state) parts.push(state);
+      const budget = fd.get('budgetInUSD');
+      if (budget) {
+        const inrL = Math.round(Number(budget) * 83.5 / 100000);
+        if (inrL >= 100) parts.push('₹' + (inrL / 100).toFixed(1).replace(/\.0$/, '') + 'Cr');
+        else if (inrL > 0) parts.push('₹' + inrL + 'L');
+      }
+      const countries = fd.getAll('preferredCountries');
+      if (!isIndia && countries.length) parts.push(countries.slice(0, 2).join(', '));
+      return parts.length ? parts.join(' · ') : 'Tap to edit your search';
+    } catch (_) { return 'Tap to edit your search'; }
+  }
+
+  // Refresh the summary text on the sticky "Edit search" bar.
+  function refreshCollapsedSummary() {
+    const el = document.getElementById('pred-side-open-summary');
+    if (el) el.textContent = buildSearchSummary();
+  }
+
+  // Helper to drive the existing collapse mechanism (same one the desktop
+  // Hide Panel button toggles). Sets the .collapsed class, swaps the toggle
+  // label, exposes the sticky bar, and refreshes its summary text.
+  function collapseFormPanel() {
+    refreshCollapsedSummary();
+    const app  = document.getElementById('predictor-app');
+    const open = document.getElementById('pred-side-open');
+    const tog  = document.getElementById('pred-panel-toggle');
+    const lbl  = document.getElementById('pred-panel-toggle-label');
+    if (app)  app.classList.add('collapsed');
+    if (open) open.hidden = false;
+    if (lbl)  lbl.textContent = 'Show Panel';
+    if (tog)  tog.setAttribute('aria-expanded', 'false');
+  }
+
+  form.addEventListener('submit', () => {
+    if (window.resultsSkeleton) window.resultsSkeleton.show();
+    // Hide the empty state on the first submit — the spinner takes over.
+    const empty = document.getElementById('pred-empty-state');
+    if (empty) empty.style.display = 'none';
+
+    // On mobile (<900px) auto-collapse the form IMMEDIATELY on click, same
+    // as the desktop setPanel(true) behavior. The spinner+message takes the
+    // form's place at the top of the predictor card so the user sees clear
+    // feedback that something is happening, and the form is out of the way
+    // so they can scroll on to read other sections of the page during the
+    // 30–60s prediction wait.
+    if (window.matchMedia('(max-width: 899px)').matches) {
+      collapseFormPanel();
+      // Defer one tick so the collapse + skeleton-show have finished layout
+      // before we measure scroll position.
+      requestAnimationFrame(() => {
+        const target = document.querySelector('.results-cards-skeleton')
+                    || document.querySelector('.pred-shell');
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+  });
+
+  // Mirror result rendering: observe predictor-results for DOM changes and
+  // re-render the mobile cards from the latest result snapshot.
+  const resultsObs = new MutationObserver(() => {
+    if (lastResult && lastResult.universities) {
+      if (window.renderResultsCards) window.renderResultsCards(lastResult.universities);
+      if (window.resultsSkeleton) window.resultsSkeleton.hide();
+      const empty = document.getElementById('pred-empty-state');
+      if (empty) empty.style.display = 'none';
+
+      // Refresh the summary text on the sticky bar in case the form values
+      // changed between submit and result render.
+      refreshCollapsedSummary();
+
+      // Scroll the freshly-rendered cards into view on mobile so the user
+      // sees their results immediately when the prediction lands.
+      if (window.matchMedia('(max-width: 899px)').matches) {
+        requestAnimationFrame(() => {
+          const cards = document.querySelector('.results-cards');
+          if (cards && cards.children.length) {
+            cards.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      }
+    }
+  });
+  if (results) resultsObs.observe(results, { childList: true, subtree: true });
+
+  // When the user expands the form again on mobile (via the sticky bar OR
+  // the topbar "Show Panel" button), scroll the form into view so they
+  // don't have to hunt for the inputs that just slid into existence.
+  function scrollFormIntoViewOnMobile() {
+    if (!window.matchMedia('(max-width: 899px)').matches) return;
+    requestAnimationFrame(() => {
+      const side = document.getElementById('pred-side');
+      if (side) side.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+  const sideOpenBtn = document.getElementById('pred-side-open');
+  const panelToggleBtn = document.getElementById('pred-panel-toggle');
+  if (sideOpenBtn) sideOpenBtn.addEventListener('click', scrollFormIntoViewOnMobile);
+  if (panelToggleBtn) panelToggleBtn.addEventListener('click', () => {
+    // Only scroll if the click is going to RE-OPEN the form (it was collapsed).
+    const app = document.getElementById('predictor-app');
+    // The existing handler toggles the class — we run after it via setTimeout 0.
+    setTimeout(() => { if (app && !app.classList.contains('collapsed')) scrollFormIntoViewOnMobile(); }, 0);
+  });
 })();
+</script>
+<script>
+// ─────────────────────────────────────────────────────────────────────────────
+// MOBILE UI ADDITIONS — hamburger nav, mobile result cards, modal scroll-lock,
+// skeleton state. Lives in its own <script> so it doesn't disturb the IIFE
+// closure above. All values rendered into card markup are escaped first.
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Hamburger nav toggle — show/hide #primary-nav and lock aria-expanded.
+function setupHamburger() {
+  const btn = document.querySelector('.nav-hamburger');
+  const nav = document.getElementById('primary-nav');
+  if (!btn || !nav) return;
+  const close = () => { nav.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); };
+  btn.addEventListener('click', () => {
+    const open = nav.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(open));
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+  document.addEventListener('click', (e) => {
+    if (!nav.classList.contains('open')) return;
+    if (nav.contains(e.target) || btn.contains(e.target)) return;
+    close();
+  });
+  nav.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+}
+
+// HTML escape — used as our sanitizer for every value rendered into cards.
+function escapeHtml(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+    return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];
+  });
+}
+
+// Build a single card as a detached DOM tree (no innerHTML on untrusted data).
+function buildResultCard(u) {
+  var tier = (u.tier || '').toLowerCase();
+  var tierColor = tier === 'safe' ? '#10b981' : tier === 'good' ? '#3b82f6' : tier === 'reach' ? '#f59e0b' : '#ef4444';
+  var fee = u.annualTuitionFee || (u.tuitionFeeUSD ? '$' + u.tuitionFeeUSD + '/yr' : '-');
+  var total = u.totalProgramCost || (u.totalProgramCostUSD ? '$' + u.totalProgramCostUSD + ' total' : '-');
+  var closing = u.neetRequirement || '-';
+  var roi = u.roiScore ? (u.roiScore + '/10') : '-';
+
+  var card = document.createElement('article');
+  card.className = 'result-card';
+  card.style.cssText = 'background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:16px;';
+
+  var header = document.createElement('header');
+  header.style.cssText = 'display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:8px;';
+  var hLeft = document.createElement('div');
+  var hName = document.createElement('div');
+  hName.style.cssText = 'font-weight:700; font-size:16px; line-height:1.3;';
+  hName.textContent = u.name || 'Unnamed';
+  var hLoc = document.createElement('div');
+  hLoc.style.cssText = 'font-size:13px; opacity:0.7; margin-top:2px;';
+  hLoc.textContent = (u.country || '') + (u.continent ? (' · ' + u.continent) : '');
+  hLeft.appendChild(hName);
+  hLeft.appendChild(hLoc);
+  var badge = document.createElement('span');
+  badge.style.cssText = 'background:' + tierColor + '; color:#fff; font-size:11px; font-weight:700; padding:4px 10px; border-radius:999px; flex-shrink:0;';
+  badge.textContent = u.tier || '?';
+  header.appendChild(hLeft);
+  header.appendChild(badge);
+  card.appendChild(header);
+
+  var grid = document.createElement('div');
+  grid.style.cssText = 'display:grid; grid-template-columns:1fr 1fr; gap:8px 12px; font-size:13px; margin-top:12px;';
+  var fields = [['FEE / YR', fee], ['TOTAL', total], ['CUTOFF', closing], ['ROI', roi]];
+  fields.forEach(function (kv) {
+    var cell = document.createElement('div');
+    var lbl = document.createElement('div');
+    lbl.style.cssText = 'opacity:.6; font-size:11px;';
+    lbl.textContent = kv[0];
+    var val = document.createElement('div');
+    val.textContent = kv[1];
+    cell.appendChild(lbl);
+    cell.appendChild(val);
+    grid.appendChild(cell);
+  });
+  card.appendChild(grid);
+
+  if (u.description) {
+    var det = document.createElement('details');
+    det.style.cssText = 'margin-top:12px;';
+    var sum = document.createElement('summary');
+    sum.style.cssText = 'cursor:pointer; font-size:13px; opacity:.85; min-height:44px; display:flex; align-items:center;';
+    sum.textContent = 'Why this college';
+    var p = document.createElement('p');
+    p.style.cssText = 'font-size:13px; opacity:.85; margin:8px 0 0; line-height:1.5;';
+    p.textContent = u.description;
+    det.appendChild(sum);
+    det.appendChild(p);
+    card.appendChild(det);
+  }
+  return card;
+}
+
+// Renders the universities[] array as a stack of cards (mobile view).
+function renderResultsCards(universities) {
+  var root = document.querySelector('.results-cards');
+  if (!root) return;
+  while (root.firstChild) root.removeChild(root.firstChild);
+  if (!Array.isArray(universities) || universities.length === 0) {
+    var empty = document.createElement('div');
+    empty.style.cssText = 'opacity:.6; padding:24px; text-align:center;';
+    empty.textContent = 'No recommendations available.';
+    root.appendChild(empty);
+    return;
+  }
+  universities.forEach(function (u) { root.appendChild(buildResultCard(u)); });
+}
+window.renderResultsCards = renderResultsCards;
+
+// Body scroll-lock when any modal opens; release when closed.
+function setupModalScrollLock() {
+  var modals = document.querySelectorAll('.modal, [class*="modal-overlay"], #leadModal');
+  if (!modals.length) return;
+  var apply = function () {
+    var anyOpen = Array.prototype.some.call(modals, function (m) {
+      return !m.hidden && getComputedStyle(m).display !== 'none';
+    });
+    document.body.style.overflow = anyOpen ? 'hidden' : '';
+  };
+  var obs = new MutationObserver(apply);
+  modals.forEach(function (m) { obs.observe(m, { attributes: true, attributeFilter: ['hidden', 'style', 'class'] }); });
+  apply();
+}
+
+// Skeleton toggle helper — call show() before fetch, hide() in finally.
+window.resultsSkeleton = {
+  show: function () { var sk = document.querySelector('.results-cards-skeleton'); if (sk) sk.hidden = false; },
+  hide: function () { var sk = document.querySelector('.results-cards-skeleton'); if (sk) sk.hidden = true; }
+};
+
+document.addEventListener('DOMContentLoaded', function () {
+  setupHamburger();
+  setupModalScrollLock();
+});
 </script>
 </body>
 </html>

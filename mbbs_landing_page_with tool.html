@@ -696,8 +696,6 @@ nav{
 .pred-tier-pill[data-tier="Stretch"].active{background:#BE123C}
 .pred-tier-count{font-size:9px;opacity:.7;margin-left:1px}
 
-.pred-rank-hint{font-size:11px;color:#6366F1;font-weight:600;margin-top:4px;min-height:16px;letter-spacing:0}
-
 .pred-footbar{
   display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;
   padding:12px 22px;background:#fff;border-top:1px solid rgba(15,23,42,.06);
@@ -1224,7 +1222,6 @@ footer{
               <input type="number" name="neetScore" id="indNeetScore" max="720" placeholder="Score" class="pred-in" />
               <input type="number" name="neetRank" placeholder="Rank" class="pred-in" />
             </div>
-            <div id="indRankHint" class="pred-rank-hint"></div>
 
             <label class="pred-lbl">Max Budget (Total)</label>
             <select name="budgetInUSD" class="pred-in">
@@ -2357,75 +2354,6 @@ function submitLeadForm(e){
     tab.addEventListener('click', () => setDestination(tab.dataset.dest));
   });
 
-  // ── Rank range hint: mirrors server-side multi-year weighted engine ──────────
-  (function() {
-    // Simplified client-side mirror of SCORE_RANK_HISTORY weighted average
-    const RH = {
-      2022: [[720,1],[715,30],[710,120],[700,400],[690,1000],[680,2500],[670,5500],
-             [660,7000],[650,10000],[640,16000],[630,23000],[620,30000],[610,40000],[600,50000],
-             [590,62000],[580,75000],[570,92000],[560,105000],[550,125000],[540,145000],
-             [520,190000],[500,245000],[480,310000],[450,420000],[400,620000]],
-      2023: [[720,1],[715,20],[710,80],[700,280],[690,700],[680,1500],[670,3000],
-             [660,4500],[650,7000],[640,11000],[630,16000],[620,20000],[610,23000],[600,25000],
-             [590,33000],[580,42000],[570,52000],[560,65000],[550,80000],[540,95000],
-             [520,125000],[500,160000],[480,200000],[450,270000],[400,400000]],
-      2024: [[720,1],[715,25],[710,100],[700,390],[690,880],[680,1560],[670,2430],
-             [660,3500],[650,4760],[640,6220],[630,7870],[620,9720],[610,11760],[600,17000],
-             [590,21000],[580,24000],[570,28500],[560,33000],[550,37500],[540,42000],
-             [520,58000],[500,78000],[480,100000],[450,134000],[400,194000]],
-    };
-    // reliability-weighted: 2024×0.325, 2023×0.3325, 2022×0.18; growth ×1.10 for 2026
-    const NORM_W = { 2022: 0.2157, 2023: 0.3992, 2024: 0.3851 };
-    const GROWTH = 1.10;
-    function interp(tbl, sc) {
-      for (let i = 0; i < tbl.length - 1; i++) {
-        const [s1,r1] = tbl[i], [s2,r2] = tbl[i+1];
-        if (sc <= s1 && sc >= s2) return Math.round(r1 + (s1-sc)/(s1-s2||1)*(r2-r1));
-      }
-      return tbl[tbl.length-1][1];
-    }
-    // Mirror server CATEGORY_POOL_FRACTION (NEET 2024 NTA-derived)
-    const CAT_FRAC = { OPEN: 1.0, EWS: 0.11, OBC: 0.37, SC: 0.14, ST: 0.07,
-                       OPEN_PWD: 1.0, OBC_PWD: 0.37 };
-    function rankRange(sc) {
-      if (!sc || sc < 100 || sc > 720) return null;
-      const years = [2022, 2023, 2024];
-      const ry = years.map(y => interp(RH[y], sc));
-      const mean = years.reduce((s, y, i) => s + NORM_W[y] * ry[i], 0);
-      const variance = years.reduce((s, y, i) => s + NORM_W[y] * (ry[i]-mean)**2, 0);
-      const std = Math.sqrt(variance);
-      // General AIR (no category adjustment)
-      const gMid  = Math.round(mean * GROWTH);
-      const gLow  = Math.round(Math.max(1, (mean-std) * GROWTH));
-      const gHigh = Math.round((mean+std) * GROWTH);
-      const cv = std / Math.max(mean, 1);
-      const conf = cv < 0.20 ? 'High' : cv < 0.45 ? 'Medium' : 'Low';
-      return { generalLow: gLow, generalMid: gMid, generalHigh: gHigh, conf };
-    }
-    const scoreEl = document.getElementById('indNeetScore');
-    const catEl   = form.querySelector('[name="category"]');
-    const hintEl  = document.getElementById('indRankHint');
-    function renderHint() {
-      if (!scoreEl || !hintEl) return;
-      const rr = rankRange(parseInt(scoreEl.value));
-      if (!rr) { hintEl.textContent = ''; return; }
-      const cat = (catEl?.value || 'OPEN').toUpperCase().split(/[_\s]/)[0];
-      const fr  = CAT_FRAC[cat] ?? 1.0;
-      const cMid  = Math.max(1, Math.round(rr.generalMid  * fr));
-      const cLow  = Math.max(1, Math.round(rr.generalLow  * fr));
-      const cHigh = Math.max(1, Math.round(rr.generalHigh * fr));
-      const fmt = n => n.toLocaleString('en-IN');
-      if (fr === 1.0) {
-        hintEl.textContent = `Estimated rank: ${fmt(cLow)} – ${fmt(cHigh)}  ·  Confidence: ${rr.conf}`;
-      } else {
-        hintEl.textContent = `${cat} Category rank: ${fmt(cLow)} – ${fmt(cHigh)}  ·  General AIR: ~${fmt(rr.generalMid)}  ·  ${rr.conf}`;
-      }
-    }
-    if (scoreEl && hintEl) {
-      scoreEl.addEventListener('input', renderHint);
-      catEl?.addEventListener('change', renderHint);
-    }
-  })();
 
   function buildProfile() {
     const fd = new FormData(form);

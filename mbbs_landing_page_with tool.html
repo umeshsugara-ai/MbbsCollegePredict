@@ -2500,7 +2500,9 @@ async function submitLeadForm(e){
   ];
 
   let destination = 'Global';
-  let currency    = 'USD';
+  // Default to INR — the primary user is an Indian student. USD is the
+  // secondary view for abroad-pricing comparisons.
+  let currency    = 'INR';
   let lastResult      = null;
   let lastProfile     = null;
   let currentController = null;
@@ -2735,7 +2737,22 @@ async function submitLeadForm(e){
     });
   }
   form.querySelectorAll('.pred-tab').forEach(tab => {
-    tab.addEventListener('click', () => setDestination(tab.dataset.dest));
+    tab.addEventListener('click', () => {
+      const newDest = tab.dataset.dest;
+      if (newDest === destination) return;             // no-op when re-clicking active tab
+      setDestination(newDest);
+      // Clear stale results from the previous destination — leaving a Russia
+      // table visible while the form now says "India" misleads the student.
+      // The empty state / form is the correct view post-switch until they
+      // re-submit.
+      lastResult = null; lastProfile = null;
+      try { localStorage.removeItem('mbbs_predictor_results'); } catch {}
+      clearResults();
+      results.style.display = 'none';
+      app.classList.remove('has-results');
+      const empty = document.getElementById('pred-empty-state');
+      if (empty) empty.style.display = '';
+    });
   });
 
 
@@ -3047,15 +3064,25 @@ async function submitLeadForm(e){
     // ── Header bar ──
     const head = el('div', 'pred-table-head');
     head.appendChild(el('div', 'pred-table-title', 'Your Best Matches'));
-    const cur = el('div', 'pred-currency');
-    ['USD','INR'].forEach(c => {
-      const b = el('button', null, c);
-      b.type = 'button';
-      if (c === currency) b.classList.add('active');
-      b.addEventListener('click', () => { currency = c; renderResults(lastResult, lastProfile); });
-      cur.appendChild(b);
-    });
-    head.appendChild(cur);
+    // Currency toggle — only useful for the abroad route (USD↔INR conversion
+    // of the model's tuitionFeeUSD numbers). For India recommendations
+    // every fee is ALREADY in INR (annualTuitionFee comes back as a
+    // ₹-prefixed string from Gemini, and fmtMoney short-circuits on it),
+    // so the toggle would do nothing for India users — better to hide it
+    // entirely than let students wonder why tapping USD changes nothing.
+    const isIndiaRoute = (profile?.destinationType || '') === 'India';
+    if (!isIndiaRoute) {
+      const cur = el('div', 'pred-currency');
+      // INR first (default for our Indian student base), USD second.
+      ['INR','USD'].forEach(c => {
+        const b = el('button', null, c);
+        b.type = 'button';
+        if (c === currency) b.classList.add('active');
+        b.addEventListener('click', () => { currency = c; renderResults(lastResult, lastProfile); });
+        cur.appendChild(b);
+      });
+      head.appendChild(cur);
+    }
     wrap.appendChild(head);
 
     // ── Tier filter pills ──

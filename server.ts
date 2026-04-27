@@ -478,21 +478,27 @@ function computeQuotaProbabilities(
   // single-band-set under-states their AIQ probability. To address: split
   // into per-category caps; SC/ST topper 85/70/40, mid 70/55/35, low 40/30/15.
   // Deferred to Commit B.1 to keep this commit scoped to topper calibration.
+  // Tier-aware multipliers. stateCsvMult applies when the CSV happens to have
+  // state-quota-shaped rows for this state (rare — MCC mostly only has AIQ);
+  // stateAiqMult applies when we estimate state from the AIQ pattern instead.
+  // Both must be tier-aware otherwise the topper's state cap is bypassed when
+  // the CSV branch fires (B.3 — earlier UP topper showed 70% instead of 90%
+  // because the CSV branch was using a hardcoded 0.70).
   const userAir = rankRange.mid;
-  let aiqDiscount: number, aiqCap: number, stateCap: number, stateAiqMult: number;
+  let aiqDiscount: number, aiqCap: number, stateCap: number, stateAiqMult: number, stateCsvMult: number;
   if (userAir < 1500) {           // topper band — first pick, mild contention
-    aiqDiscount = 0.70; aiqCap = 70; stateCap = 90; stateAiqMult = 0.95;
+    aiqDiscount = 0.70; aiqCap = 70; stateCap = 90; stateAiqMult = 0.95; stateCsvMult = 0.95;
   } else if (userAir < 25000) {   // mid band — competitive pool
-    aiqDiscount = 0.40; aiqCap = 35; stateCap = 65; stateAiqMult = 0.65;
+    aiqDiscount = 0.40; aiqCap = 35; stateCap = 65; stateAiqMult = 0.65; stateCsvMult = 0.70;
   } else {                        // low band — past the AIQ cliff
-    aiqDiscount = 0.30; aiqCap = 10; stateCap = 35; stateAiqMult = 0.55;
+    aiqDiscount = 0.30; aiqCap = 10; stateCap = 35; stateAiqMult = 0.55; stateCsvMult = 0.55;
   }
 
   const aiq        = Math.min(aiqCap, Math.round(govtAiqRaw * aiqDiscount));
-  // State quota: prefer real CSV-derived rows when present (rare — MCC CSV
-  // has near-zero state-quota rows); otherwise estimate from AIQ pattern.
+  // State quota: prefer real CSV-derived rows when present; otherwise
+  // estimate from AIQ pattern. Both branches now respect the tier cap.
   const stateCalib = stateRows.length > 0
-    ? Math.min(stateCap, Math.round(stateRaw * 0.70))
+    ? Math.min(stateCap, Math.round(stateRaw * stateCsvMult))
     : Math.min(stateCap, Math.round(govtAiqRaw * stateAiqMult));
   // Deemed: management/private seats are less competitive; admission probability is high
   // Budget is the real gate, not rank — reported separately in prompt
@@ -875,6 +881,7 @@ async function verifyStateQuota(
   rankRange: RankRange,
   userCategory: string,
   state: string,
+  gender: string,
 ): Promise<StateQuotaInsights | null> {
   if (!state || state === 'not specified') return null;
 
@@ -882,6 +889,8 @@ async function verifyStateQuota(
   // the AIR of the last admitted student in the relevant quota+category.
   // Public sources (Shiksha, Careers360, CollegeDunia, MCC) all publish
   // closing ranks in AIR form. One coordinate system, no conversion.
+  // Gender is passed through so women-only colleges get filtered for
+  // Male / unspecified visitors (B.2 — the LHMC-leak fix).
   const prompt = fillTemplate(PROMPTS.india.stateQuotaVerification, {
     today: '2026-04-26',
     rankRangeLow:  rankRange.low.toLocaleString('en-IN'),
@@ -889,6 +898,7 @@ async function verifyStateQuota(
     rankRangeHigh: rankRange.high.toLocaleString('en-IN'),
     userCategory,
     state,
+    gender,
   });
 
   try {
@@ -1085,7 +1095,7 @@ async function predictIndia(profile: any) {
       responseSchema,
     },
   });
-  const verifyCall = verifyStateQuota(ai, rankRange, userCategory, state);
+  const verifyCall = verifyStateQuota(ai, rankRange, userCategory, state, gender);
 
   try {
     const [{ resp, tel }, stateQuotaInsights] = await Promise.all([mainCall, verifyCall]);

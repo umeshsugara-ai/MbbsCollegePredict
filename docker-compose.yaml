@@ -1,20 +1,21 @@
 # Compose file for the MBBS predictor.
 #
-# Environment-variable precedence (the explicit ask in the brief):
+# Environment-variable precedence:
 #   1. `environment:` keys below           ← HIGHEST priority. Override here
 #                                             when you want compose to be the
 #                                             authoritative source.
-#   2. `env_file: .env` (at the bottom)    ← FALLBACK. If a key isn't in the
-#                                             environment block above, it's
-#                                             read from .env.
-#   3. dotenv inside the container         ← effectively NEVER fires, because
-#                                             .env is .dockerignored — it's
-#                                             never copied into the image.
-#                                             Compose's env_file is the only
-#                                             real source of .env values.
+#   2. `env_file: .env` (at the bottom)    ← Optional host-level override.
+#                                             If a key isn't in the environment
+#                                             block above and .env exists on
+#                                             the host, its value is injected
+#                                             at compose-time.
+#   3. dotenv inside the container         ← Final fallback. .env is now baked
+#                                             into the image (per team decision,
+#                                             not in .dockerignore), so dotenv
+#                                             reads it at boot for any keys
+#                                             not set by the layers above.
 #
-# So: anything you uncomment under `environment:` wins. Anything you leave
-# commented falls back to whatever's in .env on the host.
+# So: compose `environment:` wins over host `.env` wins over baked-in `.env`.
 
 services:
   app:
@@ -38,15 +39,13 @@ services:
       # APP_URL: "https://predictor.vidysea.com"
 
     # ── Fallback values from .env ──
-    # `required: true` — refuse to start if .env is missing on the host. We
-    # learned the hard way that `required: false` lets the container boot with
-    # an empty GEMINI_API_KEY, the SDK falls back to ADC, and every prediction
-    # 500s with "Could not load default credentials". Far better to fail at
-    # `docker compose up` time with a clear "env file not found" message than
-    # at first user request.
+    # `required: false` — host .env is optional. Per team decision, .env is
+    # baked into the image (no longer in .dockerignore), so the container
+    # always has its values via dotenv at boot. The env_file here just
+    # provides an optional host-level override mechanism.
     env_file:
       - path: .env
-        required: true
+        required: false
 
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3000/api/health"]

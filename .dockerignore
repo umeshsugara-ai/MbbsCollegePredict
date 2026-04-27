@@ -1,10 +1,7 @@
 # Secrets — NEVER bake env files into the image. docker-compose's env_file
 # loads .env at compose-time and injects values as container env vars; the
 # file itself doesn't need to ship inside the container.
-.env
-.env.local
-.env.*
-!.env.example
+
 
 # Repo / build artefacts
 .git

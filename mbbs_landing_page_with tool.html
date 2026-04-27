@@ -566,6 +566,34 @@ nav{
 .pred-for-profile-dot{
   width:6px;height:6px;border-radius:50%;background:var(--cyan);flex-shrink:0;
 }
+/* Document-readiness checklist — shown after the AI Analysis block.
+   Pure student-trust content, no ML risk. Gives students a concrete next
+   step the moment they see the predictions. */
+.pred-doc-check{
+  background:#FFFBEB;border:1px solid rgba(217,119,6,.25);
+  border-radius:13px;padding:16px 18px;margin-bottom:18px;
+}
+.pred-doc-check-eyebrow{
+  display:flex;align-items:center;gap:7px;margin-bottom:10px;
+  font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#B45309;
+}
+.pred-doc-check-h{font-size:14px;font-weight:700;color:#0F172A;margin:0 0 8px;}
+.pred-doc-check-p{font-size:12.5px;color:#475569;margin:0 0 12px;line-height:1.55;}
+.pred-doc-check-list{
+  display:grid;grid-template-columns:1fr;gap:6px;margin:0;padding:0;list-style:none;
+}
+@media(min-width:600px){.pred-doc-check-list{grid-template-columns:1fr 1fr}}
+.pred-doc-check-item{
+  display:flex;align-items:flex-start;gap:9px;
+  font-size:13px;line-height:1.45;color:#0F172A;
+  padding:7px 9px;background:#fff;border:1px solid rgba(217,119,6,.15);border-radius:8px;
+}
+.pred-doc-check-item::before{
+  content:'';display:inline-block;flex-shrink:0;
+  width:14px;height:14px;border:1.5px solid #B45309;border-radius:3px;margin-top:2px;
+}
+.pred-doc-check-note{font-size:11.5px;color:#92400E;margin:10px 0 0;font-style:italic;line-height:1.5;}
+
 .pred-state-verify{
   background:#F8FAFF;border:1px solid rgba(24,71,204,.15);
   border-radius:13px;padding:16px 18px;margin-bottom:18px;
@@ -2991,6 +3019,49 @@ async function submitLeadForm(e){
     return '₹' + inr.toLocaleString('en-IN');
   }
 
+  // Build the document-readiness checklist tailored to the student's profile.
+  // Returns { items: string[], note: string|null }. Items are deliberately
+  // specific (e.g. "OBC-NCL certificate (must be issued AFTER 1 April 2026
+  // — older certs are rejected)") because the generic version is what every
+  // competitor already shows.
+  function buildDocChecklist(profile) {
+    const items = [
+      'NEET-UG 2026 admit card (printed) and original photo ID',
+      'NEET-UG 2026 scorecard PDF download',
+      'Class 10 mark sheet (proof of date of birth)',
+      'Class 12 mark sheet & passing certificate',
+      '8 to 12 passport-size photographs (white background)',
+    ];
+    const cat = String(profile.category || 'OPEN').toUpperCase();
+    const isPwD = /PWD|_PWD/.test(cat);
+    const isReserved = /^OBC|^SC|^ST|^EWS/.test(cat);
+    const state = profile.domicileState || '';
+    if (state) {
+      items.push(`Domicile certificate for ${state} (issued by Tehsildar / SDM — required for state quota)`);
+    }
+    if (cat.startsWith('OBC')) {
+      items.push('OBC-NCL certificate (issued AFTER 1 April 2026 — earlier dates are commonly rejected at MCC counselling)');
+    }
+    if (cat.startsWith('SC') || cat.startsWith('ST')) {
+      items.push(`Caste certificate (${cat.startsWith('SC') ? 'SC' : 'ST'}) issued by competent authority of your home state`);
+    }
+    if (cat.startsWith('EWS')) {
+      items.push('EWS income certificate (Form GG / state equivalent — issued in current financial year)');
+    }
+    if (isPwD) {
+      items.push('PwD/Disability certificate from designated Medical Board (40%+ benchmark disability)');
+    }
+    items.push('Aadhaar card (linked with mobile for OTP — used at counselling registration)');
+    items.push('₹10,000 to ₹2 L counselling fee — keep digital payment ready (NetBanking / UPI)');
+    let note = null;
+    if (isReserved && !state) {
+      note = 'Tip: even if you skip a domicile state here, the MCC State Quota (15%) still requires home-state proof. Add your state on the form to see your full options.';
+    } else if (isReserved && state) {
+      note = `Tip: ${state}'s state counselling typically opens 1–2 weeks after MCC AIQ. Track both — many ${cat.split('-')[0]} students secure seats in state quota that they would have missed in AIQ alone.`;
+    }
+    return { items, note };
+  }
+
   function renderResults(data, profile) {
     clearResults();
     results.style.display = '';
@@ -3030,6 +3101,28 @@ async function submitLeadForm(e){
       a.appendChild(eb);
       a.appendChild(el('p', 'pred-analysis-text', data.analysis));
       inner.appendChild(a);
+    }
+
+    // Document-readiness checklist — only shown for India predictions
+    // (the documents below are MCC/state-counselling specific). Items
+    // adapt to the student's category, PwD status, and home state so the
+    // list isn't a generic dump.
+    if (profile && (profile.destinationType === 'India' || !profile.destinationType)) {
+      const docs = buildDocChecklist(profile);
+      if (docs.items.length) {
+        const dc = el('div', 'pred-doc-check');
+        const eb = el('div', 'pred-doc-check-eyebrow');
+        eb.appendChild(el('span', null, '📋'));
+        eb.appendChild(el('span', null, 'Get These Ready For Counselling'));
+        dc.appendChild(eb);
+        dc.appendChild(el('div', 'pred-doc-check-h', 'Documents you should gather now'));
+        dc.appendChild(el('p', 'pred-doc-check-p', 'MCC/state counselling rounds open in July–August. Missing or wrong-format documents are the #1 reason students lose seats they had qualified for.'));
+        const ul = el('ul', 'pred-doc-check-list');
+        docs.items.forEach(t => { ul.appendChild(el('li', 'pred-doc-check-item', t)); });
+        dc.appendChild(ul);
+        if (docs.note) dc.appendChild(el('p', 'pred-doc-check-note', docs.note));
+        inner.appendChild(dc);
+      }
     }
 
     // State quota verification panel (web-grounded second LLM call) —

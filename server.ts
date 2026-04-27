@@ -936,29 +936,60 @@ function computeQuotaProbabilities(
   // are catalogue-accessible; at AIR 25,000 accessibility crashes to 1–3%
   // for OPEN/OBC/EWS (cliff). Demand discount also varies by tier — toppers
   // have first pick (no real competition pressure), low-rank face thicker
-  // contention for the few accessible seats. Reflects the structural
-  // difference between rank tiers, not a gradual curve.
+  // contention for the few accessible seats.
   //
-  // TODO (B.1 — flagged in audit): SC/ST have a fundamentally different
-  // accessibility curve (still ~75–89% accessible at AIR 50K). Current
-  // single-band-set under-states their AIQ probability. To address: split
-  // into per-category caps; SC/ST topper 85/70/40, mid 70/55/35, low 40/30/15.
-  // Deferred to Commit B.1 to keep this commit scoped to topper calibration.
-  // Tier-aware multipliers. stateCsvMult applies when the CSV happens to have
-  // state-quota-shaped rows for this state (rare — MCC mostly only has AIQ);
-  // stateAiqMult applies when we estimate state from the AIQ pattern instead.
-  // Both must be tier-aware otherwise the topper's state cap is bypassed when
-  // the CSV branch fires (B.3 — earlier UP topper showed 70% instead of 90%
-  // because the CSV branch was using a hardcoded 0.70).
+  // BUG A FIX: SC/ST have a fundamentally different accessibility curve.
+  // At AIR 50K an SC student is competing in their own (much smaller) pool
+  // and ~75–89% of SC AIQ seats are still accessible — yet the OPEN-tuned
+  // cap (35 at mid, 10 at low) said the opposite. Live test of an SC mid-
+  // rank student returned ZERO universities. Per-category cap tables below
+  // restore reservation parity. Tier band thresholds are kept in AIR
+  // coordinates (the user's actual NEET AIR), not category-rank, because
+  // that's what `userAir = rankRange.mid` carries.
+  //
+  // Each row is [aiqDiscount, aiqCap, stateCap, stateAiqMult, stateCsvMult]
+  // for the tier bands [topper (<1500), mid (<25K), low (≥25K)].
+  type CapRow = [number, number, number, number, number];
+  type CategoryCaps = { topper: CapRow; mid: CapRow; low: CapRow };
+  const CAPS_OPEN: CategoryCaps = {
+    topper: [0.70, 70, 90, 0.95, 0.95],
+    mid:    [0.40, 35, 65, 0.65, 0.70],
+    low:    [0.30, 10, 35, 0.55, 0.55],
+  };
+  const CAPS_OBC: CategoryCaps = {
+    topper: [0.72, 72, 90, 0.95, 0.95],
+    mid:    [0.50, 50, 70, 0.70, 0.75],
+    low:    [0.35, 18, 40, 0.60, 0.60],
+  };
+  const CAPS_EWS: CategoryCaps = {
+    topper: [0.70, 70, 88, 0.93, 0.93],
+    mid:    [0.45, 42, 65, 0.68, 0.70],
+    low:    [0.32, 14, 35, 0.55, 0.55],
+  };
+  const CAPS_SC: CategoryCaps = {
+    topper: [0.85, 85, 92, 0.95, 0.95],
+    mid:    [0.75, 70, 78, 0.78, 0.80],
+    low:    [0.55, 40, 55, 0.65, 0.65],
+  };
+  const CAPS_ST: CategoryCaps = {
+    topper: [0.85, 85, 92, 0.95, 0.95],
+    mid:    [0.78, 72, 80, 0.80, 0.82],
+    low:    [0.55, 40, 55, 0.65, 0.65],
+  };
+  // PwD subcategories inherit their parent category's row, with a small
+  // accessibility bonus because PwD pools are smaller still.
+  const pickCaps = (cat: string): CategoryCaps => {
+    const c = cat.toUpperCase();
+    if (c.startsWith('SC'))  return CAPS_SC;
+    if (c.startsWith('ST'))  return CAPS_ST;
+    if (c.startsWith('OBC')) return CAPS_OBC;
+    if (c.startsWith('EWS')) return CAPS_EWS;
+    return CAPS_OPEN;
+  };
   const userAir = rankRange.mid;
-  let aiqDiscount: number, aiqCap: number, stateCap: number, stateAiqMult: number, stateCsvMult: number;
-  if (userAir < 1500) {           // topper band — first pick, mild contention
-    aiqDiscount = 0.70; aiqCap = 70; stateCap = 90; stateAiqMult = 0.95; stateCsvMult = 0.95;
-  } else if (userAir < 25000) {   // mid band — competitive pool
-    aiqDiscount = 0.40; aiqCap = 35; stateCap = 65; stateAiqMult = 0.65; stateCsvMult = 0.70;
-  } else {                        // low band — past the AIQ cliff
-    aiqDiscount = 0.30; aiqCap = 10; stateCap = 35; stateAiqMult = 0.55; stateCsvMult = 0.55;
-  }
+  const caps = pickCaps(category);
+  const tier: keyof CategoryCaps = userAir < 1500 ? 'topper' : (userAir < 25000 ? 'mid' : 'low');
+  const [aiqDiscount, aiqCap, stateCap, stateAiqMult, stateCsvMult] = caps[tier];
 
   const aiq        = Math.min(aiqCap, Math.round(govtAiqRaw * aiqDiscount));
   // State quota: prefer real CSV-derived rows when present; otherwise
@@ -1857,6 +1888,88 @@ function findCsvAnchor(
   return best;
 }
 
+// Like findCsvAnchor but doesn't restrict by quota — used by the state-quota
+// domicile cross-check (Bug B), which needs to know the institute's geography
+// regardless of which quota row Gemini is claiming. AIQ rows for a college
+// typically share the same `r.state` as state-quota rows for that college, so
+// returning any matching row gives us a reliable institute-state lookup.
+function findCsvAnchorWithState(
+  uniName: string,
+  _quotaSlot: string,
+  categorySlot: string,
+): CutoffRow | null {
+  const cutoffs = LATEST_CUTOFF_ROWS;
+  const nameNorm = normalizeName(uniName);
+  if (!nameNorm) return null;
+  const catNorm = normalizeName(categorySlot);
+  let best: CutoffRow | null = null;
+  for (const r of cutoffs) {
+    const rNameNorm = normalizeName(r.institute);
+    if (!rNameNorm || !r.state) continue;
+    if (!nameMatches(nameNorm, rNameNorm)) continue;
+    if (catNorm) {
+      const rCatNorm = normalizeName(r.category);
+      if (!rCatNorm.includes(catNorm) && !catNorm.includes(rCatNorm)) continue;
+    }
+    if (!best || r.closingRank < best.closingRank) best = r;
+  }
+  return best;
+}
+
+// AIIMS / INI hard anchors (Bug C). MCC counselling does NOT include AIIMS or
+// JIPMER (those run via INI counselling), so findCsvAnchor returns null for
+// every "All India Institute of Medical Sciences …" row. Without an anchor,
+// the validator skips the hallucination + tier checks and Gemini's tier
+// guess survives unchecked — leading to AIIMS Jodhpur being labelled
+// "Stretch" for a student at AIR ~80 even though the historical Open closing
+// is ~110-160 and the student would clearly clear it.
+//
+// Numbers below are 2024 INI MBBS Open closing AIRs from public INI sheets.
+// Per-category multipliers approximate the historical reservation gap;
+// they're rough but better than no anchor at all.
+const INI_HARD_ANCHORS: Record<string, number> = {
+  'aiims delhi':         60,
+  'aiims jodhpur':       150,
+  'aiims bhopal':        500,
+  'aiims bhubaneswar':   600,
+  'aiims patna':         900,
+  'aiims raipur':        750,
+  'aiims rishikesh':     1100,
+  'aiims nagpur':        950,
+  'aiims mangalagiri':   1200,
+  'aiims gorakhpur':     1300,
+  'aiims kalyani':       1500,
+  'aiims rae bareli':    1600,
+  'aiims deoghar':       1700,
+  'aiims bibinagar':     1800,
+  'aiims guwahati':      2000,
+  'aiims bilaspur':      2200,
+  'aiims madurai':       2400,
+  'aiims rajkot':        2600,
+  'aiims vijaypur':      2800,
+  'aiims awadh':         3000,
+  'jipmer puducherry':   200,
+  'jipmer karaikal':     2200,
+};
+const INI_CATEGORY_MULT: Record<string, number> = {
+  'open': 1.0, 'general': 1.0, 'ews': 2.5, 'obc': 3.5, 'sc': 12, 'st': 24,
+  'open pwd': 8, 'general pwd': 8, 'ews pwd': 18, 'obc pwd': 22, 'sc pwd': 80, 'st pwd': 150,
+};
+function findIniHardAnchor(uniName: string, categorySlot: string): { closingRank: number } | null {
+  const n = normalizeName(uniName);
+  if (!n) return null;
+  // Find the longest matching key — "aiims jodhpur" before "aiims".
+  let bestKey: string | null = null;
+  for (const k of Object.keys(INI_HARD_ANCHORS)) {
+    if (n.includes(k) && (!bestKey || k.length > bestKey.length)) bestKey = k;
+  }
+  if (!bestKey) return null;
+  const baseRank = INI_HARD_ANCHORS[bestKey];
+  const cat = normalizeName(categorySlot);
+  const mult = INI_CATEGORY_MULT[cat] || 1.0;
+  return { closingRank: Math.round(baseRank * mult) };
+}
+
 // Mechanical tier derivation from student rankRange + claimed closing AIR
 // range. NEET semantics: LOWER AIR = better student. Student gets a seat if
 // their rank ≤ closing rank. claimedLow = strictest closing (e.g. AIIMS Delhi
@@ -1978,10 +2091,42 @@ function normaliseBackfillRow(u: any): any {
   return { ...u, quotaSlot, categorySlot, expectedClosingAirLow: low, expectedClosingAirHigh: high };
 }
 
+// Infer the course taught at a college from its name. We don't have a clean
+// course field in either CSV or Gemini response, but the institute name is
+// reliable: "Dental College" → BDS, "Homoeopathic" → BHMS, "Ayurveda/Ayurvedic"
+// → BAMS, "Unani" → BUMS, "Siddha" → BSMS, otherwise → MBBS. Used by the
+// validator to drop colleges that don't match `profile.coursePreferences`.
+type CourseCode = 'MBBS' | 'BDS' | 'BAMS' | 'BHMS' | 'BUMS' | 'BSMS' | 'BNYS';
+function inferCourseFromName(name: string): CourseCode {
+  const n = String(name || '').toLowerCase();
+  if (/\bdental\b|\bdent\.?\b/.test(n)) return 'BDS';
+  if (/\bhomoeo|homeop|hom\.?\s*med/.test(n)) return 'BHMS';
+  if (/\bayurved/.test(n)) return 'BAMS';
+  if (/\bunani\b/.test(n)) return 'BUMS';
+  if (/\bsiddha\b/.test(n)) return 'BSMS';
+  if (/\byoga|naturopathy\b/.test(n)) return 'BNYS';
+  return 'MBBS';
+}
+
+// Treat the user's coursePreferences as either "MBBS" alone (default), or
+// the explicit list. Empty/missing means MBBS-only — the canonical Vidysea
+// flow. The UI's "Also consider …" chips populate this list when the user
+// opts in, so a non-empty list is an explicit student request to widen.
+function isCourseAllowed(course: CourseCode, prefs: string[]): boolean {
+  if (course === 'MBBS') return true;                  // MBBS is always in scope
+  if (!prefs || prefs.length === 0) return false;       // default = MBBS-only
+  // AYUSH umbrella covers BAMS/BHMS/BUMS/BSMS — student saying "AYUSH" means yes-to-all
+  const upper = prefs.map(p => String(p || '').toUpperCase());
+  if (upper.includes('AYUSH') && (course === 'BAMS' || course === 'BHMS' || course === 'BUMS' || course === 'BSMS' || course === 'BNYS')) return true;
+  return upper.includes(course);
+}
+
 function validateIndiaUniversities(
   unis: any[],
   rankRange: { low: number; mid: number; high: number },
   userCategory: string,
+  coursePrefs: string[] = [],
+  domicileState: string = '',
 ): ValidationResult {
   const drops: ValidationResult['drops'] = [];
   const overrides: ValidationResult['overrides'] = [];
@@ -1995,6 +2140,32 @@ function validateIndiaUniversities(
     const quotaSlot   = String(u?.quotaSlot || '');
     const categorySlot = String(u?.categorySlot || userCategory);
 
+    // -2. Course-preference filter (Bug D). The student requested MBBS, BDS,
+    //     or AYUSH chips; we infer the course from the college name and drop
+    //     anything outside the requested set. Empty prefs = MBBS-only (the
+    //     canonical Vidysea flow). Live test surfaced an MBBS-only request
+    //     getting back R. Ahmed Dental College & Hospital — wrong course.
+    const inferred = inferCourseFromName(name);
+    if (!isCourseAllowed(inferred, coursePrefs)) {
+      drops.push({ name, reason: `course mismatch: inferred=${inferred} not in prefs=${coursePrefs.join(',') || 'MBBS'}` });
+      continue;
+    }
+
+    // -1. State-quota domicile cross-check (Bug B). When quotaSlot=='State'
+    //     the institute's state must match the student's domicile; West
+    //     Bengal "State quota" is meaningless to a Maharashtra resident and
+    //     showing it as accessible is a wrong recommendation. Resolve the
+    //     institute's state via the CSV anchor (which carries r.state).
+    if (quotaSlot.toLowerCase() === 'state' && domicileState) {
+      const stateAnchor = findCsvAnchorWithState(name, quotaSlot, categorySlot);
+      if (stateAnchor && stateAnchor.state) {
+        if (normalizeName(stateAnchor.state) !== normalizeName(domicileState)) {
+          drops.push({ name, reason: `state-quota mismatch: institute is ${stateAnchor.state}, student domicile ${domicileState}` });
+          continue;
+        }
+      }
+    }
+
     // 0. Missing/zero numeric fields — model failed schema requirement.
     //    Don't drop; pass through unchanged. Counter surfaces in telemetry so
     //    we can monitor schema compliance rate.
@@ -2007,7 +2178,10 @@ function validateIndiaUniversities(
     // 1. Hallucination drop — asymmetric AND scale-aware. Multipliers tighten
     //    at low ranks (where noise is small in absolute terms) and loosen at
     //    high ranks (where YoY drift can shift closing by tens of thousands).
-    const csvAnchor = findCsvAnchor(name, quotaSlot, categorySlot);
+    //    Falls back to the AIIMS/INI hard-anchor table when MCC has no row
+    //    (Bug C — AIIMS isn't in MCC counselling, it's INI counselling).
+    const csvAnchor = findCsvAnchor(name, quotaSlot, categorySlot)
+      || findIniHardAnchor(name, categorySlot);
     if (csvAnchor) {
       const csvRank = csvAnchor.closingRank;
       const easyMult = halluTooEasyMult(csvRank);
@@ -2283,6 +2457,8 @@ async function predictIndia(profile: any) {
       Array.isArray(result.universities) ? result.universities : [],
       rankRange,
       userCategory,
+      profile.coursePreferences || [],
+      profile.domicileState || '',
     );
 
     // Backfill on overdrop — only when the validated list is genuinely thin.

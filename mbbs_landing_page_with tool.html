@@ -2052,6 +2052,28 @@ window.addEventListener('scroll', () => {
 </div>
 
 <script>
+// ── sessionId: stable per-browser id that joins recommendations to leads.
+// Generated once on first visit, persisted in localStorage forever (until
+// the user clears it). Sent with every /api/predict and /api/lead call so
+// the same user's predictions and contact-form submissions can be joined
+// later in MongoDB. Not PII — just a random UUID.
+const VIDYSEA_SESSION_KEY = 'vidysea_session_id';
+function getSessionId() {
+  try {
+    let s = localStorage.getItem(VIDYSEA_SESSION_KEY);
+    if (!s) {
+      s = (crypto && crypto.randomUUID)
+        ? crypto.randomUUID()
+        : 'sid-' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+      localStorage.setItem(VIDYSEA_SESSION_KEY, s);
+    }
+    return s;
+  } catch (_) {
+    return 'sid-' + Date.now();   // localStorage blocked? still send something
+  }
+}
+window.__vidyseaSessionId = getSessionId();
+
 // ── Modal open / close
 function openLeadForm(e){
   if(e) e.preventDefault();
@@ -2072,8 +2094,8 @@ function updateToggleLabel(el){
   document.getElementById('toggleYN').textContent = el.checked ? 'Yes' : 'No';
 }
 
-// ── Form submit
-function submitLeadForm(e){
+// ── Form submit — real POST to /api/lead
+async function submitLeadForm(e){
   e.preventDefault();
   const btn = document.getElementById('lfSubmitBtn');
   const name  = document.getElementById('lf-name').value.trim();
@@ -2092,21 +2114,51 @@ function submitLeadForm(e){
 
   const abroad = document.getElementById('lf-abroad').checked;
 
-  // Simulate submission
+  // Soft-link: if the visitor already ran the predictor, snapshot the last
+  // profile + result from localStorage so the counsellor can see what the
+  // lead was looking at when they reached out. This is supplementary —
+  // sessionId is the authoritative join key on the server side.
+  let linkedRecommendation = null;
+  try {
+    const lastProfile = JSON.parse(localStorage.getItem('mbbs_predictor_profile') || 'null');
+    const lastResult  = JSON.parse(localStorage.getItem('mbbs_predictor_results') || 'null');
+    if (lastProfile || lastResult) linkedRecommendation = { profile: lastProfile, result: lastResult };
+  } catch (_) {}
+
   btn.classList.add('loading');
   btn.textContent = 'Submitting…';
 
-  setTimeout(()=>{
+  try {
+    const r = await fetch('/api/lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        sessionId: window.__vidyseaSessionId || null,
+        name, email, phone: mobile,
+        neetYear: year,
+        wantsAbroad: abroad,
+        source: 'lead_modal_v1',
+        linkedRecommendation,
+      }),
+    });
+    if (!r.ok) {
+      const errBody = await r.json().catch(() => ({}));
+      throw new Error(errBody.error || ('Server returned ' + r.status));
+    }
     document.getElementById('leadFormBody').style.display='none';
     document.getElementById('leadSuccess').classList.add('active');
-    // Reset form after close
+    // Reset form after close so reopening starts clean
     setTimeout(()=>{
       document.getElementById('leadForm').reset();
       document.getElementById('toggleYN').textContent='No';
       btn.classList.remove('loading');
       btn.innerHTML='<span>✦</span> Get Free Counselling';
     }, 500);
-  }, 1200);
+  } catch (err) {
+    btn.classList.remove('loading');
+    btn.innerHTML='<span>✦</span> Get Free Counselling';
+    alert('Could not submit your enquiry: ' + (err && err.message || err) + '\nPlease try again or call us directly.');
+  }
 }
 
 // ─────────────────────────────────────────────────────────────────
@@ -2378,6 +2430,7 @@ function submitLeadForm(e){
     const fd = new FormData(form);
     const profile = {
       destinationType: destination,
+      sessionId: window.__vidyseaSessionId || null,   // joins to leads in Mongo
       neetScore: parseInt(fd.get('neetScore') || '0', 10) || 0,
       neetRank:  parseInt(fd.get('neetRank')  || '0', 10) || 0,
       budgetInUSD: fd.get('budgetInUSD') || '',

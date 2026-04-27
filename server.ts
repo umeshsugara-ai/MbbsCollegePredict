@@ -15,50 +15,98 @@ app.use(express.json());
 const PORT = parseInt(process.env.PORT || '3000', 10);
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
 
-// ── Mongo lead capture ───────────────────────────────────────────────────────
-// Persists every prediction (input profile + recommendations + telemetry) so
-// the team can analyse who's using the tool and how the model is performing.
-// All inserts are fire-and-forget AFTER the user response is sent, so a slow
-// or unreachable Mongo never degrades UX. If MONGODB_URI is unset the whole
-// layer no-ops cleanly — the predictor still works.
+// ── MongoDB persistence ──────────────────────────────────────────────────────
+// Two collections, two separate concerns:
+//
+//   recommendations — every prediction (input profile + AI output + telemetry).
+//                     Anonymous. Used for usage analytics and model evaluation.
+//                     Written automatically after every successful /api/predict.
+//
+//   leads          — real contact form submissions (name + email + phone +
+//                     message). Used by the counselling team for outreach.
+//                     Written when a visitor submits the "Get Free Counselling"
+//                     modal via POST /api/lead. Soft-links to the user's most
+//                     recent recommendation if the browser sends one along.
+//
+// All inserts are fire-and-forget where possible. If MONGODB_URI is unset or
+// the cluster is unreachable, both layers no-op gracefully — predictor still
+// works, contact form just degrades to a clear error.
 
 const MONGODB_URI = process.env.MONGODB_URI || '';
 const MONGODB_DB  = process.env.MONGODB_DB  || 'mbbs_predictor';
+let recommendationsCollection: Collection | null = null;
 let leadsCollection: Collection | null = null;
 
 async function initMongo(): Promise<void> {
   if (!MONGODB_URI) {
-    console.log('[mongo] MONGODB_URI not set — lead capture disabled');
+    console.log('[mongo] MONGODB_URI not set — persistence disabled');
     return;
   }
   try {
     const client = new MongoClient(MONGODB_URI, { serverSelectionTimeoutMS: 8000 });
     await client.connect();
     const db = client.db(MONGODB_DB);
-    leadsCollection = db.collection('leads');
-    // Indexes for chronological listing + common dashboard filters
+
+    recommendationsCollection = db.collection('recommendations');
+    leadsCollection            = db.collection('leads');
+
     await Promise.all([
+      // recommendations indexes — chronological + dashboard filters
+      recommendationsCollection.createIndex({ timestamp: -1 }),
+      recommendationsCollection.createIndex({ 'meta.destinationType': 1, 'meta.neetScore': 1 }),
+      recommendationsCollection.createIndex({ 'meta.domicileState': 1, 'meta.category': 1 }),
+      // leads indexes — chronological + email lookup (no unique constraint
+      // intentionally; same person may submit multiple enquiries over time)
       leadsCollection.createIndex({ timestamp: -1 }),
-      leadsCollection.createIndex({ 'meta.destinationType': 1, 'meta.neetScore': 1 }),
-      leadsCollection.createIndex({ 'meta.domicileState': 1, 'meta.category': 1 }),
+      leadsCollection.createIndex({ email: 1 }),
+      leadsCollection.createIndex({ phone: 1 }),
+      leadsCollection.createIndex({ sessionId: 1 }),
+      // Same sessionId index on recommendations for the join
+      recommendationsCollection.createIndex({ sessionId: 1 }),
     ]);
-    console.log(`[mongo] connected to ${MONGODB_DB}.leads (lead capture enabled)`);
+    console.log(`[mongo] connected to ${MONGODB_DB} (recommendations + leads enabled)`);
   } catch (e: any) {
-    console.error('[mongo] connection failed — lead capture disabled:', e?.message || e);
+    console.error('[mongo] connection failed — persistence disabled:', e?.message || e);
+    recommendationsCollection = null;
     leadsCollection = null;
   }
 }
 
-function recordLead(profile: any, result: any): void {
-  if (!leadsCollection) return;
+// sessionId is the join key between `recommendations` and `leads`. Generated
+// in the browser (UUID v4) on first visit and persisted in localStorage, so
+// the same browser/device sends a stable id across all predictions and the
+// eventual contact-form submission. Server treats it as opaque and validates
+// only that it's a sane-shaped string.
+function sanitizeSessionId(s: any): string | null {
+  if (typeof s !== 'string') return null;
+  const trimmed = s.trim();
+  if (!trimmed || trimmed.length > 80 || !/^[a-zA-Z0-9_-]+$/.test(trimmed)) return null;
+  return trimmed;
+}
+
+// Timestamps are stored as ISO 8601 strings in IST offset (+05:30), not UTC Z.
+// Format: "2026-04-27T14:30:45.123+05:30" — sortable lexicographically, parseable
+// by every Mongo client (`new Date("2026-04-27T14:30:45.123+05:30")` works), and
+// human-readable directly when viewed in MongoDB Compass without timezone math.
+function nowIST(): string {
+  const ms = Date.now() + 5.5 * 3600 * 1000;
+  return new Date(ms).toISOString().replace('Z', '+05:30');
+}
+
+// recordRecommendation — fire-and-forget, called AFTER res.json() in /api/predict.
+function recordRecommendation(profile: any, result: any): void {
+  if (!recommendationsCollection) return;
   try {
     const tel  = result?.telemetry || {};
     const main = tel.mainCall || {};
+    const sessionId = sanitizeSessionId(profile?.sessionId);
     const doc  = {
-      timestamp: new Date(),
+      timestamp: nowIST(),       // ISO 8601 +05:30 (IST), e.g. "2026-04-27T14:30:45.123+05:30"
+      sessionId,                 // join key with leads collection
       profile,
       result,
       meta: {
+        sessionId,
         destinationType:    profile?.destinationType,
         neetScore:          profile?.neetScore || null,
         neetRank:           profile?.neetRank  || null,
@@ -75,12 +123,11 @@ function recordLead(profile: any, result: any): void {
         stateVerified:      tel.stateVerified ?? false,
       },
     };
-    // Fire and forget — never await, never block the user response.
-    leadsCollection.insertOne(doc).catch(err => {
-      console.error('[mongo] insertOne failed:', err?.message || err);
+    recommendationsCollection.insertOne(doc).catch(err => {
+      console.error('[mongo] recommendations.insertOne failed:', err?.message || err);
     });
   } catch (e: any) {
-    console.error('[mongo] recordLead threw:', e?.message || e);
+    console.error('[mongo] recordRecommendation threw:', e?.message || e);
   }
 }
 
@@ -1162,11 +1209,81 @@ app.post('/api/predict', async (req, res) => {
         ? await predictIndia(profile)
         : await predictAbroad(profile);
     res.json(result);
-    // Lead capture — fires AFTER the response is sent so it never blocks UX
-    recordLead(profile, result);
+    // Persist the recommendation AFTER the response is sent — never blocks UX
+    recordRecommendation(profile, result);
   } catch (e: any) {
     console.error('[/api/predict]', e);
     res.status(500).json({ error: e.message || 'Prediction failed' });
+  }
+});
+
+// ── Contact-lead capture ─────────────────────────────────────────────────────
+// Visitor fills the "Get Free Counselling" modal → name/email/phone/message
+// land here. Optional `linkedRecommendation` carries the profile + result
+// the visitor was looking at when they decided to reach out (browser sends
+// what's in localStorage). We DO await this insert because the user is
+// expecting confirmation that their enquiry was received.
+function isValidEmail(s: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
+}
+function normalizePhone(s: string): string {
+  return (s || '').replace(/[^\d+]/g, '');
+}
+
+app.post('/api/lead', async (req, res) => {
+  const body = req.body || {};
+  const name    = String(body.name    || '').trim().slice(0, 200);
+  const email   = String(body.email   || '').trim().slice(0, 200);
+  const phone   = normalizePhone(String(body.phone || '')).slice(0, 32);
+  const message = String(body.message || '').trim().slice(0, 2000);
+  const source  = String(body.source  || 'unknown').trim().slice(0, 60);
+  const sessionId = sanitizeSessionId(body.sessionId);
+  const neetYear  = String(body.neetYear || '').trim().slice(0, 30);
+  const wantsAbroad = !!body.wantsAbroad;
+  const linkedRecommendation = body.linkedRecommendation || null;
+
+  // Validation: require name + (email OR phone). Both is best.
+  if (!name || (!email && !phone)) {
+    return res.status(400).json({ error: 'Name and at least one of email or phone are required.' });
+  }
+  if (email && !isValidEmail(email)) {
+    return res.status(400).json({ error: 'Email looks invalid.' });
+  }
+  if (phone && phone.replace(/\D/g, '').length < 7) {
+    return res.status(400).json({ error: 'Phone looks invalid.' });
+  }
+
+  if (!leadsCollection) {
+    // Mongo down or disabled — fail loudly to the user; this is a real submission
+    console.error('[/api/lead] Mongo unavailable, lead NOT persisted:', { name, email, phone });
+    return res.status(503).json({ error: 'Submission service is temporarily unavailable. Please try again or call us directly.' });
+  }
+
+  try {
+    const doc = {
+      timestamp: nowIST(),       // ISO 8601 +05:30 (IST)
+      sessionId,                  // joins this lead to the user's recommendations
+      name, email, phone, message, source,
+      neetYear, wantsAbroad,
+      // Soft link to the recommendation context (snapshot only; full result is
+      // already in the recommendations collection — joinable by sessionId).
+      linkedRecommendation: linkedRecommendation
+        ? {
+            profile: linkedRecommendation.profile || null,
+            universitiesPicked: Array.isArray(linkedRecommendation?.result?.universities)
+              ? linkedRecommendation.result.universities.map((u: any) => ({
+                  name: u?.name, country: u?.country, tier: u?.tier,
+                }))
+              : null,
+          }
+        : null,
+    };
+    const r = await leadsCollection.insertOne(doc);
+    console.log(`[mongo] lead inserted: ${r.insertedId} (source=${source}, email=${email || '-'}, phone=${phone || '-'})`);
+    res.json({ ok: true, id: r.insertedId.toHexString() });
+  } catch (e: any) {
+    console.error('[/api/lead] insert failed:', e?.message || e);
+    res.status(500).json({ error: 'Could not record your enquiry. Please try again.' });
   }
 });
 

@@ -212,20 +212,16 @@ const SCORE_RANK_YEAR_META: Record<number, { weight: number; reliability: number
   2022: { weight: 0.20, reliability: 0.90 },
 };
 
-// Pool fractions: a student's category rank is approximately their general
-// AIR × (fraction of qualifying candidates who share their category).
-// Validated against NTA NEET-UG 2024 published category-wise qualifying
-// counts (total ~13.16L qualified): UR 5.52L, OBC 4.87L, SC 1.85L, ST 0.92L,
-// EWS 1.50L. Approximation assumes category candidates are roughly
-// proportionally distributed across the score range; accurate to ~20-25% in
-// typical bands, less accurate at score extremes.
-const CATEGORY_POOL_FRACTION: Record<string, number> = {
-  OPEN: 1.00,   // OPEN candidates compete in the full general pool
-  EWS:  0.11,   // 1.50L / 13.16L
-  OBC:  0.37,   // 4.87L / 13.16L
-  SC:   0.14,   // 1.85L / 13.16L
-  ST:   0.07,   // 0.92L / 13.16L
-};
+// AIR is the single coordinate system used end-to-end. The MCC CSV's
+// `closing_rank` column is the AIR (NTA scorecard rank) of the last admitted
+// student — verified empirically (e.g. AIIMS Patna OBC R1 closing 1,963 in
+// our CSV matches the published AIR ~2,000–2,700 from Shiksha/Careers360).
+// Category advantage is reflected in the closing-rank value itself (OBC
+// closing AIR > General closing AIR for the same college), not in a
+// separate per-student rank conversion. Earlier versions of this file used
+// a CATEGORY_POOL_FRACTION multiplier — that introduced systematic bugs
+// because it shrank the student's rank into a fake "category rank" and
+// compared it against AIR-based closing ranks. Removed.
 
 // Competition grows ~5%/yr → forward-project ranks to the prediction year
 const COMPETITION_GROWTH_PER_YEAR = 0.05;
@@ -242,25 +238,20 @@ function _interpRank(table: Array<[number, number]>, score: number): number {
 }
 
 interface RankRange {
-  // Category-specific rank — what counseling cards display for SC/ST/OBC/EWS;
-  // equals general AIR for OPEN. Closing ranks in the CSV/state portals are
-  // category-specific, so this is what we compare against for tier bucketing.
+  // AIR — the single rank value used everywhere. This is the rank as printed
+  // on the NTA NEET scorecard. CSV closing ranks are also AIR, so direct
+  // comparison is correct. Category advantage is encoded in the closing-rank
+  // value itself (OBC closing AIR > General closing AIR), not in a separate
+  // per-student rank conversion.
   low: number; mid: number; high: number;
-  // General AIR — what the NEET scorecard shows. Provided for context and
-  // UI display alongside category rank; never compared to closing ranks.
-  generalLow: number; generalMid: number; generalHigh: number;
   confidence: string;
 }
 
 // ─── public: weighted-average rank + std-dev confidence band + growth drift
-function approximateRankRange(score: number, category: string): RankRange {
+function approximateRankRange(score: number, _category: string): RankRange {
   if (!score || score < 1) {
-    return { low: 999999, mid: 999999, high: 999999,
-             generalLow: 999999, generalMid: 999999, generalHigh: 999999,
-             confidence: 'N/A' };
+    return { low: 999999, mid: 999999, high: 999999, confidence: 'N/A' };
   }
-  const cat = (category || 'OPEN').toUpperCase().split(/[_\s]/)[0];
-  const fraction = CATEGORY_POOL_FRACTION[cat] ?? 1.0;
 
   const years = Object.keys(SCORE_RANK_HISTORY).map(Number);
   const rawW = years.map(y => { const m = SCORE_RANK_YEAR_META[y]; return m ? m.weight * m.reliability : 0.1; });
@@ -276,23 +267,16 @@ function approximateRankRange(score: number, category: string): RankRange {
   const latestDataYear = Math.max(...years);
   const growthFactor = 1 + COMPETITION_GROWTH_PER_YEAR * (PREDICTION_YEAR - latestDataYear);
 
-  // General AIR (no category adjustment) — what the NEET scorecard shows
-  const generalMid  = Math.round(mean * growthFactor);
-  const generalLow  = Math.round(Math.max(1, (mean - std) * growthFactor));
-  const generalHigh = Math.round((mean + std) * growthFactor);
-
-  // Category rank — pool-fraction conversion. For OPEN this equals general.
-  const mid  = Math.max(1, Math.round(generalMid  * fraction));
-  const low  = Math.max(1, Math.round(generalLow  * fraction));
-  const high = Math.max(1, Math.round(generalHigh * fraction));
+  const mid  = Math.round(mean * growthFactor);
+  const low  = Math.round(Math.max(1, (mean - std) * growthFactor));
+  const high = Math.round((mean + std) * growthFactor);
 
   const cv = std / Math.max(mean, 1);
   const confidence = cv < 0.20 ? 'High' : cv < 0.45 ? 'Medium' : 'Low';
-  return { low, mid, high, generalLow, generalMid, generalHigh, confidence };
+  return { low, mid, high, confidence };
 }
 
-// ─── back-compat shim: callers that only need a single-number rank.
-// Returns CATEGORY rank (the relevant baseline for closing-rank comparisons).
+// ─── back-compat shim: callers that only need a single-number AIR
 function approximateRank(score: number, category: string): number {
   return approximateRankRange(score, category).mid;
 }
@@ -757,19 +741,15 @@ async function verifyStateQuota(
 ): Promise<StateQuotaInsights | null> {
   if (!state || state === 'not specified') return null;
 
-  // The verifier MUST compare student rank to category-specific closing ranks
-  // (what state portals publish). For OPEN, category and general are the same.
-  const isReservation = userCategory !== 'OPEN';
-  const rankContext = isReservation
-    ? `${userCategory} Category Rank ${rankRange.low.toLocaleString('en-IN')}–${rankRange.high.toLocaleString('en-IN')} (this is the rank within the ${userCategory} pool — the rank that appears on counseling cards. General AIR for context only: ~${rankRange.generalMid.toLocaleString('en-IN')})`
-    : `General AIR ${rankRange.low.toLocaleString('en-IN')}–${rankRange.high.toLocaleString('en-IN')}`;
-
+  // The verifier compares student AIR (the rank on the NTA scorecard) to
+  // the AIR of the last admitted student in the relevant quota+category.
+  // Public sources (Shiksha, Careers360, CollegeDunia, MCC) all publish
+  // closing ranks in AIR form. One coordinate system, no conversion.
   const prompt = fillTemplate(PROMPTS.india.stateQuotaVerification, {
     today: '2026-04-26',
     rankRangeLow:  rankRange.low.toLocaleString('en-IN'),
     rankRangeMid:  rankRange.mid.toLocaleString('en-IN'),
     rankRangeHigh: rankRange.high.toLocaleString('en-IN'),
-    rankContext,
     userCategory,
     state,
   });
@@ -802,31 +782,16 @@ async function predictIndia(profile: any) {
   }
   const userCategory = (profile.category || 'OPEN').toUpperCase();
 
-  // ── Rank derivation: probabilistic range ──────────────────────────────────
-  // rankRange.low/mid/high are CATEGORY ranks (what counseling portals show).
-  // generalLow/Mid/High are general AIR (what NEET scorecards show).
-  // Tier comparisons MUST use category rank because closing ranks are
-  // category-specific in the CSV and on state portals.
+  // ── Rank derivation: AIR (single coordinate system) ───────────────────────
+  // rankRange.low/mid/high are AIR (the rank as printed on the NTA NEET
+  // scorecard). CSV closing ranks are also AIR, so direct comparison is
+  // correct. User-supplied rank is interpreted as AIR.
   const suppliedRank = profile.neetRank && profile.neetRank > 0;
-  let rankRange: RankRange;
-  if (suppliedRank) {
-    // User-supplied rank is treated as their CATEGORY rank (what their
-    // counseling card says). General AIR is back-computed from pool fraction.
-    const fraction = CATEGORY_POOL_FRACTION[userCategory] ?? 1.0;
-    const r = profile.neetRank;
-    const generalApprox = Math.round(r / Math.max(fraction, 0.01));
-    rankRange = {
-      low:  Math.round(r * 0.95), mid: r, high: Math.round(r * 1.05),
-      generalLow:  Math.round(generalApprox * 0.95),
-      generalMid:  generalApprox,
-      generalHigh: Math.round(generalApprox * 1.05),
-      confidence: 'Supplied',
-    };
-  } else {
-    rankRange = approximateRankRange(profile.neetScore || 0, userCategory);
-  }
+  const rankRange: RankRange = suppliedRank
+    ? { low: Math.round(profile.neetRank * 0.95), mid: profile.neetRank,
+        high: Math.round(profile.neetRank * 1.05), confidence: 'Supplied' }
+    : approximateRankRange(profile.neetScore || 0, userCategory);
   const userRank = rankRange.mid;
-  const isReservation = userCategory !== 'OPEN';
 
   // Contradiction check: flag if supplied score + rank are inconsistent
   let rankNote = '';
@@ -857,13 +822,10 @@ async function predictIndia(profile: any) {
   // ₹50L is the practical floor for any deemed/private MBBS
   const deemedEligible = budgetINRNum >= 5_000_000;
 
-  // For reservation candidates, show both category rank (counseling baseline)
-  // and general AIR (what the NEET scorecard shows). Closing-rank comparisons
-  // throughout the prompt use the category rank.
-  const catLabel = isReservation ? `${userCategory} Category` : 'General';
-  const rankDisplay = isReservation
-    ? `${catLabel} AIR ~${userRank.toLocaleString('en-IN')} (band: ${rankRange.low.toLocaleString('en-IN')}–${rankRange.high.toLocaleString('en-IN')}, confidence: ${rankRange.confidence}) · General AIR for context: ~${rankRange.generalMid.toLocaleString('en-IN')}`
-    : `~${userRank.toLocaleString('en-IN')} (band: ${rankRange.low.toLocaleString('en-IN')}–${rankRange.high.toLocaleString('en-IN')}, confidence: ${rankRange.confidence})`;
+  // AIR display — single coordinate system. Closing ranks throughout the
+  // prompt are category-specific AIR values from the CSV, directly comparable.
+  const rankDisplay = `AIR ~${userRank.toLocaleString('en-IN')} (band: ${rankRange.low.toLocaleString('en-IN')}–${rankRange.high.toLocaleString('en-IN')}, confidence: ${rankRange.confidence})`;
+  const isReservation = userCategory !== 'OPEN';
 
   const isTopper = userRank < 1500;
   const stateKnown = state !== 'not specified';
@@ -924,12 +886,13 @@ async function predictIndia(profile: any) {
     { deemedPrivate: probs.deemedPrivate, budgetINRL },
   );
 
-  // Reservation note — only when category is non-OPEN; clarifies that the
-  // rank band is category-specific so Gemini compares it correctly.
-  const reservationNote = isReservation
-    ? fillTemplate(PROMPTS.india.reservationNote, {
-        userCategory, rankRangeLow, rankRangeHigh,
-      })
+  // Category-advantage narrative — short acknowledgement for reservation
+  // candidates. Replaces the earlier computed-category-rank approach (which
+  // used pool fractions in a way that introduced systematic bias). The CSV's
+  // closing ranks already encode category advantage (OBC closing AIR > Open
+  // closing AIR for the same college), so all we need is one narrative line.
+  const categoryAdvantageNote = isReservation
+    ? fillTemplate(PROMPTS.india.categoryAdvantageNote, { userCategory })
     : '';
 
   // Data-year context — explicit gap between CSV anchor year and prediction
@@ -961,7 +924,7 @@ async function predictIndia(profile: any) {
     stateEstimatedFlag,
     altOpenLine, probSection, deemedVerdict, deemedSlot,
     topperBlock, altInstruction, altAnalysisNote, budgetReality,
-    reservationNote, genderExclusion,
+    categoryAdvantageNote, genderExclusion,
     dataYearNote,
   }).trim();
 

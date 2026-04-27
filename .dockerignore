@@ -1,0 +1,44 @@
+# Secrets — NEVER bake env files into the image. docker-compose's env_file
+# loads .env at compose-time and injects values as container env vars; the
+# file itself doesn't need to ship inside the container.
+.env
+.env.local
+.env.*
+!.env.example
+
+# Repo / build artefacts
+.git
+.gitignore
+.gitattributes
+node_modules
+npm-debug.log
+*.log
+
+# Editor / agent / local tooling
+.claude
+.playwright-mcp
+.vscode
+.idea
+.DS_Store
+
+# Local test screenshots and snapshot files
+test-*.png
+rank-hint-test.png
+tool-snapshot.md
+
+# Docs that don't need to ship at runtime
+README.md
+*.md
+!CLAUDE.md   # explicitly include if you want it in the image; otherwise drop
+
+# Unused NEET data subfolders (~40 MB) — server only reads
+# data/neet/cutoffs_yearly/. Excluding the rest keeps the image small.
+data/neet/raw
+data/neet/per_round
+data/neet/derived
+data/neet/feedback
+
+# Prior build outputs (the React+Vite remnants, in case any reappear)
+dist
+build
+coverage

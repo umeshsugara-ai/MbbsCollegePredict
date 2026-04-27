@@ -1,0 +1,52 @@
+# Compose file for the MBBS predictor.
+#
+# Environment-variable precedence (the explicit ask in the brief):
+#   1. `environment:` keys below           ← HIGHEST priority. Override here
+#                                             when you want compose to be the
+#                                             authoritative source.
+#   2. `env_file: .env` (at the bottom)    ← FALLBACK. If a key isn't in the
+#                                             environment block above, it's
+#                                             read from .env.
+#   3. dotenv inside the container         ← effectively NEVER fires, because
+#                                             .env is .dockerignored — it's
+#                                             never copied into the image.
+#                                             Compose's env_file is the only
+#                                             real source of .env values.
+#
+# So: anything you uncomment under `environment:` wins. Anything you leave
+# commented falls back to whatever's in .env on the host.
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: globalmbbs-predictor:latest
+    container_name: globalmbbs-predictor
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+
+    # ── Authoritative overrides ──
+    # Uncomment any line to force the compose value (overrides .env).
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      # GEMINI_API_KEY: "<paste-here-to-override-.env>"
+      # MONGODB_URI: "<paste-here-to-override-.env>"
+      # MONGODB_DB: "mbbs_predictor"
+      # APP_URL: "https://predictor.vidysea.com"
+
+    # ── Fallback values from .env ──
+    # If .env is missing on the host, compose will warn (compose v2 with the
+    # `required: false` form silences the warning entirely).
+    env_file:
+      - path: .env
+        required: false
+
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s

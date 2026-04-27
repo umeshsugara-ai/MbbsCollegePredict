@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import { readFileSync, existsSync } from 'fs';
 import { join } from 'path';
 import { parse } from 'csv-parse/sync';
+import { MongoClient, type Collection } from 'mongodb';
 
 dotenv.config({ path: '.env' });
 dotenv.config({ path: '.env.local', override: true });
@@ -13,6 +14,75 @@ app.use(express.json());
 
 const PORT = parseInt(process.env.PORT || '3000', 10);
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
+
+// ── Mongo lead capture ───────────────────────────────────────────────────────
+// Persists every prediction (input profile + recommendations + telemetry) so
+// the team can analyse who's using the tool and how the model is performing.
+// All inserts are fire-and-forget AFTER the user response is sent, so a slow
+// or unreachable Mongo never degrades UX. If MONGODB_URI is unset the whole
+// layer no-ops cleanly — the predictor still works.
+
+const MONGODB_URI = process.env.MONGODB_URI || '';
+const MONGODB_DB  = process.env.MONGODB_DB  || 'mbbs_predictor';
+let leadsCollection: Collection | null = null;
+
+async function initMongo(): Promise<void> {
+  if (!MONGODB_URI) {
+    console.log('[mongo] MONGODB_URI not set — lead capture disabled');
+    return;
+  }
+  try {
+    const client = new MongoClient(MONGODB_URI, { serverSelectionTimeoutMS: 8000 });
+    await client.connect();
+    const db = client.db(MONGODB_DB);
+    leadsCollection = db.collection('leads');
+    // Indexes for chronological listing + common dashboard filters
+    await Promise.all([
+      leadsCollection.createIndex({ timestamp: -1 }),
+      leadsCollection.createIndex({ 'meta.destinationType': 1, 'meta.neetScore': 1 }),
+      leadsCollection.createIndex({ 'meta.domicileState': 1, 'meta.category': 1 }),
+    ]);
+    console.log(`[mongo] connected to ${MONGODB_DB}.leads (lead capture enabled)`);
+  } catch (e: any) {
+    console.error('[mongo] connection failed — lead capture disabled:', e?.message || e);
+    leadsCollection = null;
+  }
+}
+
+function recordLead(profile: any, result: any): void {
+  if (!leadsCollection) return;
+  try {
+    const tel  = result?.telemetry || {};
+    const main = tel.mainCall || {};
+    const doc  = {
+      timestamp: new Date(),
+      profile,
+      result,
+      meta: {
+        destinationType:    profile?.destinationType,
+        neetScore:          profile?.neetScore || null,
+        neetRank:           profile?.neetRank  || null,
+        category:           profile?.category  || null,
+        gender:             profile?.gender    || null,
+        domicileState:      profile?.domicileState || null,
+        budgetInUSD:        profile?.budgetInUSD   || null,
+        universitiesCount:  Array.isArray(result?.universities) ? result.universities.length : 0,
+        wallClockMs:        tel.wallClockMs ?? null,
+        mainCallLatencyMs:  main.latencyMs  ?? null,
+        promptTokens:       main.promptTokens ?? null,
+        outputTokens:       main.outputTokens ?? null,
+        estCostUSD:         main.estCostUSD   ?? null,
+        stateVerified:      tel.stateVerified ?? false,
+      },
+    };
+    // Fire and forget — never await, never block the user response.
+    leadsCollection.insertOne(doc).catch(err => {
+      console.error('[mongo] insertOne failed:', err?.message || err);
+    });
+  } catch (e: any) {
+    console.error('[mongo] recordLead threw:', e?.message || e);
+  }
+}
 
 // ── Static frontend ──────────────────────────────────────────────────────────
 
@@ -1092,11 +1162,15 @@ app.post('/api/predict', async (req, res) => {
         ? await predictIndia(profile)
         : await predictAbroad(profile);
     res.json(result);
+    // Lead capture — fires AFTER the response is sent so it never blocks UX
+    recordLead(profile, result);
   } catch (e: any) {
     console.error('[/api/predict]', e);
     res.status(500).json({ error: e.message || 'Prediction failed' });
   }
 });
+
+initMongo();  // best-effort; predictor works regardless
 
 app.listen(PORT, () => {
   console.log(`[Server] http://localhost:${PORT}`);

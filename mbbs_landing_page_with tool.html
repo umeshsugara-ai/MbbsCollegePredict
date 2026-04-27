@@ -91,9 +91,10 @@ nav{
 .hvc-paths{display:flex;flex-direction:column;gap:0}
 .hvc-path{
   display:flex;align-items:center;gap:16px;
-  padding:20px 22px;border-radius:12px;cursor:default;
+  padding:20px 22px;border-radius:12px;cursor:pointer;
   transition:background .2s;
 }
+.hvc-path:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
 .hvc-india{
   background:rgba(11,23,57,.8);border:1px solid rgba(138,173,255,.18);
   border-radius:12px 12px 0 0;
@@ -1135,7 +1136,14 @@ footer{
         <div class="hvc-label">Trusted by students across India</div>
         <div class="hvc-paths">
           <div class="hvc-path hvc-india">
-            <div class="hvc-path-icon">🇮🇳</div>
+            <div class="hvc-path-icon">
+              <svg width="32" height="22" viewBox="0 0 9 6" aria-hidden="true">
+                <rect width="9" height="2" fill="#FF9933"/>
+                <rect y="2" width="9" height="2" fill="#FFFFFF"/>
+                <rect y="4" width="9" height="2" fill="#138808"/>
+                <circle cx="4.5" cy="3" r="0.7" fill="none" stroke="#000080" stroke-width="0.12"/>
+              </svg>
+            </div>
             <div>
               <div class="hvc-path-title">MBBS in India</div>
               <div class="hvc-path-sub">Govt · Private · Deemed</div>
@@ -1340,7 +1348,14 @@ footer{
     <p class="desc reveal rd2">We simplify the entire journey through structured counselling and end-to-end support — whether you're targeting India or an international pathway.</p>
     <div class="sol-grid">
       <div class="sol-card sol-india reveal">
-        <div class="sol-icon sol-icon-india">🇮🇳</div>
+        <div class="sol-icon sol-icon-india">
+          <svg width="30" height="20" viewBox="0 0 9 6" aria-hidden="true">
+            <rect width="9" height="2" fill="#FF9933"/>
+            <rect y="2" width="9" height="2" fill="#FFFFFF"/>
+            <rect y="4" width="9" height="2" fill="#138808"/>
+            <circle cx="4.5" cy="3" r="0.7" fill="none" stroke="#000080" stroke-width="0.12"/>
+          </svg>
+        </div>
         <h3>MBBS in India</h3>
         <ul class="sol-list">
           <li>Private medical college guidance</li>
@@ -2799,6 +2814,26 @@ function submitLeadForm(e){
 
     results.appendChild(inner);
   }
+
+  // ── Hero comparison cards → predictor tool with destination preselected ──
+  // Reuses the in-scope setDestination() defined above.
+  const heroIndia  = document.querySelector('.hvc-india');
+  const heroAbroad = document.querySelector('.hvc-abroad');
+  function jumpToTool(dest) {
+    setDestination(dest);
+    document.getElementById('tool')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  heroIndia ?.addEventListener('click', () => jumpToTool('India'));
+  heroAbroad?.addEventListener('click', () => jumpToTool('Global'));
+  // Keyboard a11y: Enter / Space activate
+  [[heroIndia, 'India'], [heroAbroad, 'Global']].forEach(([el, dest]) => {
+    if (!el) return;
+    el.setAttribute('tabindex', '0');
+    el.setAttribute('role', 'button');
+    el.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); jumpToTool(dest); }
+    });
+  });
 })();
 </script>
 </body>

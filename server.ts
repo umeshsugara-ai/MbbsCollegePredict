@@ -94,38 +94,257 @@ function loadCutoffs(year: number): CutoffRow[] {
 
 const cutoffs2024 = loadCutoffs(2024);
 const cutoffs2023 = loadCutoffs(2023);
+// Resolved at startup: use the most recent year we have data for
+const LATEST_CUTOFF_YEAR = cutoffs2024.length ? 2024 : 2023;
 console.log(`[CSV] Loaded ${cutoffs2024.length} MBBS rows from 2024, ${cutoffs2023.length} from 2023`);
 
-// ── Score → Rank (NEET UG approximation) ─────────────────────────────────────
-// Based on official NEET 2024 score-rank distribution. Piecewise linear.
+// ── Prompt registry: all LLM prompts live in prompts.json ────────────────────
+// Edit prompts there without touching this file. Variables use ${name} syntax
+// and are substituted at runtime by fillTemplate(). Conditional fragments
+// (topperBlock, altInstruction, etc.) are pre-rendered in JS and passed in as
+// variables to the main template.
 
-const SCORE_RANK_TABLE: Array<[number, number]> = [
-  [720, 1], [710, 50], [700, 200], [690, 600], [680, 1500],
-  [670, 3000], [660, 5000], [650, 8000], [640, 12000], [630, 17000],
-  [620, 24000], [610, 32000], [600, 42000], [590, 55000], [580, 70000],
-  [570, 88000], [560, 110000], [550, 135000], [540, 165000], [520, 230000],
-  [500, 305000], [480, 390000], [450, 525000], [400, 760000], [350, 980000],
-  [300, 1180000], [200, 1400000], [100, 1550000],
-];
+interface PromptRegistry {
+  india: Record<string, string>;
+  abroad: Record<string, string>;
+}
+
+const PROMPTS: PromptRegistry = JSON.parse(
+  readFileSync(join(ROOT, 'prompts.json'), 'utf-8')
+);
+
+function fillTemplate(template: string, vars: Record<string, string | number>): string {
+  return template.replace(/\$\{(\w+)\}/g, (_match, name) => {
+    const v = vars[name];
+    return v == null ? '' : String(v);
+  });
+}
+
+// ── LLM call wrapper: telemetry for every Gemini call ─────────────────────────
+// Captures latency, prompt/output/total tokens, model name, and a label so the
+// caller can correlate logs. Gemini ungrounded Flash pricing (Apr 2026): input
+// ~$0.50/M, output ~$3/M. Grounded calls add ~$14/1K queries on Gemini 3 series.
+// All numbers logged in one structured line per call so they're greppable.
+
+const GEMINI_MODEL = 'gemini-3-flash-preview';
+// Pricing per 1M tokens (Gemini 3 Flash Preview, Apr 2026)
+const PRICE_INPUT_PER_M  = 0.50;
+const PRICE_OUTPUT_PER_M = 3.00;
+const PRICE_GROUNDING_PER_QUERY = 0.014;  // $14 per 1K grounded queries
+
+interface CallTelemetry {
+  label: string;
+  latencyMs: number;
+  promptTokens: number;
+  outputTokens: number;
+  totalTokens: number;
+  estCostUSD: number;
+  grounded: boolean;
+}
+
+async function callGemini(
+  ai: GoogleGenAI,
+  label: string,
+  request: any,
+  grounded = false,
+): Promise<{ resp: any; tel: CallTelemetry }> {
+  const t0 = Date.now();
+  const resp = await ai.models.generateContent({ model: GEMINI_MODEL, ...request });
+  const latencyMs = Date.now() - t0;
+
+  const usage = resp.usageMetadata || {};
+  const promptTokens = usage.promptTokenCount || 0;
+  const outputTokens = usage.candidatesTokenCount || 0;
+  const totalTokens  = usage.totalTokenCount || (promptTokens + outputTokens);
+
+  const tokenCost  = (promptTokens / 1_000_000) * PRICE_INPUT_PER_M
+                   + (outputTokens / 1_000_000) * PRICE_OUTPUT_PER_M;
+  const estCostUSD = tokenCost + (grounded ? PRICE_GROUNDING_PER_QUERY : 0);
+
+  const tel: CallTelemetry = {
+    label, latencyMs, promptTokens, outputTokens, totalTokens, estCostUSD, grounded,
+  };
+
+  console.log(
+    `[gemini] ${label} model=${GEMINI_MODEL} ${latencyMs}ms ` +
+    `in=${promptTokens} out=${outputTokens} total=${totalTokens} ` +
+    `cost=$${estCostUSD.toFixed(5)}${grounded ? ' [grounded]' : ''}`,
+  );
+
+  return { resp, tel };
+}
+
+// ── Score → Rank: multi-year weighted probabilistic engine ────────────────────
+// Sources: PW Live, Careers360, iQuanta, Vedantu, MBBSCouncil.
+// To add a new year: append a key to SCORE_RANK_HISTORY + SCORE_RANK_YEAR_META.
+// All downstream logic auto-adapts — no other changes needed.
+
+const SCORE_RANK_HISTORY: Record<number, Array<[number, number]>> = {
+  2022: [
+    [720,1],[715,30],[710,120],[700,400],[690,1000],[680,2500],[670,5500],
+    [660,7000],[650,10000],[640,16000],[630,23000],[620,30000],[610,40000],[600,50000],
+    [590,62000],[580,75000],[570,92000],[560,105000],[550,125000],[540,145000],
+    [520,190000],[500,245000],[480,310000],[450,420000],[400,620000],
+    [350,820000],[300,1000000],[200,1250000],[100,1450000],
+  ],
+  2023: [
+    [720,1],[715,20],[710,80],[700,280],[690,700],[680,1500],[670,3000],
+    [660,4500],[650,7000],[640,11000],[630,16000],[620,20000],[610,23000],[600,25000],
+    [590,33000],[580,42000],[570,52000],[560,65000],[550,80000],[540,95000],
+    [520,125000],[500,160000],[480,200000],[450,270000],[400,400000],
+    [350,540000],[300,700000],[200,950000],[100,1150000],
+  ],
+  2024: [
+    // NEET 2024 — easier due to grace-marks controversy; high recency, lower reliability
+    [720,1],[715,25],[710,100],[700,390],[690,880],[680,1560],[670,2430],
+    [660,3500],[650,4760],[640,6220],[630,7870],[620,9720],[610,11760],[600,17000],
+    [590,21000],[580,24000],[570,28500],[560,33000],[550,37500],[540,42000],
+    [520,58000],[500,78000],[480,100000],[450,134000],[400,194000],
+    [350,249000],[300,300000],[200,356000],[100,395000],
+  ],
+};
+
+// weight = recency preference; reliability = data quality flag (downgrade anomaly years)
+// Effective contribution per year = weight × reliability, then normalized across all years
+const SCORE_RANK_YEAR_META: Record<number, { weight: number; reliability: number }> = {
+  2024: { weight: 0.50, reliability: 0.65 },
+  2023: { weight: 0.35, reliability: 0.95 },
+  2022: { weight: 0.20, reliability: 0.90 },
+};
 
 const CATEGORY_RANK_MULT: Record<string, number> = {
   OPEN: 1.0, EWS: 1.05, OBC: 1.1, SC: 3.5, ST: 5.0,
 };
 
-function approximateRank(score: number, category: string): number {
-  if (!score || score < 1) return 999999;
+// Competition grows ~5%/yr → forward-project ranks to the prediction year
+const COMPETITION_GROWTH_PER_YEAR = 0.05;
+const PREDICTION_YEAR = 2026;
+
+// ─── internal: piecewise-linear interpolation for one year's table
+function _interpRank(table: Array<[number, number]>, score: number): number {
+  for (let i = 0; i < table.length - 1; i++) {
+    const [s1, r1] = table[i], [s2, r2] = table[i + 1];
+    if (score <= s1 && score >= s2)
+      return Math.round(r1 + (s1 - score) / (s1 - s2 || 1) * (r2 - r1));
+  }
+  return table[table.length - 1][1];
+}
+
+// ─── public: weighted-average rank + std-dev confidence band + growth drift
+function approximateRankRange(
+  score: number,
+  category: string
+): { low: number; mid: number; high: number; confidence: string } {
+  if (!score || score < 1) return { low: 999999, mid: 999999, high: 999999, confidence: 'N/A' };
   const cat = (category || 'OPEN').toUpperCase().split(/[_\s]/)[0];
   const mult = CATEGORY_RANK_MULT[cat] ?? 1.0;
-  for (let i = 0; i < SCORE_RANK_TABLE.length - 1; i++) {
-    const [s1, r1] = SCORE_RANK_TABLE[i];
-    const [s2, r2] = SCORE_RANK_TABLE[i + 1];
-    if (score <= s1 && score >= s2) {
-      const frac = (s1 - score) / (s1 - s2 || 1);
-      const baseRank = r1 + frac * (r2 - r1);
-      return Math.round(baseRank * mult);
-    }
-  }
-  return Math.round(SCORE_RANK_TABLE[SCORE_RANK_TABLE.length - 1][1] * mult);
+
+  const years = Object.keys(SCORE_RANK_HISTORY).map(Number);
+  const rawW = years.map(y => { const m = SCORE_RANK_YEAR_META[y]; return m ? m.weight * m.reliability : 0.1; });
+  const totalW = rawW.reduce((a, b) => a + b, 0);
+  const normW = rawW.map(w => w / totalW);
+  const perYearRanks = years.map(y => _interpRank(SCORE_RANK_HISTORY[y], score));
+
+  const mean = perYearRanks.reduce((s, r, i) => s + normW[i] * r, 0);
+  const variance = perYearRanks.reduce((s, r, i) => s + normW[i] * (r - mean) ** 2, 0);
+  const std = Math.sqrt(variance);
+
+  // Forward-project from latest data year to PREDICTION_YEAR
+  const latestDataYear = Math.max(...years);
+  const growthFactor = 1 + COMPETITION_GROWTH_PER_YEAR * (PREDICTION_YEAR - latestDataYear);
+
+  const mid  = Math.round(mean * growthFactor * mult);
+  const low  = Math.round(Math.max(1, (mean - std) * growthFactor * mult));
+  const high = Math.round((mean + std) * growthFactor * mult);
+
+  const cv = std / Math.max(mean, 1);
+  const confidence = cv < 0.20 ? 'High' : cv < 0.45 ? 'Medium' : 'Low';
+  return { low, mid, high, confidence };
+}
+
+// ─── back-compat shim: callers that only need a single-number rank
+function approximateRank(score: number, category: string): number {
+  return approximateRankRange(score, category).mid;
+}
+
+// ── Normal CDF (tanh approximation) + admission probability ──────────────────
+
+function phi(z: number): number {
+  return 0.5 * (1 + Math.tanh(0.7065 * z));
+}
+
+// P(student admitted to college with given closing rank), treating student rank as N(mid, σ)
+function admissionProbability(
+  rankRange: { low: number; mid: number; high: number },
+  closingRank: number
+): number {
+  const sigma = Math.max((rankRange.high - rankRange.low) / 4, 1);
+  const z = (closingRank - rankRange.mid) / sigma;
+  return Math.min(0.95, Math.max(0.03, parseFloat(phi(z).toFixed(2))));
+}
+
+// Compute aggregate P(admission) across quota types from the loaded CSV cutoff data.
+//
+// WHY the demand discounts exist:
+//   avgPct computes "fraction of catalogued seats whose closing rank exceeds student rank" — i.e.
+//   what fraction of the seat catalogue is accessible.  That overstates P(securing a seat) because
+//   many other students at similar ranks compete for the same seats.  The discount factors convert
+//   catalogue-accessibility → realistic seat-securing probability:
+//     Govt AIQ: nationwide competition (demand >> supply) → 0.40 discount
+//     State quota: state-level competition → 0.70 discount
+//     Deemed: much less competitive (management seats, higher fees) → no discount, cap at 90%
+//
+// Deemed and govt AIQ are intentionally separated because their closing-rank distributions differ
+// by a factor of 2–5×; mixing them inflates the AIQ estimate and deflates the deemed estimate.
+function computeQuotaProbabilities(
+  rankRange: { low: number; mid: number; high: number },
+  category: string,
+  state: string
+): { aiqMbbs: number; stateQuotaMbbs: number; deemedPrivate: number; stateIsEstimated: boolean } {
+  const eligible = eligibleCategories(category);
+  const cutoffs = cutoffs2024.length ? cutoffs2024 : cutoffs2023;
+
+  const govtAiqRows = cutoffs.filter(r =>
+    ALL_INDIA_QUOTAS.has(r.quota) &&
+    r.quota !== 'Deemed/Paid Seats Quota' &&
+    categoryMatches(r.category, eligible)
+  );
+  const deemedRows = cutoffs.filter(r =>
+    r.quota === 'Deemed/Paid Seats Quota' &&
+    categoryMatches(r.category, eligible)
+  );
+  const stateRows = cutoffs.filter(r =>
+    !ALL_INDIA_QUOTAS.has(r.quota) && categoryMatches(r.category, eligible) &&
+    r.state && r.state.toLowerCase() === (state || '').toLowerCase()
+  );
+
+  const avgPct = (rows: typeof cutoffs): number =>
+    rows.length === 0 ? 0 :
+    Math.round(rows.reduce((s, r) => s + admissionProbability(rankRange, r.closingRank), 0) / rows.length * 100);
+
+  const govtAiqRaw  = avgPct(govtAiqRows);
+  const deemedRaw   = avgPct(deemedRows);
+  const stateRaw    = avgPct(stateRows);
+
+  // Govt AIQ: extremely competitive nationwide; demand discount 0.40, cap 20%
+  const aiq         = Math.min(20, Math.round(govtAiqRaw * 0.40));
+  // State quota: state-level competition; demand discount 0.70, cap 65%.
+  // MCC CSV has no state quota rows — we estimate from AIQ raw probability:
+  // state quota has 85% of seats but is state-domicile-only (much smaller pool),
+  // net effect ≈ 65% of AIQ raw accessibility after state demand discount.
+  const stateCalib  = stateRows.length > 0
+    ? Math.min(75, Math.round(stateRaw * 0.70))
+    : Math.min(65, Math.round(govtAiqRaw * 0.65));
+  // Deemed: management/private seats are less competitive; admission probability is high
+  // Budget is the real gate, not rank — reported separately in prompt
+  const deemed      = Math.min(90, deemedRows.length > 0 ? deemedRaw : Math.min(90, govtAiqRaw + 35));
+
+  return {
+    aiqMbbs:          aiq,
+    stateQuotaMbbs:   stateCalib,
+    deemedPrivate:    deemed,
+    stateIsEstimated: stateRows.length === 0,
+  };
 }
 
 // ── Category eligibility ─────────────────────────────────────────────────────
@@ -174,11 +393,12 @@ function isQuotaAccessible(quota: string, userState: string, instState: string):
   return false;
 }
 
-function tierName(userRank: number, closing: number): 'Safe' | 'Good' | 'Reach' | null {
-  if (userRank <= closing * 0.85) return 'Safe';
-  if (userRank <= closing * 1.10) return 'Good';
-  if (userRank <= closing * 1.40) return 'Reach';
-  return null;
+function tierName(userRank: number, closing: number): 'Safe' | 'Good' | 'Reach' | 'Stretch' | null {
+  if (userRank <= closing * 0.85) return 'Safe';   // comfortably in range
+  if (userRank <= closing * 1.10) return 'Good';   // within year-on-year variation
+  if (userRank <= closing * 1.40) return 'Reach';  // aspirational with some chance
+  if (userRank <= closing * 2.50) return 'Stretch'; // unlikely — cutoff must shift significantly
+  return null;  // too far, exclude from Pass A
 }
 
 function tierOrder(t: string): number {
@@ -211,7 +431,7 @@ interface University {
   tier?: string;
 }
 
-// India MBBS fee profiles by quota (rough mid-points, 2024-25 data)
+// India MBBS fee profiles by quota (rough mid-points, latest available data)
 function indiaFeeProfile(quota: string): {
   annualINRRange: string; totalINRRange: string;
   annualINRMid: number; totalINRMid: number;
@@ -256,10 +476,15 @@ function inrToUSD(inr: number): number {
 type Tier = 'Safe' | 'Good' | 'Reach' | 'Stretch';
 
 function bestForLabel(tier: Tier, quota: string): string {
-  if (tier === 'Safe') return 'Easy Admission · ' + (quota === 'All India' ? 'Govt Seat' : 'Affordable Pick');
-  if (tier === 'Good') return 'Strong Match · ' + (quota === 'Deemed/Paid Seats Quota' ? 'Premium' : 'Balanced');
-  if (tier === 'Reach') return 'Aspirational · Premium';
-  return 'Stretch Pick · Backup Option';
+  const isAIQ    = quota === 'All India';
+  const isOpen   = quota === 'Open Seat Quota';      // central institutes (AIIMS, JIPMER etc.)
+  const isDeemed = quota === 'Deemed/Paid Seats Quota';
+  const isDelhi  = quota === 'IP University Quota' || quota === 'Delhi University Quota';
+  const stream   = isOpen ? 'Central Inst · AIQ' : isDeemed ? 'Deemed Seat' : isDelhi ? 'Delhi Quota' : 'Govt AIQ';
+  if (tier === 'Safe')    return `Safe · ${stream}`;
+  if (tier === 'Good')    return `Good Match · ${stream}`;
+  if (tier === 'Reach')   return `Reach · ${isDeemed ? 'Deemed / Competitive' : stream}`;
+  return `Stretch · ${isDeemed ? 'Deemed / Last Resort' : 'Last Resort AIQ'}`;
 }
 
 function budgetCommentary(profile: any, top: { quota: string }): string {
@@ -323,13 +548,13 @@ function buildIndiaUniversity(m: CutoffRow & { tier: Tier }): University {
     bestFor: bestForLabel(m.tier, m.quota),
     specializations: ['General Medicine', 'Surgery', 'Paediatrics', 'Obstetrics & Gynaecology', 'Orthopaedics'],
     reputationScore: m.tier === 'Safe' ? 'Strong Match' : m.tier === 'Good' ? 'Good Match' : m.tier === 'Reach' ? 'Aspirational' : 'Stretch Backup',
-    description: `${m.tier} tier match (NEET 2024 data). Closing rank ${m.closingRank.toLocaleString('en-IN')} for ${m.category} under ${m.quota}.`,
+    description: `${m.tier} tier match (latest MCC data). Closing rank ${m.closingRank.toLocaleString('en-IN')} for ${m.category} under ${m.quota}.`,
     quota: m.quota,
     tier: m.tier,
   };
 }
 
-async function predictIndia(profile: any) {
+async function predictIndiaCsv(profile: any) {
   const userCategory = (profile.category || 'OPEN').toUpperCase();
   const userState = profile.domicileState || '';
   const userRank = profile.neetRank && profile.neetRank > 0
@@ -349,7 +574,13 @@ async function predictIndia(profile: any) {
     if (!ex || r.closingRank < ex.closingRank) groups.set(key, r);
   }
 
-  const allEligible = [...groups.values()];
+  // Budget guard: exclude deemed seats if student can't afford them
+  const budgetUSD = parseInt(profile.budgetInUSD || '0', 10);
+  const deemedEligible = budgetUSD > 0 ? Math.round(budgetUSD * 83.5) >= 5_000_000 : true;
+
+  const allEligible = [...groups.values()].filter(r =>
+    deemedEligible || r.quota !== 'Deemed/Paid Seats Quota'
+  );
 
   // ── Pass A: strict tier match ──
   const tieredA: Array<CutoffRow & { tier: Tier }> = [];
@@ -374,18 +605,20 @@ async function predictIndia(profile: any) {
 
   let picks = dedupeByInstitute(tieredA);
 
-  // ── Pass B: extended reach (≤ closing × 3.0) ──
+  // ── Pass B: extreme stretch fallback (closing × 2.5–3.0) ──
+  // tierName returns null beyond 2.5× — these are genuinely unlikely, always Stretch
   if (picks.length < 10) {
     const usedInstitutes = new Set(picks.map(p => p.institute));
     const passB: Array<CutoffRow & { tier: Tier }> = [];
     for (const g of allEligible) {
       if (usedInstitutes.has(g.institute)) continue;
       if (userRank <= g.closingRank * 3.0) {
-        passB.push({ ...g, tier: 'Reach' });
+        passB.push({ ...g, tier: 'Stretch' });
       }
     }
+    // Prefer the most accessible (highest closing rank) among these last-resort picks
     const passBDedup = dedupeByInstitute(passB)
-      .sort((a, b) => Math.abs(userRank - a.closingRank * 1.4) - Math.abs(userRank - b.closingRank * 1.4));
+      .sort((a, b) => b.closingRank - a.closingRank);
     picks = picks.concat(passBDedup.slice(0, 10 - picks.length));
   }
 
@@ -423,7 +656,7 @@ async function predictIndia(profile: any) {
   const top = top10[0];
   const lines: string[] = [];
   lines.push(`Estimated AIR rank: ${userRank.toLocaleString('en-IN')} (~${percentile} percentile, ${userCategory}).`);
-  lines.push(`Tier mix: ${safeCount} safe, ${goodCount} good, ${reachCount} reach, ${stretchCount} stretch picks across ${universities.length} colleges (NEET 2024 cutoff data).`);
+  lines.push(`Tier mix: ${safeCount} safe, ${goodCount} good, ${reachCount} reach, ${stretchCount} stretch picks across ${universities.length} colleges (latest MCC cutoff data).`);
   if (top) {
     lines.push(`Top recommendation: ${top.institute}${top.state ? ` (${top.state})` : ''} — ${top.tier} tier, closing rank ${top.closingRank.toLocaleString('en-IN')} for ${top.category} under ${top.quota}.`);
   }
@@ -436,6 +669,229 @@ async function predictIndia(profile: any) {
       ? `Estimated AIR rank: ${userRank.toLocaleString('en-IN')} (${userCategory}). No matches found in MCC AIQ + Deemed cutoffs at this rank — your home-state counselling and MBBS abroad are likely the realistic paths. Consider Russia / Georgia / Philippines for affordable NMC-recognised options.`
       : lines.join(' '),
   };
+}
+
+// ── India predictor: hybrid Gemini + CSV ────────────────────────────────────
+
+function extractContextRows(userRank: number, category: string, state: string, limit = 25): string {
+  const eligible = eligibleCategories(category);
+  const cutoffs = cutoffs2024.length ? cutoffs2024 : cutoffs2023;
+  const rows = cutoffs
+    .filter(r => isQuotaAccessible(r.quota, state, r.state) && categoryMatches(r.category, eligible))
+    .sort((a, b) => Math.abs(a.closingRank - userRank) - Math.abs(b.closingRank - userRank))
+    .slice(0, limit);
+  if (!rows.length) return 'No matching rows found in latest MCC cutoff data.';
+  return rows.map(r =>
+    `${r.institute} | ${r.state || '?'} | ${r.quota} | ${r.category} | closing_rank:${r.closingRank}`
+  ).join('\n');
+}
+
+// ── State quota verification (grounded Gemini call) ─────────────────────────
+// MCC CSV has zero state-quota rows — state quota is managed by each state's
+// own counselling cell. This second call uses Google Search grounding to fill
+// that data gap. Runs in parallel with the main recommendation call so it adds
+// no extra latency. Falls back to null silently if it errors out.
+
+interface StateQuotaCollege {
+  name: string;
+  city: string;
+  closingRank2024: number | null;
+  closingRank2025: number | null;
+  categoryAdmitted: string;
+  accessTier: 'Safe' | 'Good' | 'Reach' | 'Stretch';
+  notes: string;
+}
+
+interface StateQuotaInsights {
+  stateColleges: StateQuotaCollege[];
+  summary: string;
+  sources: string[];
+}
+
+async function verifyStateQuota(
+  ai: GoogleGenAI,
+  rankRange: { low: number; mid: number; high: number },
+  userCategory: string,
+  state: string,
+): Promise<StateQuotaInsights | null> {
+  if (!state || state === 'not specified') return null;
+
+  const prompt = fillTemplate(PROMPTS.india.stateQuotaVerification, {
+    today: '2026-04-26',
+    rankRangeLow:  rankRange.low.toLocaleString('en-IN'),
+    rankRangeMid:  rankRange.mid.toLocaleString('en-IN'),
+    rankRangeHigh: rankRange.high.toLocaleString('en-IN'),
+    userCategory,
+    state,
+  });
+
+  try {
+    // Grounding cannot be combined with responseSchema in the Gemini API,
+    // so we instruct the model to return raw JSON and parse manually.
+    const { resp } = await callGemini(ai, `verifyStateQuota[${state}]`, {
+      contents: prompt,
+      config: { tools: [{ googleSearch: {} }] },
+    }, /* grounded */ true);
+
+    let text = (resp.text || '').trim();
+    text = text.replace(/^```json\s*/i, '').replace(/^```\s*/, '').replace(/```\s*$/, '').trim();
+
+    const parsed = JSON.parse(text) as StateQuotaInsights;
+    console.log(`[verifyStateQuota] ${state}: ${parsed.stateColleges?.length || 0} colleges, ${parsed.sources?.length || 0} sources`);
+    return parsed;
+  } catch (err: any) {
+    console.error('[verifyStateQuota] failed:', err?.message || err);
+    return null;
+  }
+}
+
+async function predictIndia(profile: any) {
+  const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
+  // "MBBS only" in otherPreferences overrides any checked alternative-course chips
+  if ((profile.otherPreferences || '').toLowerCase().includes('mbbs only')) {
+    profile.coursePreferences = [];
+  }
+  const userCategory = (profile.category || 'OPEN').toUpperCase();
+
+  // ── Rank derivation: probabilistic range ──────────────────────────────────
+  const suppliedRank = profile.neetRank && profile.neetRank > 0;
+  const rankRange = suppliedRank
+    ? { low: Math.round(profile.neetRank * 0.95), mid: profile.neetRank,
+        high: Math.round(profile.neetRank * 1.05), confidence: 'Supplied' }
+    : approximateRankRange(profile.neetScore || 0, userCategory);
+  const userRank = rankRange.mid;
+
+  // Contradiction check: flag if supplied score + rank are inconsistent
+  let rankNote = '';
+  if (profile.neetScore && suppliedRank) {
+    const expected = approximateRank(profile.neetScore, userCategory);
+    if (profile.neetRank / expected > 2.5 || profile.neetRank / expected < 0.40) {
+      rankNote = fillTemplate(PROMPTS.india.rankInconsistencyNote, {
+        suppliedRankFmt: profile.neetRank.toLocaleString(),
+        neetScore: profile.neetScore,
+        expectedRankFmt: expected.toLocaleString(),
+      });
+    }
+  }
+
+  const explicitPrefs: string[] = profile.coursePreferences || [];
+  const suggestAlternatives = explicitPrefs.length > 0 || userRank > 250000;
+  const alternativeCourses = explicitPrefs.length > 0 ? explicitPrefs : ['BDS', 'BAMS', 'BHMS'];
+
+  // ── CSV context rows + computed probabilities ─────────────────────────────
+  const contextRows = extractContextRows(userRank, userCategory, profile.domicileState || '');
+  const probs = computeQuotaProbabilities(rankRange, userCategory, profile.domicileState || '');
+  const state = profile.domicileState || 'not specified';
+  const score = profile.neetScore ? `NEET Score ${profile.neetScore}` : '';
+  const budgetUSD = parseInt(profile.budgetInUSD || '0');
+  const budgetINRNum = Math.round(budgetUSD * 83.5);
+  const budgetINRL = Math.round(budgetINRNum / 100000);
+  const budgetINR = budgetUSD ? `₹${budgetINRL}L total (~$${budgetUSD})` : 'not specified';
+  // ₹50L is the practical floor for any deemed/private MBBS
+  const deemedEligible = budgetINRNum >= 5_000_000;
+
+  const rankDisplay = `~${userRank.toLocaleString('en-IN')} (band: ${rankRange.low.toLocaleString('en-IN')}–${rankRange.high.toLocaleString('en-IN')}, confidence: ${rankRange.confidence})`;
+
+  const isTopper = userRank < 1500;
+  const stateKnown = state !== 'not specified';
+
+  // Pre-formatted variables (toLocaleString, joins, etc. — kept out of JSON)
+  const rankRangeLow  = rankRange.low.toLocaleString('en-IN');
+  const rankRangeMid  = rankRange.mid.toLocaleString('en-IN');
+  const rankRangeHigh = rankRange.high.toLocaleString('en-IN');
+  const altCoursesCSV   = alternativeCourses.join(', ');
+  const altCoursesSlash = alternativeCourses.join('/');
+  const stateEstimatedFlag  = probs.stateIsEstimated ? ' (est.)' : '';
+  const stateEstimatedExtra = probs.stateIsEstimated ? PROMPTS.india.stateEstimatedExtra : '';
+
+  // Pre-render conditional fragments using templates from prompts.json
+  const stateQuotaLine = stateKnown
+    ? fillTemplate(PROMPTS.india.stateQuotaLineKnown, {
+        stateQuotaMbbs: probs.stateQuotaMbbs,
+        stateEstimatedExtra,
+      })
+    : PROMPTS.india.stateQuotaLineMissing;
+
+  const probSection = fillTemplate(PROMPTS.india.probSection, {
+    aiqMbbs: probs.aiqMbbs,
+    state,
+    stateQuotaLine,
+    deemedPrivate: probs.deemedPrivate,
+  });
+
+  const altOpenLine = suggestAlternatives
+    ? fillTemplate(PROMPTS.india.altOpenLine, { alternativeCourses: altCoursesCSV })
+    : '';
+
+  const deemedVerdict = fillTemplate(
+    deemedEligible ? PROMPTS.india.deemedAllowed : PROMPTS.india.deemedExcluded,
+    { budgetINRL },
+  );
+
+  const deemedSlot = deemedEligible
+    ? PROMPTS.india.deemedSlotAllowed
+    : PROMPTS.india.deemedSlotExcluded;
+
+  const topperBlock = isTopper
+    ? fillTemplate(PROMPTS.india.topperBlock, { userRank, rankRangeLow })
+    : '';
+
+  const altInstruction = suggestAlternatives
+    ? fillTemplate(PROMPTS.india.altInstruction, { alternativeCourses: altCoursesCSV })
+    : '';
+
+  const altAnalysisNote = suggestAlternatives
+    ? fillTemplate(PROMPTS.india.altAnalysisNote, { alternativeCoursesSlash: altCoursesSlash })
+    : '';
+
+  const budgetReality = fillTemplate(
+    deemedEligible ? PROMPTS.india.budgetRealityAllowed : PROMPTS.india.budgetRealityExcluded,
+    { deemedPrivate: probs.deemedPrivate, budgetINRL },
+  );
+
+  const prompt = fillTemplate(PROMPTS.india.main, {
+    today: '2026-04-26',
+    score, rankDisplay, userCategory,
+    latestCutoffYear: LATEST_CUTOFF_YEAR,
+    rankNote, state, budgetINR, budgetINRL,
+    contextRows, userRank,
+    rankRangeLow, rankRangeMid, rankRangeHigh,
+    aiqMbbs: probs.aiqMbbs,
+    stateQuotaMbbs: probs.stateQuotaMbbs,
+    deemedPrivate: probs.deemedPrivate,
+    stateEstimatedFlag,
+    altOpenLine, probSection, deemedVerdict, deemedSlot,
+    topperBlock, altInstruction, altAnalysisNote, budgetReality,
+  }).trim();
+
+  // Fire main recommendation + state-quota verification in parallel.
+  // The verification is best-effort: if it fails, the main result is still returned.
+  const t0 = Date.now();
+  const mainCall = callGemini(ai, 'predictIndia.main', {
+    contents: prompt,
+    config: {
+      responseMimeType: 'application/json',
+      responseSchema,
+    },
+  });
+  const verifyCall = verifyStateQuota(ai, rankRange, userCategory, state);
+
+  try {
+    const [{ resp, tel }, stateQuotaInsights] = await Promise.all([mainCall, verifyCall]);
+    const result = JSON.parse(resp.text || '{"universities":[],"analysis":""}');
+    if (stateQuotaInsights) result.stateQuotaInsights = stateQuotaInsights;
+    // Telemetry summary for the whole India request — wall-clock includes both parallel calls
+    result.telemetry = {
+      wallClockMs: Date.now() - t0,
+      mainCall: tel,
+      stateVerified: !!stateQuotaInsights,
+    };
+    console.log(`[predictIndia] total wall-clock ${result.telemetry.wallClockMs}ms (state verified: ${result.telemetry.stateVerified})`);
+    return result;
+  } catch (err) {
+    console.error('[predictIndia] Gemini call failed, falling back to CSV:', err);
+    return predictIndiaCsv(profile);
+  }
 }
 
 // ── Abroad predictor (single Gemini Flash call) ──────────────────────────────
@@ -495,29 +951,18 @@ async function predictAbroad(profile: any) {
   const otherPrefs = profile.otherPreferences || '';
 
   const indianFoodNote = /food|mess|veg|community/i.test(otherPrefs)
-    ? 'IMPORTANT: User wants Indian food / mess. Strongly prioritise universities in Russia, Philippines, Georgia, and Kyrgyzstan with established Indian student communities and Indian messes.'
+    ? PROMPTS.abroad.indianFoodNote
     : '';
 
-  const prompt = `
-TODAY: 2026-04-25. You are an expert MBBS-abroad admission counsellor for Indian students (2026-27 intake).
+  const prompt = fillTemplate(PROMPTS.abroad.main, {
+    today: '2026-04-25',
+    score, rank, budget, countries,
+    otherPrefsOrNone: otherPrefs || 'none',
+    indianFoodNote,
+  }).trim();
 
-Student profile:
-- ${score} ${rank}
-- Budget: ${budget}
-- Preferred countries: ${countries}
-- Other preferences: ${otherPrefs || 'none'}
-
-${indianFoodNote}
-
-Recommend EXACTLY 10 NMC-recognised MBBS universities abroad matching this profile. Mix Safe / Good / Reach picks. Cover at least 3 different countries unless the user limited the list.
-
-For each university, return ALL required fields including the numeric tuitionFeeUSD and totalProgramCostUSD (these MUST be plain numbers, not strings — e.g. 4500, not "$4500"). The tier MUST be one of "Safe", "Good", or "Reach" assessed against this specific student profile (Safe = easy admission for this profile; Reach = aspirational). Aim for a balanced mix across the 10 picks. Use realistic 2025-26 figures based on published university data. The string annualTuitionFee / totalProgramCost should mirror the same value with USD label, e.g. "$4500 USD". NEET requirement reflects actual cutoff (most abroad MBBS just need NEET qualifying score). globalRank is a real ranking (QS / Times / country rank) with source. Specializations is a 3-5 item array. roiScore is "1"–"10" string. reputationScore is one short phrase like "Top 500 QS" or "Established 1930". bestFor MUST be one short label like "Budget · Russia", "Premium · Top 200 QS", "Easy Admission · Indian Community".
-
-Analysis field: write 4–6 sentences (200–400 chars) covering: (1) profile fit summary, (2) country mix rationale, (3) budget realism check, (4) NMC recognition / FMGE preparation note, (5) one concrete next step. Avoid filler.
-`.trim();
-
-  const resp = await ai.models.generateContent({
-    model: 'gemini-2.5-flash',
+  const t0 = Date.now();
+  const { resp, tel } = await callGemini(ai, 'predictAbroad', {
     contents: prompt,
     config: {
       responseMimeType: 'application/json',
@@ -525,7 +970,14 @@ Analysis field: write 4–6 sentences (200–400 chars) covering: (1) profile fi
     },
   });
 
-  return JSON.parse(resp.text || '{"universities":[],"analysis":""}');
+  const result = JSON.parse(resp.text || '{"universities":[],"analysis":""}');
+  result.telemetry = {
+    wallClockMs: Date.now() - t0,
+    mainCall: tel,
+    stateVerified: false,
+  };
+  console.log(`[predictAbroad] total wall-clock ${result.telemetry.wallClockMs}ms`);
+  return result;
 }
 
 // ── Routes ───────────────────────────────────────────────────────────────────

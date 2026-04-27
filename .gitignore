@@ -6,3 +6,12 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# IDE / agent
+.claude/
+.playwright-mcp/
+
+# Local test artifacts
+test-*.png
+rank-hint-test.png
+tool-snapshot.md

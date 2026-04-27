@@ -316,14 +316,16 @@ nav{
 .pred-status-dot{width:6px;height:6px;border-radius:50%;background:#86efac;box-shadow:0 0 8px rgba(134,239,172,.7);animation:pulse 2s ease-in-out infinite}
 
 .pred-app{
-  display:grid;grid-template-columns:300px 1fr;gap:20px;
-  background:#F4F5F9;color:#0f172a;padding:20px;min-height:600px;
+  display:grid;grid-template-columns:minmax(0,340px);gap:20px;
+  background:#F4F5F9;color:#0f172a;padding:20px;
   align-items:start;
   transition:grid-template-columns .35s ease;
 }
+.pred-app.has-results{grid-template-columns:300px 1fr}
 .pred-app.collapsed{grid-template-columns:0 1fr;gap:14px}
+.pred-app.collapsed.has-results{grid-template-columns:0 1fr}
 .pred-app.collapsed .pred-side{
-  width:0;padding:0;margin:0;border:0;
+  width:0;padding:0;margin:0;border:0;max-height:0;
   opacity:0;pointer-events:none;overflow:hidden;
 }
 .pred-app.collapsed .pred-side-open{display:flex}
@@ -438,6 +440,40 @@ nav{
 .pred-country-item.selected{color:#4F46E5;background:#EEF2FF;font-weight:700}
 .pred-country-item-check{width:8px;height:8px;border-radius:50%;background:#6366f1;flex-shrink:0}
 
+/* State custom dropdown */
+.pred-state-wrap{position:relative}
+.pred-state-trigger{
+  width:100%;background:#F8F9FC;
+  border:1px solid rgba(15,23,42,.08);border-radius:9px;
+  padding:10px 13px;color:#0f172a;font-size:13px;outline:none;
+  box-sizing:border-box;font-family:inherit;
+  display:flex;align-items:center;justify-content:space-between;
+  cursor:pointer;text-align:left;
+  transition:border-color .15s,box-shadow .15s,background .15s;
+}
+.pred-state-trigger:focus,.pred-state-trigger.open{border-color:#6366f1;background:#fff;box-shadow:0 0 0 3px rgba(99,102,241,.12)}
+.pred-state-placeholder{color:#94a3b8}
+.pred-state-chev{transition:transform .15s;flex-shrink:0;color:#94a3b8}
+.pred-state-trigger.open .pred-state-chev{transform:rotate(180deg)}
+.pred-state-panel{
+  position:fixed;z-index:9000;
+  background:#fff;border:1px solid rgba(15,23,42,.1);border-radius:11px;
+  box-shadow:0 16px 40px rgba(15,23,42,.15);
+  min-width:200px;overflow:hidden;
+}
+.pred-state-search-wrap{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 12px;border-bottom:1px solid rgba(15,23,42,.06);
+  background:#F8F9FC;
+}
+.pred-state-search-wrap svg{color:#94a3b8;flex-shrink:0}
+.pred-state-search-wrap input{flex:1;border:none;outline:none;background:transparent;font-size:12px;font-family:inherit;color:#0f172a}
+.pred-state-search-wrap input::placeholder{color:#94a3b8}
+.pred-state-list{max-height:200px;overflow-y:auto}
+.pred-state-item{padding:9px 14px;cursor:pointer;font-size:12px;color:#1e293b;transition:background .1s}
+.pred-state-item:hover{background:#F4F5F9}
+.pred-state-item.selected{background:#EEF2FF;color:#4338CA;font-weight:600}
+
 .pred-submit{
   margin-top:6px;width:100%;padding:13px;border-radius:9px;border:none;
   background:#0f172a;
@@ -477,10 +513,10 @@ nav{
   box-shadow:0 1px 2px rgba(15,23,42,.04);
 }
 .pred-empty,.pred-loading,.pred-error{
-  padding:64px 32px;text-align:center;
+  padding:48px 32px;text-align:center;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  min-height:520px;
 }
+.pred-empty{min-height:160px}
 .pred-empty-ic{color:#C7D2FE;margin-bottom:18px}
 .pred-empty-h,.pred-loading-h{
   font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;
@@ -506,6 +542,60 @@ nav{
   font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#A5B4FC;
 }
 .pred-analysis-text{font-size:14px;line-height:1.65;color:rgba(255,255,255,.9);margin:0}
+.pred-for-profile{
+  display:flex;align-items:center;gap:7px;
+  font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:14px;
+}
+.pred-for-profile-dot{
+  width:6px;height:6px;border-radius:50%;background:var(--cyan);flex-shrink:0;
+}
+.pred-state-verify{
+  background:#F8FAFF;border:1px solid rgba(24,71,204,.15);
+  border-radius:13px;padding:16px 18px;margin-bottom:18px;
+}
+.pred-state-verify-eyebrow{
+  display:flex;align-items:center;gap:7px;
+  font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#1847CC;
+  cursor:pointer;user-select:none;
+}
+.pred-state-verify-eyebrow:hover{opacity:.85}
+.pred-state-verify-chev{
+  margin-left:auto;font-size:14px;color:#1847CC;transition:transform .2s;
+  display:inline-block;
+}
+.pred-state-verify.is-collapsed .pred-state-verify-chev{transform:rotate(-90deg)}
+.pred-state-verify-body{
+  margin-top:10px;
+  max-height:1500px;overflow:hidden;
+  transition:max-height .25s ease, opacity .15s ease, margin-top .25s ease;
+}
+.pred-state-verify.is-collapsed .pred-state-verify-body{
+  max-height:0;opacity:0;margin-top:0;
+}
+.pred-state-verify-count{
+  font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.08em;
+  background:#fff;border:1px solid rgba(24,71,204,.15);border-radius:999px;
+  padding:2px 8px;margin-left:6px;
+}
+.pred-state-verify-summary{font-size:13px;line-height:1.6;color:var(--text);margin:0 0 12px}
+.pred-state-verify-tbl{
+  width:100%;border-collapse:collapse;font-size:12.5px;
+  background:#fff;border-radius:8px;overflow:hidden;
+  border:1px solid rgba(24,71,204,.1);
+}
+.pred-state-verify-tbl th{
+  background:#EBF0FF;color:var(--mid);font-weight:700;
+  text-align:left;padding:8px 10px;font-size:11px;letter-spacing:.04em;text-transform:uppercase;
+}
+.pred-state-verify-tbl td{
+  padding:8px 10px;border-top:1px solid rgba(24,71,204,.08);color:var(--text);
+}
+.pred-state-verify-sources{
+  margin-top:10px;font-size:11.5px;color:var(--muted);
+}
+.pred-state-verify-sources a{color:var(--blue);text-decoration:none}
+.pred-state-verify-sources a:hover{text-decoration:underline}
 
 .pred-table-wrap{
   border:1px solid rgba(15,23,42,.06);border-radius:13px;overflow:hidden;
@@ -547,11 +637,66 @@ nav{
 .pred-tag-reach{background:#FFFBEB;color:#B45309;border:1px solid #FCD34D}
 .pred-tag-stretch{background:#FFF1F2;color:#BE123C;border:1px solid #FECDD3}
 .pred-tag-nmc{background:#ECFDF5;color:#047857;border:1px solid #A7F3D0}
+.pred-course-prefs{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.pred-course-pill{display:inline-flex;align-items:center;padding:4px 10px;border-radius:20px;border:1px solid #CBD5E1;font-size:11px;font-weight:600;color:#64748B;cursor:pointer;transition:all .15s;user-select:none;background:#fff}
+.pred-course-pill input{position:absolute;opacity:0;width:0;height:0}
+.pred-course-pill:has(input:checked){background:#EEF2FF;border-color:#6366F1;color:#4338CA}
 .pred-roi-bar{display:inline-flex;align-items:center;gap:7px}
 .pred-roi-track{width:38px;height:5px;background:#E0E7FF;border-radius:3px;overflow:hidden}
 .pred-roi-fill{height:100%;background:#6366f1}
 .pred-roi-num{font-weight:800;color:#4338CA;font-size:12px}
 .pred-clip{display:inline-block;max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;vertical-align:middle}
+
+/* Sortable th */
+.pred-table th.pred-th-sort{cursor:pointer;user-select:none;transition:background .12s,color .12s}
+.pred-table th.pred-th-sort:hover{background:#EEF2FF;color:#4338CA}
+.pred-th-inner{display:inline-flex;align-items:center;gap:5px}
+.pred-sort-icon{color:#CBD5E1;font-size:10px;line-height:1}
+.pred-th-sort.sort-asc .pred-sort-icon{color:#4338CA}
+.pred-th-sort.sort-asc .pred-sort-icon::after{content:'↑'}
+.pred-th-sort.sort-desc .pred-sort-icon{color:#4338CA}
+.pred-th-sort.sort-desc .pred-sort-icon::after{content:'↓'}
+.pred-sort-icon::after{content:'↕'}
+
+/* Info icon tooltip */
+.pred-th-info-wrap{position:relative;display:inline-flex;align-items:center}
+.pred-th-info{display:inline-flex;align-items:center;justify-content:center;width:13px;height:13px;border-radius:50%;background:#E2E8F0;color:#64748B;font-size:8px;font-weight:800;cursor:help;font-style:normal;flex-shrink:0;transition:background .12s}
+.pred-th-info-wrap:hover .pred-th-info{background:#C7D2FE;color:#4338CA}
+.pred-col-tooltip{
+  position:fixed;z-index:99999;
+  background:#0f172a;color:rgba(255,255,255,.92);font-size:11.5px;font-weight:400;
+  line-height:1.6;padding:10px 13px;border-radius:10px;max-width:240px;
+  text-align:left;pointer-events:none;white-space:normal;
+  box-shadow:0 10px 28px rgba(15,23,42,.25);
+  transform:translateX(-50%) translateY(-100%);
+  margin-top:-8px;
+}
+.pred-col-tooltip::after{
+  content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);
+  border:5px solid transparent;border-top-color:#0f172a;
+}
+
+/* Tier filter pills row */
+.pred-tier-bar{
+  display:flex;align-items:center;gap:7px;flex-wrap:wrap;
+  padding:10px 18px;border-bottom:1px solid rgba(15,23,42,.06);background:#FAFAFA;
+}
+.pred-tier-bar-label{font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#94A3B8;margin-right:2px}
+.pred-tier-pill{
+  padding:4px 11px;border-radius:20px;border:1px solid rgba(15,23,42,.1);
+  font-size:10px;font-weight:700;cursor:pointer;background:#fff;color:#64748B;
+  transition:all .15s;
+}
+.pred-tier-pill:hover{border-color:#6366F1;color:#4338CA}
+.pred-tier-pill.active{color:#fff;border-color:transparent}
+.pred-tier-pill[data-tier="All"].active{background:#4F46E5}
+.pred-tier-pill[data-tier="Safe"].active{background:#047857}
+.pred-tier-pill[data-tier="Good"].active{background:#4338CA}
+.pred-tier-pill[data-tier="Reach"].active{background:#B45309}
+.pred-tier-pill[data-tier="Stretch"].active{background:#BE123C}
+.pred-tier-count{font-size:9px;opacity:.7;margin-left:1px}
+
+.pred-rank-hint{font-size:11px;color:#6366F1;font-weight:600;margin-top:4px;min-height:16px;letter-spacing:0}
 
 .pred-footbar{
   display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;
@@ -564,6 +709,7 @@ nav{
 
 @media(max-width:900px){
   .pred-app{grid-template-columns:1fr;padding:14px;gap:14px}
+  .pred-app.has-results{grid-template-columns:1fr}
   .pred-app.collapsed{grid-template-columns:1fr}
   .pred-side-open{position:static;margin-bottom:8px}
   .pred-topbar{flex-wrap:wrap;gap:10px}
@@ -1075,9 +1221,10 @@ footer{
 
             <label class="pred-lbl">AIR Score / Rank <span class="pred-req">*</span></label>
             <div class="pred-grid2">
-              <input type="number" name="neetScore" max="720" placeholder="Score" class="pred-in" />
+              <input type="number" name="neetScore" id="indNeetScore" max="720" placeholder="Score" class="pred-in" />
               <input type="number" name="neetRank" placeholder="Rank" class="pred-in" />
             </div>
+            <div id="indRankHint" class="pred-rank-hint"></div>
 
             <label class="pred-lbl">Max Budget (Total)</label>
             <select name="budgetInUSD" class="pred-in">
@@ -1120,15 +1267,29 @@ footer{
               </select>
 
               <label class="pred-lbl">Home State (for State Quota)</label>
-              <select name="domicileState" class="pred-in">
-                <option value="">Select state</option>
-                <option>Andhra Pradesh</option><option>Bihar</option><option>Delhi</option>
-                <option>Gujarat</option><option>Haryana</option><option>Karnataka</option>
-                <option>Kerala</option><option>Madhya Pradesh</option><option>Maharashtra</option>
-                <option>Odisha</option><option>Punjab</option><option>Rajasthan</option>
-                <option>Tamil Nadu</option><option>Telangana</option><option>Uttar Pradesh</option>
-                <option>West Bengal</option><option>Puducherry</option>
-              </select>
+              <div class="pred-state-wrap">
+                <button type="button" id="pred-state-trigger" class="pred-state-trigger">
+                  <span id="pred-state-label" class="pred-state-placeholder">Select state</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="pred-state-chev"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <input type="hidden" name="domicileState" id="pred-state-value" value="">
+                <div id="pred-state-panel" class="pred-state-panel" hidden>
+                  <div class="pred-state-search-wrap">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <input type="text" id="pred-state-search" placeholder="Find state..." autocomplete="off" />
+                  </div>
+                  <div id="pred-state-list" class="pred-state-list"></div>
+                </div>
+              </div>
+
+              <label class="pred-lbl" style="margin-top:10px">Also open to</label>
+              <div class="pred-course-prefs">
+                <label class="pred-course-pill"><input type="checkbox" name="coursePrefs" value="BDS"> BDS · Dental</label>
+                <label class="pred-course-pill"><input type="checkbox" name="coursePrefs" value="BAMS"> BAMS · Ayurveda</label>
+                <label class="pred-course-pill"><input type="checkbox" name="coursePrefs" value="BHMS"> BHMS · Homeopathy</label>
+                <label class="pred-course-pill"><input type="checkbox" name="coursePrefs" value="BUMS"> BUMS · Unani</label>
+                <label class="pred-course-pill"><input type="checkbox" name="coursePrefs" value="BSMS"> BSMS · Siddha</label>
+              </div>
             </div>
 
             <label class="pred-lbl">Other Preferences</label>
@@ -1153,25 +1314,7 @@ footer{
         </button>
 
         <!-- RIGHT: Results -->
-        <div id="predictor-results" class="pred-results">
-          <div class="pred-empty">
-            <div class="pred-empty-ic">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-            </div>
-            <div class="pred-empty-h">Waiting for Data Input</div>
-            <div class="pred-empty-p">Fill in your NEET details on the left to begin the optimized college search.</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Footer status strip -->
-      <div class="pred-footbar">
-        <span>Database last updated: April 2026 // NExT/NMC Guidelines v3.0</span>
-        <span class="pred-footbar-right">
-          <span class="pred-foot-dot"></span> Gemini 2.5 Flash Engine Active
-          <span class="pred-foot-sep">|</span>
-          Grounded Research Mode: Verified 2026-27
-        </span>
+        <div id="predictor-results" class="pred-results" style="display:none"></div>
       </div>
     </div>
     <div class="tool-cta-row reveal">
@@ -1985,7 +2128,14 @@ function submitLeadForm(e){
 
   let destination = 'Global';
   let currency    = 'USD';
-  let lastResult  = null;
+  let lastResult      = null;
+  let lastProfile     = null;
+  let currentController = null;
+
+  // Shared fixed-position tooltip for column headers (escapes overflow:hidden)
+  const colTip = el('div', 'pred-col-tooltip');
+  colTip.hidden = true;
+  document.body.appendChild(colTip);
   let selectedCountries = [];
 
   // ── Country dropdown ──
@@ -2078,6 +2228,81 @@ function submitLeadForm(e){
 
   renderCountryLabel();
 
+  // ── State custom dropdown ──
+  const STATES = ['Andhra Pradesh','Arunachal Pradesh','Assam','Bihar','Chandigarh','Chhattisgarh','Delhi','Goa','Gujarat','Haryana','Himachal Pradesh','Jammu & Kashmir','Jharkhand','Karnataka','Kerala','Ladakh','Madhya Pradesh','Maharashtra','Manipur','Meghalaya','Mizoram','Nagaland','Odisha','Puducherry','Punjab','Rajasthan','Sikkim','Tamil Nadu','Telangana','Tripura','Uttar Pradesh','Uttarakhand','West Bengal'];
+  const sTrigger = document.getElementById('pred-state-trigger');
+  const sPanel   = document.getElementById('pred-state-panel');
+  const sLabel   = document.getElementById('pred-state-label');
+  const sHidden  = document.getElementById('pred-state-value');
+  const sSearch  = document.getElementById('pred-state-search');
+  const sList    = document.getElementById('pred-state-list');
+  let selectedState = '';
+
+  function setStateValue(val) {
+    selectedState = val;
+    sHidden.value = val;
+    if (val) {
+      sLabel.textContent = val;
+      sLabel.className = '';
+    } else {
+      sLabel.textContent = 'Select state';
+      sLabel.className = 'pred-state-placeholder';
+    }
+    sList.querySelectorAll('.pred-state-item').forEach(item => {
+      item.classList.toggle('selected', item.dataset.value === val);
+    });
+  }
+
+  function renderStateList(query) {
+    sList.textContent = '';
+    const q = (query || '').trim().toLowerCase();
+    const filtered = STATES.filter(s => !q || s.toLowerCase().includes(q));
+    if (!filtered.length) {
+      const none = el('div', 'pred-state-item');
+      none.style.color = '#94a3b8';
+      none.style.fontStyle = 'italic';
+      none.textContent = 'No matches';
+      sList.appendChild(none);
+      return;
+    }
+    filtered.forEach(s => {
+      const item = el('div', 'pred-state-item');
+      item.textContent = s;
+      item.dataset.value = s;
+      if (s === selectedState) item.classList.add('selected');
+      item.addEventListener('click', () => { setStateValue(s); closeState(); });
+      sList.appendChild(item);
+    });
+  }
+
+  function openState() {
+    sPanel.hidden = false;
+    sTrigger.classList.add('open');
+    const rect = sTrigger.getBoundingClientRect();
+    sPanel.style.top   = (rect.bottom + 6) + 'px';
+    sPanel.style.left  = rect.left + 'px';
+    sPanel.style.width = rect.width + 'px';
+    sSearch.value = '';
+    renderStateList('');
+    setTimeout(() => sSearch.focus(), 30);
+  }
+
+  function closeState() {
+    sPanel.hidden = true;
+    sTrigger.classList.remove('open');
+  }
+
+  sTrigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    sPanel.hidden ? openState() : closeState();
+  });
+  document.addEventListener('click', (e) => {
+    if (!sPanel.hidden && !sTrigger.contains(e.target) && !sPanel.contains(e.target)) closeState();
+  });
+  window.addEventListener('scroll', () => { if (!sPanel.hidden) closeState(); });
+  window.addEventListener('resize', () => { if (!sPanel.hidden) closeState(); });
+  sSearch.addEventListener('input', e => renderStateList(e.target.value));
+
   // ── Panel toggle (Hide Panel / hamburger) ──
   function setPanel(hidden) {
     app.classList.toggle('collapsed', hidden);
@@ -2096,13 +2321,19 @@ function submitLeadForm(e){
 
   function applyProfile(p) {
     if (p.destinationType) setDestination(p.destinationType);
-    for (const key of ['neetScore','neetRank','budgetInUSD','category','domicileState','otherPreferences']) {
+    for (const key of ['neetScore','neetRank','budgetInUSD','category','otherPreferences']) {
       const elx = form.querySelector(`[name="${key}"]`);
       if (elx && p[key] != null) elx.value = p[key];
     }
+    if (p.domicileState) setStateValue(p.domicileState);
     if (Array.isArray(p.preferredCountries)) {
       selectedCountries = [...p.preferredCountries];
       renderCountryLabel();
+    }
+    if (Array.isArray(p.coursePreferences)) {
+      form.querySelectorAll('input[name="coursePrefs"]').forEach(cb => {
+        cb.checked = p.coursePreferences.includes(cb.value);
+      });
     }
   }
 
@@ -2119,6 +2350,59 @@ function submitLeadForm(e){
     tab.addEventListener('click', () => setDestination(tab.dataset.dest));
   });
 
+  // ── Rank range hint: mirrors server-side multi-year weighted engine ──────────
+  (function() {
+    // Simplified client-side mirror of SCORE_RANK_HISTORY weighted average
+    const RH = {
+      2022: [[720,1],[715,30],[710,120],[700,400],[690,1000],[680,2500],[670,5500],
+             [660,7000],[650,10000],[640,16000],[630,23000],[620,30000],[610,40000],[600,50000],
+             [590,62000],[580,75000],[570,92000],[560,105000],[550,125000],[540,145000],
+             [520,190000],[500,245000],[480,310000],[450,420000],[400,620000]],
+      2023: [[720,1],[715,20],[710,80],[700,280],[690,700],[680,1500],[670,3000],
+             [660,4500],[650,7000],[640,11000],[630,16000],[620,20000],[610,23000],[600,25000],
+             [590,33000],[580,42000],[570,52000],[560,65000],[550,80000],[540,95000],
+             [520,125000],[500,160000],[480,200000],[450,270000],[400,400000]],
+      2024: [[720,1],[715,25],[710,100],[700,390],[690,880],[680,1560],[670,2430],
+             [660,3500],[650,4760],[640,6220],[630,7870],[620,9720],[610,11760],[600,17000],
+             [590,21000],[580,24000],[570,28500],[560,33000],[550,37500],[540,42000],
+             [520,58000],[500,78000],[480,100000],[450,134000],[400,194000]],
+    };
+    // reliability-weighted: 2024×0.325, 2023×0.3325, 2022×0.18; growth ×1.10 for 2026
+    const NORM_W = { 2022: 0.2157, 2023: 0.3992, 2024: 0.3851 };
+    const GROWTH = 1.10;
+    function interp(tbl, sc) {
+      for (let i = 0; i < tbl.length - 1; i++) {
+        const [s1,r1] = tbl[i], [s2,r2] = tbl[i+1];
+        if (sc <= s1 && sc >= s2) return Math.round(r1 + (s1-sc)/(s1-s2||1)*(r2-r1));
+      }
+      return tbl[tbl.length-1][1];
+    }
+    function rankRange(sc) {
+      if (!sc || sc < 100 || sc > 720) return null;
+      const years = [2022, 2023, 2024];
+      const ry = years.map(y => interp(RH[y], sc));
+      const mean = years.reduce((s, y, i) => s + NORM_W[y] * ry[i], 0);
+      const variance = years.reduce((s, y, i) => s + NORM_W[y] * (ry[i]-mean)**2, 0);
+      const std = Math.sqrt(variance);
+      const mid  = Math.round(mean * GROWTH);
+      const low  = Math.round(Math.max(1, (mean-std) * GROWTH));
+      const high = Math.round((mean+std) * GROWTH);
+      const cv = std / Math.max(mean, 1);
+      const conf = cv < 0.20 ? 'High' : cv < 0.45 ? 'Medium' : 'Low';
+      return { low, mid, high, conf };
+    }
+    const scoreEl = document.getElementById('indNeetScore');
+    const hintEl  = document.getElementById('indRankHint');
+    if (scoreEl && hintEl) {
+      scoreEl.addEventListener('input', function() {
+        const rr = rankRange(parseInt(this.value));
+        hintEl.textContent = rr
+          ? `Estimated rank: ${rr.low.toLocaleString('en-IN')} – ${rr.high.toLocaleString('en-IN')}  ·  Confidence: ${rr.conf}`
+          : '';
+      });
+    }
+  })();
+
   function buildProfile() {
     const fd = new FormData(form);
     const profile = {
@@ -2131,6 +2415,7 @@ function submitLeadForm(e){
     if (destination === 'India') {
       profile.category      = fd.get('category') || 'OPEN';
       profile.domicileState = fd.get('domicileState') || '';
+      profile.coursePreferences = [...form.querySelectorAll('input[name="coursePrefs"]:checked')].map(el => el.value);
     } else {
       profile.preferredCountries = [...selectedCountries];
     }
@@ -2146,25 +2431,41 @@ function submitLeadForm(e){
       showError('Please enter your NEET Score or Rank.');
       return;
     }
+    // Cancel any previous in-flight request so stale results never overwrite fresh ones
+    if (currentController) currentController.abort();
+    currentController = new AbortController();
+    const signal = currentController.signal;
+
     showLoading();
     setPanel(true);  // auto-collapse left panel as recommendations come in
+    // After the panel collapse + showLoading reflow, the loader can end up
+    // above the viewport because the form panel was tall. Pull the user back
+    // to the loader so they see the spinner instead of the section below.
+    requestAnimationFrame(() => {
+      const target = document.querySelector('.pred-shell');
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
     try {
       const r = await fetch('/api/predict', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(profile),
+        signal,
       });
       if (!r.ok) {
         const err = await r.json().catch(() => ({}));
         throw new Error(err.error || `Server returned ${r.status}`);
       }
       const data = await r.json();
-      lastResult = data;
+      currentController = null;
+      lastResult  = data;
+      lastProfile = profile;
       localStorage.setItem('mbbs_predictor_profile', JSON.stringify(profile));
       localStorage.setItem('mbbs_predictor_results', JSON.stringify(data));
-      renderResults(data);
+      renderResults(data, profile);
       updateConfidence(data);
     } catch (err) {
+      if (err.name === 'AbortError') return;  // silently ignore superseded requests
       showError(err.message || 'Prediction failed.');
       setPanel(false);
     }
@@ -2187,17 +2488,21 @@ function submitLeadForm(e){
 
   function showLoading() {
     clearResults();
+    results.style.display = '';
+    app.classList.add('has-results');
     const wrap = el('div', 'pred-loading');
     wrap.appendChild(el('div', 'pred-loading-spin'));
     wrap.appendChild(el('div', 'pred-loading-h', destination === 'India' ? 'Matching NEET cutoffs…' : 'Searching universities…'));
     wrap.appendChild(el('div', 'pred-loading-p', destination === 'India'
-      ? 'Reading 2024 cutoff data and finding your fit.'
+      ? 'Reading latest cutoff data and finding your fit.'
       : 'AI evaluating NMC-recognised options. May take 5–10 seconds.'));
     results.appendChild(wrap);
   }
 
   function showError(msg) {
     clearResults();
+    results.style.display = '';
+    app.classList.add('has-results');
     const wrap = el('div', 'pred-error');
     wrap.appendChild(el('div', 'pred-error-h', 'Error'));
     const p = el('div', 'pred-empty-p', msg); p.style.marginTop = '8px';
@@ -2214,6 +2519,7 @@ function submitLeadForm(e){
   }
 
   function fmtMoney(usd, fallbackStr) {
+    if (fallbackStr && fallbackStr.includes('₹')) return fallbackStr;
     if (!usd || isNaN(usd)) return fallbackStr || '—';
     if (currency === 'USD') return '$' + Math.round(usd).toLocaleString('en-US') + ' USD';
     const inr = Math.round(usd * 83.5);
@@ -2222,8 +2528,10 @@ function submitLeadForm(e){
     return '₹' + inr.toLocaleString('en-IN');
   }
 
-  function renderResults(data) {
+  function renderResults(data, profile) {
     clearResults();
+    results.style.display = '';
+    app.classList.add('has-results');
     const inner = el('div', 'pred-results-inner');
 
     if (!data || !data.universities || data.universities.length === 0) {
@@ -2232,6 +2540,23 @@ function submitLeadForm(e){
       wrap.appendChild(el('div', 'pred-empty-p', (data && data.analysis) || 'Try widening your filters.'));
       results.appendChild(wrap);
       return;
+    }
+
+    // Show which submitted profile generated these results — prevents confusion
+    // when the form is later changed without re-submitting
+    if (profile) {
+      const pfRow = el('div', 'pred-for-profile');
+      const dot = el('span', 'pred-for-profile-dot');
+      pfRow.appendChild(dot);
+      const parts = [];
+      if (profile.neetScore) parts.push(`Score ${profile.neetScore}`);
+      if (profile.neetRank && profile.neetRank > 0) parts.push(`Rank ${Number(profile.neetRank).toLocaleString('en-IN')}`);
+      if (profile.category) parts.push(profile.category);
+      if (profile.domicileState) parts.push(profile.domicileState);
+      if (!parts.length && profile.preferredCountries && profile.preferredCountries.length)
+        parts.push(profile.preferredCountries.slice(0,3).join(', '));
+      pfRow.appendChild(el('span', null, 'Results for: ' + parts.join(' · ')));
+      inner.appendChild(pfRow);
     }
 
     if (data.analysis) {
@@ -2244,33 +2569,209 @@ function submitLeadForm(e){
       inner.appendChild(a);
     }
 
+    // State quota verification panel (web-grounded second LLM call) —
+    // present only when domicileState was supplied and the call succeeded.
+    // Collapsible: click the header to toggle the body open/closed.
+    if (data.stateQuotaInsights && (
+        (data.stateQuotaInsights.stateColleges && data.stateQuotaInsights.stateColleges.length) ||
+        data.stateQuotaInsights.summary)) {
+      const sq = data.stateQuotaInsights;
+      const panel = el('div', 'pred-state-verify');
+      const sEb = el('div', 'pred-state-verify-eyebrow');
+      sEb.appendChild(el('span', null, '🔍'));
+      sEb.appendChild(el('span', null, 'State Quota · Web-Verified'));
+      const collegeCount = (sq.stateColleges && sq.stateColleges.length) || 0;
+      if (collegeCount) sEb.appendChild(el('span', 'pred-state-verify-count', collegeCount + ' colleges'));
+      const chev = el('span', 'pred-state-verify-chev', '▾');
+      sEb.appendChild(chev);
+      sEb.addEventListener('click', () => panel.classList.toggle('is-collapsed'));
+      panel.appendChild(sEb);
+
+      const body = el('div', 'pred-state-verify-body');
+
+      if (sq.summary) body.appendChild(el('p', 'pred-state-verify-summary', sq.summary));
+
+      if (sq.stateColleges && sq.stateColleges.length) {
+        const tbl = el('table', 'pred-state-verify-tbl');
+        const thead = el('thead');
+        const trh = el('tr');
+        ['College', 'City', 'Tier', '2024 Cutoff', '2025 Cutoff'].forEach(h => trh.appendChild(el('th', null, h)));
+        thead.appendChild(trh);
+        tbl.appendChild(thead);
+        const tbody = el('tbody');
+        sq.stateColleges.forEach(c => {
+          const tr = el('tr');
+          tr.appendChild(el('td', null, c.name || '—'));
+          tr.appendChild(el('td', null, c.city || '—'));
+          const tierTd = el('td');
+          tierTd.appendChild(el('span', tierClass(c.accessTier), c.accessTier || '—'));
+          tr.appendChild(tierTd);
+          tr.appendChild(el('td', null, c.closingRank2024 != null ? Number(c.closingRank2024).toLocaleString('en-IN') : '—'));
+          tr.appendChild(el('td', null, c.closingRank2025 != null ? Number(c.closingRank2025).toLocaleString('en-IN') : '—'));
+          tbody.appendChild(tr);
+        });
+        tbl.appendChild(tbody);
+        body.appendChild(tbl);
+      }
+
+      if (sq.sources && sq.sources.length) {
+        const srcRow = el('div', 'pred-state-verify-sources');
+        srcRow.appendChild(el('span', null, 'Sources: '));
+        sq.sources.slice(0, 4).forEach((url, i) => {
+          if (i > 0) srcRow.appendChild(el('span', null, ' · '));
+          const a = document.createElement('a');
+          a.href = url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+          let host;
+          try { host = new URL(url).host.replace(/^www\./, ''); } catch (_) { host = url.slice(0, 30); }
+          a.textContent = host;
+          srcRow.appendChild(a);
+        });
+        body.appendChild(srcRow);
+      }
+
+      panel.appendChild(body);
+      // Default to collapsed so the panel doesn't dominate the page;
+      // user clicks the header to expand.
+      panel.classList.add('is-collapsed');
+      inner.appendChild(panel);
+    }
+
+    const COLS = [
+      { key:'name',                label:'University',         sortable:true,  info:null },
+      { key:'country',             label:'Country',            sortable:true,  info:null },
+      { key:'tier',                label:'Tier',               sortable:true,  info:'Safe: your score/rank comfortably clears the cutoff. Good: competitive with a reasonable buffer. Reach: possible but tight. Stretch: low probability — treat as a last resort.' },
+      { key:'totalDurationYears',  label:'Duration',           sortable:true,  info:'Total years to complete the program including the compulsory internship year.' },
+      { key:'mediumOfInstruction', label:'Medium',             sortable:true,  info:'Primary language of teaching and clinical training. English-medium avoids a language barrier for Indian students.' },
+      { key:'tuitionFeeUSD',       label:'Tuition / Yr',       sortable:true,  info:'Annual tuition fee in the selected currency. Does not include hostel, food, travel, or visa costs.' },
+      { key:'totalProgramCostUSD', label:'Total Cost',         sortable:true,  info:'Estimated total tuition for the full program. Add 15–20% for living, travel, and visa to get the real all-in cost.' },
+      { key:'nmcRecognitionStatus',label:'NMC Status',         sortable:false, info:'NMC (National Medical Commission) recognition is mandatory for Indian graduates to practice in India after clearing the NExT licensing exam.' },
+      { key:'globalRank',          label:'Global Rank',        sortable:true,  info:'QS or THE world university ranking. Lower number = higher rank. Unranked colleges may still be NMC-listed with strong clinical training.' },
+      { key:'clinicalExposure',    label:'Clinical Quality',   sortable:false, info:'Quality of hospital attachments, patient case volume, and hands-on training. Directly impacts FMGE / NExT preparation.' },
+      { key:'safetyAndSupport',    label:'Safety & Support',   sortable:false, info:'Student safety, Indian mess/food availability, size of Indian community, and institutional support for international students.' },
+      { key:'roiScore',            label:'ROI',                sortable:true,  info:'Return on Investment score out of 10 — weighs total program cost against clinical quality, NMC recognition, and career outcomes for Indian students.' },
+      { key:'bestFor',             label:'Best For',           sortable:false, info:null },
+    ];
+
+    const TIER_ORDER = { Safe:0, Good:1, Reach:2, Stretch:3 };
+    let sortCol = null, sortDir = 1, activeTier = 'All';
+    const unis = data.universities;
+
+    function sortedFiltered() {
+      let arr = activeTier === 'All' ? unis.slice() : unis.filter(u => (u.tier || '') === activeTier);
+      if (!sortCol) return arr;
+      return arr.sort((a, b) => {
+        let va = a[sortCol], vb = b[sortCol];
+        if (sortCol === 'tier') {
+          va = TIER_ORDER[va] ?? 99; vb = TIER_ORDER[vb] ?? 99;
+          return (va - vb) * sortDir;
+        }
+        if (sortCol === 'tuitionFeeUSD' || sortCol === 'totalProgramCostUSD' || sortCol === 'roiScore') {
+          va = parseFloat(va) || 0; vb = parseFloat(vb) || 0;
+          return (va - vb) * sortDir;
+        }
+        if (sortCol === 'totalDurationYears') {
+          va = parseFloat(String(va)) || 0; vb = parseFloat(String(vb)) || 0;
+          return (va - vb) * sortDir;
+        }
+        if (sortCol === 'globalRank') {
+          va = parseInt(String(va)) || 99999; vb = parseInt(String(vb)) || 99999;
+          return (va - vb) * sortDir;
+        }
+        va = String(va || '').toLowerCase(); vb = String(vb || '').toLowerCase();
+        return va < vb ? -sortDir : va > vb ? sortDir : 0;
+      });
+    }
+
     const wrap = el('div', 'pred-table-wrap');
+
+    // ── Header bar ──
     const head = el('div', 'pred-table-head');
-    head.appendChild(el('div', 'pred-table-title', 'Top Matches · Comparative Data'));
+    head.appendChild(el('div', 'pred-table-title', 'Your Best Matches'));
     const cur = el('div', 'pred-currency');
     ['USD','INR'].forEach(c => {
       const b = el('button', null, c);
       b.type = 'button';
       if (c === currency) b.classList.add('active');
-      b.addEventListener('click', () => { currency = c; renderResults(lastResult); });
+      b.addEventListener('click', () => { currency = c; renderResults(lastResult, lastProfile); });
       cur.appendChild(b);
     });
     head.appendChild(cur);
     wrap.appendChild(head);
 
+    // ── Tier filter pills ──
+    const tierBar = el('div', 'pred-tier-bar');
+    tierBar.appendChild(el('span', 'pred-tier-bar-label', 'Filter:'));
+    const tierCounts = unis.reduce((m, u) => { m[u.tier || '?'] = (m[u.tier || '?'] || 0) + 1; return m; }, {});
+    ['All', 'Safe', 'Good', 'Reach', 'Stretch'].forEach(t => {
+      const cnt = t === 'All' ? unis.length : (tierCounts[t] || 0);
+      if (t !== 'All' && !cnt) return;
+      const pill = el('button', 'pred-tier-pill');
+      pill.type = 'button';
+      pill.dataset.tier = t;
+      pill.innerHTML = t + `<span class="pred-tier-count">(${cnt})</span>`;
+      if (t === activeTier) pill.classList.add('active');
+      pill.addEventListener('click', () => {
+        activeTier = t;
+        tierBar.querySelectorAll('.pred-tier-pill').forEach(p => p.classList.toggle('active', p.dataset.tier === t));
+        rebuildTbody();
+      });
+      tierBar.appendChild(pill);
+    });
+    wrap.appendChild(tierBar);
+
+    // ── Table ──
     const tableScroll = el('div');
     tableScroll.style.overflowX = 'auto';
     const table = el('table', 'pred-table');
     table.style.minWidth = '1280px';
     const thead = el('thead');
-    const trh   = el('tr');
-    [
-      'University', 'Country', 'Tier', 'Duration', 'Medium',
-      'Tuition / Yr', 'Total (5–6 yr)', 'NMC Status',
-      'Global Rank', 'Clinical Quality', 'Safety / Indian Support',
-      'ROI', 'Best For'
-    ].forEach(h => trh.appendChild(el('th', null, h)));
-    thead.appendChild(trh); table.appendChild(thead);
+    const trh = el('tr');
+
+    COLS.forEach(col => {
+      const th = el('th');
+      if (col.sortable) th.classList.add('pred-th-sort');
+      const inner = el('span', 'pred-th-inner');
+
+      if (col.info) {
+        // Label + info icon wrapper
+        const infoWrap = el('span', 'pred-th-info-wrap');
+        const lbl = document.createTextNode(col.label + ' ');
+        infoWrap.appendChild(lbl);
+        const icon = el('i', 'pred-th-info', 'i');
+        icon.addEventListener('mouseenter', () => {
+          const r = icon.getBoundingClientRect();
+          colTip.textContent = col.info;
+          colTip.style.left = (r.left + r.width / 2) + 'px';
+          colTip.style.top  = (r.top - 6) + 'px';
+          colTip.hidden = false;
+        });
+        icon.addEventListener('mouseleave', () => { colTip.hidden = true; });
+        infoWrap.appendChild(icon);
+        inner.appendChild(infoWrap);
+      } else {
+        inner.appendChild(document.createTextNode(col.label));
+      }
+
+      if (col.sortable) {
+        const sortIco = el('span', 'pred-sort-icon');
+        inner.appendChild(sortIco);
+        th.addEventListener('click', () => {
+          if (sortCol === col.key) { sortDir *= -1; }
+          else { sortCol = col.key; sortDir = 1; }
+          trh.querySelectorAll('.pred-th-sort').forEach((t, i) => {
+            t.classList.remove('sort-asc', 'sort-desc');
+            if (COLS[i].key === sortCol) t.classList.add(sortDir === 1 ? 'sort-asc' : 'sort-desc');
+          });
+          rebuildTbody();
+        });
+      }
+
+      th.appendChild(inner);
+      trh.appendChild(th);
+    });
+    thead.appendChild(trh);
+    table.appendChild(thead);
+
     const tbody = el('tbody');
 
     function clipped(text) {
@@ -2286,70 +2787,61 @@ function submitLeadForm(e){
     function roiCell(score) {
       const num = parseInt(score, 10) || 0;
       const td = el('td');
-      const wrap = el('div', 'pred-roi-bar');
+      const rw = el('div', 'pred-roi-bar');
       const track = el('div', 'pred-roi-track');
       const fill = el('div', 'pred-roi-fill');
       fill.style.width = Math.max(0, Math.min(100, num * 10)) + '%';
       track.appendChild(fill);
-      wrap.appendChild(track);
-      wrap.appendChild(el('span', 'pred-roi-num', String(num || '—')));
-      td.appendChild(wrap);
+      rw.appendChild(track);
+      rw.appendChild(el('span', 'pred-roi-num', String(num || '—')));
+      td.appendChild(rw);
       return td;
     }
 
-    data.universities.forEach(u => {
+    function buildRow(u) {
       const tr = el('tr');
-
-      // University (with location subline)
       const tdName = el('td');
       tdName.appendChild(el('span', 'pred-uname', u.name || ''));
       const loc = (u.country || '') + (u.continent ? ' · ' + u.continent : '');
       tdName.appendChild(el('span', 'pred-uloc', loc));
       tr.appendChild(tdName);
-
-      // Country
       tr.appendChild(el('td', null, u.country || ''));
-
-      // Tier pill
       const tdTier = el('td');
       tdTier.appendChild(el('span', tierClass(u.tier), u.tier || '—'));
       tr.appendChild(tdTier);
-
-      // Duration
       tr.appendChild(tdClip(u.totalDurationYears || ''));
-
-      // Medium
       tr.appendChild(tdClip(u.mediumOfInstruction || ''));
-
-      // Tuition / yr
       tr.appendChild(el('td', null, fmtMoney(u.tuitionFeeUSD, u.annualTuitionFee)));
-
-      // Total program cost
       tr.appendChild(el('td', null, fmtMoney(u.totalProgramCostUSD, u.totalProgramCost)));
-
-      // NMC pill
       const tdNmc = el('td');
       tdNmc.appendChild(el('span', 'pred-tag pred-tag-nmc', u.nmcRecognitionStatus || 'NMC'));
       tr.appendChild(tdNmc);
-
-      // Global rank · source
       const rankText = (u.globalRank || '—') + (u.rankingSource ? ' · ' + u.rankingSource : '');
       tr.appendChild(tdClip(rankText));
-
-      // Clinical Quality
       tr.appendChild(tdClip(u.clinicalExposure || ''));
-
-      // Safety / Indian Support
       tr.appendChild(tdClip(u.safetyAndSupport || ''));
-
-      // ROI
       tr.appendChild(roiCell(u.roiScore));
-
-      // Best For
       tr.appendChild(tdClip(u.bestFor || ''));
+      return tr;
+    }
 
-      tbody.appendChild(tr);
-    });
+    function rebuildTbody() {
+      tbody.textContent = '';
+      const rows = sortedFiltered();
+      if (!rows.length) {
+        const tr = el('tr');
+        const td = el('td');
+        td.colSpan = COLS.length;
+        td.style.cssText = 'text-align:center;padding:28px;color:#94a3b8;font-style:italic;';
+        td.textContent = 'No colleges match this filter.';
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+      } else {
+        rows.forEach(u => tbody.appendChild(buildRow(u)));
+      }
+    }
+
+    rebuildTbody();
     table.appendChild(tbody);
     tableScroll.appendChild(table);
     wrap.appendChild(tableScroll);

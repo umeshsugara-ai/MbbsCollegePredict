@@ -1950,11 +1950,35 @@ function isFemaleOnlyInstitute(name: string): boolean {
 
 // Map quotaSlot label to CSV quota convention. CSV uses "All India",
 // "Deemed/Paid Seats Quota", etc. — model returns shorthand "AIQ", "Deemed".
+//
+// The 'state' slot was previously returning an empty set, which made
+// findCsvAnchor permissively match across ALL quota labels and pick the
+// lowest-closing row regardless of quota — for MAMC/VMMC (Delhi-domiciled
+// state colleges in CSV under "Delhi University Quota" with closing AIR
+// ~329) this caused Gemini's correct OBC State claim of ~920 to be flagged
+// as "tooEasy" against a 329 anchor and dropped. Every Delhi topper saw
+// MAMC/VMMC vanish from their list.
+//
+// Now: 'state' enumerates all state-domicile / institution-specific quota
+// labels actually present in the 2024 CSV. NRI and ESI get their own
+// slots so the validator can anchor against quota-matched rows precisely.
 function csvQuotaForSlot(slot: string): Set<string> {
   const s = String(slot || '').toLowerCase();
   if (s === 'aiq' || s === 'aiims') return new Set(['All India']);
   if (s === 'deemed') return new Set(['Deemed/Paid Seats Quota']);
-  if (s === 'state') return new Set([]); // CSV has very few state-quota rows; let validator be permissive
+  if (s === 'state') return new Set([
+    'Open Seat Quota',
+    'Delhi University Quota',
+    'IP University Quota',
+    'Delhi NCR Children/Widows of Personnel of the Armed Forces (CW) Quota',
+    'Internal -Puducherry UT Domicile',
+    'Internal - Puducherry UT Domicile',
+    'Muslim Minority Quota',
+    'Aligarh Muslim University (AMU) Quota',
+    'Jain Minority Quota',
+  ]);
+  if (s === 'nri') return new Set(['Non-Resident Indian', 'Non-Resident Indian(AMU)Quota']);
+  if (s === 'management') return new Set(['Deemed/Paid Seats Quota']);  // management seats live under Deemed
   return new Set([]);
 }
 
@@ -2020,11 +2044,15 @@ function findCsvAnchor(
     if (quotaSet.size > 0 && !quotaSet.has(r.quota)) continue;
     if (catNorm) {
       const rCatNorm = normalizeName(r.category);
+      // Skip placeholder/aggregate rows with empty or "-" category. The
+      // empty string is technically a substring of every string, so
+      // catNorm.includes("") returns true and these rows would otherwise
+      // pass the category filter — and they often carry huge "-" closing
+      // ranks like 1234779 (placeholder for unallotted seats) which
+      // poisons the lowest-closing-wins selection.
+      if (!rCatNorm) continue;
       if (!rCatNorm.includes(catNorm) && !catNorm.includes(rCatNorm)) continue;
     }
-    // Token-overlap confidence: how many meaningful tokens from the model
-    // name appear in the CSV name. ≥2 means the match is institute-specific
-    // (city or state token usually carries it). 0–1 = ambiguous; skip.
     const rTokens = new Set(rNameNorm.split(/\s+/).filter(t => t && !STOP.has(t)));
     const overlap = modelTokens.filter(t => rTokens.has(t)).length;
     if (overlap < 2) continue;
@@ -2056,6 +2084,12 @@ function findCsvAnchorWithState(
   const nameNorm = normalizeName(uniName);
   if (!nameNorm) return null;
   const catNorm = normalizeName(categorySlot);
+  // Same ≥2-token overlap rule as findCsvAnchor — without it, "Vardhman
+  // Mahavir VMMC Safdarjung Delhi" fuzzy-matched "Vardhman Institute of
+  // Medical Sciences Pawapuri Bihar" because both share the token
+  // "Vardhman", causing the cross-check to wrongly tag VMMC as Bihar.
+  const STOP = new Set(['college','medical','institute','of','and','the','sciences','science','university','hospital','all','india','government','govt','dental','medi','centre','center']);
+  const modelTokens = nameNorm.split(/\s+/).filter(t => t && !STOP.has(t));
   const matches: CutoffRow[] = [];
   for (const r of cutoffs) {
     const rNameNorm = normalizeName(r.institute);
@@ -2063,8 +2097,12 @@ function findCsvAnchorWithState(
     if (!nameMatches(nameNorm, rNameNorm)) continue;
     if (catNorm) {
       const rCatNorm = normalizeName(r.category);
+      if (!rCatNorm) continue;            // skip placeholder "-" / empty-category rows
       if (!rCatNorm.includes(catNorm) && !catNorm.includes(rCatNorm)) continue;
     }
+    const rTokens = new Set(rNameNorm.split(/\s+/).filter(t => t && !STOP.has(t)));
+    const overlap = modelTokens.filter(t => rTokens.has(t)).length;
+    if (overlap < 2) continue;
     matches.push(r);
   }
   if (matches.length === 0) return null;
@@ -2398,25 +2436,44 @@ function validateIndiaUniversities(
       continue;
     }
 
-    // 1. Hallucination drop — asymmetric AND scale-aware. Multipliers tighten
-    //    at low ranks (where noise is small in absolute terms) and loosen at
-    //    high ranks (where YoY drift can shift closing by tens of thousands).
-    //    Falls back to the AIIMS/INI hard-anchor table when MCC has no row
-    //    (Bug C — AIIMS isn't in MCC counselling, it's INI counselling).
+    // 1. Hallucination handling — when Gemini's claimed AIR band is wildly
+    //    different from the CSV anchor (per same college + quota + category),
+    //    we OVERRIDE the AIR band with CSV-derived values rather than drop
+    //    the row. Reasoning: under filter-first architecture, the anchor
+    //    pool already proved this row is rank-reachable for the student;
+    //    Gemini's bad AIR claim is a presentation issue, not a "this row
+    //    shouldn't be here" issue. Dropping it lost MAMC/VMMC for every
+    //    Delhi topper because Gemini's OBC State claim (900) didn't match
+    //    the Delhi University Quota OBC closing in CSV (5015) — but
+    //    student CAN clear 5015, so the recommendation is valid.
+    //    Only DROP when the discrepancy is so extreme (10x+) that we
+    //    suspect Gemini named the wrong college entirely.
     const csvAnchor = findCsvAnchor(name, quotaSlot, categorySlot)
       || findIniHardAnchor(name, categorySlot);
     if (csvAnchor) {
       const csvRank = csvAnchor.closingRank;
       const easyMult = halluTooEasyMult(csvRank);
       const hardMult = halluTooHardMult(csvRank);
-      // Use claimedHigh as the comparison anchor — model's optimistic upper bound.
-      if (claimedHigh > csvRank * easyMult) {
-        drops.push({ name, reason: `hallucinated tooEasy: claimed ${claimedHigh} vs CSV ${csvRank} (×${easyMult})` });
+      // Hard drop only on extreme discrepancies (Gemini probably named the
+      // wrong college). Threshold: 10x mismatch in either direction.
+      if (claimedHigh > csvRank * 10 || claimedHigh * 10 < csvRank) {
+        drops.push({ name, reason: `extreme AIR mismatch: claimed ${claimedHigh} vs CSV ${csvRank} — likely wrong college` });
         continue;
       }
-      if (claimedHigh < csvRank * hardMult) {
-        drops.push({ name, reason: `hallucinated tooHard: claimed ${claimedHigh} vs CSV ${csvRank} (×${hardMult})` });
-        continue;
+      // Soft override: when within "wild but plausible" range (failing the
+      // tight easyMult/hardMult bands but within 10x), replace Gemini's AIR
+      // band with CSV-derived values so the displayed band is honest.
+      if (claimedHigh > csvRank * easyMult || claimedHigh < csvRank * hardMult) {
+        const newLow = Math.round(csvRank * 0.92);
+        const newHigh = Math.round(csvRank * 1.08);
+        overrides.push({
+          name,
+          from: `AIR ${claimedLow}-${claimedHigh}`,
+          to:   `AIR ${newLow}-${newHigh}`,
+          reason: `AIR override to CSV anchor (claimed band drifted from anchor by ${(claimedHigh / csvRank).toFixed(1)}x)`,
+        });
+        u.expectedClosingAirLow  = newLow;
+        u.expectedClosingAirHigh = newHigh;
       }
     }
 

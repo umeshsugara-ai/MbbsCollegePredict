@@ -939,10 +939,27 @@ nav{
 }
 
 @media(min-width:900px){
-  .pred-app{display:grid;grid-template-columns:minmax(0,340px);padding:20px;gap:20px;flex-direction:initial}
+  /* 2-column from first paint on desktop. The previous default
+     (minmax(0,340px) — single column) caused the empty state to stack
+     beneath the form on first load. Two columns from page load means
+     the empty state lands on the right immediately. */
+  .pred-app{display:grid;grid-template-columns:300px 1fr;padding:20px;gap:20px;flex-direction:initial}
   .pred-app.has-results{grid-template-columns:300px 1fr}
   .pred-app.collapsed{grid-template-columns:0 1fr;gap:14px}
   .pred-app.collapsed.has-results{grid-template-columns:0 1fr}
+  /* Reset mobile-first topbar rules that were leaking to desktop and pushing
+     the Hide Panel button off-screen because the title-block was claiming
+     flex:0 0 100% (full row). On desktop the topbar lays out horizontally
+     again: Hide Panel pill • title-block (flexible) • Vidysea Verified pill. */
+  .pred-topbar{flex-wrap:nowrap;gap:18px;align-items:center}
+  .pred-title-block{order:initial;flex:1 1 auto;min-width:0}
+  .pred-title{
+    font-size:18px;line-height:1.2;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .pred-subtitle{font-size:13px}
+  #pred-panel-toggle{order:initial}
+  .pred-status-pill{order:initial;font-size:10px;padding:6px 14px;margin-left:0}
   /* Desktop: the toggle button reverts to its original chip style and the
      side-open shows a clear labeled "Show form" affordance (was a tiny
      chevron — confusing per user feedback). */
@@ -1739,8 +1756,8 @@ textarea.pred-in{min-height:64px}
                 <path d="M22 32 L29 39 L43 25"/>
               </svg>
             </div>
-            <div class="pred-empty-state-title">Your personalised college matches will appear here</div>
-            <div class="pred-empty-state-text">
+            <div class="pred-empty-state-title" id="pred-empty-state-title">Your personalised college matches will appear here</div>
+            <div class="pred-empty-state-text" id="pred-empty-state-text">
               <span class="pred-empty-state-step">1.</span> Enter your <strong>NEET score or AIR</strong> and budget on the left<br>
               <span class="pred-empty-state-step">2.</span> Pick your category and home state (for state-quota matching)<br>
               <span class="pred-empty-state-step">3.</span> Hit <strong>Find My College</strong> — we'll search MCC + state cutoffs and return your best fits in 30–60 seconds
@@ -2920,14 +2937,21 @@ async function submitLeadForm(e){
   sideOpen?.addEventListener('click', () => setPanel(false));
 
   // ── Restore saved profile ──
+  // Default tab = Global (per user direction 2026-04-28). If a saved
+  // profile exists, applyProfile() overrides this with the user's last
+  // choice. Results are not restored — always start fresh.
+  setDestination('Global');
   try {
     const saved = JSON.parse(localStorage.getItem('mbbs_predictor_profile') || 'null');
     if (saved) applyProfile(saved);
-    // Results are not restored on reload — always start fresh to avoid showing stale cached data
   } catch (e) {}
 
   function applyProfile(p) {
-    if (p.destinationType) setDestination(p.destinationType);
+    // Server enum is "India" | "Abroad"; UI tab is "India" | "Global". Map.
+    if (p.destinationType) {
+      const dest = p.destinationType === 'Abroad' ? 'Global' : p.destinationType;
+      setDestination(dest);
+    }
     for (const key of ['neetScore','neetRank','budgetInUSD','category','gender','otherPreferences']) {
       const elx = form.querySelector(`[name="${key}"]`);
       if (elx && p[key] != null) elx.value = p[key];
@@ -2952,6 +2976,28 @@ async function submitLeadForm(e){
     form.querySelectorAll('[data-show-when]').forEach(elx => {
       elx.style.display = elx.dataset.showWhen === d ? '' : 'none';
     });
+    updateEmptyStateForDestination(d);
+  }
+
+  // Empty-state copy switches with the active tab. India = MCC + state-quota
+  // language; Global = NMC-recognised abroad universities + country picker.
+  function updateEmptyStateForDestination(d) {
+    const titleEl = document.getElementById('pred-empty-state-title');
+    const textEl  = document.getElementById('pred-empty-state-text');
+    if (!titleEl || !textEl) return;
+    if (d === 'India') {
+      titleEl.textContent = 'Your personalised India MBBS matches will appear here';
+      textEl.innerHTML =
+        '<span class="pred-empty-state-step">1.</span> Enter your <strong>NEET score or AIR</strong> and budget on the left<br>' +
+        '<span class="pred-empty-state-step">2.</span> Pick your <strong>category and home state</strong> — we use it for state-quota matching<br>' +
+        '<span class="pred-empty-state-step">3.</span> Hit <strong>Find My College</strong> — we’ll search MCC + state cutoffs and return your best fits in 30–60 seconds';
+    } else {
+      titleEl.textContent = 'Your best-fit MBBS Abroad universities will appear here';
+      textEl.innerHTML =
+        '<span class="pred-empty-state-step">1.</span> Enter your <strong>NEET score</strong> and total program <strong>budget</strong><br>' +
+        '<span class="pred-empty-state-step">2.</span> Pick your <strong>preferred countries</strong> (Russia, Hungary, Georgia…) — leave empty to see all<br>' +
+        '<span class="pred-empty-state-step">3.</span> Hit <strong>Find My College</strong> — we’ll match you against NMC-recognised abroad universities in 30–60 seconds';
+    }
   }
   form.querySelectorAll('.pred-tab').forEach(tab => {
     tab.addEventListener('click', () => {

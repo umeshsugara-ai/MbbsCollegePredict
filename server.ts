@@ -1125,6 +1125,7 @@ interface University {
   reputationScore: string;
   description: string;
   quota?: string;
+  state?: string;          // institute's state — used for backfill domicile match
   tier?: string;
 }
 
@@ -1247,6 +1248,7 @@ function buildIndiaUniversity(m: CutoffRow & { tier: Tier }): University {
     reputationScore: m.tier === 'Safe' ? 'Strong Match' : m.tier === 'Good' ? 'Good Match' : m.tier === 'Reach' ? 'Aspirational' : 'Stretch Backup',
     description: `${m.tier} tier match (latest MCC data). Closing rank ${m.closingRank.toLocaleString('en-IN')} for ${m.category} under ${m.quota}.`,
     quota: m.quota,
+    state: m.state || '',          // preserved so backfill can re-verify domicile match
     tier: m.tier,
   };
 }
@@ -2071,27 +2073,24 @@ async function buildValidatorBackfill(
     const csvResult = await predictIndiaCsv(profile);
     const budgetUSD = parseInt(profile.budgetInUSD || '0', 10);
     const budgetINR = budgetUSD ? budgetUSD * 83.5 : 0;
-    // Soft floor at ₹35L — same threshold as predictIndiaCsv + predictIndia.
-    // Deemed is a first-class recommendation, not a fallback.
     const deemedAllowed = budgetUSD === 0 || budgetINR >= 3_500_000;
-    // Loose-match dedup against the validator survivors. Without the loose
-    // match the CSV's truncated names ("MADRAS MEDICAL") slip past the
-    // exact normalize() check and the student sees the same college twice
-    // (one Gemini row + one all-caps CSV duplicate).
+    const userDomicile = normalizeName(profile.domicileState || '');
     const isDup = (name: string) =>
       alreadyHave.some(u => namesMatchLoose(u?.name || '', name));
     const candidates = (csvResult.universities || []).filter((u: any) => {
       if (isDup(u.name)) return false;
       const q = String(u.quota || '');
       if (q === 'Deemed/Paid Seats Quota' && !deemedAllowed) return false;
-      // AIQ/Deemed/Open quotas are profile-agnostic and safe to backfill.
-      // State quotas are skipped because predictIndiaCsv strips row.state
-      // from the University object and we can't re-verify domicile here —
-      // a Bengal college shown as "State quota" to a Maharashtra student
-      // is exactly the wrong-recommendation we are guarding against.
-      if (q !== 'All India' && q !== 'Deemed/Paid Seats Quota' && q !== 'Open Seat Quota'
-          && q !== 'IP University Quota' && q !== 'Delhi University Quota') {
-        return false;
+      // AIQ + Deemed + Delhi/IP/Open are profile-agnostic — always safe.
+      const profileAgnosticQuotas = new Set(['All India','Deemed/Paid Seats Quota','Open Seat Quota','IP University Quota','Delhi University Quota']);
+      if (!profileAgnosticQuotas.has(q)) {
+        // State-domicile row: include only if institute state matches the
+        // student's domicile. predictIndiaCsv now preserves row.state on
+        // each University object (was stripped before, blocking all state
+        // backfill). This re-enables Karnataka state-quota rows for a
+        // Karnataka student while still preventing the Bengal-to-MH leak.
+        const rowState = normalizeName(u.state || '');
+        if (!rowState || !userDomicile || rowState !== userDomicile) return false;
       }
       // Same budget cap as the validator (1.5× headroom). Without this,
       // CSV deemed rows tagged "₹1.0Cr – ₹1.6Cr" leak past the validator
@@ -2534,15 +2533,13 @@ async function predictIndia(profile: any) {
       budgetINRNum,
     );
 
-    // Backfill on overdrop — only when the validated list is genuinely thin.
-    // The earlier threshold (7) merged CSV rows even when 6 high-quality
-    // Gemini rows had already landed, surfacing all-caps CSV duplicates of
-    // colleges the student already saw. Drop the floor to 5 and cap the
-    // top-up so a final list of 6-7 well-validated colleges is preferred
-    // over 10 colleges with 4 lower-quality fillers.
-    const MIN_UNIS = 5;
-    const TARGET_UNIS = 7;
-    if (validation.validated.length < MIN_UNIS) {
+    // Backfill on overdrop. Goal: always deliver ~10 results (Gemini is asked
+    // for EXACTLY 10; validator drops some for rank/budget/state-domicile/
+    // course-pref reasons; backfill from CSV refills the gap). Trigger as
+    // soon as we're below 10 — earlier we capped at 7 to avoid CSV padding,
+    // but that left students with thin lists when the validator was strict.
+    const TARGET_UNIS = 10;
+    if (validation.validated.length < TARGET_UNIS) {
       const need = TARGET_UNIS - validation.validated.length;
       console.log(`[validator] only ${validation.validated.length} unis survived validation, backfilling up to ${need} from CSV…`);
       const backfill = await buildValidatorBackfill(profile, validation.validated, need);

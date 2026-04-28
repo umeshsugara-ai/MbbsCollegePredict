@@ -2744,6 +2744,27 @@ async function predictAbroad(profile: any) {
 
   const result = JSON.parse(resp.text || '{"universities":[],"analysis":""}');
   if (abroadInsights) result.abroadInsights = abroadInsights;
+
+  // Country constraint enforcement — when the student listed preferred
+  // countries, drop any returned university outside that set. The prompt
+  // already says this, but Gemini occasionally smuggles in popular non-
+  // listed picks; the post-validator is the safety net.
+  if (Array.isArray(profile.preferredCountries) && profile.preferredCountries.length > 0) {
+    const wantSet = new Set(
+      profile.preferredCountries.map((c: string) => String(c).toLowerCase().trim()),
+    );
+    const beforeCount = (result.universities || []).length;
+    let dropped = 0;
+    result.universities = (result.universities || []).filter((u: any) => {
+      const c = String(u?.country || '').toLowerCase().trim();
+      if (!c || !wantSet.has(c)) { dropped++; return false; }
+      return true;
+    });
+    if (dropped > 0) {
+      console.log(`[predictAbroad] country-filter: dropped ${dropped}/${beforeCount} unis (kept countries: ${profile.preferredCountries.join(', ')})`);
+    }
+  }
+
   result.telemetry = {
     wallClockMs: Date.now() - t0,
     mainCall: tel,

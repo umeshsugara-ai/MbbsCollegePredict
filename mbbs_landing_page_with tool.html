@@ -343,19 +343,26 @@ nav{
   width:0;padding:0;margin:0;border:0;max-height:0;
   opacity:0;pointer-events:none;overflow:hidden;
 }
-.pred-app.collapsed .pred-side-open{display:flex}
+.pred-app.collapsed .pred-side-open{display:inline-flex}
 .pred-side{
   display:flex;flex-direction:column;gap:14px;align-self:start;
   transition:opacity .25s ease;
 }
+/* Collapsed-state "Show form" affordance — full label, not a tiny chevron.
+   Sits at top-left of the results area so the student can find their way
+   back to the form without hunting for an icon. */
 .pred-side-open{
-  display:none;align-items:center;justify-content:center;
-  width:36px;height:36px;border-radius:9px;cursor:pointer;
-  background:#fff;border:1px solid rgba(15,23,42,.12);color:#475569;
+  display:none;align-items:center;gap:8px;cursor:pointer;
+  background:#fff;border:1px solid rgba(15,23,42,.12);color:#0f172a;
+  border-radius:10px;padding:9px 14px;
   position:absolute;left:20px;top:20px;
-  box-shadow:0 2px 6px rgba(15,23,42,.06);
+  font-size:12px;font-weight:700;letter-spacing:.04em;
+  box-shadow:0 2px 8px rgba(15,23,42,.08);
+  transition:background .15s,border-color .15s,box-shadow .15s;
+  z-index:5;
 }
-.pred-side-open:hover{background:#F4F5F9}
+.pred-side-open:hover{background:#F4F5F9;border-color:rgba(15,23,42,.2);box-shadow:0 4px 12px rgba(15,23,42,.12)}
+.pred-side-open svg{width:14px;height:14px;color:#4F46E5;flex-shrink:0}
 
 .pred-form{
   background:#fff;border:1px solid rgba(15,23,42,.06);
@@ -566,6 +573,11 @@ nav{
   display:flex;align-items:center;gap:7px;margin-bottom:10px;
   font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#A5B4FC;
 }
+/* Branded inline SVG icon used in result-panel headers (replaces the
+   generic ✦📋🔍 emojis). Inherits color from the parent header so it
+   adapts to whatever section it sits in. */
+.pred-svg-ico{display:inline-flex;align-items:center;justify-content:center;line-height:0;color:currentColor}
+.pred-svg-ico svg{display:block}
 .pred-analysis-text{font-size:14px;line-height:1.65;color:rgba(255,255,255,.9);margin:0}
 .pred-for-profile{
   display:flex;align-items:center;gap:7px;
@@ -881,13 +893,35 @@ nav{
 
 .pred-empty-state{
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;padding:32px 20px;color:#64748b;
-  background:#fff;border:1px dashed rgba(15,23,42,.12);border-radius:12px;
-  min-height:160px;
+  text-align:center;padding:48px 28px;color:#64748b;
+  background:linear-gradient(180deg,#fff 0%,#fafafe 100%);
+  border:1px dashed rgba(99,102,241,.25);border-radius:14px;
+  min-height:280px;gap:14px;
 }
-.pred-empty-state-icon{font-size:32px;margin-bottom:8px;opacity:.6}
-.pred-empty-state-title{font-size:14px;font-weight:600;color:#334155;margin-bottom:4px}
-.pred-empty-state-text{font-size:13px;color:#64748b;line-height:1.5;max-width:280px}
+.pred-empty-state-icon{
+  color:#4F46E5;opacity:.85;
+  display:inline-flex;align-items:center;justify-content:center;
+  width:72px;height:72px;border-radius:50%;
+  background:radial-gradient(circle at center,rgba(99,102,241,.10) 0%,rgba(99,102,241,0) 70%);
+}
+.pred-empty-state-title{
+  font-size:16px;font-weight:700;color:#0f172a;line-height:1.35;
+  letter-spacing:-.005em;max-width:380px;
+}
+.pred-empty-state-text{
+  font-size:13.5px;color:#475569;line-height:1.7;max-width:440px;text-align:left;
+  background:#fff;border:1px solid rgba(15,23,42,.06);border-radius:10px;
+  padding:14px 18px;
+}
+.pred-empty-state-step{
+  display:inline-block;width:22px;font-weight:700;color:#4F46E5;
+}
+.pred-empty-state-trust{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;
+  font-size:11.5px;color:#64748b;letter-spacing:.02em;margin-top:4px;
+}
+.pred-empty-state-trust strong{color:#0f172a;font-weight:700}
+.pred-empty-state-dot{color:#cbd5e1}
 
 @media(min-width:900px){
   .pred-app{display:grid;grid-template-columns:minmax(0,340px);padding:20px;gap:20px;flex-direction:initial}
@@ -895,29 +929,36 @@ nav{
   .pred-app.collapsed{grid-template-columns:0 1fr;gap:14px}
   .pred-app.collapsed.has-results{grid-template-columns:0 1fr}
   /* Desktop: the toggle button reverts to its original chip style and the
-     side-open returns to the small absolute-positioned arrow it used to be. */
+     side-open shows a clear labeled "Show form" affordance (was a tiny
+     chevron — confusing per user feedback). */
   #pred-panel-toggle{
     padding:6px 10px;min-height:0;border-radius:8px;
     background:#fff;border:1px solid rgba(15,23,42,.12);
     font-size:12px;font-weight:500;
   }
   .pred-side-open{
-    display:none;width:36px;min-height:0;padding:0;
+    display:none;align-items:center;gap:8px;cursor:pointer;
+    width:auto;min-height:0;padding:9px 14px;
     position:absolute;left:20px;top:20px;
-    background:#fff;border-radius:9px;
-    box-shadow:0 2px 6px rgba(15,23,42,.06);
+    background:#fff;border-radius:10px;
+    box-shadow:0 2px 8px rgba(15,23,42,.08);
     border:1px solid rgba(15,23,42,.12);
+    font-size:12px;font-weight:700;letter-spacing:.04em;color:#0f172a;
   }
-  .pred-app.collapsed .pred-side-open{display:flex;justify-content:center;align-items:center;gap:0}
-  .pred-side-open .pred-side-open__label,
-  .pred-side-open .pred-side-open__summary{display:none}      /* desktop arrow has no text */
+  .pred-app.collapsed .pred-side-open{display:inline-flex}
+  /* Hide the mobile-only summary on desktop, but keep the label visible */
+  .pred-side-open .pred-side-open__summary{display:none}
+  .pred-side-open .pred-side-open__label{display:inline}
   .pred-side-open .pred-side-open__chev{
-    background:transparent;color:#475569;width:auto;height:auto;border-radius:0;
+    background:transparent;color:#4F46E5;width:auto;height:auto;border-radius:0;display:inline-flex;
   }
+  .pred-side-open .pred-side-open__chev svg{transform:rotate(90deg);width:14px;height:14px}
   .pred-topbar{flex-wrap:nowrap;gap:18px}
   .pred-title{font-size:initial}
   .pred-status-pill{order:initial;font-size:initial}
-  .pred-empty-state{display:none}
+  /* Empty state stays VISIBLE on desktop — first-load "white blank
+     screen" was reading as a crash. The right pane now reassures the
+     student that filling the left form will populate the area. */
 }
 
 .tool-cta-row{text-align:center;margin-top:28px}
@@ -1507,17 +1548,17 @@ textarea.pred-in{min-height:64px}
       <div class="t-chip"><b>India &amp; Abroad</b> Combined</div>
     </div>
     <div class="pred-shell reveal rd2">
-      <!-- Top header: title + Hide Panel + AI Analysis Active pill -->
+      <!-- Top header: title + Hide Panel + Powered-by pill -->
       <div class="pred-topbar">
-        <button type="button" id="pred-panel-toggle" class="pred-hide-btn" aria-label="Toggle panel">
+        <button type="button" id="pred-panel-toggle" class="pred-hide-btn" aria-label="Toggle form panel">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
           <span id="pred-panel-toggle-label">Hide Panel</span>
         </button>
         <div class="pred-title-block">
-          <h3 class="pred-title">MedScout AI <span class="pred-title-sep">//</span> <span class="pred-title-em">MBBS Global Predictor</span></h3>
-          <p class="pred-subtitle">Finding the best medical universities for your score.</p>
+          <h3 class="pred-title">Find Your <span class="pred-title-em">Best-Fit MBBS College</span></h3>
+          <p class="pred-subtitle">Tell us your NEET score, budget and preference. We'll match you with verified colleges in India and abroad — built on real MCC data, not guesses.</p>
         </div>
-        <div class="pred-status-pill"><span class="pred-status-dot"></span>AI Analysis Active</div>
+        <div class="pred-status-pill"><span class="pred-status-dot"></span>Vidysea Verified</div>
       </div>
 
       <div id="predictor-app" class="pred-app">
@@ -1646,13 +1687,13 @@ textarea.pred-in{min-height:64px}
              children are hidden on desktop and visible on mobile. The
              summary text is populated by JS (buildSearchSummary) on every
              collapse so the student sees their current query at a glance. -->
-        <button type="button" id="pred-side-open" class="pred-side-open" hidden aria-label="Show search panel">
-          <span class="pred-side-open__text">
-            <span class="pred-side-open__label">Your search</span>
-            <span class="pred-side-open__summary" id="pred-side-open-summary">Tap to edit your search</span>
-          </span>
+        <button type="button" id="pred-side-open" class="pred-side-open" hidden aria-label="Show search form">
           <span class="pred-side-open__chev" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+          <span class="pred-side-open__text">
+            <span class="pred-side-open__label">Show Search Form</span>
+            <span class="pred-side-open__summary" id="pred-side-open-summary">Tap to edit your search</span>
           </span>
         </button>
 
@@ -1671,15 +1712,30 @@ textarea.pred-in{min-height:64px}
           <div class="skel-title">Loading the best-fit universities for you…</div>
           <div class="skel-sub">Good things take a moment — we’re reading the latest cutoff data and matching colleges to your profile.</div>
         </div>
-        <!-- Mobile-only empty state shown until first prediction renders. The
-             previous build left this area as blank white space, which on a
-             phone (where the form already sits above) made the tool look
-             broken. CSS hides it at min-width:900px, and JS hides it once
-             the first cards render. -->
+        <!-- First-load empty state — shown on every screen size until the
+             first prediction renders. On desktop it fills what was a blank
+             white area that read as a crash; on mobile it sits below the
+             form. JS hides it once the first cards render. -->
         <div class="pred-empty-state" id="pred-empty-state">
-          <div class="pred-empty-state-icon">🎯</div>
-          <div class="pred-empty-state-title">Your matches will appear here</div>
-          <div class="pred-empty-state-text">Fill in your AIR/score, category and preferences above, then tap <strong>Find My College</strong> to get personalised MBBS recommendations.</div>
+          <div class="pred-empty-state-icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" width="56" height="56">
+              <path d="M32 6 L52 16 L52 36 C52 46 42 54 32 58 C22 54 12 46 12 36 L12 16 Z"/>
+              <path d="M22 32 L29 39 L43 25"/>
+            </svg>
+          </div>
+          <div class="pred-empty-state-title">Your personalised college matches will appear here</div>
+          <div class="pred-empty-state-text">
+            <span class="pred-empty-state-step">1.</span> Enter your <strong>NEET score or AIR</strong> and budget on the left<br>
+            <span class="pred-empty-state-step">2.</span> Pick your category and home state (for state-quota matching)<br>
+            <span class="pred-empty-state-step">3.</span> Hit <strong>Find My College</strong> — we'll search MCC + state cutoffs and return your best fits in 30–60 seconds
+          </div>
+          <div class="pred-empty-state-trust">
+            <span>Built on <strong>2024 MCC data</strong></span>
+            <span class="pred-empty-state-dot">·</span>
+            <span><strong>800+</strong> verified colleges</span>
+            <span class="pred-empty-state-dot">·</span>
+            <span>India + 30+ countries</span>
+          </div>
         </div>
       </div>
     </div>
@@ -2661,6 +2717,23 @@ async function submitLeadForm(e){
     return e;
   }
 
+  // Branded inline icons — replace the generic AI emojis (✦📋🔍) the user
+  // flagged as making the platform feel untrustworthy. Each icon is a
+  // small monoline SVG that inherits color from currentColor so it
+  // adapts to whatever section it's placed in.
+  const SVG_ICONS = {
+    analysis: '<path d="M4 4h12v2H4zM4 9h16v2H4zM4 14h10v2H4zM4 19h14v2H4z"/><path d="M18 13l3 3-3 3" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
+    docs:     '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/><path d="M14 2v6h6" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/><path d="M9 13h6M9 17h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+    verified: '<path d="M12 2 4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6Z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
+  };
+  function svgIcon(name) {
+    const wrap = document.createElement('span');
+    wrap.className = 'pred-svg-ico';
+    wrap.setAttribute('aria-hidden', 'true');
+    wrap.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">' + (SVG_ICONS[name] || '') + '</svg>';
+    return wrap;
+  }
+
   function renderCountryLabel() {
     cLabel.textContent = '';
     cLabel.className = '';
@@ -2929,10 +3002,9 @@ async function submitLeadForm(e){
     const signal = currentController.signal;
 
     showLoading();
-    setPanel(true);  // auto-collapse left panel as recommendations come in
-    // After the panel collapse + showLoading reflow, the loader can end up
-    // above the viewport because the form panel was tall. Pull the user back
-    // to the loader so they see the spinner instead of the section below.
+    // Auto-collapse REMOVED per user feedback — the panel disappearing
+    // mid-flow was disorienting. The Hide Panel toggle stays available
+    // for users who want more space; we just don't trigger it for them.
     requestAnimationFrame(() => {
       const target = document.querySelector('.pred-shell');
       if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -3121,8 +3193,8 @@ async function submitLeadForm(e){
     if (data.analysis) {
       const a = el('div', 'pred-analysis');
       const eb = el('div', 'pred-analysis-eyebrow');
-      eb.appendChild(el('span', null, '✦'));
-      eb.appendChild(el('span', null, 'AI Analysis'));
+      eb.appendChild(svgIcon('analysis'));
+      eb.appendChild(el('span', null, 'Counsellor’s Read'));
       a.appendChild(eb);
       a.appendChild(el('p', 'pred-analysis-text', data.analysis));
       inner.appendChild(a);
@@ -3139,7 +3211,7 @@ async function submitLeadForm(e){
         // opens it. Avoids dominating the result page while staying available.
         const dc = el('div', 'pred-doc-check is-collapsed');
         const eb = el('div', 'pred-doc-check-eyebrow');
-        eb.appendChild(el('span', null, '📋'));
+        eb.appendChild(svgIcon('docs'));
         eb.appendChild(el('span', null, 'Documents to Gather (' + docs.items.length + ')'));
         eb.appendChild(el('span', 'pred-doc-check-chev', '▾'));
         eb.addEventListener('click', () => dc.classList.toggle('is-collapsed'));
@@ -3164,8 +3236,8 @@ async function submitLeadForm(e){
       const sq = data.stateQuotaInsights;
       const panel = el('div', 'pred-state-verify');
       const sEb = el('div', 'pred-state-verify-eyebrow');
-      sEb.appendChild(el('span', null, '🔍'));
-      sEb.appendChild(el('span', null, 'State Quota · Web-Verified'));
+      sEb.appendChild(svgIcon('verified'));
+      sEb.appendChild(el('span', null, 'State Quota · Live-Verified'));
       const collegeCount = (sq.stateColleges && sq.stateColleges.length) || 0;
       if (collegeCount) sEb.appendChild(el('span', 'pred-state-verify-count', collegeCount + ' colleges'));
       const chev = el('span', 'pred-state-verify-chev', '▾');
@@ -3538,23 +3610,14 @@ async function submitLeadForm(e){
     // Hide the empty state on the first submit — the spinner takes over.
     const empty = document.getElementById('pred-empty-state');
     if (empty) empty.style.display = 'none';
-
-    // On mobile (<900px) auto-collapse the form IMMEDIATELY on click, same
-    // as the desktop setPanel(true) behavior. The spinner+message takes the
-    // form's place at the top of the predictor card so the user sees clear
-    // feedback that something is happening, and the form is out of the way
-    // so they can scroll on to read other sections of the page during the
-    // 30–60s prediction wait.
-    if (window.matchMedia('(max-width: 899px)').matches) {
-      collapseFormPanel();
-      // Defer one tick so the collapse + skeleton-show have finished layout
-      // before we measure scroll position.
-      requestAnimationFrame(() => {
-        const target = document.querySelector('.results-cards-skeleton')
-                    || document.querySelector('.pred-shell');
-        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
-    }
+    // Auto-collapse REMOVED per user feedback. The form stays visible
+    // while predictions load — confusing UX otherwise. Just scroll the
+    // loader into view so the student knows something is happening.
+    requestAnimationFrame(() => {
+      const target = document.querySelector('.results-cards-skeleton')
+                  || document.querySelector('.pred-shell');
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
   });
 
   // Mirror result rendering: observe predictor-results for DOM changes and

@@ -1280,9 +1280,15 @@ async function predictIndiaCsv(profile: any) {
     if (!ex || r.closingRank < ex.closingRank) groups.set(key, r);
   }
 
-  // Budget guard: exclude deemed seats if student can't afford them
+  // Budget guard: include deemed/private seats unless they're far out of reach.
+  // Govt vs non-govt is NOT our concern — best fit for the student is. The old
+  // hard ₹50L threshold excluded deemed for any "₹40-60L" budget student even
+  // though deemed colleges start around ₹50L (well within reach when the upper
+  // bound is ₹60L). Soft floor at ₹35L lets borderline students see deemed
+  // options with full cost transparency; they decide if they can stretch to it.
   const budgetUSD = parseInt(profile.budgetInUSD || '0', 10);
-  const deemedEligible = budgetUSD > 0 ? Math.round(budgetUSD * 83.5) >= 5_000_000 : true;
+  const budgetINR = budgetUSD > 0 ? Math.round(budgetUSD * 83.5) : 0;
+  const deemedEligible = budgetUSD === 0 || budgetINR >= 3_500_000;
 
   const allEligible = [...groups.values()].filter(r =>
     deemedEligible || r.quota !== 'Deemed/Paid Seats Quota'
@@ -2024,6 +2030,33 @@ function isTopperExempt(name: string): boolean {
   return TOPPER_EXEMPT_INSTITUTES.some(t => n.includes(t));
 }
 
+// Parse a totalProgramCost string back into INR. The field is human-formatted:
+// "₹66,000", "₹6,32,500", "₹1.0Cr – ₹1.6Cr", "₹50L – ₹70L", "₹1,37,50,000".
+// We need it numeric to enforce a budget cap. Returns the UPPER bound (worst
+// case for the student) so a college whose cost RANGE exceeds budget gets
+// dropped — better to under-include than to recommend an unaffordable trap.
+function extractCostMaxINR(costStr: string): number {
+  if (!costStr) return 0;
+  const s = String(costStr).replace(/\s/g, '');
+  // Strip any leading rupees and split on dash for ranges
+  const parts = s.split(/[–-]/).map(p => p.trim()).filter(Boolean);
+  let maxINR = 0;
+  for (const p of parts) {
+    const m = p.match(/₹?([\d.,]+)\s*([LlCcRr]+)?/);
+    if (!m) continue;
+    const num = parseFloat(m[1].replace(/,/g, ''));
+    if (!isFinite(num)) continue;
+    const unit = (m[2] || '').toLowerCase();
+    let inr: number;
+    if (unit.includes('cr')) inr = num * 10_000_000;     // ₹1Cr = 1e7
+    else if (unit.startsWith('l')) inr = num * 100_000;   // ₹1L = 1e5
+    else if (num < 1000) inr = num * 100_000;             // bare "50" treated as ₹50L
+    else inr = num;                                        // bare large number = INR
+    if (inr > maxINR) maxINR = inr;
+  }
+  return maxINR;
+}
+
 // Build validator backfill rows from predictIndiaCsv, filtered by user
 // profile. Plan §"Backfill on overdrop — filtered by user profile" — only
 // pull rows matching student's category, with quota relevance gated by
@@ -2038,7 +2071,9 @@ async function buildValidatorBackfill(
     const csvResult = await predictIndiaCsv(profile);
     const budgetUSD = parseInt(profile.budgetInUSD || '0', 10);
     const budgetINR = budgetUSD ? budgetUSD * 83.5 : 0;
-    const deemedAllowed = budgetINR >= 5_000_000;
+    // Soft floor at ₹35L — same threshold as predictIndiaCsv + predictIndia.
+    // Deemed is a first-class recommendation, not a fallback.
+    const deemedAllowed = budgetUSD === 0 || budgetINR >= 3_500_000;
     // Loose-match dedup against the validator survivors. Without the loose
     // match the CSV's truncated names ("MADRAS MEDICAL") slip past the
     // exact normalize() check and the student sees the same college twice
@@ -2057,6 +2092,13 @@ async function buildValidatorBackfill(
       if (q !== 'All India' && q !== 'Deemed/Paid Seats Quota' && q !== 'Open Seat Quota'
           && q !== 'IP University Quota' && q !== 'Delhi University Quota') {
         return false;
+      }
+      // Same budget cap as the validator (1.5× headroom). Without this,
+      // CSV deemed rows tagged "₹1.0Cr – ₹1.6Cr" leak past the validator
+      // for budgets where the cost is genuinely out of reach.
+      if (budgetINR > 0) {
+        const costINR = extractCostMaxINR(String(u.totalProgramCost || ''));
+        if (costINR > 0 && costINR > budgetINR * 1.5) return false;
       }
       return true;
     });
@@ -2138,6 +2180,7 @@ function validateIndiaUniversities(
   userCategory: string,
   coursePrefs: string[] = [],
   domicileState: string = '',
+  budgetINR: number = 0,
 ): ValidationResult {
   const drops: ValidationResult['drops'] = [];
   const overrides: ValidationResult['overrides'] = [];
@@ -2150,6 +2193,20 @@ function validateIndiaUniversities(
     const claimedHigh = Number(u?.expectedClosingAirHigh);
     const quotaSlot   = String(u?.quotaSlot || '');
     const categorySlot = String(u?.categorySlot || userCategory);
+
+    // -3. Budget cap with stretch headroom. Govt vs non-govt is NOT the
+    //     filter — affordability is. We allow up to budget × 1.5 (50%
+    //     headroom) so a ₹60L-budget student can still see ₹80-90L deemed
+    //     options as Stretch picks (loan + family stretch is a real path).
+    //     Anything beyond 1.5× the stated budget is genuinely unaffordable
+    //     and recommending it would be a trap, not a recommendation.
+    if (budgetINR > 0) {
+      const costINR = extractCostMaxINR(String(u?.totalProgramCost || ''));
+      if (costINR > 0 && costINR > budgetINR * 1.5) {
+        drops.push({ name, reason: `over budget: cost ₹${(costINR/1e5).toFixed(0)}L > budget ₹${(budgetINR/1e5).toFixed(0)}L × 1.5` });
+        continue;
+      }
+    }
 
     // -2. Course-preference filter (Bug D). The student requested MBBS, BDS,
     //     or AYUSH chips; we infer the course from the college name and drop
@@ -2300,8 +2357,12 @@ async function predictIndia(profile: any) {
   const budgetINRNum = Math.round(budgetUSD * 83.5);
   const budgetINRL = Math.round(budgetINRNum / 100000);
   const budgetINR = budgetUSD ? `₹${budgetINRL}L total (~$${budgetUSD})` : 'not specified';
-  // ₹50L is the practical floor for any deemed/private MBBS
-  const deemedEligible = budgetINRNum >= 5_000_000;
+  // Govt vs non-govt is NOT our concern — best fit for the student is.
+  // Soft floor at ₹35L (was hard ₹50L). At ₹35L+ deemed becomes a stretch
+  // a student can plausibly fund (loan + family); below that the typical
+  // ₹50L–₹1Cr deemed floor is genuinely out of reach. The Gemini prompt
+  // still surfaces the cost honestly so the student can decide.
+  const deemedEligible = budgetINRNum === 0 || budgetINRNum >= 3_500_000;
 
   // AIR display — single coordinate system. Closing ranks throughout the
   // prompt are category-specific AIR values from the CSV, directly comparable.
@@ -2470,6 +2531,7 @@ async function predictIndia(profile: any) {
       userCategory,
       profile.coursePreferences || [],
       profile.domicileState || '',
+      budgetINRNum,
     );
 
     // Backfill on overdrop — only when the validated list is genuinely thin.

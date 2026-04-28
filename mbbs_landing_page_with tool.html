@@ -1545,11 +1545,16 @@ textarea.pred-in{min-height:64px}
 
             <label class="pred-lbl">Max Budget (Total)</label>
             <select name="budgetInUSD" class="pred-in">
+              <!-- Values are the UPPER bound of each range in USD (₹83.5/USD).
+                   A student selecting "₹40L – ₹60L" CAN go up to ₹60L; using
+                   the lower bound was excluding deemed MBBS (~₹50L floor)
+                   from the recommendations. Govt vs non-govt is not our
+                   concern — best fit for the student is. -->
               <option value="">Select Range</option>
-              <option value="18000">₹15L – ₹25L</option>
-              <option value="30000">₹25L – ₹40L</option>
-              <option value="48000">₹40L – ₹60L</option>
-              <option value="80000">₹60L+</option>
+              <option value="30000">₹15L – ₹25L</option>
+              <option value="48000">₹25L – ₹40L</option>
+              <option value="72000">₹40L – ₹60L</option>
+              <option value="120000">₹60L+</option>
             </select>
 
             <!-- Global: searchable countries dropdown -->

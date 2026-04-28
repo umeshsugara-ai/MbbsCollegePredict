@@ -47,9 +47,18 @@ nav{
   border-bottom:1px solid rgba(24,71,204,.15);
   transition:box-shadow .3s;
 }
-.logo{font-size:23px;font-weight:700;color:#fff;letter-spacing:-.2px}
-.logo span{color:var(--blue2)}
-.logo sup{font-size:10px;color:var(--cyan);font-weight:700;vertical-align:super;margin-left:2px}
+/* Source logo is a JPG with a white background (no alpha). On a dark nav
+   the cleanest read is to place it inside a small white pill — looks
+   intentional as branding rather than a stray rectangle. */
+.logo{
+  display:inline-flex;align-items:center;line-height:0;
+  background:#fff;border-radius:10px;padding:4px 10px 4px 6px;
+  text-decoration:none;
+  box-shadow:0 1px 2px rgba(0,0,0,.08);
+}
+.logo img{height:32px;width:auto;display:block}
+@media(min-width:600px){.logo img{height:36px}}
+.logo-r{font-size:9px;color:var(--blue2);font-weight:700;vertical-align:super;margin-left:3px;align-self:flex-start;margin-top:4px}
 .nav-links{display:flex;gap:26px;list-style:none;align-items:center}
 .nav-links a{color:rgba(255,255,255,.7);text-decoration:none;font-size:14px;transition:color .2s}
 .nav-links a:hover{color:var(--blue-lt)}
@@ -1243,8 +1252,12 @@ footer{
   display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
   border-top:1px solid rgba(255,255,255,.05);
 }
-.f-logo{font-size:20px;font-weight:700;color:#fff}
-.f-logo span{color:var(--blue2)}
+.f-logo{
+  display:inline-flex;align-items:center;line-height:0;
+  background:#fff;border-radius:10px;padding:4px 10px;
+  box-shadow:0 1px 2px rgba(0,0,0,.08);
+}
+.f-logo img{height:30px;width:auto;display:block}
 .f-links{display:flex;gap:20px;flex-wrap:wrap}
 .f-links a{font-size:13px;color:rgba(255,255,255,.35);text-decoration:none;transition:color .2s}
 .f-links a:hover{color:rgba(255,255,255,.7)}
@@ -1385,7 +1398,7 @@ textarea.pred-in{min-height:64px}
 
 <!-- ── NAV ── -->
 <nav id="nav">
-  <div class="logo">Vidy<span>sea</span><sup>®</sup></div>
+  <a href="/" class="logo" aria-label="Vidysea"><img src="/vidysea_logo.jpg" alt="Vidysea"><sup class="logo-r">®</sup></a>
   <button class="nav-hamburger" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
   <ul id="primary-nav" class="nav-links">
     <li><a href="#tool">Find University</a></li>
@@ -2074,7 +2087,7 @@ textarea.pred-in{min-height:64px}
 
 <!-- ── FOOTER ── -->
 <footer>
-  <div class="f-logo">Vidy<span>sea</span></div>
+  <div class="f-logo"><img src="/vidysea_logo.jpg" alt="Vidysea"></div>
   <div class="f-links">
     <a href="#tool">Find University</a>
     <a href="#india">MBBS India</a>

@@ -206,6 +206,19 @@ const LANDING_HTML = 'mbbs_landing_page_with tool.html';
 
 app.get('/', (_req, res) => res.sendFile(join(ROOT, LANDING_HTML)));
 
+// Brand assets are routed explicitly (CLAUDE.md: no express.static — that
+// previously exposed prompts.json + the entire CSV dataset). Keep this list
+// narrow; only ship what the landing page actually references.
+const STATIC_ASSETS: Record<string, string> = {
+  '/vidysea_logo.jpg': 'vidysea_logo.jpg',
+};
+for (const [route, file] of Object.entries(STATIC_ASSETS)) {
+  app.get(route, (_req, res) => {
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+    res.sendFile(join(ROOT, file));
+  });
+}
+
 // ── Rate limiting ────────────────────────────────────────────────────────────
 // /api/predict spends real money on every call (Gemini Flash + grounded query
 // ≈ $0.015–0.05 each). /api/lead writes to Mongo and forwards to the

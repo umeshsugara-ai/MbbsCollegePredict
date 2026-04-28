@@ -331,7 +331,12 @@ nav{
 .pred-status-dot{width:6px;height:6px;border-radius:50%;background:#86efac;box-shadow:0 0 8px rgba(134,239,172,.7);animation:pulse 2s ease-in-out infinite}
 
 .pred-app{
-  display:grid;grid-template-columns:minmax(0,340px);gap:20px;
+  /* 2-column from first paint on desktop. Previously the default was a
+     single 340px column and only shifted to two when .has-results
+     landed — that meant the first-load empty state stacked under the
+     form (read as "left panel" to the user). Fixed-width left + 1fr
+     right gives the empty state its own column from the start. */
+  display:grid;grid-template-columns:300px 1fr;gap:20px;
   background:#F4F5F9;color:#0f172a;padding:20px;
   align-items:start;
   transition:grid-template-columns .35s ease;

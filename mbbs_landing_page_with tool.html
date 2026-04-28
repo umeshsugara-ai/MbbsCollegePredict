@@ -2568,11 +2568,38 @@ async function submitLeadForm(e){
   // profile + result from localStorage so the counsellor can see what the
   // lead was looking at when they reached out. This is supplementary —
   // sessionId is the authoritative join key on the server side.
+  // Slim snapshot — full result blob is 30-80KB (10 unis + analysis text)
+  // and would breach the server's 16KB body cap. Counsellor only needs
+  // profile + headline picks; full result is already in Mongo via /api/predict.
   let linkedRecommendation = null;
   try {
     const lastProfile = JSON.parse(localStorage.getItem('mbbs_predictor_profile') || 'null');
     const lastResult  = JSON.parse(localStorage.getItem('mbbs_predictor_results') || 'null');
-    if (lastProfile || lastResult) linkedRecommendation = { profile: lastProfile, result: lastResult };
+    const slim = (s, n) => (typeof s === 'string' ? s.slice(0, n) : s);
+    const slimUnis = Array.isArray(lastResult?.universities)
+      ? lastResult.universities.slice(0, 10).map(u => ({
+          name: slim(u?.name, 120),
+          country: slim(u?.country, 60),
+          tier: slim(u?.tier, 20),
+          quotaSlot: slim(u?.quotaSlot, 30),
+          categorySlot: slim(u?.categorySlot, 30),
+          expectedClosingAirLow: u?.expectedClosingAirLow,
+          expectedClosingAirHigh: u?.expectedClosingAirHigh,
+          tuitionTotalINR: u?.tuitionTotalINR,
+          totalCostINR: u?.totalCostINR,
+          analysis: slim(u?.analysis, 240),
+        }))
+      : [];
+    if (lastProfile || slimUnis.length) {
+      linkedRecommendation = {
+        profile: lastProfile,
+        result: {
+          universities: slimUnis,
+          rankRange: lastResult?.rankRange,
+          probabilities: lastResult?.probabilities,
+        },
+      };
+    }
   } catch (_) {}
 
   btn.classList.add('loading');

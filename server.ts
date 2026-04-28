@@ -1014,10 +1014,13 @@ function computeQuotaProbabilities(
   // Budget is the real gate, not rank — reported separately in prompt
   const deemed      = Math.min(90, deemedRows.length > 0 ? deemedRaw : Math.min(90, govtAiqRaw + 35));
 
+  // Round to integers — percentages should never display with float-precision
+  // tails like "24.200000000000003%". The downstream prompt embeds these
+  // values directly into the analysis text, so rounding at the source.
   return {
-    aiqMbbs:          aiq,
-    stateQuotaMbbs:   stateCalib,
-    deemedPrivate:    deemed,
+    aiqMbbs:          Math.round(aiq),
+    stateQuotaMbbs:   Math.round(stateCalib),
+    deemedPrivate:    Math.round(deemed),
     stateIsEstimated: stateRows.length === 0,
   };
 }
@@ -1390,6 +1393,115 @@ async function predictIndiaCsv(profile: any) {
 // rank bands that returned 25 deemed-only or 25 same-state rows, giving the
 // model a misleading anchor density. Now we pick the nearest N from each of
 // {AIQ, Deemed, State} so the prompt always shows a balanced picture.
+// Filter-first anchor extractor. Applies ALL the student's hard constraints
+// at fetch time — rank reachability, category eligibility, state-quota
+// domicile match, budget cap, gender, course preference. Returns up to ~30
+// rows with a balanced tier mix. Becomes the authoritative pool that Gemini
+// picks from, instead of Gemini generating from training knowledge and
+// having the validator reactively drop the mismatches.
+//
+// Rationale (user feedback 2026-04-28): "Gemini should first consider the
+// constraints… and based on that fetch the universities. CSV records which
+// pass the filters can be used as few-shot. Gemini will fetch the best fit."
+type AnchorRow = CutoffRow & { _tier: 'Safe'|'Good'|'Reach'|'Stretch'; _typicalCostINR: number };
+
+function extractEligibleAnchors(
+  rankRange: { low: number; mid: number; high: number; confidence?: string },
+  userCategory: string,
+  domicileState: string,
+  budgetINR: number,
+  gender: string,
+  coursePrefs: string[],
+): { rows: AnchorRow[]; summary: string } {
+  const eligible = eligibleCategories(userCategory);
+  const userMid = rankRange.mid;
+  const userHigh = rankRange.high;   // worst case (highest AIR)
+  const userLow = rankRange.low;     // best case (lowest AIR)
+  const filterWomenOnly = String(gender || '').toLowerCase() !== 'female';
+  const userDomicileNorm = normalizeName(domicileState);
+
+  const deemedAllowed = budgetINR === 0 || budgetINR >= 3_500_000;
+  const budgetCap = budgetINR > 0 ? budgetINR * 1.5 : Number.POSITIVE_INFINITY;
+  const tierOf = (closing: number): AnchorRow['_tier'] | null => {
+    // NEET semantics: lower AIR = better student. Student gets the seat if
+    // their AIR ≤ closing AIR. So:
+    //   Safe   = student's WORST case (high) clears the closing comfortably
+    //   Good   = student's mid clears the closing
+    //   Reach  = student's BEST case (low) clears the closing — only just
+    //   Stretch = student is up to 1.5× worse than closing (mop-up round)
+    //   Drop   = student's best case is > 1.5× the closing → unreachable
+    //   Drop   = closing > student.high × 2.5 → trivially safe, wastes slot
+    if (closing > userHigh * 2.5) return null;
+    if (userHigh <= closing * 0.85) return 'Safe';
+    if (userMid  <= closing)         return 'Good';
+    if (userLow  <= closing)         return 'Reach';
+    if (userLow  <= closing * 1.5)   return 'Stretch';
+    return null;                                                        // out of reach
+  };
+
+  const matches: AnchorRow[] = [];
+  for (const r of LATEST_CUTOFF_ROWS) {
+    if (!categoryMatches(r.category, eligible)) continue;
+    if (filterWomenOnly && isFemaleOnlyInstitute(r.institute)) continue;
+
+    // Quota accessibility: AIQ + Deemed + Delhi/IP/Open are profile-agnostic;
+    // anything else is a state-domicile quota and must match the student.
+    const profileAgnostic = ALL_INDIA_QUOTAS.has(r.quota)
+      || r.quota === 'Open Seat Quota'
+      || r.quota === 'IP University Quota'
+      || r.quota === 'Delhi University Quota';
+    if (!profileAgnostic) {
+      const rState = normalizeName(r.state || '');
+      if (!rState || !userDomicileNorm || rState !== userDomicileNorm) continue;
+    }
+
+    if (r.quota === 'Deemed/Paid Seats Quota' && !deemedAllowed) continue;
+
+    const t = tierOf(r.closingRank);
+    if (!t) continue;
+
+    const fee = indiaFeeProfile(r.quota);
+    if (fee.totalINRMid > budgetCap) continue;
+
+    const inferred = inferCourseFromName(r.institute);
+    if (!isCourseAllowed(inferred, coursePrefs)) continue;
+
+    matches.push({ ...r, _tier: t, _typicalCostINR: fee.totalINRMid });
+  }
+
+  // Dedupe by institute — keep the best (lowest tier ord, lowest closing).
+  const tierOrd: Record<string, number> = { Safe: 0, Good: 1, Reach: 2, Stretch: 3 };
+  const byInst = new Map<string, AnchorRow>();
+  for (const m of matches) {
+    const ex = byInst.get(m.institute);
+    if (!ex
+        || tierOrd[m._tier] < tierOrd[ex._tier]
+        || (tierOrd[m._tier] === tierOrd[ex._tier] && m.closingRank < ex.closingRank)) {
+      byInst.set(m.institute, m);
+    }
+  }
+
+  const sorted = [...byInst.values()].sort((a, b) => {
+    const t = tierOrd[a._tier] - tierOrd[b._tier];
+    if (t !== 0) return t;
+    return a.closingRank - b.closingRank;
+  });
+
+  // Balanced tier mix capped at ~30 rows total — Gemini's input budget stays compact.
+  const pickN = (tier: AnchorRow['_tier'], n: number) =>
+    sorted.filter(r => r._tier === tier).slice(0, n);
+  const safe    = pickN('Safe',    6);
+  const good    = pickN('Good',   10);
+  const reach   = pickN('Reach',   8);
+  const stretch = pickN('Stretch', 6);
+  const rows = [...safe, ...good, ...reach, ...stretch];
+
+  return {
+    rows,
+    summary: `${rows.length} eligible MCC anchors (${safe.length} Safe, ${good.length} Good, ${reach.length} Reach, ${stretch.length} Stretch)`,
+  };
+}
+
 function extractContextRows(userRank: number, category: string, state: string, limit = 25): string {
   const eligible = eligibleCategories(category);
   const cutoffs = LATEST_CUTOFF_ROWS;
@@ -1892,6 +2004,14 @@ function findCsvAnchor(
   if (!nameNorm) return null;
   const quotaSet = csvQuotaForSlot(quotaSlot);
   const catNorm = normalizeName(categorySlot);
+  // Only trust matches that share enough meaningful (non-stop-word) tokens
+  // with the model's name. A single-token CSV row "government medical college"
+  // matches countless institutes — using its closing rank as a hallucination
+  // anchor was producing false-positive drops (e.g. Bettiah's OBC closing 45K
+  // being compared against Chandigarh's OPEN closing 1073). Require ≥2
+  // overlapping meaningful tokens for a confident anchor.
+  const STOP = new Set(['college','medical','institute','of','and','the','sciences','science','university','hospital','all','india','government','govt','dental','medi','centre','center']);
+  const modelTokens = nameNorm.split(/\s+/).filter(t => t && !STOP.has(t));
   let best: CutoffRow | null = null;
   for (const r of cutoffs) {
     const rNameNorm = normalizeName(r.institute);
@@ -1902,6 +2022,12 @@ function findCsvAnchor(
       const rCatNorm = normalizeName(r.category);
       if (!rCatNorm.includes(catNorm) && !catNorm.includes(rCatNorm)) continue;
     }
+    // Token-overlap confidence: how many meaningful tokens from the model
+    // name appear in the CSV name. ≥2 means the match is institute-specific
+    // (city or state token usually carries it). 0–1 = ambiguous; skip.
+    const rTokens = new Set(rNameNorm.split(/\s+/).filter(t => t && !STOP.has(t)));
+    const overlap = modelTokens.filter(t => rTokens.has(t)).length;
+    if (overlap < 2) continue;
     if (!best || r.closingRank < best.closingRank) best = r;
   }
   return best;
@@ -1912,16 +2038,25 @@ function findCsvAnchor(
 // regardless of which quota row Gemini is claiming. AIQ rows for a college
 // typically share the same `r.state` as state-quota rows for that college, so
 // returning any matching row gives us a reliable institute-state lookup.
+// Resolve an institute's state from CSV. The original implementation returned
+// the FIRST fuzzy match, so for ambiguous names ("Government Medical College")
+// it could return Chandigarh's row when the actual institute was in Bihar —
+// causing the validator to wrongly drop valid Bihar state-quota recommendations
+// as "state mismatch". Now: collect ALL fuzzy matches, prefer ones in the
+// expected state if a hint is given, and only return a match if there's a
+// reasonable confidence about state. Returns null when ambiguous so the caller
+// (state-quota cross-check) doesn't drop based on a wrong guess.
 function findCsvAnchorWithState(
   uniName: string,
   _quotaSlot: string,
   categorySlot: string,
+  preferStateNorm: string = '',
 ): CutoffRow | null {
   const cutoffs = LATEST_CUTOFF_ROWS;
   const nameNorm = normalizeName(uniName);
   if (!nameNorm) return null;
   const catNorm = normalizeName(categorySlot);
-  let best: CutoffRow | null = null;
+  const matches: CutoffRow[] = [];
   for (const r of cutoffs) {
     const rNameNorm = normalizeName(r.institute);
     if (!rNameNorm || !r.state) continue;
@@ -1930,9 +2065,24 @@ function findCsvAnchorWithState(
       const rCatNorm = normalizeName(r.category);
       if (!rCatNorm.includes(catNorm) && !catNorm.includes(rCatNorm)) continue;
     }
-    if (!best || r.closingRank < best.closingRank) best = r;
+    matches.push(r);
   }
-  return best;
+  if (matches.length === 0) return null;
+
+  // 1. If the Gemini-supplied name contains a state/city hint that uniquely
+  //    points to one CSV row, use that.
+  // 2. If preferStateNorm is given (the student's domicile) and ANY match is
+  //    in that state, return it — caller will see "match found, no mismatch".
+  if (preferStateNorm) {
+    const inPreferred = matches.find(m => normalizeName(m.state || '') === preferStateNorm);
+    if (inPreferred) return inPreferred;
+  }
+  // 3. If matches span multiple states, the name is ambiguous — return null
+  //    so caller doesn't make a high-confidence mismatch claim.
+  const states = new Set(matches.map(m => normalizeName(m.state || '')));
+  if (states.size > 1) return null;
+  // 4. All matches in one state — return the lowest-closing one.
+  return matches.sort((a, b) => a.closingRank - b.closingRank)[0];
 }
 
 // AIIMS / INI hard anchors (Bug C). MCC counselling does NOT include AIIMS or
@@ -2224,13 +2374,19 @@ function validateIndiaUniversities(
     //     showing it as accessible is a wrong recommendation. Resolve the
     //     institute's state via the CSV anchor (which carries r.state).
     if (quotaSlot.toLowerCase() === 'state' && domicileState) {
-      const stateAnchor = findCsvAnchorWithState(name, quotaSlot, categorySlot);
+      // Pass domicileState as the hint — if a fuzzy-matched row in the
+      // student's state exists, prefer it over rows in other states.
+      // That's the right behavior for ambiguous institute names like
+      // "Government Medical College" which appears across many states.
+      const userDomNorm = normalizeName(domicileState);
+      const stateAnchor = findCsvAnchorWithState(name, quotaSlot, categorySlot, userDomNorm);
       if (stateAnchor && stateAnchor.state) {
-        if (normalizeName(stateAnchor.state) !== normalizeName(domicileState)) {
+        if (normalizeName(stateAnchor.state) !== userDomNorm) {
           drops.push({ name, reason: `state-quota mismatch: institute is ${stateAnchor.state}, student domicile ${domicileState}` });
           continue;
         }
       }
+      // stateAnchor null = ambiguous — don't drop, let it through.
     }
 
     // 0. Missing/zero numeric fields — model failed schema requirement.
@@ -2347,8 +2503,30 @@ async function predictIndia(profile: any) {
   const suggestAlternatives = explicitPrefs.length > 0 || userRank > 250000;
   const alternativeCourses = explicitPrefs.length > 0 ? explicitPrefs : ['BDS', 'BAMS', 'BHMS'];
 
-  // ── CSV context rows + computed probabilities ─────────────────────────────
-  const contextRows = extractContextRows(userRank, userCategory, profile.domicileState || '');
+  // ── CSV anchors (filter-first, authoritative pool) + probabilities ─────────
+  // We now apply ALL hard constraints (rank, category, state quota domicile,
+  // budget cap, gender, course pref) at fetch time and pass the surviving
+  // rows to Gemini as the authoritative pool. Gemini's job: rank these rows,
+  // pick the 10 best fits, narrate. Reduces drop-after-the-fact validator
+  // churn that was leaving students with thin lists.
+  const _bUSD = parseInt(profile.budgetInUSD || '0', 10);
+  const _bINR = _bUSD ? Math.round(_bUSD * 83.5) : 0;
+  const _genderForFilter = (profile.gender === 'Male' || profile.gender === 'Female') ? profile.gender : '';
+  const _coursePrefs = profile.coursePreferences || [];
+  const eligibleAnchors = extractEligibleAnchors(
+    rankRange, userCategory, profile.domicileState || '',
+    _bINR, _genderForFilter, _coursePrefs,
+  );
+  // Format the filtered anchors for the prompt — each row carries tier +
+  // typical cost so Gemini doesn't have to re-derive them.
+  const contextRows = eligibleAnchors.rows.length > 0
+    ? eligibleAnchors.rows.map(r => {
+        const fee = indiaFeeProfile(r.quota);
+        return `${r.institute} | ${r.state || '?'} | ${r.quota} | ${r.category} | closing AIR ${r.closingRank} | tier:${r._tier} | typical cost: ${fee.totalINRRange}`;
+      }).join('\n')
+    : '(No MCC rows match the student\'s combined filters — your output should still propose realistic deemed/private/state-private options that fit the budget and rank, drawn from your training knowledge.)';
+  console.log(`[predictIndia] anchors: ${eligibleAnchors.summary}`);
+  const _debugAnchorRows = eligibleAnchors.rows.map(r => `${r.institute} (${r._tier}, AIR ${r.closingRank}, ${r.quota})`);
   const probs = computeQuotaProbabilities(rankRange, userCategory, profile.domicileState || '');
   const state = profile.domicileState || 'not specified';
   const score = profile.neetScore ? `NEET Score ${profile.neetScore}` : '';
@@ -2566,6 +2744,9 @@ async function predictIndia(profile: any) {
     );
     if (validation.drops.length)     console.log('[validator] drops:',     validation.drops);
     if (validation.overrides.length) console.log('[validator] overrides:', validation.overrides);
+    // Stash for ?debug=1 visibility — does not leak in normal responses.
+    (result as any)._anchorPoolSummary = { count: eligibleAnchors.rows.length, summary: eligibleAnchors.summary, rows: _debugAnchorRows };
+    (result as any)._validatorDetails = { drops: validation.drops, overrides: validation.overrides, skipped: validation.skipped };
     return result;
   } catch (err: any) {
     // No silent CSV fallback — Gemini's anchored reasoning IS the product. A
@@ -2995,7 +3176,12 @@ app.post('/api/predict', predictLimiter, async (req, res) => {
         : await predictAbroad(profile);
 
     const { telemetry, clientResult } = detachTelemetry(result);
-    res.json({ ...clientResult, requestId: reqId });
+    // Diagnostic: ?debug=1 returns telemetry inline. Internal/dev use only —
+    // strip before shipping if it ever leaks into production paths.
+    const debugMode = String((req.query?.debug ?? '')) === '1';
+    res.json(debugMode
+      ? { ...clientResult, requestId: reqId, _telemetry: telemetry, _anchorPoolSummary: result?._anchorPoolSummary, _validatorDetails: result?._validatorDetails }
+      : { ...clientResult, requestId: reqId });
     const ms = Date.now() - reqStart;
     console.log(`└─ [predict #${reqId}] sent ${result?.universities?.length ?? 0} unis in ${ms}ms ──────────\n`);
     // Persist the recommendation AFTER the response is sent — never blocks UX.

@@ -1311,8 +1311,10 @@ async function predictIndiaCsv(profile: any) {
 
   let picks = dedupeByInstitute(tieredA);
 
-  // ── Pass B: extreme stretch fallback (closing × 2.5–3.0) ──
-  // tierName returns null beyond 2.5× — these are genuinely unlikely, always Stretch
+  // ── Pass B: stretch fallback — within 3× of the closing rank ──
+  // tierName returns null beyond 2.5×; Pass B widens to 3× as honest stretch.
+  // Anything beyond 3× is mathematically out of reach — better to return a
+  // short list than to pad with rows the student literally cannot get.
   if (picks.length < 10) {
     const usedInstitutes = new Set(picks.map(p => p.institute));
     const passB: Array<CutoffRow & { tier: Tier }> = [];
@@ -1328,17 +1330,13 @@ async function predictIndiaCsv(profile: any) {
     picks = picks.concat(passBDedup.slice(0, 10 - picks.length));
   }
 
-  // ── Pass C: stretch fallback — colleges with the highest closing ranks (most permissive) ──
-  if (picks.length < 10) {
-    const usedInstitutes = new Set(picks.map(p => p.institute));
-    const passC: Array<CutoffRow & { tier: Tier }> = [];
-    for (const g of allEligible) {
-      if (usedInstitutes.has(g.institute)) continue;
-      passC.push({ ...g, tier: 'Stretch' });
-    }
-    const passCDedup = dedupeByInstitute(passC).sort((a, b) => b.closingRank - a.closingRank);
-    picks = picks.concat(passCDedup.slice(0, 10 - picks.length));
-  }
+  // ── Pass C removed: it previously returned ANY college sorted by highest
+  // closing rank, ignoring student rank entirely. For an OPEN student at
+  // AIR 200,000, that surfaced govt MBBS seats with closing AIR ~17,000 as
+  // "Stretch" — 9× worse than the closing, mathematically impossible.
+  // Honest short list > deceptive padded list. If picks < 5 the calling
+  // path (validator backfill / student message) will surface a "consider
+  // deemed / abroad / AYUSH state counselling" recommendation instead.
 
   // Final sort: Safe → Good → Reach → Stretch, then closing_rank asc
   picks.sort((a, b) => {

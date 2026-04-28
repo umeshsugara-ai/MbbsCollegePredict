@@ -578,14 +578,21 @@ nav{
 /* Document-readiness checklist — shown after the AI Analysis block.
    Pure student-trust content, no ML risk. Gives students a concrete next
    step the moment they see the predictions. */
+/* Collapsible — header click toggles .is-collapsed; body hidden when collapsed.
+   Default state is COLLAPSED so the docs panel is opt-in, not in-your-face. */
 .pred-doc-check{
   background:#FFFBEB;border:1px solid rgba(217,119,6,.25);
   border-radius:13px;padding:16px 18px;margin-bottom:18px;
 }
 .pred-doc-check-eyebrow{
-  display:flex;align-items:center;gap:7px;margin-bottom:10px;
+  display:flex;align-items:center;gap:7px;
   font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#B45309;
+  cursor:pointer;user-select:none;
 }
+.pred-doc-check-chev{margin-left:auto;font-size:11px;transition:transform .2s}
+.pred-doc-check.is-collapsed .pred-doc-check-chev{transform:rotate(-90deg)}
+.pred-doc-check-body{margin-top:10px}
+.pred-doc-check.is-collapsed .pred-doc-check-body{display:none}
 .pred-doc-check-h{font-size:14px;font-weight:700;color:#0F172A;margin:0 0 8px;}
 .pred-doc-check-p{font-size:12.5px;color:#475569;margin:0 0 12px;line-height:1.55;}
 .pred-doc-check-list{
@@ -3123,17 +3130,22 @@ async function submitLeadForm(e){
     if (profile && (profile.destinationType === 'India' || !profile.destinationType)) {
       const docs = buildDocChecklist(profile);
       if (docs.items.length) {
-        const dc = el('div', 'pred-doc-check');
+        // Default-collapsed — appears as a one-line header until the student
+        // opens it. Avoids dominating the result page while staying available.
+        const dc = el('div', 'pred-doc-check is-collapsed');
         const eb = el('div', 'pred-doc-check-eyebrow');
         eb.appendChild(el('span', null, '📋'));
-        eb.appendChild(el('span', null, 'Get These Ready For Counselling'));
+        eb.appendChild(el('span', null, 'Documents to Gather (' + docs.items.length + ')'));
+        eb.appendChild(el('span', 'pred-doc-check-chev', '▾'));
+        eb.addEventListener('click', () => dc.classList.toggle('is-collapsed'));
         dc.appendChild(eb);
-        dc.appendChild(el('div', 'pred-doc-check-h', 'Documents you should gather now'));
-        dc.appendChild(el('p', 'pred-doc-check-p', 'MCC/state counselling rounds open in July–August. Missing or wrong-format documents are the #1 reason students lose seats they had qualified for.'));
+        const body = el('div', 'pred-doc-check-body');
+        body.appendChild(el('p', 'pred-doc-check-p', 'MCC/state counselling rounds open in July–August. Missing or wrong-format documents are the #1 reason students lose seats they had qualified for.'));
         const ul = el('ul', 'pred-doc-check-list');
         docs.items.forEach(t => { ul.appendChild(el('li', 'pred-doc-check-item', t)); });
-        dc.appendChild(ul);
-        if (docs.note) dc.appendChild(el('p', 'pred-doc-check-note', docs.note));
+        body.appendChild(ul);
+        if (docs.note) body.appendChild(el('p', 'pred-doc-check-note', docs.note));
+        dc.appendChild(body);
         inner.appendChild(dc);
       }
     }

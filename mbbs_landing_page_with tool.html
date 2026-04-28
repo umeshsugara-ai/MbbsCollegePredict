@@ -836,10 +836,22 @@ nav{
   width:0;padding:0;margin:0;border:0;max-height:0;
   opacity:0;pointer-events:none;overflow:hidden;
 }
-.pred-topbar{flex-wrap:wrap;gap:10px}
-.pred-title{font-size:16px;line-height:1.3}
+/* Mobile topbar — base styles (narrowest phones, before any breakpoint).
+   Previously the topbar squeezed all 3 children (Hide Panel + title-
+   block + status pill) onto one row, so the title-block was forced to
+   ~150px wide and the subtitle text wrapped one word per line. Now:
+   title-block takes its own full-width row (flex-basis:100% with
+   order:1), and Hide Panel + status pill share row 2. */
+.pred-topbar{flex-wrap:wrap;gap:10px;align-items:center}
+.pred-title-block{order:1;flex:0 0 100%;min-width:0}
+.pred-title{
+  font-size:17px;line-height:1.3;
+  white-space:normal;text-overflow:initial;overflow:visible;
+}
+.pred-subtitle{font-size:12.5px;line-height:1.5;color:#64748b}
 .pred-title-sep,.pred-title-em{display:inline}
-.pred-status-pill{order:3;font-size:11px}
+#pred-panel-toggle{order:2}
+.pred-status-pill{order:3;font-size:10px;padding:6px 12px;margin-left:auto}
 .pred-app > *{width:100%;min-width:0}
 
 /* Hide-panel button in the topbar — keep available on mobile too, but make
@@ -891,6 +903,10 @@ nav{
 }
 .pred-side-open svg{width:16px;height:16px;display:block}
 
+/* Right-column wrapper — keeps results, skeleton, and empty-state in
+   ONE grid cell. Without this, the children auto-flowed and the empty
+   state ended up under the form in the left column. */
+.pred-right-col{display:flex;flex-direction:column;gap:0;min-width:0}
 .pred-empty-state{
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   text-align:center;padding:48px 28px;color:#64748b;
@@ -916,12 +932,6 @@ nav{
 .pred-empty-state-step{
   display:inline-block;width:22px;font-weight:700;color:#4F46E5;
 }
-.pred-empty-state-trust{
-  display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;
-  font-size:11.5px;color:#64748b;letter-spacing:.02em;margin-top:4px;
-}
-.pred-empty-state-trust strong{color:#0f172a;font-weight:700}
-.pred-empty-state-dot{color:#cbd5e1}
 
 @media(min-width:900px){
   .pred-app{display:grid;grid-template-columns:minmax(0,340px);padding:20px;gap:20px;flex-direction:initial}
@@ -1697,44 +1707,39 @@ textarea.pred-in{min-height:64px}
           </span>
         </button>
 
-        <!-- RIGHT: Results — desktop table (wrapped) + mobile cards (parallel) -->
-        <div class="results-table-wrap">
-          <div id="predictor-results" class="pred-results" style="display:none"></div>
-        </div>
-        <div class="results-cards" aria-live="polite"></div>
-        <!-- Single spinner-with-message loader (mobile-only — hidden at
-             min-width:600px where the desktop pred-loading card is shown
-             inside results-table-wrap). Compact ~180px tall so the user
-             can scroll past it to read other sections of the page during
-             the 30–60s prediction wait. -->
-        <div class="results-cards-skeleton" hidden role="status" aria-live="polite">
-          <div class="skel-spin" aria-hidden="true"></div>
-          <div class="skel-title">Loading the best-fit universities for you…</div>
-          <div class="skel-sub">Good things take a moment — we’re reading the latest cutoff data and matching colleges to your profile.</div>
-        </div>
-        <!-- First-load empty state — shown on every screen size until the
-             first prediction renders. On desktop it fills what was a blank
-             white area that read as a crash; on mobile it sits below the
-             form. JS hides it once the first cards render. -->
-        <div class="pred-empty-state" id="pred-empty-state">
-          <div class="pred-empty-state-icon" aria-hidden="true">
-            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" width="56" height="56">
-              <path d="M32 6 L52 16 L52 36 C52 46 42 54 32 58 C22 54 12 46 12 36 L12 16 Z"/>
-              <path d="M22 32 L29 39 L43 25"/>
-            </svg>
+        <!-- RIGHT column wrapper. Without this single container, the
+             right-side children auto-flowed into the grid and the empty
+             state landed in the LEFT column under the form. Wrap them
+             all into one grid item so the column structure is stable. -->
+        <div class="pred-right-col">
+          <!-- Results — desktop table + mobile cards (parallel) -->
+          <div class="results-table-wrap">
+            <div id="predictor-results" class="pred-results" style="display:none"></div>
           </div>
-          <div class="pred-empty-state-title">Your personalised college matches will appear here</div>
-          <div class="pred-empty-state-text">
-            <span class="pred-empty-state-step">1.</span> Enter your <strong>NEET score or AIR</strong> and budget on the left<br>
-            <span class="pred-empty-state-step">2.</span> Pick your category and home state (for state-quota matching)<br>
-            <span class="pred-empty-state-step">3.</span> Hit <strong>Find My College</strong> — we'll search MCC + state cutoffs and return your best fits in 30–60 seconds
+          <div class="results-cards" aria-live="polite"></div>
+          <!-- Single spinner-with-message loader (mobile-only — hidden at
+               min-width:600px where the desktop pred-loading card is shown
+               inside results-table-wrap). Compact ~180px tall so the user
+               can scroll past it to read other sections during the wait. -->
+          <div class="results-cards-skeleton" hidden role="status" aria-live="polite">
+            <div class="skel-spin" aria-hidden="true"></div>
+            <div class="skel-title">Loading the best-fit universities for you…</div>
+            <div class="skel-sub">Good things take a moment — we’re reading the latest cutoff data and matching colleges to your profile.</div>
           </div>
-          <div class="pred-empty-state-trust">
-            <span>Built on <strong>2024 MCC data</strong></span>
-            <span class="pred-empty-state-dot">·</span>
-            <span><strong>800+</strong> verified colleges</span>
-            <span class="pred-empty-state-dot">·</span>
-            <span>India + 30+ countries</span>
+          <!-- First-load empty state — JS hides it once the first cards render. -->
+          <div class="pred-empty-state" id="pred-empty-state">
+            <div class="pred-empty-state-icon" aria-hidden="true">
+              <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" width="56" height="56">
+                <path d="M32 6 L52 16 L52 36 C52 46 42 54 32 58 C22 54 12 46 12 36 L12 16 Z"/>
+                <path d="M22 32 L29 39 L43 25"/>
+              </svg>
+            </div>
+            <div class="pred-empty-state-title">Your personalised college matches will appear here</div>
+            <div class="pred-empty-state-text">
+              <span class="pred-empty-state-step">1.</span> Enter your <strong>NEET score or AIR</strong> and budget on the left<br>
+              <span class="pred-empty-state-step">2.</span> Pick your category and home state (for state-quota matching)<br>
+              <span class="pred-empty-state-step">3.</span> Hit <strong>Find My College</strong> — we'll search MCC + state cutoffs and return your best fits in 30–60 seconds
+            </div>
           </div>
         </div>
       </div>
